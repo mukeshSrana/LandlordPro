@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Expense</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Reference the same CSS file -->
+</head>
+<body>
+<header>
+    <h1>Welcome to Landlord Pro</h1>
+    <p>Manage your rental relations and expenses here</p>
+</header>
+<h1>Create New Expense</h1>
+<form th:action="@{/expenses/create}" th:object="${expense}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" required><br>
+
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" th:field="*{amount}" required><br>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" th:field="*{date}" required><br>
+
+    <button type="submit">Create Expense</button>
+</form>
+<a href="/expenses/list">Back to List</a>
+</body>
+</html>

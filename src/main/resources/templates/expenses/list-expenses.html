@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense List</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Reference the same CSS file -->
+</head>
+<body>
+<header>
+    <h1>Welcome to Landlord Pro</h1>
+    <p>Manage your rental relations and expenses here</p>
+</header>
+<h1>Expense List</h1>
+<ul>
+    <th:block th:each="expense : ${expenses}">
+        <li>
+            <span th:text="${expense.name}"></span> -
+            <span th:text="${expense.amount}"></span> -
+            <span th:text="${expense.date}"></span> -
+            <a th:href="@{/expenses/edit/{id}(id=${expense.id})}">Edit</a> |
+            <a th:href="@{/expenses/delete/{id}(id=${expense.id})}">Delete</a>
+        </li>
+    </th:block>
+</ul>
+<a href="/expenses/new">Add New Expense</a>
+</body>
+</html>

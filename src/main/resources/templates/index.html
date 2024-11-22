@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landlord Pro - Expense Management</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Reference the CSS file in the static folder -->
+</head>
+<body>
+<header>
+    <h1>Welcome to Landlord Pro</h1>
+    <p>Manage your rental relations and expenses here</p>
+</header>
+
+<nav>
+    <div class="dropdown">
+        <label for="expense-actions">Choose an action:</label>
+        <select id="expense-actions" onchange="navigateToPage(this)">
+            <option value="">Select Action</option>
+            <option value="/expenses/new">Register Expense</option>
+            <option value="/expenses/list">List Expenses</option>
+        </select>
+    </div>
+</nav>
+
+<script>
+  function navigateToPage(selectElement) {
+    const action = selectElement.value;
+    if (action) {
+      window.location.href = action;
+    }
+  }
+</script>
+</body>
+</html>

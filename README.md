@@ -16,3 +16,6 @@ LandlordPro is a Spring Boot application for managing apartment rentals. It help
 1. Clone the repository:
    ```bash
    git clone https://github.com/<your-username>/LandlordPro.git
+
+Getting Started with MongoDB Atlas Free Tier
+using cloud.mongodb.com 

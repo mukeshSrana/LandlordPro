@@ -8,12 +8,10 @@
     <packaging>jar</packaging>
 
     <name>LandlordPro</name>
-    <description>Spring Boot application for managing apartment rentals with PostgreSQL database</description>
-    <url>http://landlordpro.example.com</url>
+    <description>Spring Boot application for managing apartment rentals using JSON files</description>
 
     <properties>
-        <java.version>17</java.version>
-        <spring-boot.version>3.3.5</spring-boot.version>
+        <java.version>21</java.version>
     </properties>
 
     <parent>
@@ -30,20 +28,31 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Spring Boot Starter for JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!-- PostgreSQL Driver -->
+        <!-- Jackson for JSON Processing -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
 
-        <!-- Spring Boot Starter for Test -->
+        <!-- Lombok for Reducing Boilerplate Code -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.18.1</version> <!-- Make sure to use the appropriate version matching your Jackson version -->
+        </dependency>
+
+
+        <!-- Spring Boot Starter for Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -57,7 +66,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.3.5</version>
             </plugin>
         </plugins>
     </build>
