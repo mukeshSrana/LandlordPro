@@ -13,29 +13,24 @@
 </header>
 
 <div class="container">
+    <!-- Sidebar -->
     <div class="sidebar">
-        <a href="#" class="active">Expenses</a>
-    </div>
-    <div class="content centered">
-        <h2>Choose an action:</h2>
-        <div class="dropdown">
-            <select id="expense-actions" onchange="navigateToPage(this)">
-                <option value="">Select Action</option>
-                <option value="/expenses/new">Register Expense</option>
-                <option value="/expenses/list">List Expenses</option>
-                <option value="/expenses/update">Update Expense</option>
-                <option value="/expenses/delete">Delete Expense</option>
-            </select>
-        </div>
+        <a href="#" id="expenses-menu" onclick="toggleDropdown(event)">Expenses</a>
+        <ul id="expenses-options" class="hidden">
+            <li><a href="/expenses/new">Register Expense</a></li>
+            <li><a href="/expenses/list">List Expenses</a></li>
+            <li><a href="/expenses/update">Update Expense</a></li>
+            <li><a href="/expenses/delete">Delete Expense</a></li>
+        </ul>
     </div>
 </div>
 
 <script>
-  function navigateToPage(selectElement) {
-    const action = selectElement.value;
-    if (action) {
-      window.location.href = action;
-    }
+  // Toggle the dropdown menu
+  function toggleDropdown(event) {
+    event.preventDefault(); // Prevent page reload on clicking #
+    const options = document.getElementById('expenses-options');
+    options.classList.toggle('hidden');
   }
 </script>
 </body>
