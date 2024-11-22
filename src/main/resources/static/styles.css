@@ -1,29 +1,70 @@
+/* General styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
 }
+
 header {
     background-color: #007BFF;
     color: white;
     padding: 1rem;
     text-align: center;
 }
-nav {
-    margin: 20px;
-    text-align: center;
+
+/* Flex container for layout */
+.container {
+    display: flex;
+    height: 100vh;
 }
-nav a {
-    margin: 0 15px;
+
+/* Sidebar styles */
+.sidebar {
+    width: 200px;
+    background-color: #007BFF;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar a {
+    color: white;
     text-decoration: none;
-    font-size: 18px;
-    color: #007BFF;
+    padding: 10px 15px;
+    display: block;
 }
+
+.sidebar a.active {
+    background-color: #0056b3;
+    font-weight: bold;
+}
+
+.sidebar a:hover {
+    background-color: #0056b3;
+}
+
+/* Content styles */
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Centering the content */
+.centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+
+/* Dropdown styles */
 .dropdown {
-    display: inline-block;
-    position: relative;
+    margin-top: 10px;
 }
+
 .dropdown select {
     padding: 8px;
     font-size: 16px;
