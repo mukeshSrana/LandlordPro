@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landlord Pro - Expense Management</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <header>
@@ -19,33 +19,8 @@
 <!--    </div>-->
 </div>
 
-<script>
-  // Sidebar Toggle Functionality
-  function toggleDropdown(menuId, event) {
-    event.preventDefault();
+<!-- Link to shared JavaScript file -->
+<script src="/js/sidebar.js"></script>
 
-    // Close all dropdowns first
-    const allMenus = document.querySelectorAll('.sidebar ul');
-    allMenus.forEach(menu => menu.classList.add('hidden'));
-
-    // Toggle the clicked dropdown
-    const options = document.getElementById(menuId);
-    options.classList.toggle('hidden');
-  }
-
-  // Reset Dropdowns to Default (All Closed)
-  function resetDropdowns() {
-    const allMenus = document.querySelectorAll('.sidebar ul');
-    allMenus.forEach(menu => menu.classList.add('hidden'));
-  }
-
-  // Add event listener for resetting on selection
-  document.addEventListener('DOMContentLoaded', () => {
-    const links = document.querySelectorAll('.sidebar ul li a');
-    links.forEach(link => {
-      link.addEventListener('click', () => resetDropdowns());
-    });
-  });
-</script>
 </body>
 </html>
