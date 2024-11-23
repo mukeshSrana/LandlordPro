@@ -31,3 +31,18 @@ function resetDropdowns() {
 document.addEventListener('DOMContentLoaded', () => {
   resetDropdowns();
 });
+
+// AJAX function to load page content dynamically
+function loadPage(url) {
+  // Send AJAX request
+  fetch(url)
+    .then(response => response.text())
+    .then(html => {
+      // Update the content area with the new page content
+      document.querySelector('.content').innerHTML = html;
+    })
+    .catch(error => {
+      console.log('Error loading page:', error);
+    });
+}
+

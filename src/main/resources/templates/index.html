@@ -12,11 +12,18 @@
     <p>Manage your rental relations and expenses here</p>
 </header>
 
+<!--<div class="container">-->
+<!--    <div th:insert="~{expenses/sidebar :: sidebar}"></div>-->
+<!--&lt;!&ndash;    <div class="content">&ndash;&gt;-->
+<!--&lt;!&ndash;        <p>Welcome! Please select an option from the sidebar.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--</div>-->
+
 <div class="container">
-    <div th:insert="~{expenses/sidebar :: sidebar}"></div>
-<!--    <div class="content">-->
-<!--        <p>Welcome! Please select an option from the sidebar.</p>-->
-<!--    </div>-->
+    <div th:insert="~{expenses/sidebar :: sidebar}"></div> <!-- Sidebar -->
+    <div class="content">
+        <!-- Content will be injected here -->
+    </div>
 </div>
 
 <!-- Link to shared JavaScript file -->

@@ -12,17 +12,22 @@
     <p>Manage your rental relations and expenses here</p>
 </header>
 <h1>Expense List</h1>
-<ul>
-    <th:block th:each="expense : ${expenses}">
-        <li>
-            <span th:text="${expense.name}"></span> -
-            <span th:text="${expense.amount}"></span> -
-            <span th:text="${expense.date}"></span> -
-            <a th:href="@{/expenses/edit/{id}(id=${expense.id})}">Edit</a> |
-            <a th:href="@{/expenses/delete/{id}(id=${expense.id})}">Delete</a>
-        </li>
-    </th:block>
-</ul>
-<a href="/expenses/new">Add New Expense</a>
+<div class="content">
+    <h2>View All Expenses</h2>
+    <!-- Display a list of expenses here -->
+    <ul>
+        <th:block th:each="expense : ${expenses}">
+            <li>
+                <span th:text="${expense.name}"></span> -
+                <span th:text="${expense.amount}"></span> -
+                <span th:text="${expense.date}"></span> -
+                <a th:href="@{/expenses/edit/{id}(id=${expense.id})}">Edit</a> |
+                <a th:href="@{/expenses/delete/{id}(id=${expense.id})}">Delete</a>
+            </li>
+        </th:block>
+    </ul>
+    <a href="/expenses/new">Add New Expense</a>
+</div>
+
 </body>
 </html>
