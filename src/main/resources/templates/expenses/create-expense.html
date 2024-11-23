@@ -18,7 +18,7 @@
 
     <!-- Main Content -->
     <div class="content">
-        <h2>Create New Expense</h2>
+        <h2>Create Expense Record</h2>
         <form th:action="@{/expenses/create}" th:object="${expense}" method="post">
             <label for="name">Name:</label>
             <input type="text" id="name" th:field="*{name}" required><br>
