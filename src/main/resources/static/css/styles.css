@@ -1,26 +1,57 @@
-body {
-    font-family: Arial, sans-serif;
+/* Reset margins and paddings */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    box-sizing: border-box;
 }
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin-top: 0; /* Remove any default margin */
+}
+
+/* Header styles */
 header {
     background-color: #007BFF;
     color: white;
     padding: 1rem;
     text-align: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* Make sure header is above everything else */
+    left: 0;
 }
+
+/* Container that holds sidebar and content */
 .container {
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    height: 100%;
+    overflow: hidden;
+    margin-top: 70px; /* Increased margin to fully clear header */
+    padding-left: 250px; /* Sidebar width */
 }
+
+/* Sidebar styles */
 .sidebar {
     width: 250px;
     background-color: #333;
     color: white;
     padding: 10px;
+    height: calc(100vh - 70px); /* Subtract header height to prevent overlap */
+    position: fixed; /* Sidebar stays fixed on the screen */
+    top: 70px; /* Align sidebar below the header */
+    left: 0;
+    overflow-y: auto; /* Allow sidebar content to scroll if necessary */
 }
+
+/* Sidebar link styles */
 .sidebar a {
     display: block;
     color: white;
@@ -30,17 +61,21 @@ header {
     background-color: #444;
     border-radius: 5px;
 }
+
 .sidebar a:hover {
     background-color: #555;
 }
+
 .sidebar ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
+
 .sidebar ul li {
     margin: 5px 0;
 }
+
 .sidebar ul li a {
     padding: 8px;
     display: block;
@@ -49,16 +84,24 @@ header {
     background-color: #444;
     border-radius: 5px;
 }
+
 .sidebar ul li a:hover {
     background-color: #555;
 }
+
 .hidden {
     display: none;
 }
+
+/* Main content styles */
 .content {
-    flex: 1;
+    flex-grow: 1;
     padding: 20px;
+    overflow: auto; /* Allow content to scroll if it's too tall */
+    margin-left: 250px; /* Avoid content overlapping the sidebar */
+    padding-top: 20px; /* To avoid content under the fixed header */
 }
+
 .centered {
     text-align: center;
 }
