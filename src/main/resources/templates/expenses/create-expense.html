@@ -13,7 +13,8 @@
 </header>
 
 <div class="container">
-    <div th:insert="~{expenses/sidebar :: sidebar}"></div> <!-- Sidebar inclusion -->
+    <!-- Sidebar inclusion -->
+    <div th:insert="~{expenses/sidebar :: sidebar}"></div>
 
     <!-- Main Content -->
     <div class="content">
@@ -34,22 +35,6 @@
     </div>
 </div>
 
-<script>
-  // Sidebar Toggle Functionality
-  function toggleDropdown(e) {
-    e.preventDefault();
-    const options = document.getElementById('expenses-options');
-    options.classList.toggle('hidden');
-    localStorage.setItem('dropdownOpen', !options.classList.contains('hidden'));
-  }
-
-  // Maintain Sidebar State across pages
-  document.addEventListener('DOMContentLoaded', () => {
-    const isDropdownOpen = localStorage.getItem('dropdownOpen') === 'true';
-    if (isDropdownOpen) {
-      document.getElementById('expenses-options').classList.remove('hidden');
-    }
-  });
-</script>
+<!-- No duplicate script; logic handled in sidebar.html -->
 </body>
 </html>

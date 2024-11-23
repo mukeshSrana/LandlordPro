@@ -1,19 +1,43 @@
 <div class="sidebar" th:fragment="sidebar">
-    <!-- Expenses Dropdown -->
     <a href="#" id="expenses-menu" onclick="toggleDropdown('expenses-options', event)">Expenses</a>
     <ul id="expenses-options" class="hidden">
-        <li><a href="/expenses/new">Register Expense</a></li>
-        <li><a href="/expenses/list">List Expenses</a></li>
-        <li><a href="/expenses/update">Update Expense</a></li>
-        <li><a href="/expenses/delete">Delete Expense</a></li>
+        <li><a href="/expenses/new" onclick="resetDropdowns()">Register Expense</a></li>
+        <li><a href="/expenses/list" onclick="resetDropdowns()">List Expenses</a></li>
+        <li><a href="/expenses/update" onclick="resetDropdowns()">Update Expense</a></li>
+        <li><a href="/expenses/delete" onclick="resetDropdowns()">Delete Expense</a></li>
     </ul>
 
-    <!-- Apartments Dropdown -->
     <a href="#" id="apartments-menu" onclick="toggleDropdown('apartments-options', event)">Apartments</a>
     <ul id="apartments-options" class="hidden">
-        <li><a href="/apartments/new">Register Apartment</a></li>
-        <li><a href="/apartments/list">List Apartments</a></li>
-        <li><a href="/apartments/update">Update Apartment</a></li>
-        <li><a href="/apartments/delete">Delete Apartment</a></li>
+        <li><a href="/apartments/new" onclick="resetDropdowns()">Register Apartment</a></li>
+        <li><a href="/apartments/list" onclick="resetDropdowns()">List Apartments</a></li>
+        <li><a href="/apartments/update" onclick="resetDropdowns()">Update Apartment</a></li>
+        <li><a href="/apartments/delete" onclick="resetDropdowns()">Delete Apartment</a></li>
     </ul>
 </div>
+
+<script>
+  // Sidebar Toggle Functionality
+  function toggleDropdown(menuId, event) {
+    event.preventDefault();
+
+    // Close all dropdowns
+    const allMenus = document.querySelectorAll('.sidebar ul');
+    allMenus.forEach(menu => menu.classList.add('hidden'));
+
+    // Open the clicked dropdown
+    const options = document.getElementById(menuId);
+    options.classList.toggle('hidden');
+  }
+
+  // Reset all dropdowns (default state)
+  function resetDropdowns() {
+    const allMenus = document.querySelectorAll('.sidebar ul');
+    allMenus.forEach(menu => menu.classList.add('hidden'));
+  }
+
+  // Ensure all dropdowns are closed on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    resetDropdowns();
+  });
+</script>
