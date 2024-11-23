@@ -4,13 +4,21 @@
 function toggleDropdown(menuId, event) {
   event.preventDefault();
 
-  // Close all dropdowns
-  const allMenus = document.querySelectorAll('.sidebar ul');
-  allMenus.forEach(menu => menu.classList.add('hidden'));
-
-  // Open the clicked dropdown
+  // Get the clicked dropdown options
   const options = document.getElementById(menuId);
-  options.classList.toggle('hidden');
+
+  // Check if the dropdown is already open
+  if (options.classList.contains('hidden')) {
+    // If it's hidden, close all dropdowns first
+    const allMenus = document.querySelectorAll('.sidebar ul');
+    allMenus.forEach(menu => menu.classList.add('hidden'));
+
+    // Then open the clicked dropdown
+    options.classList.remove('hidden');
+  } else {
+    // If it's already open, close it
+    options.classList.add('hidden');
+  }
 }
 
 // Reset all dropdowns (default state)
