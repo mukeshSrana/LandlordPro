@@ -79,14 +79,14 @@ header {
 .sidebar ul li a {
     padding: 8px;
     display: block;
-    color: white;
+    color: #333;;
     text-decoration: none;
-    background-color: #444;
+    background-color: #add8e6;
     border-radius: 5px;
 }
 
 .sidebar ul li a:hover {
-    background-color: #555;
+    background-color: #6495ed;
 }
 
 .hidden {
