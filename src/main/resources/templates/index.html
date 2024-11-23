@@ -13,24 +13,38 @@
 </header>
 
 <div class="container">
-    <div th:insert="expenses/sidebar :: sidebar"></div>
+    <div th:insert="~{expenses/sidebar :: sidebar}"></div>
+    <div class="content">
+        <p>Welcome! Please select an option from the sidebar.</p>
+    </div>
 </div>
 
 <script>
   // Sidebar Toggle Functionality
   function toggleDropdown(menuId, event) {
     event.preventDefault();
+
+    // Close all dropdowns first
+    const allMenus = document.querySelectorAll('.sidebar ul');
+    allMenus.forEach(menu => menu.classList.add('hidden'));
+
+    // Toggle the clicked dropdown
     const options = document.getElementById(menuId);
     options.classList.toggle('hidden');
-    localStorage.setItem('dropdownOpen', !options.classList.contains('hidden'));
   }
 
-  // Maintain Sidebar State across pages
+  // Reset Dropdowns to Default (All Closed)
+  function resetDropdowns() {
+    const allMenus = document.querySelectorAll('.sidebar ul');
+    allMenus.forEach(menu => menu.classList.add('hidden'));
+  }
+
+  // Add event listener for resetting on selection
   document.addEventListener('DOMContentLoaded', () => {
-    const isDropdownOpen = localStorage.getItem('dropdownOpen') === 'true';
-    if (isDropdownOpen) {
-      document.getElementById('expenses-options').classList.remove('hidden');
-    }
+    const links = document.querySelectorAll('.sidebar ul li a');
+    links.forEach(link => {
+      link.addEventListener('click', () => resetDropdowns());
+    });
   });
 </script>
 </body>

@@ -1,7 +1,5 @@
 <div class="sidebar" th:fragment="sidebar">
-    <link rel="stylesheet" href="/styles.css"> <!-- Reference the styles -->
-
-    <!-- Expenses Menu -->
+    <!-- Expenses Dropdown -->
     <a href="#" id="expenses-menu" onclick="toggleDropdown('expenses-options', event)">Expenses</a>
     <ul id="expenses-options" class="hidden">
         <li><a href="/expenses/new">Register Expense</a></li>
@@ -10,7 +8,7 @@
         <li><a href="/expenses/delete">Delete Expense</a></li>
     </ul>
 
-    <!-- Apartments Menu -->
+    <!-- Apartments Dropdown -->
     <a href="#" id="apartments-menu" onclick="toggleDropdown('apartments-options', event)">Apartments</a>
     <ul id="apartments-options" class="hidden">
         <li><a href="/apartments/new">Register Apartment</a></li>
@@ -19,12 +17,3 @@
         <li><a href="/apartments/delete">Delete Apartment</a></li>
     </ul>
 </div>
-
-<script>
-  // Dropdown functionality for toggling menus
-  function toggleDropdown(menuId, event) {
-    event.preventDefault();
-    const menu = document.getElementById(menuId);
-    menu.classList.toggle('hidden');
-  }
-</script>

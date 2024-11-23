@@ -13,7 +13,7 @@
 </header>
 
 <div class="container">
-    <div th:insert="expenses/sidebar :: sidebar"></div>
+    <div th:insert="~{expenses/sidebar :: sidebar}"></div>
     <div class="content">
         <div th:replace="${content}"></div>
     </div>
