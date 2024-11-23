@@ -1,18 +1,17 @@
 <div class="sidebar" th:fragment="sidebar">
     <a href="#" id="expenses-menu" onclick="toggleDropdown('expenses-options', event)">Expenses</a>
     <ul id="expenses-options" class="hidden">
-        <li><a href="/expenses/new" onclick="resetDropdowns()">Register Expense</a></li>
-        <li><a href="/expenses/list" onclick="resetDropdowns()">List Expenses</a></li>
-        <li><a href="/expenses/update" onclick="resetDropdowns()">Update Expense</a></li>
-        <li><a href="/expenses/delete" onclick="resetDropdowns()">Delete Expense</a></li>
+        <li><a href="/expenses/new" onclick="resetDropdowns()">Create Expense Record</a></li>
+        <li><a href="/expenses/list" onclick="resetDropdowns()">View All Expenses</a></li>
+        <li><a href="/expenses/update" onclick="resetDropdowns()">Modify Expense Entry</a></li>
+        <li><a href="/expenses/delete" onclick="resetDropdowns()">Remove Expense Entry</a></li>
     </ul>
 
     <a href="#" id="apartments-menu" onclick="toggleDropdown('apartments-options', event)">Apartments</a>
     <ul id="apartments-options" class="hidden">
-        <li><a href="/apartments/new" onclick="resetDropdowns()">Register Apartment</a></li>
-        <li><a href="/apartments/list" onclick="resetDropdowns()">List Apartments</a></li>
-        <li><a href="/apartments/update" onclick="resetDropdowns()">Update Apartment</a></li>
-        <li><a href="/apartments/delete" onclick="resetDropdowns()">Delete Apartment</a></li>
+        <li><a href="/apartments/new" onclick="resetDropdowns()">Add New Property</a></li>
+        <li><a href="/apartments/list" onclick="resetDropdowns()">View Property Listings</a></li>
+        <li><a href="/apartments/update" onclick="resetDropdowns()">Edit Property Information</a></li>
+        <li><a href="/apartments/delete" onclick="resetDropdowns()">Remove Property Listing</a></li>
     </ul>
 </div>
-
