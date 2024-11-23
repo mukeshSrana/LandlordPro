@@ -1,0 +1,21 @@
+<div class="sidebar" th:fragment="apartment">
+    <link rel="stylesheet" href="/styles.css"> <!-- Reference the styles -->
+    <a href="#" id="apartments-menu" onclick="toggleDropdown(event)">Apartments</a>
+    <ul id="apartments-options" class="hidden">
+        <li><a href="/apartments/new">Register Apartments</a></li>
+        <li><a href="/apartments/list">List Apartments</a></li>
+        <li><a href="/apartments/update">Update Apartments</a></li>
+        <li><a href="/apartments/delete">Delete Apartments</a></li>
+    </ul>
+</div>
+
+<script>
+  // Dropdown functionality
+  function toggleDropdown(event) {
+    event.preventDefault();
+    const options = document.getElementById('apartments-options');
+    options.classList.toggle('hidden');
+  }
+</script>
+
+
