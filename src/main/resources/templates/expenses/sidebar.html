@@ -1,0 +1,21 @@
+<div class="sidebar" th:fragment="sidebar">
+    <link rel="stylesheet" href="/styles.css"> <!-- Reference the styles -->
+    <a href="#" id="expenses-menu" onclick="toggleDropdown(event)">Expenses</a>
+    <ul id="expenses-options" class="hidden">
+        <li><a href="/expenses/new">Register Expense</a></li>
+        <li><a href="/expenses/list">List Expenses</a></li>
+        <li><a href="/expenses/update">Update Expense</a></li>
+        <li><a href="/expenses/delete">Delete Expense</a></li>
+    </ul>
+</div>
+
+<script>
+  // Dropdown functionality
+  function toggleDropdown(event) {
+    event.preventDefault();
+    const options = document.getElementById('expenses-options');
+    options.classList.toggle('hidden');
+  }
+</script>
+
+
