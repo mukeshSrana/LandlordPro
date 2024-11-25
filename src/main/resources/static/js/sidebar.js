@@ -17,7 +17,7 @@ function toggleDropdown(menuId, event) {
     options.classList.remove('hidden');
 
     // Save the active dropdown to localStorage
-    localStorage.setItem('activeDropdown', menuId); // Set activeDropdown here
+    localStorage.setItem('activeDropdown', menuId);
   } else {
     // If it's already open, close it
     options.classList.add('hidden');
@@ -46,9 +46,8 @@ function restoreDropdownState() {
 
 // Ensure all dropdowns are closed on page load
 document.addEventListener('DOMContentLoaded', () => {
-  localStorage.removeItem('activeDropdown'); // Clear any saved state
   resetDropdowns(); // Close all dropdowns initially
-  // Do not restoreDropdownState() to keep everything closed by default
+  restoreDropdownState(); // Open the saved dropdown if exists
 });
 
 // AJAX function to load page content dynamically
@@ -68,6 +67,12 @@ function loadPage(url) {
     });
 }
 
+// Function to persist dropdown and view state after form submission
+function persistStateAfterSubmission(menuId, activeView) {
+  localStorage.setItem('activeDropdown', menuId); // Keep the dropdown open
+  localStorage.setItem('activeView', activeView); // Save the active view
+}
+
 // Handle form submission and prevent page reload (for staying on the same view)
 document.querySelectorAll('form').forEach(form => {
   form.addEventListener('submit', event => {
@@ -80,6 +85,9 @@ document.querySelectorAll('form').forEach(form => {
     })
       .then(response => {
         if (response.ok) {
+          // Persist dropdown state for "Expenses" and the active view
+          persistStateAfterSubmission('expenses-menu', 'create-expense');
+
           // Reload the content (same page) after successful submission
           loadPage(window.location.pathname); // Reload current page content
         } else {
