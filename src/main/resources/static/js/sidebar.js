@@ -1,4 +1,4 @@
-// sidebar.js
+// Sidebar.js
 
 // Sidebar Toggle Functionality
 function toggleDropdown(menuId, event) {
@@ -30,7 +30,7 @@ function toggleDropdown(menuId, event) {
 // Reset all dropdowns (default state)
 function resetDropdowns() {
   const allMenus = document.querySelectorAll('.sidebar ul');
-  allMenus.forEach(menu => menu.classList.add('hidden'));
+  allMenus.forEach(menu => menu.classList.add('hidden')); // Ensure all menus are hidden
 }
 
 // Restore the active dropdown state from localStorage
@@ -44,10 +44,11 @@ function restoreDropdownState() {
   }
 }
 
-// Ensure all dropdowns are closed on page load, except the saved one
+// Ensure all dropdowns are closed on page load
 document.addEventListener('DOMContentLoaded', () => {
+  localStorage.removeItem('activeDropdown'); // Clear any saved state
   resetDropdowns(); // Close all dropdowns initially
-  restoreDropdownState(); // Open the saved dropdown if exists
+  // Do not restoreDropdownState() to keep everything closed by default
 });
 
 // AJAX function to load page content dynamically
