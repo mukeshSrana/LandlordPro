@@ -27,31 +27,51 @@ function toggleDropdown(menuId, event) {
   }
 }
 
+// Highlight the selected sidebar option
+function highlightSelectedOption(optionId) {
+  // Remove the `selected` class from all sidebar links
+  document.querySelectorAll('.sidebar a').forEach(link => {
+    link.classList.remove('selected');
+  });
+
+  // Add the `selected` class to the selected option
+  const selectedOption = document.getElementById(optionId);
+  if (selectedOption) {
+    selectedOption.classList.add('selected');
+  }
+}
+
 // Reset all dropdowns (default state)
 function resetDropdowns() {
   const allMenus = document.querySelectorAll('.sidebar ul');
   allMenus.forEach(menu => menu.classList.add('hidden')); // Ensure all menus are hidden
 }
 
-// Restore the active dropdown state from localStorage
+// Restore the active dropdown and option state from localStorage
 function restoreDropdownState() {
   const activeDropdown = localStorage.getItem('activeDropdown');
+  const activeOption = localStorage.getItem('activeOption');
+
   if (activeDropdown) {
     const options = document.getElementById(activeDropdown);
     if (options) {
       options.classList.remove('hidden');
     }
   }
+
+  if (activeOption) {
+    highlightSelectedOption(activeOption);
+  }
 }
 
 // Ensure all dropdowns are closed on page load
 document.addEventListener('DOMContentLoaded', () => {
   resetDropdowns(); // Close all dropdowns initially
-  restoreDropdownState(); // Open the saved dropdown if exists
+  restoreDropdownState(); // Open the saved dropdown and highlight the selected option if exists
 });
 
 // AJAX function to load page content dynamically
-function loadPage(url) {
+function loadPage(url, optionId) {
   // Send AJAX request
   fetch(url)
     .then(response => response.text())
@@ -61,6 +81,12 @@ function loadPage(url) {
 
       // After loading the content, restore the sidebar dropdown state
       restoreDropdownState();
+
+      // Highlight the selected option
+      if (optionId) {
+        localStorage.setItem('activeOption', optionId); // Save the selected option
+        highlightSelectedOption(optionId);
+      }
     })
     .catch(error => {
       console.log('Error loading page:', error);
@@ -68,9 +94,9 @@ function loadPage(url) {
 }
 
 // Function to persist dropdown and view state after form submission
-function persistStateAfterSubmission(menuId, activeView) {
+function persistStateAfterSubmission(menuId, activeOption) {
   localStorage.setItem('activeDropdown', menuId); // Keep the dropdown open
-  localStorage.setItem('activeView', activeView); // Save the active view
+  localStorage.setItem('activeOption', activeOption); // Save the selected option
 }
 
 // Handle form submission and prevent page reload (for staying on the same view)
@@ -86,10 +112,10 @@ document.querySelectorAll('form').forEach(form => {
       .then(response => {
         if (response.ok) {
           // Persist dropdown state for "Expenses" and the active view
-          persistStateAfterSubmission('expenses-menu', 'create-expense');
+          persistStateAfterSubmission('expenses-menu', 'create-expense-option');
 
           // Reload the content (same page) after successful submission
-          loadPage(window.location.pathname); // Reload current page content
+          loadPage(window.location.pathname, 'create-expense-option'); // Reload current page content
         } else {
           console.error('Form submission failed.');
         }

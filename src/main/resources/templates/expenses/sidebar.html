@@ -1,17 +1,51 @@
 <div class="sidebar" th:fragment="sidebar">
+    <!-- Expenses Menu -->
     <a href="#" id="expenses-menu" onclick="toggleDropdown('expenses-options', event)">Expenses</a>
     <ul id="expenses-options" class="hidden">
-        <li><a href="#" onclick="loadPage('/expenses/new')">Create Expense Record</a></li>
-        <li><a href="#" onclick="loadPage('/expenses/list')">View All Expenses</a></li>
-        <li><a href="#" onclick="loadPage('/expenses/update')">Modify Expense Entry</a></li>
-        <li><a href="#" onclick="loadPage('/expenses/delete')">Remove Expense Entry</a></li>
+        <li>
+            <a href="#" id="create-expense-option" onclick="loadPage('/expenses/new', 'create-expense-option')">
+                Create Expense Record
+            </a>
+        </li>
+        <li>
+            <a href="#" id="view-expenses-option" onclick="loadPage('/expenses/list', 'view-expenses-option')">
+                View All Expenses
+            </a>
+        </li>
+        <li>
+            <a href="#" id="modify-expense-option" onclick="loadPage('/expenses/update', 'modify-expense-option')">
+                Modify Expense Entry
+            </a>
+        </li>
+        <li>
+            <a href="#" id="delete-expense-option" onclick="loadPage('/expenses/delete', 'delete-expense-option')">
+                Remove Expense Entry
+            </a>
+        </li>
     </ul>
 
+    <!-- Apartments Menu -->
     <a href="#" id="apartments-menu" onclick="toggleDropdown('apartments-options', event)">Apartments</a>
     <ul id="apartments-options" class="hidden">
-        <li><a href="#" onclick="loadPage('/apartments/new')">Add New Property</a></li>
-        <li><a href="#" onclick="loadPage('/apartments/list')">View Property Listings</a></li>
-        <li><a href="#" onclick="loadPage('/apartments/update')">Edit Property Information</a></li>
-        <li><a href="#" onclick="loadPage('/apartments/delete')">Remove Property Listing</a></li>
+        <li>
+            <a href="#" id="add-apartment-option" onclick="loadPage('/apartments/new', 'add-apartment-option')">
+                Add New Property
+            </a>
+        </li>
+        <li>
+            <a href="#" id="view-apartments-option" onclick="loadPage('/apartments/list', 'view-apartments-option')">
+                View Property Listings
+            </a>
+        </li>
+        <li>
+            <a href="#" id="edit-apartment-option" onclick="loadPage('/apartments/update', 'edit-apartment-option')">
+                Edit Property Information
+            </a>
+        </li>
+        <li>
+            <a href="#" id="delete-apartment-option" onclick="loadPage('/apartments/delete', 'delete-apartment-option')">
+                Remove Property Listing
+            </a>
+        </li>
     </ul>
 </div>

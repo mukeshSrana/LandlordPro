@@ -85,8 +85,19 @@ header {
     border-radius: 5px;
 }
 
-.sidebar ul li a:hover {
+/* Highlight the active menu option */
+.sidebar a.selected {
     background-color: #6495ed;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    text-decoration: none;
+}
+
+/* Optional: Different hover effect */
+.sidebar a:hover {
+    background-color: #4682b4; /* A slightly darker blue for hover effect */
+    color: white;
 }
 
 .hidden {
