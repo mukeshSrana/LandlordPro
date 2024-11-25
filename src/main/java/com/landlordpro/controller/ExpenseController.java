@@ -23,7 +23,7 @@ public class ExpenseController {
     public String listExpenses(Model model) throws IOException {
         List<Expense> expenses = expenseService.getAllExpenses();
         model.addAttribute("expenses", expenses);
-        return "expenses/list-expenses";
+        return "list-expense";
     }
 
     @GetMapping("/new")
@@ -32,10 +32,31 @@ public class ExpenseController {
         return "expenses/create-expense";
     }
 
+//    @PostMapping("/create")
+//    public String createExpense(@ModelAttribute Expense expense) throws IOException {
+//        expenseService.saveExpense(expense);
+//        return "redirect:/expenses/list";
+//    }
+
+    @GetMapping("/create")
+    public String showCreateExpensePage(Model model) {
+        model.addAttribute("expense", new Expense());
+        model.addAttribute("activeView", "create-expense");
+        return "index";
+    }
+
     @PostMapping("/create")
-    public String createExpense(@ModelAttribute Expense expense) throws IOException {
-        expenseService.saveExpense(expense);
-        return "redirect:/expenses/list";
+    public String createExpense(@ModelAttribute Expense expense, Model model) {
+        try {
+            expenseService.saveExpense(expense);
+            model.addAttribute("successMessage", "Expense created successfully!");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Error creating expense: " + e.getMessage());
+        }
+        // Reset the form fields by sending a new Expense object
+        model.addAttribute("expense", new Expense());
+        model.addAttribute("activeView", "create-expense");
+        return "index";
     }
 
     @GetMapping("/edit/{id}")

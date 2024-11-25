@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landlord Pro - Expense Management</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/form-styles.css">
+    <style>
+        .message {
+            position: relative;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -12,22 +43,30 @@
     <p>Manage your rental relations and expenses here</p>
 </header>
 
-<!--<div class="container">-->
-<!--    <div th:insert="~{expenses/sidebar :: sidebar}"></div>-->
-<!--&lt;!&ndash;    <div class="content">&ndash;&gt;-->
-<!--&lt;!&ndash;        <p>Welcome! Please select an option from the sidebar.</p>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--</div>-->
-
 <div class="container">
     <div th:insert="~{expenses/sidebar :: sidebar}"></div> <!-- Sidebar -->
+
     <div class="content">
-        <!-- Content will be injected here -->
+        <!-- Success Message -->
+        <div th:if="${successMessage}" class="message success">
+            <span th:text="${successMessage}"></span>
+            <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="message error">
+            <span th:text="${errorMessage}"></span>
+            <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+
+        <!-- Content will be dynamically included here -->
+        <div th:if="${activeView == 'create-expense'}" th:insert="~{expenses/create-expense :: content}"></div>
+        <div th:if="${activeView == 'list-expense'}" th:insert="~{expenses/list-expense :: content}"></div>
     </div>
 </div>
 
 <!-- Link to shared JavaScript file -->
 <script src="/js/sidebar.js"></script>
-
 </body>
 </html>
+

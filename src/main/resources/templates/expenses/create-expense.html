@@ -4,90 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Expense</title>
-    <style>
-        /* General Reset */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: #007BFF;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 1.8rem;
-        }
-
-        header p {
-            margin: 0.5rem 0 0;
-            font-size: 1rem;
-        }
-
-        .content {
-            max-width: 500px;
-            margin: 2rem 0 2rem 2rem; /* Align towards the left */
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .content h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #007BFF;
-        }
-
-        form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-
-        form input {
-            width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        form button {
-            width: 100%;
-            padding: 0.7rem;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        form button:hover {
-            background-color: #0056b3;
-        }
-
-        .back-home {
-            display: block;
-            text-align: center;
-            margin-top: 1rem;
-            text-decoration: none;
-            color: #007BFF;
-            font-size: 1rem;
-        }
-
-        .back-home:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
 <header>
@@ -95,7 +11,7 @@
     <p>Manage your expenses effortlessly</p>
 </header>
 
-<div class="content">
+<div th:fragment="content">
     <h2>Create Expense</h2>
     <form th:action="@{/expenses/create}" th:object="${expense}" method="post">
         <label for="name">Expense Name</label>
