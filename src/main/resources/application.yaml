@@ -1,7 +1,11 @@
 app:
+  apartment-names:
+    - hauketo.json
+    - grefsens.json
+    - lorenskog.json
+    - bjorndal.json
   file-storage:
-    base-dir: ./data
-
+    base-dir: ./data/expenses
 
 spring:
   thymeleaf:

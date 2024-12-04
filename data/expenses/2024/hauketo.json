@@ -1,0 +1,19 @@
+[ {
+  "id" : null,
+  "name" : "kdd",
+  "apartmentName" : "hauketo",
+  "description" : null,
+  "amount" : 5,
+  "category" : null,
+  "date" : "2024-12-10",
+  "attachmentPath" : null
+}, {
+  "id" : null,
+  "name" : "www",
+  "apartmentName" : "hauketo",
+  "description" : null,
+  "amount" : 10000,
+  "category" : null,
+  "date" : "2024-12-14",
+  "attachmentPath" : null
+} ]

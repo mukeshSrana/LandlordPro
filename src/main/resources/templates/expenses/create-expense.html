@@ -16,6 +16,12 @@
     <form th:action="@{/expenses/create}" th:object="${expense}" method="post">
         <label for="name">Expense Name</label>
         <input type="text" id="name" th:field="*{name}" placeholder="Enter expense name" required>
+        
+        <label for="apartmentName">Apartment Name</label>
+        <select id="apartmentName" th:field="*{apartmentName}" required>
+            <option value="" disabled selected>Select an apartment</option>
+            <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>
+        </select>
 
         <label for="amount">Amount</label>
         <input type="number" id="amount" th:field="*{amount}" placeholder="Enter amount" required>

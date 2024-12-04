@@ -1,5 +1,6 @@
 package com.landlordpro.controller;
 
+import com.landlordpro.config.AppConfig;
 import com.landlordpro.model.Expense;
 import com.landlordpro.service.ExpenseService;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,11 @@ import java.util.List;
 @RequestMapping("/expenses")
 public class ExpenseController {
 
+    private final AppConfig appConfig;
     private final ExpenseService expenseService;
 
-    public ExpenseController(ExpenseService expenseService) {
+    public ExpenseController(AppConfig appConfig, ExpenseService expenseService) {
+        this.appConfig = appConfig;
         this.expenseService = expenseService;
     }
 
@@ -29,6 +32,7 @@ public class ExpenseController {
     @GetMapping("/new")
     public String newExpenseForm(Model model) {
         model.addAttribute("expense", new Expense());
+        model.addAttribute("apartmentNames", appConfig.getApartmentNames()); // Add apartment names
         return "expenses/create-expense";
     }
 

@@ -1,7 +1,10 @@
 package com.landlordpro.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.landlordpro.model.Expense;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -10,20 +13,56 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ExpenseService {
     private final Path basePath = Paths.get("./data/expenses");
     private final ObjectMapper objectMapper;
+
+    @Value("${app.file-storage.base-dir}")
+    private String fileStorageBaseDir;
+
+//    @Value("${app.file-storage.filenames}")
+//    private List<String> filenames;
 
     public ExpenseService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     public void saveExpense(Expense expense) throws IOException {
-        Files.createDirectories(basePath);
-        String fileName = UUID.randomUUID() + ".json";
-        Path filePath = basePath.resolve(fileName);
-        Files.write(filePath, Collections.singleton(objectMapper.writeValueAsString(expense)));
+        log.info("Saving expense for apartment: {}, year: {}", expense.getApartmentName(), expense.getDate().getYear());
+
+        Path directoryPath = Paths.get(fileStorageBaseDir, String.valueOf(expense.getDate().getYear()));
+        Path filePath = directoryPath.resolve(expense.getApartmentName() + ".json");
+
+        try {
+            // Ensure the directory exists
+            Files.createDirectories(directoryPath);
+
+            // Read existing data or initialize a new list
+            List<Expense> expenses;
+            if (Files.exists(filePath)) {
+                String existingJson = Files.readString(filePath);
+                expenses = objectMapper.readValue(existingJson, new TypeReference<>() { });
+            } else {
+                expenses = new ArrayList<>();
+            }
+
+            // Add the new expense
+            expenses.add(expense);
+
+            // Write the updated list back to the file
+            String updatedJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expenses);
+            Files.writeString(filePath, updatedJson, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+            log.info("Expense saved to file: {}", filePath);
+
+        } catch (IOException e) {
+            log.error("Error saving expense for apartment: {}", expense.getApartmentName(), e);
+            throw e;
+        }
     }
 
     public List<Expense> getAllExpenses() throws IOException {

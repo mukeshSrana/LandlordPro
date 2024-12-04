@@ -20,6 +20,9 @@ public class Expense {
     @JsonProperty("name")
     private String name;
 
+    @JsonProperty("apartmentName")
+    private String apartmentName;
+
     @JsonProperty("description")
     private String description;
 
