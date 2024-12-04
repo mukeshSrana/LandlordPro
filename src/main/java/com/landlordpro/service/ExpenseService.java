@@ -34,6 +34,7 @@ public class ExpenseService {
     public void saveExpense(Expense expense) throws IOException {
         log.info("Saving expense for apartment: {}, year: {}", expense.getApartmentName(), expense.getDate().getYear());
 
+        // Build directory and file paths
         Path directoryPath = Paths.get(fileStorageBaseDir, String.valueOf(expense.getDate().getYear()));
         Path filePath = directoryPath.resolve(expense.getApartmentName() + ".json");
 
@@ -41,42 +42,80 @@ public class ExpenseService {
             // Ensure the directory exists
             Files.createDirectories(directoryPath);
 
-            // Read existing data or initialize a new list
-            List<Expense> expenses;
+            // Read existing expenses or initialize an empty list if the file doesn't exist
+            List<Expense> expenses = new ArrayList<>();
             if (Files.exists(filePath)) {
                 String existingJson = Files.readString(filePath);
-                expenses = objectMapper.readValue(existingJson, new TypeReference<>() { });
-            } else {
-                expenses = new ArrayList<>();
+                // Deserialize existing JSON content into a list of expenses
+                expenses = objectMapper.readValue(existingJson, new TypeReference<List<Expense>>() {});
             }
 
-            // Add the new expense
+            // Add the new expense to the list
             expenses.add(expense);
 
-            // Write the updated list back to the file
+            // Serialize the updated list back to JSON with pretty printing
             String updatedJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expenses);
+
+            // Write the updated JSON to the file (overwriting the old content)
             Files.writeString(filePath, updatedJson, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
-            log.info("Expense saved to file: {}", filePath);
+            log.info("Expense successfully saved for apartment: {} in file: {}", expense.getApartmentName(), filePath);
 
         } catch (IOException e) {
             log.error("Error saving expense for apartment: {}", expense.getApartmentName(), e);
-            throw e;
+            throw e; // Re-throw the exception after logging it
         }
     }
 
     public List<Expense> getAllExpenses() throws IOException {
-        if (Files.notExists(basePath)) return Collections.emptyList();
-        return Files.list(basePath)
-            .filter(Files::isRegularFile)
-            .map(path -> {
-                try {
-                    return objectMapper.readValue(path.toFile(), Expense.class);
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
-            })
-            .collect(Collectors.toList());
+        log.info("Fetching all expenses from base path: {}", fileStorageBaseDir);
+
+        // Directory path where the expenses are stored (per year and apartment)
+        Path expensesDirectory = Paths.get(fileStorageBaseDir);
+
+        // Check if the base directory exists
+        if (Files.notExists(expensesDirectory) || !Files.isDirectory(expensesDirectory)) {
+            log.warn("Directory does not exist: {}", expensesDirectory);
+            return Collections.emptyList();  // Return an empty list if the directory doesn't exist
+        }
+
+        // List to hold all expenses from all files
+        List<Expense> allExpenses = new ArrayList<>();
+
+        // Process each year directory in the base directory (e.g., 2024)
+        try {
+            Files.list(expensesDirectory)
+                .filter(Files::isDirectory)  // Ensure we process only directories
+                .forEach(yearDirectory -> {
+                    try {
+                        // For each year directory, get the list of apartment files
+                        Files.list(yearDirectory)
+                            .filter(Files::isRegularFile)  // Only process regular files
+                            .filter(file -> file.toString().endsWith(".json"))  // Ensure it's a JSON file
+                            .forEach(file -> {
+                                try {
+                                    // Read the content of the file
+                                    String jsonContent = Files.readString(file);
+                                    // Deserialize the content into a list of expenses
+                                    List<Expense> expenses = objectMapper.readValue(jsonContent, new TypeReference<List<Expense>>() {});
+                                    // Add these expenses to the allExpenses list
+                                    allExpenses.addAll(expenses);
+                                } catch (IOException e) {
+                                    log.error("Error reading expense file: {}", file, e);
+                                }
+                            });
+                    } catch (IOException e) {
+                        log.error("Error processing year directory: {}", yearDirectory, e);
+                    }
+                });
+        } catch (IOException e) {
+            log.error("Error reading expenses directory: {}", expensesDirectory, e);
+            throw e;  // Propagate the error if directory reading fails
+        }
+
+        // Return the combined list of all expenses
+        log.info("Fetched {} total expenses.", allExpenses.size());
+        return allExpenses;
     }
 
     public Optional<Expense> getExpenseById(String id) throws IOException {

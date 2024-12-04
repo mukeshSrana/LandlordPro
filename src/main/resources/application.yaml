@@ -1,9 +1,9 @@
 app:
   apartment-names:
-    - hauketo.json
-    - grefsens.json
-    - lorenskog.json
-    - bjorndal.json
+    - hauketo
+    - grefsen
+    - lorenskog
+    - bjorndal
   file-storage:
     base-dir: ./data/expenses
 

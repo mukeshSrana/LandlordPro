@@ -26,7 +26,7 @@ public class ExpenseController {
     public String listExpenses(Model model) throws IOException {
         List<Expense> expenses = expenseService.getAllExpenses();
         model.addAttribute("expenses", expenses);
-        return "list-expense";
+        return "expenses/list-expense";
     }
 
     @GetMapping("/new")

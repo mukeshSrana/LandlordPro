@@ -30,3 +30,7 @@ O
 data/expenses/2024/hauketo.json,4/3/43cbd3abaa06b6fc3a18a255bc618240cd80967f
 O
 data/expenses/2025/hauketo.json,6/1/6125da60b1d3a9cce8bb40e73feeecc3e6fa39e0
+T
+$data/expenses/2024/hauketo.json.json,8/c/8c980cd0a6b5c16912619b7b6fbd91a23a00b44c
+O
+data/expenses/2024/grefsen.json,7/f/7fdebf5eb137c4b1ca5fd455732612fab48350da
