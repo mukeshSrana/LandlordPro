@@ -41,11 +41,18 @@ function highlightSelectedOption(optionId) {
   }
 }
 
+// Clear specific localStorage keys only on application load/reload
+function clearLocalStorageOnLoad() {
+  localStorage.removeItem('activeDropdown');
+  localStorage.removeItem('activeOption');
+}
+
 // Reset all dropdowns (default state)
 function resetDropdowns() {
   const allMenus = document.querySelectorAll('.sidebar ul');
   allMenus.forEach(menu => menu.classList.add('hidden')); // Ensure all menus are hidden
 }
+
 
 // Restore the active dropdown and option state from localStorage
 function restoreDropdownState() {
@@ -64,8 +71,9 @@ function restoreDropdownState() {
   }
 }
 
-// Ensure all dropdowns are closed on page load
+// Ensure actions are taken on page load
 document.addEventListener('DOMContentLoaded', () => {
+  clearLocalStorageOnLoad(); // Clear stored dropdown and option state
   resetDropdowns(); // Close all dropdowns initially
   restoreDropdownState(); // Open the saved dropdown and highlight the selected option if exists
 });
