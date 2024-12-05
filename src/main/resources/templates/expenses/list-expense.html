@@ -4,32 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense List</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Reference the same CSS file -->
+    <link rel="stylesheet" href="/css/expense-list.css"> <!-- Reference the same CSS file -->
 </head>
 <body>
 <header>
     <h1>Welcome to Landlord Pro</h1>
     <p>Manage your rental relations and expenses here</p>
 </header>
-<h1>Expense List</h1>
 <div th:fragment="content">
     <h2>View All Expenses</h2>
-    <!-- Display a list of expenses here -->
-    <ul>
+    <table>
+        <thead>
+        <tr>
+            <th>Year</th>
+            <th>Apartment Name</th>
+            <th>Expense Name</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
         <th:block th:each="expense : ${expenses}">
-            <li>
-                <span th:text="${expense.year}"></span> -
-                <span th:text="${expense.apartmentName}"></span> -
-                <span th:text="${expense.name}"></span> -
-                <span th:text="${expense.amount}"></span> -
-                <span th:text="${expense.date}"></span> -
-                <a th:href="@{/expenses/edit/{id}(id=${expense.id})}">Edit</a> |
-                <a th:href="@{/expenses/delete/{id}(id=${expense.id})}">Delete</a>
-            </li>
+            <tr>
+                <td th:text="${expense.year}"></td>
+                <td th:text="${expense.apartmentName}"></td>
+                <td th:text="${expense.name}"></td>
+                <td th:text="${expense.amount}"></td>
+                <td th:text="${expense.date}"></td>
+            </tr>
         </th:block>
-    </ul>
-    <a href="/expenses/new">Add New Expense</a>
+        </tbody>
+    </table>
 </div>
-
 </body>
 </html>
