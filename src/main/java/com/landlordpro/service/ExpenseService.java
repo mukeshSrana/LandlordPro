@@ -1,17 +1,22 @@
 package com.landlordpro.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.landlordpro.model.Expense;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.landlordpro.model.Expense;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,9 +29,6 @@ public class ExpenseService {
     @Value("${app.file-storage.base-dir}")
     private String fileStorageBaseDir;
 
-//    @Value("${app.file-storage.filenames}")
-//    private List<String> filenames;
-
     public ExpenseService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
@@ -35,7 +37,7 @@ public class ExpenseService {
         log.info("Saving expense for apartment: {}, year: {}", expense.getApartmentName(), expense.getDate().getYear());
 
         // Build directory and file paths
-        Path directoryPath = Paths.get(fileStorageBaseDir, String.valueOf(expense.getDate().getYear()));
+        Path directoryPath = Paths.get(fileStorageBaseDir, String.valueOf(expense.getYear()));
         Path filePath = directoryPath.resolve(expense.getApartmentName() + ".json");
 
         try {
@@ -97,7 +99,7 @@ public class ExpenseService {
                                     // Read the content of the file
                                     String jsonContent = Files.readString(file);
                                     // Deserialize the content into a list of expenses
-                                    List<Expense> expenses = objectMapper.readValue(jsonContent, new TypeReference<List<Expense>>() {});
+                                    List<Expense> expenses = objectMapper.readValue(jsonContent, new TypeReference<>() { });
                                     // Add these expenses to the allExpenses list
                                     allExpenses.addAll(expenses);
                                 } catch (IOException e) {

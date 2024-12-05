@@ -5,15 +5,17 @@
   "description" : null,
   "amount" : 5,
   "category" : null,
-  "date" : "2024-12-13",
-  "attachmentPath" : null
+  "date" : "2024-12-06",
+  "attachmentPath" : null,
+  "year" : 2024
 }, {
   "id" : null,
   "name" : "www",
   "apartmentName" : "hauketo",
   "description" : null,
-  "amount" : 10000,
+  "amount" : 5,
   "category" : null,
-  "date" : "2024-12-22",
-  "attachmentPath" : null
+  "date" : "2024-12-21",
+  "attachmentPath" : null,
+  "year" : 2024
 } ]

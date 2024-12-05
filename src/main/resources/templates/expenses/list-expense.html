@@ -18,6 +18,8 @@
     <ul>
         <th:block th:each="expense : ${expenses}">
             <li>
+                <span th:text="${expense.year}"></span> -
+                <span th:text="${expense.apartmentName}"></span> -
                 <span th:text="${expense.name}"></span> -
                 <span th:text="${expense.amount}"></span> -
                 <span th:text="${expense.date}"></span> -

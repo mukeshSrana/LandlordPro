@@ -20,17 +20,5 @@ c
 3src/main/java/com/landlordpro/config/AppConfig.java,a/9/a9834f7cd9f1e3ffe508fe8adf86963e92b96533
 l
 <src/main/java/com/landlordpro/controller/HomeController.java,1/0/10ed363a5d5a4bc4d5ca0b77f1c4651a9103c785
-g
-7data/expenses/013d5111-3082-44de-ae07-8c6154a2a02f.json,7/a/7ab0cf44f5188cd2fcc20f5ae4493b7a1c95d67e
-g
-7data/expenses/768a9a0e-799d-4fd4-8e06-b832cb85fc95.json,3/d/3d27c85531babcd1ca27900f4af6902e2e83fd04
-J
-data/expenses/hauketo.json,5/c/5cb496923c20ee7b2963ee6490b4624c933dcf5f
 O
 data/expenses/2024/hauketo.json,4/3/43cbd3abaa06b6fc3a18a255bc618240cd80967f
-O
-data/expenses/2025/hauketo.json,6/1/6125da60b1d3a9cce8bb40e73feeecc3e6fa39e0
-T
-$data/expenses/2024/hauketo.json.json,8/c/8c980cd0a6b5c16912619b7b6fbd91a23a00b44c
-O
-data/expenses/2024/grefsen.json,7/f/7fdebf5eb137c4b1ca5fd455732612fab48350da
