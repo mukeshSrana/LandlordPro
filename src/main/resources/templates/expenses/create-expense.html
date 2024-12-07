@@ -12,23 +12,26 @@
 </header>
 
 <div th:fragment="content">
-    <h2>Create Expense</h2>
     <form th:action="@{/expenses/create}" th:object="${expense}" method="post">
-        <label for="name">Expense Name</label>
-        <input type="text" id="name" th:field="*{name}" placeholder="Enter expense name" required>
-        
-        <label for="apartmentName">Apartment Name</label>
-        <select id="apartmentName" th:field="*{apartmentName}" required>
-            <option value="" disabled selected>Select an apartment</option>
-            <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>
-        </select>
-
-        <label for="amount">Amount</label>
-        <input type="number" id="amount" th:field="*{amount}" placeholder="Enter amount" required>
-
-        <label for="date">Date</label>
-        <input type="date" id="date" th:field="*{date}" required>
-
+        <div class="form-group">
+            <label for="name">Expense Name</label>
+            <input type="text" id="name" th:field="*{name}" required>
+        </div>
+        <div class="form-group">
+            <label for="apartmentName">Apartment Name</label>
+            <select id="apartmentName" th:field="*{apartmentName}" required>
+                <option value="" disabled selected></option>
+                <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" th:field="*{amount}" required>
+        </div>
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" th:field="*{date}" required>
+        </div>
         <button type="submit">Create Expense</button>
     </form>
 </div>
