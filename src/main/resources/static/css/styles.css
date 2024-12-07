@@ -33,6 +33,7 @@ header {
     display: flex;
     flex-direction: row;
     height: 100%;
+    width: 100%;
     overflow: hidden;
     margin-top: 70px; /* Increased margin to fully clear header */
     padding-left: 250px; /* Sidebar width */

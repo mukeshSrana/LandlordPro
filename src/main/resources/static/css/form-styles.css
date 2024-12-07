@@ -23,14 +23,32 @@ header p {
     font-size: 1rem;
 }
 
+/*.content {*/
+/*    max-width: 800px; !* Increase the maximum width *!*/
+/*    margin: 2rem auto; !* Center the content horizontally *!*/
+/*    background-color: white;*/
+/*    padding: 2rem; !* Add more padding for larger width *!*/
+/*    border-radius: 8px;*/
+/*    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
 .content {
-    max-width: 500px;
-    margin: 2rem 0 2rem 2rem; /* Align towards the left */
+    max-width: 90%; /* Use a percentage-based width for responsiveness */
+    margin: 2rem 0 2rem 2rem; /* Center the content horizontally */
     background-color: white;
-    padding: 1.5rem;
+    padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+/*.content {*/
+/*    max-width: 500px;*/
+/*    margin: 2rem 0 2rem 2rem; !* Align towards the left *!*/
+/*    background-color: white;*/
+/*    padding: 1.5rem;*/
+/*    border-radius: 8px;*/
+/*    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
+/*}*/
 
 .content h2 {
     font-size: 1.5rem;
