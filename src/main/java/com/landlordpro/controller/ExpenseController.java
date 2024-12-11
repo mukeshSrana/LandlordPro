@@ -3,12 +3,16 @@ package com.landlordpro.controller;
 import com.landlordpro.config.AppConfig;
 import com.landlordpro.model.Expense;
 import com.landlordpro.service.ExpenseService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Controller
 @RequestMapping("/expenses")
@@ -26,6 +30,8 @@ public class ExpenseController {
     public String listExpenses(Model model) throws IOException {
         List<Expense> expenses = expenseService.getAllExpenses();
         model.addAttribute("expenses", expenses);
+        model.addAttribute("years", expenses.stream().map(Expense::getYear).distinct().collect(toList()));
+        model.addAttribute("apartments", expenses.stream().map(Expense::getApartmentName).distinct().collect(toList()));
         return "expenses/list-expense";
     }
 

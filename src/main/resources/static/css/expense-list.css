@@ -1,6 +1,7 @@
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 1rem; /* Add space between the filters and table */
 }
 
 thead {
@@ -19,4 +20,35 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #f1f1f1;
+}
+
+/* Filters section styles */
+.filters {
+    display: flex; /* Align filter elements horizontally */
+    gap: 100rem; /* Space between the dropdowns */
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+}
+
+/* Filter group styling for individual elements */
+.filter-group {
+    display: flex; /* Align label and select horizontally */
+    align-items: center; /* Align the label and select vertically */
+}
+
+/* Filter label styling */
+.filter-group label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 0.5rem; /* Add space between label and select */
+}
+
+/* Filter select styling */
+.filter-group select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
