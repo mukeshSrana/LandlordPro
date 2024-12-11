@@ -1,5 +1,6 @@
 package com.landlordpro.service;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
@@ -148,6 +149,39 @@ public class ExpenseService {
             Files.delete(fileToDelete.get());
             return true;
         }
+        return false;
+    }
+
+    public boolean deleteExpense(String id, String year, String apartment) {
+        // Construct the path to the specific JSON file
+        Path filePath = basePath.resolve(year).resolve(apartment + ".json");
+
+        if (Files.exists(filePath)) {
+            try {
+                // Read the content of the file
+                String content = Files.readString(filePath);
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                // Deserialize the file content into a list of expenses
+                List<Expense> expenses = objectMapper.readValue(content, new TypeReference<List<Expense>>() { });
+
+                // Remove the expense with the matching id
+                boolean removed = expenses.removeIf(expense -> expense.getId().equals(id));
+
+                if (removed) {
+                    // Serialize the updated expenses list back to a string
+                    String updatedContent = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expenses);
+
+                    // Write the updated content back to the file
+                    Files.writeString(filePath, updatedContent);
+                    return true;
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Error processing file: " + filePath, e);
+            }
+        }
+
+        // Return false if file doesn't exist or expense was not found
         return false;
     }
 }

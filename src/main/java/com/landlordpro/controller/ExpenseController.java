@@ -4,12 +4,15 @@ import com.landlordpro.config.AppConfig;
 import com.landlordpro.model.Expense;
 import com.landlordpro.service.ExpenseService;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -86,5 +89,21 @@ public class ExpenseController {
     public String deleteExpense(@PathVariable String id) throws IOException {
         expenseService.deleteExpense(id);
         return "redirect:/expenses/list";
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public ResponseEntity<Void> deleteExpense(@RequestBody Map<String, String> request) {
+        String id = request.get("id");
+        String year = request.get("year");
+        String apartment = request.get("apartment");
+
+        boolean isDeleted = expenseService.deleteExpense(id, year, apartment);
+
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

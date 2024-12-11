@@ -44,10 +44,36 @@
                 <td th:text="${expense.name}"></td>
                 <td th:text="${expense.amount}"></td>
                 <td th:text="${expense.date}"></td>
+                <td>
+                    <button onclick="deleteExpense('${expense.id}', '${expense.year}', '${expense.apartmentName}')">Delete</button>
+                </td>
             </tr>
         </th:block>
         </tbody>
     </table>
 </div>
+<!--<script>-->
+<!--  // Ensure that DOM is fully loaded before attaching event listeners-->
+<!--  window.onload = function() {-->
+<!--    document.querySelectorAll('.delete-button').forEach(button => {-->
+<!--      button.addEventListener('click', function() {-->
+<!--        console.log('Delete button clicked');-->
+<!--        const id = this.getAttribute('data-id');-->
+<!--        const year = this.getAttribute('data-year');-->
+<!--        const apartment = this.getAttribute('data-apartment');-->
+<!--        console.log('ID:', id, 'Year:', year, 'Apartment:', apartment);-->
+
+<!--        // Call the deleteExpense function here-->
+<!--        deleteExpense(id, year, apartment); // Example function-->
+<!--      });-->
+<!--    });-->
+<!--  };-->
+
+<!--  // Function to delete an expense (you'll need to define this function for actual deletion)-->
+<!--  function deleteExpense(id, year, apartment) {-->
+<!--    console.log(`Delete expense with ID: ${id}, Year: ${year}, Apartment: ${apartment}`);-->
+<!--    // Add your delete logic here (API call or table row removal)-->
+<!--  }-->
+<!--</script>-->
 </body>
 </html>
