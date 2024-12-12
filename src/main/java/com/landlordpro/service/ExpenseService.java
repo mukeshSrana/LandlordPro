@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -155,6 +156,7 @@ public class ExpenseService {
     public boolean deleteExpense(String id, String year, String apartment) {
         // Construct the path to the specific JSON file
         Path filePath = basePath.resolve(year).resolve(apartment + ".json");
+        Path yearFolderPath = basePath.resolve(year);  // Path to the 'year' folder
 
         if (Files.exists(filePath)) {
             try {
@@ -171,6 +173,14 @@ public class ExpenseService {
                     if (expenses.isEmpty()) {
                         // If the updated list is empty, delete the file
                         Files.delete(filePath);
+
+                        // Check if the parent folder (year folder) is empty
+                        try (Stream<Path> paths = Files.list(yearFolderPath)) {
+                            // If the folder is empty, delete the folder
+                            if (paths.count() == 0) {
+                                Files.delete(yearFolderPath);
+                            }
+                        }
                     } else {
                         // Serialize the updated expenses list back to a string
                         String updatedContent = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expenses);
@@ -188,5 +198,4 @@ public class ExpenseService {
         // Return false if file doesn't exist or expense was not found
         return false;
     }
-
 }
