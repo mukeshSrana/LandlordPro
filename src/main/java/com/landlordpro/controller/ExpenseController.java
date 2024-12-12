@@ -119,7 +119,7 @@ public class ExpenseController {
         if (isUpdated) {
             return "redirect:/expenses/list?message=Expense updated successfully&type=success";
         } else {
-            return "redirect:/expenses?message=Failed to update expense&type=error";
+            return "redirect:/expenses/list?message=Failed to update expense&type=error";
         }
     }
 }
