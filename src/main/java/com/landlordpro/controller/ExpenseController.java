@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,12 +50,6 @@ public class ExpenseController {
         return "expenses/create-expense";
     }
 
-//    @PostMapping("/create")
-//    public String createExpense(@ModelAttribute Expense expense) throws IOException {
-//        expenseService.saveExpense(expense);
-//        return "redirect:/expenses/list";
-//    }
-
     @GetMapping("/create")
     public String showCreateExpensePage(Model model) {
         model.addAttribute("expense", new Expense());
@@ -76,19 +69,6 @@ public class ExpenseController {
         model.addAttribute("expense", new Expense());
         model.addAttribute("activeView", "create-expense");
         return "index";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String editExpenseForm(@PathVariable String id, Model model) throws IOException {
-        Expense expense = expenseService.getExpenseById(id).orElseThrow();
-        model.addAttribute("expense", expense);
-        return "expenses/update-expense";
-    }
-
-    @PostMapping("/update/{id}")
-    public String updateExpense(@PathVariable String id, @ModelAttribute Expense expense) throws IOException {
-        expenseService.updateExpense(id, expense);
-        return "redirect:/expenses/list";
     }
 
     @PostMapping("/delete")

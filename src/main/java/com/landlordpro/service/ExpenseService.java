@@ -1,6 +1,5 @@
 package com.landlordpro.service;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.math.BigDecimal;
@@ -135,23 +134,6 @@ public class ExpenseService {
                 }
             })
             .findFirst();
-    }
-
-    public void updateExpense(String id, Expense expense) throws IOException {
-        deleteExpense(id); // First delete the old expense
-        saveExpense(expense); // Then create a new one with the updated details
-    }
-
-    public boolean deleteExpense(String id) throws IOException {
-        if (Files.notExists(basePath)) return false;
-        Optional<Path> fileToDelete = Files.list(basePath)
-            .filter(path -> path.getFileName().toString().startsWith(id))
-            .findFirst();
-        if (fileToDelete.isPresent()) {
-            Files.delete(fileToDelete.get());
-            return true;
-        }
-        return false;
     }
 
     public boolean updateExpense(String id, int year, String apartmentName, String name, BigDecimal amount) {
