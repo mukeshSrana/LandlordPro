@@ -120,9 +120,9 @@ public class ExpenseController {
 
         try {
             // Logic to update the expense
-            boolean isModified = expenseService.updateExpense(id, year, apartmentName, name, amount);
+            boolean isUpdated = expenseService.updateExpense(id, year, apartmentName, name, amount);
 
-            if (isModified) {
+            if (isUpdated) {
                 response.put("success", true);
             } else {
                 response.put("success", false);

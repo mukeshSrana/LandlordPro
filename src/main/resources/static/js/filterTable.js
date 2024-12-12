@@ -29,7 +29,7 @@
     // Display the Modify button for this row
     const row = cell.closest('tr');
     const updateButton = row.querySelector('.update-btn');
-    updateButton.style.display = 'inline';
+    //updateButton.style.display = 'inline';
   }
 
   function submitUpdate(button) {
@@ -58,7 +58,8 @@
       .then(data => {
         // If successful, hide the Update button again
         if (data.success) {
-          button.style.display = 'none';
+         // button.style.display = 'none';
+          alert('Updated the expense.');
         } else {
           alert('Error updating the expense.');
         }
