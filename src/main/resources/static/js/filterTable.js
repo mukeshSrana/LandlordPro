@@ -16,37 +16,54 @@
   }
 
   function enableEditing(cell) {
+    // Make sure only expense name and amount cells are editable
+    if (cell.tagName !== "TD") return; // Ensure it's a table cell
+
+    // Check if the cell is already editable
     if (cell.isContentEditable) return;
 
-    // Store the original value in case of cancel
-    const originalValue = cell.innerText;
-    const row = cell.closest('tr');
-    const modifyForm = row.querySelector('form#modifyForm');
-
-    // Make the cell content editable
+    // Set contentEditable to true for direct inline editing
     cell.contentEditable = true;
     cell.focus();
 
-    // Show Modify Form and make the Modify button visible
-    modifyForm.style.display = 'inline';  // Show the Modify button next to the Delete button
-
-    // Event listener to save changes and submit
-    modifyForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const modifiedName = document.getElementById('modifiedName').value;
-      const modifiedAmount = document.getElementById('modifiedAmount').value;
-
-      // If changes are made, submit the modified values
-      if (modifiedName !== originalValue || modifiedAmount !== originalValue) {
-        this.submit();  // Submit the form
-      } else {
-        // Revert changes if nothing has changed
-        cell.innerText = originalValue;
-      }
-
-      // Disable content-editable after submission
-      cell.contentEditable = false;
-    });
+    // Display the Modify button for this row
+    const row = cell.closest('tr');
+    const modifyButton = row.querySelector('.modify-btn');
+    modifyButton.style.display = 'inline';
   }
 
+  function submitModify(button) {
+    // Find the row containing the button
+    const row = button.closest('tr');
+    const expenseId = row.querySelector('input[name="id"]').value;
+    const year = row.querySelector('input[name="year"]').value;
+    const apartmentName = row.querySelector('input[name="apartmentName"]').value;
+    const expenseName = row.querySelector('td:nth-child(3)').innerText;
+    const amount = row.querySelector('td:nth-child(4)').innerText;
+
+    // Collect the updated data to send in the form
+    const formData = new FormData();
+    formData.append('id', expenseId);
+    formData.append('year', year);
+    formData.append('apartmentName', apartmentName);
+    formData.append('name', expenseName);
+    formData.append('amount', amount);
+
+    // Perform the AJAX request (or submit the form)
+    fetch('/expenses/modify', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        // If successful, hide the Modify button again
+        if (data.success) {
+          button.style.display = 'none';
+        } else {
+          alert('Error modifying the expense.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense List</title>
-    <link rel="stylesheet" href="/css/expense-list.css">
+    <link rel="stylesheet" href="/css/expense-list.css"> <!-- Reference the same CSS file -->
 </head>
 <body>
 <header>
@@ -46,29 +46,22 @@
         <tbody>
         <th:block th:each="expense : ${expenses}">
             <tr>
-                <td th:text="${expense.year}" ondblclick="enableEditing(this)"></td>
-                <td th:text="${expense.apartmentName}" ondblclick="enableEditing(this)"></td>
-                <td th:text="${expense.name}" ondblclick="enableEditing(this)"></td>
-                <td th:text="${expense.amount}" ondblclick="enableEditing(this)"></td>
-                <td th:text="${expense.date}" ondblclick="enableEditing(this)"></td>
+                <td th:text="${expense.year}"></td>
+                <td th:text="${expense.apartmentName}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${expense.amount}"></td>
+                <td th:text="${expense.date}"></td>
                 <td>
                     <!-- Delete Form -->
                     <form th:action="@{/expenses/delete}" method="post" style="display:inline;">
                         <input type="hidden" name="id" th:value="${expense.id}">
                         <input type="hidden" name="year" th:value="${expense.year}">
                         <input type="hidden" name="apartmentName" th:value="${expense.apartmentName}">
-                        <button type="submit">Delete</button>
+                        <button type="submit" class="delete-btn">Delete</button>
                     </form>
 
-                    <!-- Modify Form (Initially Hidden) -->
-                    <form th:action="@{/expenses/modify}" method="post" id="modifyForm" style="display:none; margin-left:10px;">
-                        <input type="hidden" name="id" th:value="${expense.id}">
-                        <input type="hidden" name="year" th:value="${expense.year}">
-                        <input type="hidden" name="apartmentName" th:value="${expense.apartmentName}">
-                        <input type="text" name="name" th:value="${expense.name}" id="modifiedName">
-                        <input type="text" name="amount" th:value="${expense.amount}" id="modifiedAmount">
-                        <button type="submit">Modify</button>
-                    </form>
+                    <!-- Modify Button (Initially Hidden) -->
+                    <button type="button" style="display:none;" class="modify-btn" onclick="submitModify(this)">Modify</button>
                 </td>
             </tr>
         </th:block>
