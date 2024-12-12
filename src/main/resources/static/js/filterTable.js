@@ -28,11 +28,11 @@
 
     // Display the Modify button for this row
     const row = cell.closest('tr');
-    const modifyButton = row.querySelector('.modify-btn');
-    modifyButton.style.display = 'inline';
+    const updateButton = row.querySelector('.update-btn');
+    updateButton.style.display = 'inline';
   }
 
-  function submitModify(button) {
+  function submitUpdate(button) {
     // Find the row containing the button
     const row = button.closest('tr');
     const expenseId = row.querySelector('input[name="id"]').value;
@@ -50,17 +50,17 @@
     formData.append('amount', amount);
 
     // Perform the AJAX request (or submit the form)
-    fetch('/expenses/modify', {
+    fetch('/expenses/update', {
       method: 'POST',
       body: formData
     })
       .then(response => response.json())
       .then(data => {
-        // If successful, hide the Modify button again
+        // If successful, hide the Update button again
         if (data.success) {
           button.style.display = 'none';
         } else {
-          alert('Error modifying the expense.');
+          alert('Error updating the expense.');
         }
       })
       .catch(error => {

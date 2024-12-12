@@ -2,8 +2,11 @@ package com.landlordpro.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -107,19 +110,30 @@ public class ExpenseController {
         return "redirect:/expenses/list"; // Redirect to the updated expense list
     }
 
-    @PostMapping("/modify")
-    public String modifyExpense(@RequestParam("id") String id,
+    @PostMapping("/update")
+    public ResponseEntity<Map<String, Object>> updateExpense(@RequestParam("id") String id,
         @RequestParam("year") int year,
         @RequestParam("apartmentName") String apartmentName,
         @RequestParam("name") String name,
         @RequestParam("amount") BigDecimal amount) {
-        // Logic to update the expense
-        boolean isUpdated = expenseService.updateExpense(id, year, apartmentName, name, amount);
+        Map<String, Object> response = new HashMap<>();
 
-        if (isUpdated) {
-            return "redirect:/expenses/list?message=Expense updated successfully&type=success";
-        } else {
-            return "redirect:/expenses/list?message=Failed to update expense&type=error";
+        try {
+            // Logic to update the expense
+            boolean isModified = expenseService.updateExpense(id, year, apartmentName, name, amount);
+
+            if (isModified) {
+                response.put("success", true);
+            } else {
+                response.put("success", false);
+                response.put("message", "Updation failed");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Error: " + e.getMessage());
         }
+
+        return ResponseEntity.ok(response);
     }
+
 }
