@@ -2,9 +2,11 @@ package com.landlordpro.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,8 +22,6 @@ import com.landlordpro.config.AppConfig;
 import com.landlordpro.model.Expense;
 import com.landlordpro.service.ExpenseService;
 
-import static java.util.stream.Collectors.toList;
-
 @Controller
 @RequestMapping("/expenses")
 public class ExpenseController {
@@ -36,12 +36,35 @@ public class ExpenseController {
 
     @GetMapping("/list")
     public String listExpenses(Model model) throws IOException {
-        List<Expense> expenses = expenseService.getAllExpenses();
+        // Get all expenses and sort them by year
+        List<Expense> expenses = expenseService.getAllExpenses().stream()
+            .sorted(Comparator.comparing(Expense::getYear)) // Sort by year ascending
+            .collect(Collectors.toList());
+
+        // Extract distinct years and apartments in one pass using streams
+        List<Integer> years = expenses.stream()
+            .map(Expense::getYear)
+            .distinct()
+            .sorted()
+            .collect(Collectors.toList());
+
+        List<String> apartments = expenses.stream()
+            .map(Expense::getApartmentName)
+            .distinct()
+            .collect(Collectors.toList());
+
+        // Get the latest year (last year in the sorted list)
+        int latestYear = years.isEmpty() ? 0 : years.get(years.size() - 1);
+
+        // Add attributes to the model
         model.addAttribute("expenses", expenses);
-        model.addAttribute("years", expenses.stream().map(Expense::getYear).distinct().collect(toList()));
-        model.addAttribute("apartments", expenses.stream().map(Expense::getApartmentName).distinct().collect(toList()));
+        model.addAttribute("years", years);
+        model.addAttribute("apartments", apartments);
+        model.addAttribute("latestYear", latestYear);
+
         return "expenses/list-expense";
     }
+
 
     @GetMapping("/new")
     public String newExpenseForm(Model model) {

@@ -20,9 +20,16 @@
     <div class="filters">
         <div class="filter-group">
             <label for="year">Year:</label>
-            <select id="year" name="year" onchange="filterTable()">
+            <select
+                id="year"
+                name="year"
+                onchange="filterTable()">
                 <option value="">Select Year</option>
-                <option th:each="year : ${years}" th:value="${year}" th:text="${year}"></option>
+                <option
+                    th:each="year : ${years}"
+                    th:value="${year}"
+                    th:text="${year}"
+                    th:selected="${year == latestYear}"></option>
             </select>
             <label for="apartment">Apartment:</label>
             <select id="apartment" name="apartment" onchange="filterTable()">
