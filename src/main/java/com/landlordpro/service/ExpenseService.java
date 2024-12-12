@@ -3,6 +3,7 @@ package com.landlordpro.service;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -149,6 +150,33 @@ public class ExpenseService {
         if (fileToDelete.isPresent()) {
             Files.delete(fileToDelete.get());
             return true;
+        }
+        return false;
+    }
+
+    public boolean updateExpense(String id, int year, String apartmentName, String name, BigDecimal amount) {
+        Path filePath = basePath.resolve(String.valueOf(year)).resolve(apartmentName + ".json");
+
+        if (Files.exists(filePath)) {
+            try {
+                String content = Files.readString(filePath);
+                List<Expense> expenses = objectMapper.readValue(content, new TypeReference<List<Expense>>() {});
+
+                for (Expense expense : expenses) {
+                    if (expense.getId().equals(id)) {
+                        expense.setName(name);
+                        expense.setAmount(amount);
+                        break;
+                    }
+                }
+
+                // Save the updated list back to the file
+                String updatedContent = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expenses);
+                Files.writeString(filePath, updatedContent);
+                return true;
+            } catch (IOException e) {
+                throw new RuntimeException("Error processing file: " + filePath, e);
+            }
         }
         return false;
     }

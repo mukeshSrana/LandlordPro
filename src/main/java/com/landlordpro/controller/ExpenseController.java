@@ -1,6 +1,7 @@
 package com.landlordpro.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -104,5 +105,21 @@ public class ExpenseController {
         }
 
         return "redirect:/expenses/list"; // Redirect to the updated expense list
+    }
+
+    @PostMapping("/modify")
+    public String modifyExpense(@RequestParam("id") String id,
+        @RequestParam("year") int year,
+        @RequestParam("apartmentName") String apartmentName,
+        @RequestParam("name") String name,
+        @RequestParam("amount") BigDecimal amount) {
+        // Logic to update the expense
+        boolean isUpdated = expenseService.updateExpense(id, year, apartmentName, name, amount);
+
+        if (isUpdated) {
+            return "redirect:/expenses/list?message=Expense updated successfully&type=success";
+        } else {
+            return "redirect:/expenses?message=Failed to update expense&type=error";
+        }
     }
 }
