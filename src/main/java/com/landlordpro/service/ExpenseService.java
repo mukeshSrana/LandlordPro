@@ -168,11 +168,16 @@ public class ExpenseService {
                 boolean removed = expenses.removeIf(expense -> expense.getId().equals(id));
 
                 if (removed) {
-                    // Serialize the updated expenses list back to a string
-                    String updatedContent = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expenses);
+                    if (expenses.isEmpty()) {
+                        // If the updated list is empty, delete the file
+                        Files.delete(filePath);
+                    } else {
+                        // Serialize the updated expenses list back to a string
+                        String updatedContent = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expenses);
 
-                    // Write the updated content back to the file
-                    Files.writeString(filePath, updatedContent);
+                        // Write the updated content back to the file
+                        Files.writeString(filePath, updatedContent);
+                    }
                     return true;
                 }
             } catch (IOException e) {
@@ -183,4 +188,5 @@ public class ExpenseService {
         // Return false if file doesn't exist or expense was not found
         return false;
     }
+
 }
