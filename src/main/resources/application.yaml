@@ -14,46 +14,4 @@ spring:
     mode: HTML
     encoding: UTF-8
     cache: false
-
-# MongoDB connection details
-#logging:
-#  level:
-#    org:
-#      mongodb:
-#        driver: DEBUG
-#        client: DEBUG
-#        springframework:
-#        data:
-#          mongodb: DEBUG
-#      springframework:
-#        data:
-#          mongodb: DEBUG
-
-#spring:
-#  ports:
-#    - 27017:27017
-#  data:
-#    mongodb:
-#      uri: mongodb+srv://admin:WFY6B0ZGMeAyAERD@landlordpro.j7vad.mongodb.net/rentalDB?authSource=admin&retryWrites=true&w=majority&tls=false
-#      ports:
-#        - 27017:27017
-#  mongodb:
-#    connection:
-#      dns-resolver: 0.0.0.0
-#  database: rentalDB
-#  threads:
-#    virtual:
-#      enabled: true
-#spring:
-#  data:
-#    mongodb:
-#      host: landlordpro.j7vad.mongodb.net
-#      port: 27017
-#      username: admin
-#      password: asdfghjkl123456
-#      database: landlordpro
-#      authentication-database: admin
-
-# Change 'localhost' to the MongoDB server address if it's not running locally
-# The database will be 'landlordpro'
-#195.18.187.144 asdfghjkl123456 mukeshsrana
+    enable-spring-el-compiler: true

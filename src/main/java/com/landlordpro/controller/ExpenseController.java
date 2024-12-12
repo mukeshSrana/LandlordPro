@@ -1,19 +1,21 @@
 package com.landlordpro.controller;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.landlordpro.config.AppConfig;
 import com.landlordpro.model.Expense;
 import com.landlordpro.service.ExpenseService;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -85,25 +87,22 @@ public class ExpenseController {
         return "redirect:/expenses/list";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteExpense(@PathVariable String id) throws IOException {
-        expenseService.deleteExpense(id);
-        return "redirect:/expenses/list";
-    }
-
     @PostMapping("/delete")
-    @ResponseBody
-    public ResponseEntity<Void> deleteExpense(@RequestBody Map<String, String> request) {
-        String id = request.get("id");
-        String year = request.get("year");
-        String apartment = request.get("apartment");
-
+    public String deleteExpense(@RequestParam("id") String id,
+        @RequestParam("year") String year,
+        @RequestParam("apartmentName") String apartment,
+        RedirectAttributes redirectAttributes) {
+        // Logic to delete the expense using the provided details
         boolean isDeleted = expenseService.deleteExpense(id, year, apartment);
 
         if (isDeleted) {
-            return ResponseEntity.ok().build();
+            redirectAttributes.addFlashAttribute("message", "Expense deleted successfully!");
+            redirectAttributes.addFlashAttribute("messageType", "success");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            redirectAttributes.addFlashAttribute("message", "Expense could not be found or deleted.");
+            redirectAttributes.addFlashAttribute("messageType", "error");
         }
+
+        return "redirect:/expenses/list"; // Redirect to the updated expense list
     }
 }

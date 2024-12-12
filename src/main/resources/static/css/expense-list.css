@@ -52,3 +52,19 @@ tr:hover {
     border-radius: 5px;
     border: 1px solid #ddd;
 }
+
+.alert-success {
+    color: green;
+    background-color: #e6ffe6;
+    border: 1px solid green;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.alert-error {
+    color: red;
+    background-color: #ffe6e6;
+    border: 1px solid red;
+    padding: 10px;
+    margin-bottom: 10px;
+}

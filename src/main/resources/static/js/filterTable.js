@@ -15,34 +15,3 @@
     });
   }
 
-  function deleteExpense(id, year, apartment) {
-    const payload = {
-      id: id,
-      year: year,
-      apartment: apartment
-    };
-
-    fetch('/expenses/delete', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    })
-      .then(response => {
-        if (response.ok) {
-          // Remove the row from the table
-          const row = document.querySelector(
-            `button[onclick="deleteExpense('${id}', '${year}', '${apartment}')"]`
-          ).parentElement.parentElement;
-          row.remove();
-        } else {
-          alert('Failed to delete the expense.');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while deleting the expense.');
-      });
-  }
-

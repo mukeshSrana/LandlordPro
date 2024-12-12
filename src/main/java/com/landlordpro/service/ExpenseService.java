@@ -160,7 +160,6 @@ public class ExpenseService {
             try {
                 // Read the content of the file
                 String content = Files.readString(filePath);
-                ObjectMapper objectMapper = new ObjectMapper();
 
                 // Deserialize the file content into a list of expenses
                 List<Expense> expenses = objectMapper.readValue(content, new TypeReference<List<Expense>>() { });
