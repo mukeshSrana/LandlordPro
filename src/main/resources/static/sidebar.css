@@ -1,57 +1,53 @@
+/* Style for the sidebar */
+/* Sidebar styles */
 aside {
     width: 200px;
-    background-color: #f4f4f4;
+    background-color: #f8f9fa;
     padding: 10px;
+    border-right: 1px solid #ddd;
 }
 
-aside ul {
+ul {
     list-style: none;
     padding: 0;
-}
-
-aside ul li {
-    margin-bottom: 10px;
+    margin: 0;
 }
 
 .dropdown-btn {
     background: none;
     border: none;
-    color: #333;
     font-size: 16px;
-    cursor: pointer;
-    text-align: left;
     width: 100%;
-    padding: 8px;
-    margin: 0;
+    text-align: left;
+    cursor: pointer;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-bottom: 1px solid #ddd;
 }
 
 .dropdown-btn:hover {
-    background-color: #ddd;
+    background-color: #dfe2e6;
 }
 
 .dropdown-content {
-    list-style: none;
-    margin: 5px 0 0 10px;
-    padding: 0;
-    display: none;
+    display: none; /* Hidden by default */
+    padding-left: 10px;
+    border-left: 2px solid #ddd;
 }
 
-.dropdown-content li {
-    margin: 5px 0;
-}
-
-.dropdown-content li a {
-    color: #333;
+.dropdown-content a {
+    display: block;
+    padding: 5px 10px;
     text-decoration: none;
-    font-size: 14px;
+    color: #333;
 }
 
-.dropdown-content li a.active {
+.dropdown-content a.active {
     font-weight: bold;
-    color: #007BFF;
-    text-decoration: underline;
+    color: #007bff;
 }
 
-.dropdown-content li a:hover {
-    color: #0056b3;
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
 }
+
