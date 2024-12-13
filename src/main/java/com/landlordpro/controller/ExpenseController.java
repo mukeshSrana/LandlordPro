@@ -106,7 +106,7 @@ public class ExpenseController {
 
     @PostMapping("/update")
     public ResponseEntity<Map<String, Object>> updateExpense(@RequestParam("id") String id,
-        @RequestParam("year") int year,
+        @RequestParam("year") String year,
         @RequestParam("apartmentName") String apartmentName,
         @RequestParam("name") String name,
         @RequestParam("amount") BigDecimal amount) {
@@ -114,13 +114,14 @@ public class ExpenseController {
 
         try {
             // Logic to update the expense
-            boolean isUpdated = expenseService.updateExpense(id, year, apartmentName, name, amount);
+            Expense updatedExpense = expenseService.updateExpense(id, year, apartmentName, name, amount);
 
-            if (isUpdated) {
+            if (updatedExpense != null) {
                 response.put("success", true);
+                response.put("updatedExpense", updatedExpense);
             } else {
                 response.put("success", false);
-                response.put("message", "Updation failed");
+                response.put("message", "Update failed: Expense not found or could not be updated.");
             }
         } catch (Exception e) {
             response.put("success", false);
@@ -129,5 +130,4 @@ public class ExpenseController {
 
         return ResponseEntity.ok(response);
     }
-
 }

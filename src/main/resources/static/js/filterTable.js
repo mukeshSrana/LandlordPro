@@ -32,22 +32,28 @@ function submitUpdate(button) {
   formData.append('name', expenseName);
   formData.append('amount', amount);
 
-  // Perform the AJAX request (or submit the form)
+  // Perform the AJAX request
   fetch('/expenses/update', {
     method: 'POST',
     body: formData
   })
     .then(response => response.json())
     .then(data => {
-      // If successful, hide the Update button again
       if (data.success) {
-        // button.style.display = 'none';
-        alert('Updated the expense.');
+        // Update the row with the new data
+        const updatedExpense = data.updatedExpense;
+        row.querySelector('td:nth-child(1)').innerText = updatedExpense.year;
+        row.querySelector('td:nth-child(2)').innerText = updatedExpense.apartmentName;
+        row.querySelector('td:nth-child(3)').innerText = updatedExpense.name;
+        row.querySelector('td:nth-child(4)').innerText = updatedExpense.amount;
+
+        alert('Expense updated successfully.');
       } else {
-        alert('Error updating the expense.');
+        alert('Error updating the expense: ' + (data.message || 'Unknown error.'));
       }
     })
     .catch(error => {
       console.error('Error:', error);
+      alert('An unexpected error occurred.');
     });
 }

@@ -148,8 +148,10 @@ public class ExpenseService {
         return allExpenses;
     }
 
-    public Optional<Expense> getExpenseById(String id) throws IOException {
-        if (Files.notExists(basePath)) return Optional.empty();
+    public Optional<Expense> getExpenseById(String id, String year, String apartmentName) throws IOException {
+        Path filePath = basePath.resolve(year).resolve(apartmentName + ".json");
+
+        if (Files.notExists(filePath)) return Optional.empty();
         return Files.list(basePath)
             .filter(path -> path.getFileName().toString().startsWith(id))
             .map(path -> {
@@ -162,31 +164,35 @@ public class ExpenseService {
             .findFirst();
     }
 
-    public boolean updateExpense(String id, int year, String apartmentName, String name, BigDecimal amount) {
-        Path filePath = basePath.resolve(String.valueOf(year)).resolve(apartmentName + ".json");
+    public Expense updateExpense(String id, String year, String apartmentName, String name, BigDecimal amount) {
+        Path filePath = basePath.resolve(year).resolve(apartmentName + ".json");
 
-        if (Files.exists(filePath)) {
-            try {
-                String content = Files.readString(filePath);
-                List<Expense> expenses = objectMapper.readValue(content, new TypeReference<List<Expense>>() {});
-
-                for (Expense expense : expenses) {
-                    if (expense.getId().equals(id)) {
-                        expense.setName(name);
-                        expense.setAmount(amount);
-                        break;
-                    }
-                }
-
-                // Save the updated list back to the file
-                String updatedContent = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expenses);
-                Files.writeString(filePath, updatedContent);
-                return true;
-            } catch (IOException e) {
-                throw new RuntimeException("Error processing file: " + filePath, e);
-            }
+        // Check if file exists
+        if (!Files.exists(filePath)) {
+            throw new IllegalArgumentException("File not found for the given year and apartment: " + filePath);
         }
-        return false;
+
+        try {
+            // Read the file content
+            List<Expense> expenses = objectMapper.readValue(Files.readString(filePath), new TypeReference<>() {});
+
+            // Find and update the expense
+            Expense updatedExpense = expenses.stream()
+                .filter(expense -> expense.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Expense with ID " + id + " not found"));
+
+            updatedExpense.setName(name);
+            updatedExpense.setAmount(amount);
+
+            // Write the updated list back to the file
+            String updatedContent = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expenses);
+            Files.writeString(filePath, updatedContent);
+
+            return updatedExpense;
+        } catch (IOException e) {
+            throw new RuntimeException("Error processing file: " + filePath, e);
+        }
     }
 
     public boolean deleteExpense(String id, String year, String apartment) {
