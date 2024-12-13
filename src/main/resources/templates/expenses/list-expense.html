@@ -19,23 +19,19 @@
 <div th:fragment="content">
     <div class="filters">
         <div class="filter-group">
-            <label for="year">Year:</label>
-            <select
-                id="year"
-                name="year"
-                onchange="filterTable()">
-                <option value="">Select Year</option>
-                <option
-                    th:each="year : ${years}"
-                    th:value="${year}"
-                    th:text="${year}"
-                    th:selected="${year == latestYear}"></option>
-            </select>
-            <label for="apartment">Apartment:</label>
-            <select id="apartment" name="apartment" onchange="filterTable()">
-                <option value="">Select Apartment</option>
-                <option th:each="apartment : ${apartments}" th:value="${apartment}" th:text="${apartment}"></option>
-            </select>
+            <form action="/expenses/list" method="get">
+                <label for="year">Year:</label>
+                <select id="year" name="year" onchange="this.form.submit()">
+                    <option value="">Select Year</option>
+                    <option th:each="year : ${years}" th:value="${year}" th:text="${year}" th:selected="${year == selectedYear}"></option>
+                </select>
+
+                <label for="apartment">Apartment:</label>
+                <select id="apartment" name="apartmentName" onchange="this.form.submit()">
+                    <option value="">Select Apartment</option>
+                    <option th:each="apartment : ${apartments}" th:value="${apartment}" th:text="${apartment}" th:selected="${apartment == selectedApartment}"></option>
+                </select>
+            </form>
         </div>
     </div>
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -69,6 +70,31 @@ public class ExpenseService {
             log.error("Error saving expense for apartment: {}", expense.getApartmentName(), e);
             throw e; // Re-throw the exception after logging it
         }
+    }
+
+    // Fetch distinct years from all expenses
+    public List<String> getAvailableYears() throws IOException {
+        return getAllExpenses().stream()
+            .map(Expense::getYear)
+            .distinct()
+            .sorted() // Optional: Sort the years in ascending order
+            .collect(Collectors.toList());
+    }
+
+    // Fetch distinct apartment names from all expenses
+    public List<String> getAvailableApartments() throws IOException {
+        return getAllExpenses().stream()
+            .map(Expense::getApartmentName)
+            .distinct()
+            .sorted() // Optional: Sort apartment names alphabetically
+            .collect(Collectors.toList());
+    }
+
+    public List<Expense> getExpensesFiltered(String year, String apartmentName) throws IOException {
+        return getAllExpenses().stream()
+            .filter(expense -> year == null || year.isEmpty() || year.equals(expense.getYear()))
+            .filter(expense -> apartmentName == null || apartmentName.isEmpty() || apartmentName.equals(expense.getApartmentName()))
+            .collect(Collectors.toList());
     }
 
     public List<Expense> getAllExpenses() throws IOException {
