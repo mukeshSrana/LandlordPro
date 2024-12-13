@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Handle Expense</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="stylesheet" th:href="@{/sidebar.css}">
+    <script th:src="@{/scripts.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="content">
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <main>
+            <h2>Handle Expenses</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="expense : ${expenses}">
+                    <td th:text="${expense.id}"></td>
+                    <td th:text="${expense.name}"></td>
+                    <td th:text="${expense.amount}"></td>
+                    <td>
+                        <a th:href="@{/editExpense/{id}(id=${expense.id})}">Edit</a>
+                        <a th:href="@{/deleteExpense/{id}(id=${expense.id})}" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>

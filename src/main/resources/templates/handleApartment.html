@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Handle Apartment</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="content">
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <main>
+            <h2>Handle Apartments</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="apartment : ${apartments}">
+                    <td th:text="${apartment.id}"></td>
+                    <td th:text="${apartment.name}"></td>
+                    <td th:text="${apartment.location}"></td>
+                    <td>
+                        <a th:href="@{/editApartment/{id}(id=${apartment.id})}">Edit</a>
+                        <a th:href="@{/deleteApartment/{id}(id=${apartment.id})}" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>

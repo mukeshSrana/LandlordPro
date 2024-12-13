@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>My Application</title>
+    <title>Register Expense</title>
     <link rel="stylesheet" th:href="@{/styles.css}">
     <link rel="stylesheet" th:href="@{/sidebar.css}">
     <script th:src="@{/scripts.js}"></script>
@@ -13,8 +13,16 @@
     <div class="content">
         <div th:replace="fragments/sidebar :: sidebar"></div>
         <main>
-            <h2>Welcome to My Application</h2>
-            <p>This is the main content area.</p>
+            <h2>Register Expense</h2>
+            <form th:action="@{/registerExpense}" method="post">
+                <label for="name">Expense Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" required>
+
+                <button type="submit">Submit</button>
+            </form>
         </main>
     </div>
 

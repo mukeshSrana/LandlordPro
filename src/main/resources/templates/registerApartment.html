@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register Apartment</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="content">
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <main>
+            <h2>Register Apartment</h2>
+            <form th:action="@{/registerApartment}" method="post">
+                <label for="name">Apartment Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
+
+                <button type="submit">Submit</button>
+            </form>
+        </main>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>
