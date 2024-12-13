@@ -1,9 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const yearSelect = document.getElementById('year');
-  if (yearSelect) {
-    yearSelect.dispatchEvent(new Event('change'));
-  }
-});
+
 // JavaScript function to filter table rows
 function filterTable() {
   const yearFilter = document.getElementById('year').value.trim();
