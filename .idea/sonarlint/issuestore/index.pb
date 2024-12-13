@@ -22,3 +22,11 @@ l
 <src/main/java/com/landlordpro/controller/HomeController.java,1/0/10ed363a5d5a4bc4d5ca0b77f1c4651a9103c785
 O
 data/expenses/2024/hauketo.json,4/3/43cbd3abaa06b6fc3a18a255bc618240cd80967f
+n
+>src/main/java/com/landlordpro/controller/Home_1Controller.java,f/e/fe7fc6915ff0e728f45f4b2bf5fc90b68792afa8
+o
+?src/main/java/com/landlordpro/controller/ContactController.java,9/4/94fe66069d871e91f0bc005d393cf3e0f72bd300
+S
+#.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
+]
+-.idea/sonarlint/securityhotspotstore/index.pb,8/8/88a9255124c95bdc913197c120a8d560edc59c8e
