@@ -42,7 +42,7 @@ public class ExpenseController {
             .collect(Collectors.toList());
 
         // Extract distinct years and apartments in one pass using streams
-        List<Integer> years = expenses.stream()
+        List<String> years = expenses.stream()
             .map(Expense::getYear)
             .distinct()
             .sorted()
@@ -54,7 +54,7 @@ public class ExpenseController {
             .collect(Collectors.toList());
 
         // Get the latest year (last year in the sorted list)
-        int latestYear = years.isEmpty() ? 0 : years.get(years.size() - 1);
+        String latestYear = years.isEmpty() ? "0" : years.get(years.size() - 1);
 
         // Add attributes to the model
         model.addAttribute("expenses", expenses);

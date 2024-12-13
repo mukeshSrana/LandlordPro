@@ -45,10 +45,11 @@ public class Expense {
     private String attachmentPath; // Path to associated receipts/bills
 
     @JsonProperty("year")
-    public int getYear() {
+    public String getYear() {
         if (date != null) {
-            return date.getYear();
+            return String.valueOf(date.getYear());
         }
-        return 0; // or another default value
+        return "0"; // or another default string value
     }
+
 }

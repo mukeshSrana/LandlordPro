@@ -39,7 +39,7 @@ public class ExpenseService {
         log.info("Saving expense for apartment: {}, year: {}", expense.getApartmentName(), expense.getDate().getYear());
 
         // Build directory and file paths
-        Path directoryPath = Paths.get(fileStorageBaseDir, String.valueOf(expense.getYear()));
+        Path directoryPath = Paths.get(fileStorageBaseDir, expense.getYear());
         Path filePath = directoryPath.resolve(expense.getApartmentName() + ".json");
 
         try {
