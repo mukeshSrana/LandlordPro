@@ -1,0 +1,37 @@
+header {
+    display: flex;
+    justify-content: space-between; /* Space between <h1> and <ul> */
+    align-items: center; /* Vertically center both <h1> and <ul> */
+    background: #333;
+    color: white;
+    padding: 1rem;
+    adding: 10px;
+    position: relative; /* Ensure proper alignment for centering */
+}
+
+header nav h1 {
+    position: absolute; /* Allows centering independently of <ul> */
+    left: 50%; /* Move to the center of the parent */
+    transform: translateX(-50%); /* Adjust for the width of <h1> */
+    margin: 0; /* Remove extra spacing */
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    height: 20px;
+}

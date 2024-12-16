@@ -10,23 +10,6 @@ body {
     min-height: 100vh;
 }
 
-header {
-    background: #333;
-    color: white;
-    padding: 1rem;
-}
-
-header nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-}
-
-header nav ul li a {
-    color: white;
-    text-decoration: none;
-}
-
 .content {
     display: flex;
     flex: 1;
@@ -52,13 +35,6 @@ aside ul li a {
 
 main {
     flex: 1;
-    padding: 1rem;
-}
-
-footer {
-    background: #333;
-    color: white;
-    text-align: center;
     padding: 1rem;
 }
 
