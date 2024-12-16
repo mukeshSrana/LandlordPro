@@ -19,6 +19,10 @@
     </div>
 
     <div th:replace="fragments/footer :: footer"></div>
+    <!-- Inject the 'page' attribute into JavaScript -->
+    <script th:inline="javascript">
+      var currentPage = /*[[${page}]]*/ '';  // Inject the page value here
+    </script>
 </div>
 </body>
 </html>

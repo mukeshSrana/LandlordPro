@@ -26,3 +26,15 @@ function handleSelection(menuId) {
   const menu = document.getElementById(menuId);
   menu.style.display = 'none';
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Check the 'currentPage' variable (injected from Thymeleaf) and open the corresponding dropdown
+  if (currentPage === 'registerExpense' || currentPage === 'handleExpense') {
+    toggleDropdown('dashboard-options');
+  }
+  if (currentPage === 'registerApartment' || currentPage === 'handleApartment') {
+    toggleDropdown('profile-options');
+  }
+});
+
+

@@ -8,12 +8,12 @@
             <button class="dropdown-btn" onclick="toggleDropdown('dashboard-options')">Dashboard</button>
             <ul id="dashboard-options" class="dropdown-content" style="display: none;">
                 <li>
-                    <a th:href="@{/registerExpense}" th:classappend="${page == 'registerExpense' ? 'active' : ''}" onclick="handleSelection('dashboard-options')">
+                    <a th:href="@{/registerExpense}" th:classappend="${page == 'registerExpense' ? 'active' : ''}" onclick="handleSelection(event, 'dashboard-options')">
                         Expense Register
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/handleExpense}" th:classappend="${page == 'handleExpense' ? 'active' : ''}" onclick="handleSelection('dashboard-options')">
+                    <a th:href="@{/handleExpense}" th:classappend="${page == 'handleExpense' ? 'active' : ''}" onclick="handleSelection(event, 'dashboard-options')">
                         Expense Handle
                     </a>
                 </li>
@@ -25,12 +25,12 @@
             <button class="dropdown-btn" onclick="toggleDropdown('profile-options')">Profile</button>
             <ul id="profile-options" class="dropdown-content" style="display: none;">
                 <li>
-                    <a th:href="@{/registerApartment}" th:classappend="${page == 'registerApartment' ? 'active' : ''}" onclick="handleSelection('profile-options')">
+                    <a th:href="@{/registerApartment}" th:classappend="${page == 'registerApartment' ? 'active' : ''}" onclick="handleSelection(event, 'profile-options')">
                         Apartment Register
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/handleApartment}" th:classappend="${page == 'handleApartment' ? 'active' : ''}" onclick="handleSelection('profile-options')">
+                    <a th:href="@{/handleApartment}" th:classappend="${page == 'handleApartment' ? 'active' : ''}" onclick="handleSelection(event, 'profile-options')">
                         Apartment Handle
                     </a>
                 </li>
@@ -38,6 +38,7 @@
         </li>
     </ul>
 </aside>
+
 </body>
 </html>
 
