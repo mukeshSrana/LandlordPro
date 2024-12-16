@@ -1,33 +1,63 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http:www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/expense-list.css}">
+</head>
 <!-- Define the fragment where the content will go -->
 <div layout:fragment="content">
-    <main>
-        <h2>Handle Expenses</h2>
-        <table>
-            <thead>
+    <div class="filters">
+        <div class="filter-group">
+            <form action="/handleExpense" method="get">
+                <label for="year">Year:</label>
+                <select id="year" name="year" onchange="this.form.submit()">
+                    <option value="">Select Year</option>
+                    <option th:each="year : ${years}" th:value="${year}" th:text="${year}" th:selected="${year == selectedYear}"></option>
+                </select>
+
+                <label for="apartment">Apartment:</label>
+                <select id="apartment" name="apartmentName" onchange="this.form.submit()">
+                    <option value="">Select Apartment</option>
+                    <option th:each="apartment : ${apartments}" th:value="${apartment}" th:text="${apartment}" th:selected="${apartment == selectedApartment}"></option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Year</th>
+            <th>Apartment Name</th>
+            <th>Expense Name</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="expense : ${expenses}">
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="expense : ${expenses}">
-                <td th:text="${expense.id}"></td>
-                <td th:text="${expense.name}"></td>
-                <td th:text="${expense.amount}"></td>
+                <td th:text="${expense.year}"></td>
+                <td th:text="${expense.apartmentName}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${expense.amount}"></td>
+                <td th:text="${expense.date}"></td>
                 <td>
-                    <a th:href="@{/editExpense/{id}(id=${expense.id})}">Edit</a>
-                    <a th:href="@{/deleteExpense/{id}(id=${expense.id})}" onclick="return confirm('Are you sure?');">Delete</a>
+                    <!-- Delete Form -->
+                    <form th:action="@{/expenses/delete}" method="post" style="display:inline;">
+                        <input type="hidden" name="id" th:value="${expense.id}">
+                        <input type="hidden" name="year" th:value="${expense.year}">
+                        <input type="hidden" name="apartmentName" th:value="${expense.apartmentName}">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+
+                    <button type="button" class="update-btn" onclick="submitUpdate(this)">Update</button>
                 </td>
             </tr>
-            </tbody>
-        </table>
-    </main>
+        </th:block>
+        </tbody>
+    </table>
 </div>
 </html>

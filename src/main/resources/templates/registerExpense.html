@@ -7,7 +7,7 @@
 </head>
 <!-- Define the fragment where the content will go -->
 <div layout:fragment="content">
-    <form th:action="@{/expenses/create}" method="post">
+    <form th:action="@{/saveExpense}" method="post">
         <label for="name">Expense Name</label>
         <input type="text" id="name" name="name" placeholder="Enter expense name" required>
         <label for="apartmentName">Apartment Name</label>
