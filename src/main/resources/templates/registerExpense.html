@@ -1,32 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Register Expense</title>
-    <link rel="stylesheet" th:href="@{/styles.css}">
-    <link rel="stylesheet" th:href="@{/sidebar.css}">
-    <script th:src="@{/scripts.js}"></script>
-</head>
-<body>
-<div class="container">
-    <div th:replace="fragments/header :: header"></div>
+<html xmlns:th="http:www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+    <!-- Define the fragment where the content will go -->
+    <div layout:fragment="content">
+        <h2>Register Expense</h2>
+        <form th:action="@{/registerExpense}" method="post">
+            <label for="name">Expense Name:</label>
+            <input type="text" id="name" name="name" required>
 
-    <div class="content">
-        <div th:replace="fragments/sidebar :: sidebar"></div>
-        <main>
-            <h2>Register Expense</h2>
-            <form th:action="@{/registerExpense}" method="post">
-                <label for="name">Expense Name:</label>
-                <input type="text" id="name" name="name" required>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" required>
 
-                <label for="amount">Amount:</label>
-                <input type="number" id="amount" name="amount" required>
-
-                <button type="submit">Submit</button>
-            </form>
-        </main>
+            <button type="submit">Submit</button>
+        </form>
     </div>
-
-    <div th:replace="fragments/footer :: footer"></div>
-</div>
-</body>
 </html>
