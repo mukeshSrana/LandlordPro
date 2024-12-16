@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,7 +93,7 @@ public class SidebarController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Map<String, Object>> updateExpense(@RequestParam("id") String id,
+    public String updateExpense(@RequestParam("id") String id,
         @RequestParam("year") String year,
         @RequestParam("apartmentName") String apartmentName,
         @RequestParam("name") String name,
@@ -103,11 +102,11 @@ public class SidebarController {
 
         try {
             // Logic to update the expense
-            Expense updatedExpense = expenseService.updateExpense(id, year, apartmentName, name, amount);
+            boolean isUpdate = expenseService.updateExpense(id, year, apartmentName, name, amount);
 
-            if (updatedExpense != null) {
+            if (isUpdate) {
                 response.put("success", true);
-                response.put("updatedExpense", updatedExpense);
+                response.put("updatedExpense", isUpdate);
             } else {
                 response.put("success", false);
                 response.put("message", "Update failed: Expense not found or could not be updated.");
@@ -117,7 +116,7 @@ public class SidebarController {
             response.put("message", "Error: " + e.getMessage());
         }
 
-        return ResponseEntity.ok(response);
+        return "redirect:/handleExpense?year=" + year + "&apartmentName=" + apartmentName;
     }
 
     @GetMapping("/registerApartment")

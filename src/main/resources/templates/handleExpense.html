@@ -54,7 +54,14 @@
                         <button type="submit" class="delete-btn">Delete</button>
                     </form>
 
-                    <button type="button" class="update-btn" onclick="submitUpdate(this)">Update</button>
+                    <form th:action="@{/update}" method="post" style="display:inline;">
+                        <input type="hidden" name="id" th:value="${expense.id}">
+                        <input type="hidden" name="year" th:value="${expense.year}">
+                        <input type="hidden" name="apartmentName" th:value="${expense.apartmentName}">
+                        <input type="hidden" name="name" th:value="${expense.name}">
+                        <input type="hidden" name="amount" th:value="${expense.amount}">
+                        <button type="submit" class="update-btn">Update</button>
+                    </form>
                 </td>
             </tr>
         </th:block>

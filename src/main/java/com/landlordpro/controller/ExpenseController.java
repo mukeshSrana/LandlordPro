@@ -115,11 +115,11 @@ public class ExpenseController {
 
         try {
             // Logic to update the expense
-            Expense updatedExpense = expenseService.updateExpense(id, year, apartmentName, name, amount);
+            boolean isUpdate = expenseService.updateExpense(id, year, apartmentName, name, amount);
 
-            if (updatedExpense != null) {
+            if (isUpdate) {
                 response.put("success", true);
-                response.put("updatedExpense", updatedExpense);
+                response.put("updatedExpense", isUpdate);
             } else {
                 response.put("success", false);
                 response.put("message", "Update failed: Expense not found or could not be updated.");

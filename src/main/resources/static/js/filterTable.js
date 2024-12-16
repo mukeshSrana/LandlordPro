@@ -9,10 +9,22 @@ function enableEditing(cell) {
   cell.contentEditable = true;
   cell.focus();
 
-  // Display the Modify button for this row
-  const row = cell.closest('tr');
-  const updateButton = row.querySelector('.update-btn');
-  //updateButton.style.display = 'inline';
+  // Add an event listener to update hidden inputs when editing is complete
+  cell.addEventListener('blur', () => {
+    cell.contentEditable = false; // Disable editing
+
+    // Find the hidden input corresponding to this cell
+    const row = cell.closest('tr');
+    const nameHiddenInput = row.querySelector('input[name="name"]');
+    const amountHiddenInput = row.querySelector('input[name="amount"]');
+
+    // Update the hidden input values based on the edited cell content
+    if (cell.cellIndex === 2 && nameHiddenInput) {
+      nameHiddenInput.value = cell.textContent.trim();
+    } else if (cell.cellIndex === 3 && amountHiddenInput) {
+      amountHiddenInput.value = cell.textContent.trim();
+    }
+  });
 }
 
 function submitUpdate(button) {

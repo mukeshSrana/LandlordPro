@@ -164,7 +164,7 @@ public class ExpenseService {
             .findFirst();
     }
 
-    public Expense updateExpense(String id, String year, String apartmentName, String name, BigDecimal amount) {
+    public boolean updateExpense(String id, String year, String apartmentName, String name, BigDecimal amount) {
         Path filePath = basePath.resolve(year).resolve(apartmentName + ".json");
 
         // Check if file exists
@@ -189,7 +189,7 @@ public class ExpenseService {
             String updatedContent = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expenses);
             Files.writeString(filePath, updatedContent);
 
-            return updatedExpense;
+            return true;
         } catch (IOException e) {
             throw new RuntimeException("Error processing file: " + filePath, e);
         }
