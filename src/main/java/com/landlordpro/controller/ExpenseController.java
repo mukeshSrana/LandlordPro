@@ -80,9 +80,10 @@ public class ExpenseController {
             model.addAttribute("errorMessage", "Error creating expense: " + e.getMessage());
         }
         // Reset the form fields by sending a new Expense object
-        model.addAttribute("expense", new Expense());
-        model.addAttribute("activeView", "create-expense");
-        return "index";
+        //model.addAttribute("expense", new Expense());
+        //model.addAttribute("activeView", "create-expense");
+        model.addAttribute("page", "registerExpense");
+        return "registerExpense";
     }
 
     @PostMapping("/delete")

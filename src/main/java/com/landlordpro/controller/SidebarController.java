@@ -4,12 +4,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.landlordpro.config.AppConfig;
+import com.landlordpro.model.Expense;
+
 @Controller
 public class SidebarController {
+    private final AppConfig appConfig;
+
+    public SidebarController(AppConfig appConfig) {
+        this.appConfig = appConfig;
+    }
 
     @GetMapping("/registerExpense")
     public String registerExpense(Model model) {
         model.addAttribute("page", "registerExpense");
+        model.addAttribute("apartmentNames", appConfig.getApartmentNames());
         return "registerExpense";
     }
 
