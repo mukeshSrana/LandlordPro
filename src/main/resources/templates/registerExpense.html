@@ -2,17 +2,25 @@
 <html xmlns:th="http:www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
-    <!-- Define the fragment where the content will go -->
-    <div layout:fragment="content">
-        <h2>Register Expense</h2>
-        <form th:action="@{/registerExpense}" method="post">
-            <label for="name">Expense Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" required>
-
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+<head>
+    <link rel="stylesheet" th:href="@{/expense-form.css}">
+</head>
+<!-- Define the fragment where the content will go -->
+<div layout:fragment="content">
+    <form th:action="@{/expenses/create}" method="post">
+        <label for="name">Expense Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter expense name" required>
+        <label for="apartmentName">Apartment Name</label>
+        <select id="apartmentName" name="apartmentName" required>
+            <option value="" disabled selected>Select Apartment</option>
+            <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>
+        </select>
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required>
+        <button type="submit">Create Expense</button>
+    </form>
+</div>
 </html>
+
