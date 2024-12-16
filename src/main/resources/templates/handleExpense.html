@@ -4,6 +4,7 @@
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/css/expense-list.css}">
+    <script th:src="@{/js/filterTable.js}"></script>
 </head>
 <!-- Define the fragment where the content will go -->
 <div layout:fragment="content">
@@ -46,7 +47,7 @@
                 <td th:text="${expense.date}"></td>
                 <td>
                     <!-- Delete Form -->
-                    <form th:action="@{/expenses/delete}" method="post" style="display:inline;">
+                    <form th:action="@{/delete}" method="post" style="display:inline;">
                         <input type="hidden" name="id" th:value="${expense.id}">
                         <input type="hidden" name="year" th:value="${expense.year}">
                         <input type="hidden" name="apartmentName" th:value="${expense.apartmentName}">

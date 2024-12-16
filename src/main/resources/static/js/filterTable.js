@@ -33,7 +33,7 @@ function submitUpdate(button) {
   formData.append('amount', amount);
 
   // Perform the AJAX request
-  fetch('/expenses/update', {
+  fetch('/update', {
     method: 'POST',
     body: formData
   })
