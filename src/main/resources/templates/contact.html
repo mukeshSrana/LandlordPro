@@ -1,57 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Contact Us - My Application</title>
-    <link rel="stylesheet" th:href="@{/styles.css}">
-    <link rel="stylesheet" th:href="@{/sidebar.css}">
-    <script th:src="@{/scripts.js}"></script>
-</head>
-<body>
-<div class="container">
-    <!-- Include Header -->
-    <div th:replace="fragments/header :: header"></div>
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout.html}">
+<!-- Define the fragment where the content will go -->
+<div layout:fragment="content">
+    <!-- Contact Page Content -->
+    <main>
+        <h2>Contact Us</h2>
+        <p>If you have any questions or need assistance, feel free to contact us using the form below.</p>
 
-    <!-- Main Content Section -->
-    <div class="content">
-        <!-- Include Sidebar -->
-        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <!-- Success Message -->
+        <div th:if="${successMessage}" class="success-message">
+            <p th:text="${successMessage}"></p>
+        </div>
 
-        <!-- Contact Page Content -->
-        <main>
-            <h2>Contact Us</h2>
-            <p>If you have any questions or need assistance, feel free to contact us using the form below.</p>
-
-            <!-- Success Message -->
-            <div th:if="${successMessage}" class="success-message">
-                <p th:text="${successMessage}"></p>
+        <!-- Contact Form -->
+        <form action="/submit-contact" method="post">
+            <div class="form-group">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
             </div>
 
-            <!-- Contact Form -->
-            <form action="/submit-contact" method="post">
-                <div class="form-group">
-                    <label for="name">Your Name:</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
-                </div>
+            <div class="form-group">
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="email">Your Email:</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                </div>
+            <div class="form-group">
+                <label for="message">Your Message:</label>
+                <textarea id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
+            </div>
 
-                <div class="form-group">
-                    <label for="message">Your Message:</label>
-                    <textarea id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit">Send Message</button>
-                </div>
-            </form>
-        </main>
-    </div>
-
-    <!-- Include Footer -->
-    <div th:replace="fragments/footer :: footer"></div>
+            <div class="form-group">
+                <button type="submit">Send Message</button>
+            </div>
+        </form>
+    </main>
 </div>
-</body>
 </html>
