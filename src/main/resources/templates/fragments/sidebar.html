@@ -5,16 +5,16 @@
     <ul>
         <!-- Dashboard Menu -->
         <li>
-            <button class="dropdown-btn" onclick="toggleDropdown('dashboard-options')">Dashboard</button>
-            <ul id="dashboard-options" class="dropdown-content" style="display: none;">
+            <button class="dropdown-btn" onclick="toggleDropdown('expenses-options')">Expenses</button>
+            <ul id="expenses-options" class="dropdown-content" style="display: none;">
                 <li>
-                    <a th:href="@{/registerExpense}" th:classappend="${page == 'registerExpense' ? 'active' : ''}" onclick="handleSelection(event, 'dashboard-options')">
-                        Expense Register
+                    <a th:href="@{/registerExpense}" th:classappend="${page == 'registerExpense' ? 'active' : ''}" onclick="handleSelection(event, 'expenses-options')">
+                        Register
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/handleExpense}" th:classappend="${page == 'handleExpense' ? 'active' : ''}" onclick="handleSelection(event, 'dashboard-options')">
-                        Expense Handle
+                    <a th:href="@{/handleExpense}" th:classappend="${page == 'handleExpense' ? 'active' : ''}" onclick="handleSelection(event, 'expenses-options')">
+                        Handle
                     </a>
                 </li>
             </ul>

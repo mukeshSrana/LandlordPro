@@ -30,7 +30,7 @@ function handleSelection(menuId) {
 document.addEventListener('DOMContentLoaded', function() {
   // Check the 'currentPage' variable (injected from Thymeleaf) and open the corresponding dropdown
   if (currentPage === 'registerExpense' || currentPage === 'handleExpense') {
-    toggleDropdown('dashboard-options');
+    toggleDropdown('expenses-options');
   }
   if (currentPage === 'registerApartment' || currentPage === 'handleApartment') {
     toggleDropdown('profile-options');
