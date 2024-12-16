@@ -39,8 +39,9 @@ public class SidebarController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error creating expense: " + e.getMessage());
         }
+        model.addAttribute("apartmentNames", appConfig.getApartmentNames());
         model.addAttribute("page", "registerExpense");
-        return "registerExpense";
+        return "redirect:/registerExpense";
     }
 
     @GetMapping("/handleExpense")
