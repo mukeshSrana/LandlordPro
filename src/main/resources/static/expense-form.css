@@ -3,12 +3,21 @@ form {
     margin: 0 auto; /* Center form horizontally */
     padding: 20px;
     width: 100%;
-    max-width: 1800px; /* Increased max-width for more width */
+    max-width: 2400px; /* Increased max-width for more width */
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-left: 10%; /* Adjust left margin to shift right */
+    margin-left: 5%; /* Adjust left margin to shift right */
+}
+
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
 }
 
 form label {
