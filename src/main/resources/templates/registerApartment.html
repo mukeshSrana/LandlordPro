@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
-<body>
-<div layout:decorate="~{layout.html}">
-    <!-- Page-specific content -->
-    <div layout:fragment="content">
-        <h2>Register Apartment</h2>
-        <form th:action="@{/registerApartment}" method="post">
-            <label for="name">Apartment Name:</label>
-            <input type="text" id="name" name="name" required>
+<html xmlns:th="http:www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<!-- Define the fragment where the content will go -->
+<div layout:fragment="content">
+    <h2>Register Expense</h2>
+    <form th:action="@{/registerApartment}" method="post">
+        <label for="name">Apartment Name:</label>
+        <input type="text" id="name" name="name" required>
 
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" required>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
 
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+        <button type="submit">Submit</button>
+    </form>
 </div>
-</body>
 </html>
