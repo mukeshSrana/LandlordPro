@@ -89,7 +89,8 @@ public class SidebarController {
             redirectAttributes.addFlashAttribute("messageType", "error");
         }
 
-        return "redirect:/handleExpense";
+        // Include year and apartmentName as query parameters in the redirect URL
+        return "redirect:/handleExpense?year=" + year + "&apartmentName=" + apartment;
     }
 
     @PostMapping("/update")
