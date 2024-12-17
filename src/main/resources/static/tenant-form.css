@@ -49,6 +49,21 @@
     margin-bottom: 5px;
 }
 
+.tenant-form .form-group select {
+    flex: 2 1 60%;  /* Ensures select input takes up 60% width */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white; /* Adds background color */
+}
+
+/* Style for the placeholder option */
+.tenant-form .form-group select option[disabled] {
+    color: #aaa; /* Make the disabled option text gray */
+    font-style: italic;
+}
+
 .tenant-form .form-group input {
     flex: 2 1 60%;
     padding: 8px;

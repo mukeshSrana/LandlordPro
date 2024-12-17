@@ -30,8 +30,11 @@
         <fieldset>
             <legend>Apartment Details</legend>
             <div class="form-group">
-                <label for="apartmentId">Apartment ID</label>
-                <input type="text" id="apartmentId" name="apartmentId" required>
+                <label for="apartmentName">Apartment Name</label>
+                <select id="apartmentName" name="apartmentName" required>
+                    <option value="" disabled selected>Select Apartment</option>
+                    <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>
+                </select>
             </div>
         </fieldset>
 
