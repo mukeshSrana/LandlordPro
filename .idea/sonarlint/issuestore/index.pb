@@ -32,3 +32,5 @@ S
 -.idea/sonarlint/securityhotspotstore/index.pb,8/8/88a9255124c95bdc913197c120a8d560edc59c8e
 o
 ?src/main/java/com/landlordpro/controller/SidebarController.java,c/8/c8f1eac695b194ad8cf25ae7619029869ce84d4e
+q
+Asrc/main/java/com/landlordpro/controller/ApartmentController.java,8/f/8f0ad42080bf7d9b218f9e55829f25691284d134

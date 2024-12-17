@@ -2,17 +2,39 @@
 <html xmlns:th="http:www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
+<head>
+    <link rel="stylesheet" th:href="@{/apartment-form.css}">
+</head>
 <!-- Define the fragment where the content will go -->
-<div layout:fragment="content">
-    <h2>Register Expense</h2>
+<div class="form-container" layout:fragment="content">
     <form th:action="@{/registerApartment}" method="post">
-        <label for="name">Apartment Name:</label>
-        <input type="text" id="name" name="name" required>
+        <label for="apartmentName">Apartment Name:</label>
+        <input type="text" id="apartmentName" name="apartmentName" required>
 
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" required>
+        <label for="address1">Address 1:</label>
+        <input type="text" id="address1" name="address1" required>
 
-        <button type="submit">Submit</button>
+        <label for="address2">Address 2:</label>
+        <input type="text" id="address2" name="address2">
+
+        <label for="pincode">Pin Code:</label>
+        <input type="text" id="pincode" name="pincode" required pattern="[0-9]{5,10}">
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+
+        <label for="country">Country:</label>
+        <select id="country" name="country" required>
+            <option value="">-- Select Country --</option>
+            <option value="Norway">Norway</option>
+            <option value="Sweden">Sweden</option>
+            <option value="Denmark">Denmark</option>
+            <option value="Finland">Finland</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <button type="submit">Register</button>
     </form>
+    <p>All fields marked as required must be filled in.</p>
 </div>
 </html>

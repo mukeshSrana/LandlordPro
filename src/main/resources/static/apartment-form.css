@@ -1,0 +1,52 @@
+.form-container {
+    width: 35%; /* Adjusted to 30% for better alignment */
+    max-width: 500px; /* Ensures the form does not grow too large on wide screens */
+    margin: 2rem 2rem; /* Aligns form to the left with spacing */
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container label {
+    display: block;
+    margin: 1rem 0 0.5rem;
+    font-weight: bold;
+}
+
+.form-container input,
+.form-container select {
+    width: 100%;
+    max-width: 450px;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-container button {
+    display: block;
+    width: 100%;
+    max-width: 150px;
+    margin: 1.5rem auto 0; /* Top margin added to push it down */
+    padding: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-align: center;
+}
+
+.form-container button:hover {
+    background-color: #45a049;
+}
+
+.form-container p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 1.5rem auto 0;
+}
