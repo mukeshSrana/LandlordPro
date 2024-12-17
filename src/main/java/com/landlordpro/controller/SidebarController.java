@@ -119,18 +119,6 @@ public class SidebarController {
         return "redirect:/handleExpense?year=" + year + "&apartmentName=" + apartmentName;
     }
 
-    @GetMapping("/registerApartment")
-    public String registerApartment(Model model) {
-        model.addAttribute("page", "registerApartment");
-        return "registerApartment";
-    }
-
-    @GetMapping("/handleApartment")
-    public String handleApartment(Model model) {
-        model.addAttribute("page", "handleApartment");
-        return "handleApartment";
-    }
-
     @GetMapping("/registerIncome")
     public String registerIncome(Model model) {
         model.addAttribute("page", "registerIncome");
