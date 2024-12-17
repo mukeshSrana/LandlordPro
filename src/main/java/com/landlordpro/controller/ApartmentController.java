@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.landlordpro.config.AppConfig;
+import com.landlordpro.model.Apartment;
 import com.landlordpro.model.Expense;
 import com.landlordpro.service.ExpenseService;
 
@@ -21,16 +22,14 @@ public class ApartmentController {
     }
 
     @PostMapping("/saveApartment")
-    public String saveExpense(@ModelAttribute Expense expense, Model model) {
+    public String saveExpense(@ModelAttribute Apartment apartment, Model model) {
         try {
-            expenseService.saveExpense(expense);
-            model.addAttribute("successMessage", "Expense created successfully!");
+            //expenseService.saveExpense(apartment);
+            model.addAttribute("successMessage", "Apartment created successfully!");
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error creating expense: " + e.getMessage());
+            model.addAttribute("errorMessage", "Error creating apartment: " + e.getMessage());
         }
-        model.addAttribute("apartmentNames", appConfig.getApartmentNames());
-        model.addAttribute("page", "registerExpense");
-        return "redirect:/registerExpense";
+        return "redirect:/registerApartment";
     }
 
     @GetMapping("/registerApartment")
