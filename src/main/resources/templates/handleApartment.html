@@ -12,14 +12,22 @@
             <thead>
             <tr>
                 <th>Name</th>
+                <th>Address Line 1</th>
+                <th>Address Line 2</th>
+                <th>Pin Code</th>
                 <th>City</th>
+                <th>Country</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="apartment : ${apartments}">
                 <td th:text="${apartment.apartmentName}"></td>
+                <td th:text="${apartment.addressLine1}"></td>
+                <td th:text="${apartment.addressLine2}"></td>
+                <td th:text="${apartment.pincode}"></td>
                 <td th:text="${apartment.city}"></td>
+                <td th:text="${apartment.country}"></td>
                 <td>
                     <a th:href="@{/editApartment/{id}(id=${apartment.id})}" class="edit-btn">Update</a>
                 </td>
