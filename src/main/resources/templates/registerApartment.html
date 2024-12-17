@@ -27,13 +27,14 @@
 
     <form th:action="@{/saveApartment}" method="post">
         <label for="apartmentName">Apartment Name:</label>
-        <input type="text" id="apartmentName" name="apartmentName" required>
+        <input type="text" id="apartmentName" name="apartmentName" required pattern="^[a-zA-Z0-9]+$"
+               title="Apartment name must contain only letters and numbers without spaces or special characters">
 
-        <label for="address1">Address 1:</label>
-        <input type="text" id="address1" name="address1" required>
+        <label for="addressLine1">Address Line 1:</label>
+        <input type="text" id="addressLine1" name="addressLine1" required>
 
-        <label for="address2">Address 2:</label>
-        <input type="text" id="address2" name="address2">
+        <label for="addressLine2">Address Line 2:</label>
+        <input type="text" id="addressLine2" name="addressLine2">
 
         <label for="pincode">Pin Code:</label>
         <input type="text" id="pincode" name="pincode" required pattern="[0-9]{4,10}">
