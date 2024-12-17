@@ -2,8 +2,11 @@
 <html xmlns:th="http:www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
+<head>
+    <link rel="stylesheet" th:href="@{/apartment-table.css}">
+</head>
 <!-- Define the fragment where the content will go -->
-<div layout:fragment="content">
+<div class="form-container" layout:fragment="content">
     <main>
         <table>
             <thead>
@@ -18,7 +21,7 @@
                 <td th:text="${apartment.apartmentName}"></td>
                 <td th:text="${apartment.city}"></td>
                 <td>
-                    <a th:href="@{/editApartment/{id}(id=${apartment.id})}">Update</a>
+                    <a th:href="@{/editApartment/{id}(id=${apartment.id})}" class="edit-btn">Update</a>
                 </td>
             </tr>
             </tbody>
