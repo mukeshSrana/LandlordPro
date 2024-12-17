@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http:www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <link rel="stylesheet" th:href="@{/tenant-form.css}">
+</head>
+<div class="form-container" layout:fragment="content">
+    <form th:action="@{/saveTenant}" method="post">
+        <!-- Personal Details -->
+        <fieldset>
+            <legend>Personal Details</legend>
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required>
+
+                <label for="dateOfBirth">Date of Birth</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+        </fieldset>
+
+        <!-- Apartment Details -->
+        <fieldset>
+            <legend>Apartment Details</legend>
+            <div class="form-group">
+                <label for="apartmentId">Apartment ID</label>
+                <input type="text" id="apartmentId" name="apartmentId" required>
+            </div>
+        </fieldset>
+
+        <!-- Lease Details -->
+        <fieldset>
+            <legend>Lease Details</legend>
+            <div class="form-group">
+                <label for="leaseStartDate">Lease Start Date</label>
+                <input type="date" id="leaseStartDate" name="leaseStartDate" required>
+
+                <label for="leaseEndDate">Lease End Date</label>
+                <input type="date" id="leaseEndDate" name="leaseEndDate" required>
+            </div>
+            <div class="form-group">
+                <label for="monthlyRent">Monthly Rent</label>
+                <input type="number" id="monthlyRent" name="monthlyRent" step="0.01" required>
+
+                <label for="securityDeposit">Security Deposit</label>
+                <input type="number" id="securityDeposit" name="securityDeposit" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="securityDepositInstitutionName">Security Deposit Institution</label>
+                <input type="text" id="securityDepositInstitutionName" name="securityDepositInstitutionName">
+            </div>
+        </fieldset>
+        <button type="submit">Register Tenant</button>
+    </form>
+</div>
+</html>

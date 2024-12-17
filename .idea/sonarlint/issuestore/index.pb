@@ -38,3 +38,9 @@ b
 2src/main/java/com/landlordpro/model/Apartment.java,7/3/734e8f3b46f1f8e015df9534f3f3cbf0b4390488
 k
 ;src/main/java/com/landlordpro/service/ApartmentService.java,6/d/6de324b318c565b98935917e107e7a6fb7a6deec
+_
+/src/main/java/com/landlordpro/model/Tenant.java,4/8/48f26395ed98580ed05559b828833745fe320628
+h
+8src/main/java/com/landlordpro/service/TenantService.java,1/d/1dc4caad24651ae7d0a53ed3882f19a5a07382af
+n
+>src/main/java/com/landlordpro/controller/TenantController.java,c/9/c941a7753034c733f080b462763cd4b069952ae0
