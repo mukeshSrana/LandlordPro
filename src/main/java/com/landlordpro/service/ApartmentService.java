@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,29 @@ public class ApartmentService {
 
     public ApartmentService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+    }
+
+    public List<Apartment> apartments() {
+        Path directoryPath = Paths.get(fileStorageApartmentDir);
+        try {
+            // List all JSON files in the directory
+            return Files.list(directoryPath)
+                .filter(file -> file.toString().endsWith(".json")) // Only consider .json files
+                .map(file -> {
+                    try {
+                        // Read the file and deserialize the content into an Apartment object
+                        return objectMapper.readValue(file.toFile(), Apartment.class);
+                    } catch (IOException e) {
+                        log.error("Error reading file: {}", file, e);
+                        return null; // You can choose to skip files that cause errors or handle them differently
+                    }
+                })
+                .filter(apartment -> apartment != null) // Filter out any null apartments (if any deserialization fails)
+                .collect(Collectors.toList()); // Collect results into a list
+        } catch (IOException e) {
+            log.error("Error reading apartments from directory: {}", directoryPath, e);
+            return Collections.emptyList(); // Return an empty list if an error occurs
+        }
     }
 
     public boolean isExists(Apartment apartment) {

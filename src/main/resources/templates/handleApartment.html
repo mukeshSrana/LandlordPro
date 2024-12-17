@@ -5,24 +5,20 @@
 <!-- Define the fragment where the content will go -->
 <div layout:fragment="content">
     <main>
-        <h2>Handle Apartments</h2>
         <table>
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Name</th>
-                <th>Location</th>
+                <th>City</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="apartment : ${apartments}">
-                <td th:text="${apartment.id}"></td>
-                <td th:text="${apartment.name}"></td>
-                <td th:text="${apartment.location}"></td>
+                <td th:text="${apartment.apartmentName}"></td>
+                <td th:text="${apartment.city}"></td>
                 <td>
-                    <a th:href="@{/editApartment/{id}(id=${apartment.id})}">Edit</a>
-                    <a th:href="@{/deleteApartment/{id}(id=${apartment.id})}" onclick="return confirm('Are you sure?');">Delete</a>
+                    <a th:href="@{/editApartment/{id}(id=${apartment.id})}">Update</a>
                 </td>
             </tr>
             </tbody>

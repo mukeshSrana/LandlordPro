@@ -2,6 +2,7 @@ package com.landlordpro.controller;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,6 +57,7 @@ public class ApartmentController {
 
     @GetMapping("/handleApartment")
     public String handleApartment(Model model) {
+        model.addAttribute("apartments", apartmentService.apartments());
         model.addAttribute("page", "handleApartment");
         return "handleApartment";
     }
