@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +43,31 @@ public class ApartmentService {
             System.err.println("Error reading apartment files: " + e.getMessage());
             e.printStackTrace();
             return Collections.emptyList();
+        }
+    }
+
+    public Map<String, String> apartmentNamesWithId() {
+        Path directoryPath = Paths.get(fileStorageApartmentDir);
+        try {
+            // List all JSON files in the directory and map them to a HashMap
+            return Files.list(directoryPath)
+                .filter(file -> file.toString().endsWith(".json")) // Only consider .json files
+                .map(file -> {
+                    try {
+                        // Read the file and deserialize the content into an Apartment object
+                        Apartment apartment = objectMapper.readValue(file.toFile(), Apartment.class);
+                        // Return a Map entry with apartmentId as key and apartmentName as value
+                        return Map.entry(apartment.getId(), apartment.getApartmentName());
+                    } catch (IOException e) {
+                        log.error("Error reading file: {}", file, e);
+                        return null; // Skip invalid files
+                    }
+                })
+                .filter(entry -> entry != null) // Filter out any null entries (if any deserialization fails)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)); // Collect into a HashMap
+        } catch (IOException e) {
+            log.error("Error reading apartments from directory: {}", directoryPath, e);
+            return Collections.emptyMap(); // Return an empty map if an error occurs
         }
     }
 
