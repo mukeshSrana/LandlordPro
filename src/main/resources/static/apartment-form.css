@@ -93,8 +93,11 @@
     color: #aaa;
 }
 
-.form-container p {
-    color: #666;
-    font-size: 0.9rem;
-    margin: 1.5rem auto 0;
+.form-container .required-fields-info {
+    color: #444;
+    font-size: 1rem;
+    margin-top: 2rem;
+    text-align: center; /* Optional, you can adjust based on your preference */
+    font-style: italic; /* Optional */
 }
+
