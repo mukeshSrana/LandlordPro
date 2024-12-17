@@ -7,6 +7,7 @@ app:
   file-storage:
     base-dir: ./data/expenses
     apartment: ./data/apartments
+    tenant: ./data/tenants
 
 spring:
   thymeleaf:
