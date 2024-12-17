@@ -36,6 +36,40 @@
                 </li>
             </ul>
         </li>
+
+        <!-- Income Menu -->
+        <li>
+            <button class="dropdown-btn" onclick="toggleDropdown('income-options')">Income</button>
+            <ul id="income-options" class="dropdown-content" style="display: none;">
+                <li>
+                    <a th:href="@{/registerIncome}" th:classappend="${page == 'registerIncome' ? 'active' : ''}" onclick="handleSelection(event, 'income-options')">
+                        Register
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/handleIncome}" th:classappend="${page == 'handleIncome' ? 'active' : ''}" onclick="handleSelection(event, 'income-options')">
+                        Handle
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Rapporter Menu -->
+        <li>
+            <button class="dropdown-btn" onclick="toggleDropdown('rapport-options')">Rapporter</button>
+            <ul id="rapport-options" class="dropdown-content" style="display: none;">
+                <li>
+                    <a th:href="@{/rapport-1}" th:classappend="${page == 'rapport-1' ? 'active' : ''}" onclick="handleSelection(event, 'rapport-options')">
+                        Rapport-1
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/rapport-2}" th:classappend="${page == 'rapport-2' ? 'active' : ''}" onclick="handleSelection(event, 'rapport-options')">
+                        Rapport-2
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 </aside>
 

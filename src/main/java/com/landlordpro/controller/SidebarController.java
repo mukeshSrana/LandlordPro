@@ -130,5 +130,29 @@ public class SidebarController {
         model.addAttribute("page", "handleApartment");
         return "handleApartment";
     }
+
+    @GetMapping("/registerIncome")
+    public String registerIncome(Model model) {
+        model.addAttribute("page", "registerIncome");
+        return "registerIncome";
+    }
+
+    @GetMapping("/handleIncome")
+    public String handleIncome(Model model) {
+        model.addAttribute("page", "handleIncome");
+        return "handleIncome";
+    }
+
+    @GetMapping("/rapport-1")
+    public String rapport1(Model model) {
+        model.addAttribute("page", "rapport-1");
+        return "rapport-1";
+    }
+
+    @GetMapping("/rapport-2")
+    public String rapport2(Model model) {
+        model.addAttribute("page", "rapport-2");
+        return "rapport-2";
+    }
 }
 

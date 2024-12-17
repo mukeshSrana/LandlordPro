@@ -35,6 +35,12 @@ document.addEventListener('DOMContentLoaded', function() {
   if (currentPage === 'registerApartment' || currentPage === 'handleApartment') {
     toggleDropdown('apartment-options');
   }
+  if (currentPage === 'registerIncome' || currentPage === 'handleIncome') {
+    toggleDropdown('income-options');
+  }
+  if (currentPage === 'rapport-1' || currentPage === 'rapport-2') {
+    toggleDropdown('rapport-options');
+  }
 });
 
 
