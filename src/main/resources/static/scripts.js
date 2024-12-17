@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleDropdown('expenses-options');
   }
   if (currentPage === 'registerApartment' || currentPage === 'handleApartment') {
-    toggleDropdown('profile-options');
+    toggleDropdown('apartment-options');
   }
 });
 

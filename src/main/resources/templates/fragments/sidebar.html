@@ -3,7 +3,7 @@
 <body>
 <aside th:fragment="sidebar">
     <ul>
-        <!-- Dashboard Menu -->
+        <!-- Expenses Menu -->
         <li>
             <button class="dropdown-btn" onclick="toggleDropdown('expenses-options')">Expenses</button>
             <ul id="expenses-options" class="dropdown-content" style="display: none;">
@@ -20,18 +20,18 @@
             </ul>
         </li>
 
-        <!-- Profile Menu -->
+        <!-- Apartment Menu -->
         <li>
-            <button class="dropdown-btn" onclick="toggleDropdown('profile-options')">Profile</button>
-            <ul id="profile-options" class="dropdown-content" style="display: none;">
+            <button class="dropdown-btn" onclick="toggleDropdown('apartment-options')">Apartment</button>
+            <ul id="apartment-options" class="dropdown-content" style="display: none;">
                 <li>
-                    <a th:href="@{/registerApartment}" th:classappend="${page == 'registerApartment' ? 'active' : ''}" onclick="handleSelection(event, 'profile-options')">
-                        Apartment Register
+                    <a th:href="@{/registerApartment}" th:classappend="${page == 'registerApartment' ? 'active' : ''}" onclick="handleSelection(event, 'apartment-options')">
+                        Register
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/handleApartment}" th:classappend="${page == 'handleApartment' ? 'active' : ''}" onclick="handleSelection(event, 'profile-options')">
-                        Apartment Handle
+                    <a th:href="@{/handleApartment}" th:classappend="${page == 'handleApartment' ? 'active' : ''}" onclick="handleSelection(event, 'apartment-options')">
+                        Handle
                     </a>
                 </li>
             </ul>
