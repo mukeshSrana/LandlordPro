@@ -4,16 +4,24 @@
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/apartment-form.css}">
+    <script>
+      function closeMessage(button) {
+        var messageBox = button.parentElement;
+        messageBox.style.display = 'none';
+      }
+    </script>
 </head>
 <!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
     <!-- Display success message -->
     <div th:if="${successMessage}" class="success-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
         <p th:text="${successMessage}"></p>
     </div>
 
     <!-- Display error message -->
     <div th:if="${errorMessage}" class="error-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
         <p th:text="${errorMessage}"></p>
     </div>
 

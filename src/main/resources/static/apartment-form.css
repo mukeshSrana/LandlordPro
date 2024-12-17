@@ -21,6 +21,7 @@
     padding-bottom: 0 !important;
     font-size: 1rem;
     text-align: center;
+    position: relative;
 }
 
 /* Success message styling */
@@ -36,6 +37,7 @@
     padding-bottom: 0 !important;
     font-size: 1rem;
     text-align: center;
+    position: relative;
 }
 
 /* General form input styling */
@@ -74,4 +76,25 @@
 
 .form-container button:hover {
     background-color: #45a049;
+}
+
+.form-container .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.form-container .close-btn:hover {
+    color: #aaa;
+}
+
+.form-container p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 1.5rem auto 0;
 }
