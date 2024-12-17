@@ -36,3 +36,5 @@ q
 Asrc/main/java/com/landlordpro/controller/ApartmentController.java,8/f/8f0ad42080bf7d9b218f9e55829f25691284d134
 b
 2src/main/java/com/landlordpro/model/Apartment.java,7/3/734e8f3b46f1f8e015df9534f3f3cbf0b4390488
+k
+;src/main/java/com/landlordpro/service/ApartmentService.java,6/d/6de324b318c565b98935917e107e7a6fb7a6deec

@@ -7,6 +7,16 @@
 </head>
 <!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
+    <!-- Display success message -->
+    <div th:if="${successMessage}" class="success-message">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Display error message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
     <form th:action="@{/saveApartment}" method="post">
         <label for="apartmentName">Apartment Name:</label>
         <input type="text" id="apartmentName" name="apartmentName" required>

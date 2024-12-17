@@ -6,6 +6,7 @@ app:
     - bjorndal
   file-storage:
     base-dir: ./data/expenses
+    apartment: ./data/apartments
 
 spring:
   thymeleaf:
