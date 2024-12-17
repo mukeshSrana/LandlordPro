@@ -30,6 +30,21 @@ public class ApartmentService {
         this.objectMapper = objectMapper;
     }
 
+    public List<String> apartmentNames() {
+        try {
+            Path directoryPath = Paths.get(fileStorageApartmentDir);
+            return Files.list(directoryPath)
+                .filter(file -> file.toString().endsWith(".json"))
+                .map(file -> file.getFileName().toString().replaceFirst("\\.json$", ""))
+                .collect(Collectors.toList());
+        } catch (IOException e) {
+            // Log the exception and return an empty list
+            System.err.println("Error reading apartment files: " + e.getMessage());
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
     public List<Apartment> apartments() {
         Path directoryPath = Paths.get(fileStorageApartmentDir);
         try {

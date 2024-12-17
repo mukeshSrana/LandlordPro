@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.landlordpro.config.AppConfig;
 import com.landlordpro.model.Expense;
+import com.landlordpro.service.ApartmentService;
 import com.landlordpro.service.ExpenseService;
 
 @Controller
 public class SidebarController {
-    private final AppConfig appConfig;
     private final ExpenseService expenseService;
+    private final ApartmentService apartmentService;
 
-    public SidebarController(AppConfig appConfig, ExpenseService expenseService) {
-        this.appConfig = appConfig;
+    public SidebarController(ExpenseService expenseService, ApartmentService apartmentService) {
         this.expenseService = expenseService;
+        this.apartmentService = apartmentService;
     }
 
     @GetMapping("/registerExpense")
     public String registerExpense(Model model) {
         model.addAttribute("page", "registerExpense");
-        model.addAttribute("apartmentNames", appConfig.getApartmentNames());
+        model.addAttribute("apartmentNames", apartmentService.apartmentNames());
         return "registerExpense";
     }
 
@@ -43,7 +43,7 @@ public class SidebarController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error creating expense: " + e.getMessage());
         }
-        model.addAttribute("apartmentNames", appConfig.getApartmentNames());
+        model.addAttribute("apartmentNames", apartmentService.apartmentNames());
         model.addAttribute("page", "registerExpense");
         return "redirect:/registerExpense";
     }
