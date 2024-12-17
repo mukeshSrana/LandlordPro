@@ -73,16 +73,16 @@
 
         <!-- Rapporter Menu -->
         <li>
-            <button class="dropdown-btn" onclick="toggleDropdown('rapport-options')">Rapporter</button>
-            <ul id="rapport-options" class="dropdown-content" style="display: none;">
+            <button class="dropdown-btn" onclick="toggleDropdown('report-options')">Reports</button>
+            <ul id="report-options" class="dropdown-content" style="display: none;">
                 <li>
-                    <a th:href="@{/rapport-1}" th:classappend="${page == 'rapport-1' ? 'active' : ''}" onclick="handleSelection(event, 'rapport-options')">
-                        Rapport-1
+                    <a th:href="@{/report-1}" th:classappend="${page == 'report-1' ? 'active' : ''}" onclick="handleSelection(event, 'report-options')">
+                        Report-1
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/rapport-2}" th:classappend="${page == 'rapport-2' ? 'active' : ''}" onclick="handleSelection(event, 'rapport-options')">
-                        Rapport-2
+                    <a th:href="@{/report-2}" th:classappend="${page == 'report-2' ? 'active' : ''}" onclick="handleSelection(event, 'report-options')">
+                        Report-2
                     </a>
                 </li>
             </ul>

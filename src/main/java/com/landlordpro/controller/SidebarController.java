@@ -131,16 +131,16 @@ public class SidebarController {
         return "handleIncome";
     }
 
-    @GetMapping("/rapport-1")
-    public String rapport1(Model model) {
-        model.addAttribute("page", "rapport-1");
-        return "rapport-1";
+    @GetMapping("/report-1")
+    public String report1(Model model) {
+        model.addAttribute("page", "report-1");
+        return "report-1";
     }
 
-    @GetMapping("/rapport-2")
-    public String rapport2(Model model) {
-        model.addAttribute("page", "rapport-2");
-        return "rapport-2";
+    @GetMapping("/report-2")
+    public String report2(Model model) {
+        model.addAttribute("page", "report-2");
+        return "report-2";
     }
 }
 
