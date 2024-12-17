@@ -38,7 +38,7 @@ public class TenantController {
             model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
             log.error("Unexpected error: ", e);
         }
-        return "registerTenant";
+        return "redirect:/registerTenant";
     }
 
     @GetMapping("/registerTenant")
