@@ -3,23 +3,6 @@
 <body>
 <aside th:fragment="sidebar">
     <ul>
-        <!-- Expenses Menu -->
-        <li>
-            <button class="dropdown-btn" onclick="toggleDropdown('expenses-options')">Expenses</button>
-            <ul id="expenses-options" class="dropdown-content" style="display: none;">
-                <li>
-                    <a th:href="@{/registerExpense}" th:classappend="${page == 'registerExpense' ? 'active' : ''}" onclick="handleSelection(event, 'expenses-options')">
-                        Register
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/handleExpense}" th:classappend="${page == 'handleExpense' ? 'active' : ''}" onclick="handleSelection(event, 'expenses-options')">
-                        Handle
-                    </a>
-                </li>
-            </ul>
-        </li>
-
         <!-- Apartment Menu -->
         <li>
             <button class="dropdown-btn" onclick="toggleDropdown('apartment-options')">Apartment</button>
@@ -31,6 +14,40 @@
                 </li>
                 <li>
                     <a th:href="@{/handleApartment}" th:classappend="${page == 'handleApartment' ? 'active' : ''}" onclick="handleSelection(event, 'apartment-options')">
+                        Handle
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Tenant Menu -->
+        <li>
+            <button class="dropdown-btn" onclick="toggleDropdown('tenant-options')">Tenant</button>
+            <ul id="tenant-options" class="dropdown-content" style="display: none;">
+                <li>
+                    <a th:href="@{/registerTenant}" th:classappend="${page == 'registerTenant' ? 'active' : ''}" onclick="handleSelection(event, 'tenant-options')">
+                        Register
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/handleTenant}" th:classappend="${page == 'handleTenant' ? 'active' : ''}" onclick="handleSelection(event, 'tenant-options')">
+                        Handle
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Expenses Menu -->
+        <li>
+            <button class="dropdown-btn" onclick="toggleDropdown('expenses-options')">Expenses</button>
+            <ul id="expenses-options" class="dropdown-content" style="display: none;">
+                <li>
+                    <a th:href="@{/registerExpense}" th:classappend="${page == 'registerExpense' ? 'active' : ''}" onclick="handleSelection(event, 'expenses-options')">
+                        Register
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/handleExpense}" th:classappend="${page == 'handleExpense' ? 'active' : ''}" onclick="handleSelection(event, 'expenses-options')">
                         Handle
                     </a>
                 </li>
