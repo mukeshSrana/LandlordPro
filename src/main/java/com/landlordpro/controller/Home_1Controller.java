@@ -10,15 +10,15 @@ public class Home_1Controller {
         return "index_1";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "dashboard";
-    }
+//    @GetMapping("/dashboard")
+//    public String dashboard() {
+//        return "dashboard";
+//    }
 
-    @GetMapping("/profile")
-    public String profile() {
-        return "profile";
-    }
+//    @GetMapping("/profile")
+//    public String profile() {
+//        return "profile";
+//    }
 
     @GetMapping("/about")
     public String about() {
