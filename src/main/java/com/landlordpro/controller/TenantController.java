@@ -43,7 +43,7 @@ public class TenantController {
 
     @GetMapping("/registerTenant")
     public String registerIncome(Model model) {
-        model.addAttribute("apartmentNames", apartmentService.apartmentNames());
+        model.addAttribute("apartmentNamesWithId", apartmentService.apartmentNamesWithId());
         model.addAttribute("page", "registerTenant");
         return "registerTenant";
     }

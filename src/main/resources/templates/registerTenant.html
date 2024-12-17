@@ -31,9 +31,12 @@
             <legend>Apartment Details</legend>
             <div class="form-group">
                 <label for="apartmentName">Apartment Name</label>
-                <select id="apartmentName" name="apartmentName" required>
+                <select id="apartmentName" name="apartmentId" required>
                     <option value="" disabled selected>Select Apartment</option>
-                    <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>
+                    <!-- Loop through apartmentNamesWithId, which is a Map -->
+                    <option th:each="entry : ${apartmentNamesWithId}"
+                            th:value="${entry.key}"
+                            th:text="${entry.value}"></option>
                 </select>
             </div>
         </fieldset>
