@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.landlordpro.exception.DuplicateRecordException;
 import com.landlordpro.model.Tenant;
 import com.landlordpro.service.ApartmentService;
 import com.landlordpro.service.TenantService;
@@ -31,12 +32,13 @@ public class TenantController {
         try {
             tenantService.save(tenant);
             model.addAttribute("successMessage", "Tenant created successfully!");
+        } catch (DuplicateRecordException e) {
+            model.addAttribute("errorMessage", "Error creating tenant: " + e.getMessage());
         } catch (IOException e) {
-            model.addAttribute("errorMessage", "Error creating apartment: " + e.getMessage());
+            model.addAttribute("errorMessage", "Error creating tenant: " + e.getMessage());
             log.error("IOException while saving apartment: " + e.getMessage());
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error: ", e);
         }
         return "redirect:/registerTenant";
     }

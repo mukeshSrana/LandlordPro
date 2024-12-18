@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.landlordpro.exception.DuplicateRecordException;
 import com.landlordpro.model.Tenant;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,13 @@ public class TenantService {
                 String existingJson = Files.readString(filePath);
                 // Deserialize existing JSON content into a list of expenses
                 tenants = objectMapper.readValue(existingJson, new TypeReference<>() { });
+            }
+
+            // Check if the tenant already exists
+            boolean tenantExists = tenants.stream().anyMatch(existingTenant -> existingTenant.equals(tenant));
+            if (tenantExists) {
+                log.warn("Tenant: {} already exists in file: {}", tenant.getFullName(), filePath);
+                throw new DuplicateRecordException("Tenant already exists: " + tenant.getFullName());
             }
 
             // Add the new expense to the list

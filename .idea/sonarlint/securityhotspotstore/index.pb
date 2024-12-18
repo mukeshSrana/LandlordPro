@@ -48,3 +48,7 @@ S
 #data/tenants/Mukesh Singh Rana.json,5/3/532bbd5316118a42dc2dd502274c9ef3f1e49e06
 L
 data/apartments/Grefsen.json,9/3/93e9969405b64101477962dbea73d8847df55b94
+u
+Esrc/main/java/com/landlordpro/exception/DuplicateTenantException.java,8/7/87580ba976ff25614fd4ba667c74d5abf8eacd7b
+u
+Esrc/main/java/com/landlordpro/exception/DuplicateRecordException.java,c/1/c177a02ec36a44def8eb5fb25dcc4c17e5a74677
