@@ -5,10 +5,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.landlordpro.model.Tenant;
 
@@ -36,11 +39,22 @@ public class TenantService {
             // Ensure the directory exists
             Files.createDirectories(directoryPath);
 
+            // Read existing expenses or initialize an empty list if the file doesn't exist
+            List<Tenant> tenants = new ArrayList<>();
+            if (Files.exists(filePath)) {
+                String existingJson = Files.readString(filePath);
+                // Deserialize existing JSON content into a list of expenses
+                tenants = objectMapper.readValue(existingJson, new TypeReference<>() { });
+            }
+
+            // Add the new expense to the list
+            tenants.add(tenant);
+
             // Serialize the apartment to JSON
-            String tenantJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(tenant);
+            String updatedJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(tenants);
 
             // Write the apartment JSON to the file
-            Files.writeString(filePath, tenantJson, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.writeString(filePath, updatedJson, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
             log.info("Tenant: {} successfully saved in file: {}", tenant.getFullName(), filePath);
 

@@ -107,12 +107,12 @@ public class ApartmentService {
         Path filePath = directoryPath.resolve(apartment.getApartmentName() + ".json");
 
         try {
-            // Ensure the directory exists
-            Files.createDirectories(directoryPath);
-
             if (isExists(apartment)) {
                 throw new FileAlreadyExistsException("File already exists: " + filePath);
             }
+
+            // Ensure the directory exists
+            Files.createDirectories(directoryPath);
 
             // Serialize the apartment to JSON
             String apartmentJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(apartment);
