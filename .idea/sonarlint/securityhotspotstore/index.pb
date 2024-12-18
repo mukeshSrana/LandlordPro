@@ -44,3 +44,7 @@ h
 8src/main/java/com/landlordpro/service/TenantService.java,1/d/1dc4caad24651ae7d0a53ed3882f19a5a07382af
 n
 >src/main/java/com/landlordpro/controller/TenantController.java,c/9/c941a7753034c733f080b462763cd4b069952ae0
+S
+#data/tenants/Mukesh Singh Rana.json,5/3/532bbd5316118a42dc2dd502274c9ef3f1e49e06
+L
+data/apartments/Grefsen.json,9/3/93e9969405b64101477962dbea73d8847df55b94

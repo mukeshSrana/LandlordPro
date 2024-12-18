@@ -4,6 +4,14 @@
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/tenant-form.css}">
+    <script>
+      function updateApartmentName() {
+        const dropdown = document.getElementById("apartmentName");
+        const selectedOption = dropdown.options[dropdown.selectedIndex];
+        const apartmentName = selectedOption.getAttribute("data-name");
+        document.getElementById("apartmentNameHidden").value = apartmentName;
+      }
+    </script>
 </head>
 <div class="tenant-form" layout:fragment="content">
     <form th:action="@{/saveTenant}" method="post">
@@ -31,13 +39,16 @@
             <legend>Apartment Details</legend>
             <div class="form-group">
                 <label for="apartmentName">Apartment Name</label>
-                <select id="apartmentName" name="apartmentId" required>
+                <select id="apartmentName" name="apartmentId" required onchange="updateApartmentName()">
                     <option value="" disabled selected>Select Apartment</option>
                     <!-- Loop through apartmentNamesWithId, which is a Map -->
                     <option th:each="entry : ${apartmentNamesWithId}"
                             th:value="${entry.key}"
+                            th:data-name="${entry.value}"
                             th:text="${entry.value}"></option>
                 </select>
+                <!-- Hidden input to store the apartment name -->
+                <input type="hidden" id="apartmentNameHidden" name="apartmentName">
             </div>
         </fieldset>
 

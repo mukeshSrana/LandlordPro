@@ -2,6 +2,7 @@ package com.landlordpro.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -39,6 +40,9 @@ public class Tenant {
     @JsonProperty("apartmentId")
     private String apartmentId; // Foreign key reference to Apartment
 
+    @JsonProperty("apartmentName")
+    private String apartmentName;
+
     @JsonProperty("leaseStartDate")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate leaseStartDate;
@@ -63,5 +67,24 @@ public class Tenant {
     @JsonProperty("updatedDate")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate updatedDate; // Date the tenant record was last updated
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Tenant tenant = (Tenant) o;
+        return Objects.equals(fullName, tenant.fullName) && Objects.equals(dateOfBirth, tenant.dateOfBirth)
+            && Objects.equals(phoneNumber, tenant.phoneNumber) && Objects.equals(email, tenant.email) && Objects.equals(
+            apartmentId, tenant.apartmentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullName, dateOfBirth, phoneNumber, email, apartmentId);
+    }
 }
 

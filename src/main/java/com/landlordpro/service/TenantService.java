@@ -30,7 +30,7 @@ public class TenantService {
         log.info("Saving tenant: {}", tenant.getFullName());
 
         Path directoryPath = Paths.get(fileStorageTenantDir);
-        Path filePath = directoryPath.resolve(tenant.getFullName() + ".json");
+        Path filePath = directoryPath.resolve(tenant.getApartmentName() + ".json");
 
         try {
             // Ensure the directory exists
