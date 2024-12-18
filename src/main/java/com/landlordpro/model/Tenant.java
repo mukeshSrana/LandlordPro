@@ -78,13 +78,12 @@ public class Tenant {
         }
         Tenant tenant = (Tenant) o;
         return Objects.equals(fullName, tenant.fullName) && Objects.equals(dateOfBirth, tenant.dateOfBirth)
-            && Objects.equals(phoneNumber, tenant.phoneNumber) && Objects.equals(email, tenant.email) && Objects.equals(
-            apartmentId, tenant.apartmentId);
+            && Objects.equals(phoneNumber, tenant.phoneNumber) && Objects.equals(apartmentId, tenant.apartmentId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fullName, dateOfBirth, phoneNumber, email, apartmentId);
+        return Objects.hash(fullName, dateOfBirth, phoneNumber, apartmentId);
     }
 }
 
