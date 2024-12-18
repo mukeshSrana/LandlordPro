@@ -8,7 +8,8 @@ app:
     base-dir: ./data/expenses
     apartment: ./data/apartments
     tenant: ./data/tenants
-
+server:
+  port: 8080
 spring:
   thymeleaf:
     prefix: classpath:/templates/
