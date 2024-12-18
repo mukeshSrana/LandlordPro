@@ -10,9 +10,13 @@ target/
 .idea/compiler.xml
 .idea/libraries/
 .idea/sonarlint/
+.idea/sonarlint/issuestore/
+.idea/sonarlint/securityhotspotstore/
+./idea/*.xml
 *.iws
 *.iml
 *.ipr
+*.pb
 
 ### Eclipse ###
 .apt_generated
