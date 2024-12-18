@@ -10,16 +10,16 @@
 <body>
 <div class="container">
 
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
 
     <div class="content">
-        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
         <div layout:fragment="content">
             <!-- The content of individual pages will go here -->
         </div>
     </div>
 
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
     <!-- Inject the 'page' attribute into JavaScript -->
     <script th:inline="javascript">
       var currentPage = /*[[${page}]]*/ '';  // Inject the page value here
