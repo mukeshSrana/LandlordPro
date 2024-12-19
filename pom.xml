@@ -94,6 +94,14 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <!-- Spring Boot Maven Plugin -->
             <plugin>
@@ -102,4 +110,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
