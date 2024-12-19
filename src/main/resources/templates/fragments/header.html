@@ -10,11 +10,13 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
-            <!-- Pass the isAuthenticated value from the controller to the template -->
             <li id="authStatus" th:data-authenticated="${isAuthenticated}">
-                <a id="logoutLink" href="/logout" style="display:none;">Logout</a>
-            </li>
-            <li>
+                <!-- Logout Form -->
+                <form id="logoutForm" action="/logout" method="post" style="display: none;">
+                    <button type="submit" id="logoutButton">Logout</button>
+                </form>
+
+                <a id="logoutLink" href="#" style="display:none;">Logout</a>
                 <a id="loginLink" href="/login" style="display:none;">Login</a>
             </li>
         </ul>

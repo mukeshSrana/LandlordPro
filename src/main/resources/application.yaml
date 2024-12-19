@@ -10,6 +10,10 @@ app:
     tenant: ./data/tenants
 server:
   port: 8080
+  servlet:
+    session:
+      timeout: 30m  # Session timeout set to 30 minutes
+
 
 spring:
   web:

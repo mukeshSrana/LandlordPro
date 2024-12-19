@@ -34,6 +34,9 @@ public class SecurityConfig {
                 .invalidSessionUrl("/login?sessionExpired")  // Redirect to login if session is invalid
                 .maximumSessions(1)  // Prevent multiple sessions for a user
                 .maxSessionsPreventsLogin(true)  // Prevent login if maximum sessions reached
+            )
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/logout") // Disable CSRF for logout only
             );
 
         return http.build();
