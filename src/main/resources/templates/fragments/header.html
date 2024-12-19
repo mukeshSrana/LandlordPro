@@ -1,10 +1,24 @@
+<head>
+    <script th:src="@{/auth-check.js}"></script>
+</head>
+<body>
+<script th:src="@{/auth-check.js}"></script>
+</body>
 <header>
     <nav>
         <h1>Landlord Pro</h1>
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
-            <li><a href="/login">Login</a></li>
+            <!-- Pass the isAuthenticated value from the controller to the template -->
+            <li id="authStatus" th:data-authenticated="${isAuthenticated}">
+                <a id="logoutLink" href="/logout" style="display:none;">Logout</a>
+            </li>
+            <li>
+                <a id="loginLink" href="/login" style="display:none;">Login</a>
+            </li>
         </ul>
     </nav>
 </header>
+
+

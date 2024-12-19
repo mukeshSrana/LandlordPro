@@ -12,6 +12,11 @@ server:
   port: 8080
 
 spring:
+  web:
+    resources:
+      add-mappings: true
+      chain:
+        enabled: true
   datasource:
 #    url: jdbc:h2:file:./data/testdb
     url: jdbc:h2:tcp://localhost:9092/./data/testdb
