@@ -36,8 +36,8 @@
                 type="text"
                 id="mobileNr"
                 th:field="*{mobileNr}"
-                pattern="^(4|9\\d{7}|47\\d{8})$"
-                title="Must be a valid Norwegian mobile number (start with 4, 9, or 47)"
+                pattern="^\d{8}$"
+                title="Must be a valid 8-digit Norwegian mobile number"
                 required>
             <p class="error" th:if="${#fields.hasErrors('mobileNr')}" th:errors="*{mobileNr}"></p>
         </div>

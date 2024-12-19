@@ -26,7 +26,7 @@ public class UserDto {
     private String password;
 
     @Pattern(
-        regexp = "^\\+?[0-9]{10,15}$",
+        regexp = "^\\d{8}$",
         message = "Mobile number must be a valid number with 10-15 digits"
     )
     private String mobileNr;
