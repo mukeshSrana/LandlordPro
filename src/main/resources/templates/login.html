@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-<div class="container">
-    <h2>Login</h2>
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout.html}">
+<!--<head>-->
+<!--    <title>Login</title>-->
+<!--    <link rel="stylesheet" href="/css/styles.css">-->
+<!--</head>-->
+<div layout:fragment="content">
+    <main>
     <form th:action="@{/login}" method="post">
         <div>
             <label for="username">Username:</label>
@@ -22,6 +23,6 @@
     </form>
     <p th:if="${param.error}">Invalid username or password</p>
     <p th:if="${param.logout}">You have been logged out</p>
+    </main>
 </div>
-</body>
 </html>

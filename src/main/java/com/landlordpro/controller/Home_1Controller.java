@@ -5,20 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class Home_1Controller {
-    @GetMapping("/")
+    @GetMapping( "/")
     public String index() {
-        return "index_1";
+        return "home";
     }
-
-//    @GetMapping("/dashboard")
-//    public String dashboard() {
-//        return "dashboard";
-//    }
-
-//    @GetMapping("/profile")
-//    public String profile() {
-//        return "profile";
-//    }
 
     @GetMapping("/about")
     public String about() {
