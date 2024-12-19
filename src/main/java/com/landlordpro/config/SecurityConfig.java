@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -12,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, SessionRegistry sessionRegistry) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/register", "/*.css", "/about", "/*.js").permitAll()
@@ -20,26 +22,43 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
+                .loginPage("/login")  // Specify the custom login page
+                .loginProcessingUrl("/login")  // Where the form is submitted
+                .defaultSuccessUrl("/", true)  // Redirect after successful login
+                .failureUrl("/login?error")
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("/login?logout")
+                .logoutUrl("/logout")  // Set logout URL
+                .addLogoutHandler((request, response, authentication) -> {
+                    if (authentication != null) {
+                        sessionRegistry.removeSessionInformation(request.getSession().getId());  // Remove session from registry
+                    }
+                })
+                .logoutSuccessUrl("/login?logout")  // Redirect to login page on logout success
+                .invalidateHttpSession(true)  // Invalidate the session on logout
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")  // Optional: Delete the session cookie
                 .permitAll()
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  // Session is created only if needed
-                .sessionFixation().newSession()
+                .sessionFixation().newSession()  // Prevent session fixation by creating a new session
                 .invalidSessionUrl("/login?sessionExpired")  // Redirect to login if session is invalid
                 .maximumSessions(1)  // Prevent multiple sessions for a user
                 .maxSessionsPreventsLogin(true)  // Prevent login if maximum sessions reached
+                .sessionRegistry(sessionRegistry)  // Attach session registry for tracking sessions
             )
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/logout") // Disable CSRF for logout only
             );
 
         return http.build();
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 
     @Bean

@@ -1,3 +1,7 @@
+logging:
+  level:
+    org.springframework.security: info
+
 app:
   apartment-names:
     - hauketo
