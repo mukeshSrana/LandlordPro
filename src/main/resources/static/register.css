@@ -2,8 +2,11 @@
 .register-container {
     width: 80%; /* Adjusted for form layout */
     max-width: 600px; /* Ensures the register form doesn't grow too large */
-    margin: 2rem auto; /* Center the form container */
-    padding: 2rem;
+    max-height: 600px;
+    /*margin: 2rem auto; !* Center the form container *!*/
+    /*padding: 2rem;*/
+    margin: 2rem 2rem;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff; /* Light background for contrast */
