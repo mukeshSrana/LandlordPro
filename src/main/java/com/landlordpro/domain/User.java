@@ -3,6 +3,8 @@ package com.landlordpro.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import com.landlordpro.dto.UserRole;
 
 import jakarta.persistence.CollectionTable;
