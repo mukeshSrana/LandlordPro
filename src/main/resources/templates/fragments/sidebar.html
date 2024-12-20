@@ -98,6 +98,11 @@
                         Users
                     </a>
                 </li>
+                <li>
+                    <a th:href="@{/handleMessage}" th:classappend="${page == 'handleMessage' ? 'active' : ''}" onclick="handleSelection(event, 'admin-options')">
+                        Messages
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>
