@@ -1,4 +1,4 @@
-package com.landlordpro.model;
+package com.landlordpro.dto;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -19,10 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Contact {
-
-    @JsonProperty("id")
-    private String id = UUID.randomUUID().toString(); // Auto-generate a unique id using UUID
+public class ContactDto {
 
     @JsonProperty("name")
     @NotBlank(message = "Name is required")
