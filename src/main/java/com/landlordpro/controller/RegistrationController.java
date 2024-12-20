@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.landlordpro.dto.UserDto;
+import com.landlordpro.dto.UserRegistrationDTO;
 import com.landlordpro.service.UserService;
 
 import jakarta.validation.Valid;
@@ -23,39 +23,32 @@ public class RegistrationController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Display registration form
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new UserDto());
+        model.addAttribute("user", new UserRegistrationDTO());
         return "register";
     }
 
-    // Handle registration form submission
     @PostMapping("/register")
-    public String registerUser(@Valid @ModelAttribute("user") UserDto userDto,
-        BindingResult bindingResult,
-        Model model) {
-
-        // Check if there are validation errors
-        if (bindingResult.hasErrors()) {
-            return "register";
+    public String registerUser(Model model, @ModelAttribute("user") @Valid UserRegistrationDTO userDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            return "register"; // If validation errors, return to registration page
         }
 
         // Check if the user already exists
-        if (userService.isUserExists(userDto.getEmail())) {
+        if (userService.isUserExists(userDTO.getUsername())) {
             model.addAttribute("error", "An account with this email already exists.");
             return "register";
         }
 
-        // Save the user
-        // Encode password before saving
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        // Assuming saveUser method accepts UserDto, if it accepts User, then convert here
-        userService.saveUser(userDto);
-
-        // Redirect to login page with success message
-        return "redirect:/login?registered";
+        try {
+            userService.registerUser(userDTO);
+            return "redirect:/login?success";
+//            return "redirect:/login?registered";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "register";
+        }
     }
 }
 
