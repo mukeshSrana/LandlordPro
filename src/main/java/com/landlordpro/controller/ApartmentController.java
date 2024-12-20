@@ -2,7 +2,6 @@ package com.landlordpro.controller;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
-import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +21,7 @@ public class ApartmentController {
     private final AppConfig appConfig;
     private final ApartmentService apartmentService;
 
-    public ApartmentController(AppConfig appConfig,  ApartmentService apartmentService) {
+    public ApartmentController(AppConfig appConfig, ApartmentService apartmentService) {
         this.appConfig = appConfig;
         this.apartmentService = apartmentService;
     }
