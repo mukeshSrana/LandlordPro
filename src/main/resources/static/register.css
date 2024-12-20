@@ -57,6 +57,13 @@ h2 {
     display: block;
 }
 
+.success-message {
+    color: #4CAF50;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
 /* Submit button styling */
 .btn-submit {
     width: 100%;

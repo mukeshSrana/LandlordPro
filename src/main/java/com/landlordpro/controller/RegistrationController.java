@@ -43,8 +43,9 @@ public class RegistrationController {
 
         try {
             userService.registerUser(userDTO);
-            return "redirect:/login?success";
-//            return "redirect:/login?registered";
+            model.addAttribute("successMessage", "You've successfully registered as " + userDTO.getUsername() + ". Login <a href='/login'>here</a>.");
+
+            return "register";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "register";
