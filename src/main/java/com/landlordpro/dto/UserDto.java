@@ -30,6 +30,8 @@ public class UserDto {
 
     private String roles; // Comma-separated roles
 
+    private boolean enabled;
+
     private Long id;
 }
 

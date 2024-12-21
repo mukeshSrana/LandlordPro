@@ -15,6 +15,7 @@
                 <th>Username</th>
                 <th>Roles</th>
                 <th>Mobile Number</th>
+                <th>Enabled</th>
                 <th>Actions</th> <!-- Added Actions column -->
             </tr>
             </thead>
@@ -24,6 +25,7 @@
                 <td th:text="${user.username}"></td>
                 <td th:text="${user.roles}"></td>
                 <td th:text="${user.mobileNumber}"></td>
+                <td th:text="${user.enabled}"></td>
                 <td>
                     <a th:href="@{/editUser/{id}(id=${user.id})}" class="edit-btn">Update</a> <!-- Added Update link -->
                 </td>

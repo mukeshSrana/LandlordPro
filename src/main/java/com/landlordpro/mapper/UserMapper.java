@@ -13,9 +13,11 @@ import com.landlordpro.dto.UserDto;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
+    @Mapping(source = "enabled", target = "enabled") // Explicitly map enabled
     @Mapping(target = "roles", expression = "java(rolesToString(user.getRoles()))")
     UserDto toDTO(User user);
 
+    @Mapping(source = "enabled", target = "enabled") // Explicitly map enabled
     @Mapping(target = "roles", expression = "java(stringToRoles(userDTO.getRoles()))")
     User toEntity(UserDto userDTO);
 
