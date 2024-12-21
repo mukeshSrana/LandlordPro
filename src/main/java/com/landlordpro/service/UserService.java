@@ -1,5 +1,8 @@
 package com.landlordpro.service;
 
+import java.util.List;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,12 @@ public class UserService {
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    // Restricting access to only users with ROLE_ADMIN
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     public boolean isUserExists(String email) {

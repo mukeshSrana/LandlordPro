@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http:www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <link rel="stylesheet" th:href="@{/userAdminTable.css}">
+</head>
+<!-- Define the fragment where the content will go -->
+<div class="form-container" layout:fragment="content">
+    <main>
+        <h2>User List</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Roles</th>
+                <th>Mobile Number</th>
+                <th>Actions</th> <!-- Added Actions column -->
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.roles}"></td>
+                <td th:text="${user.mobileNumber}"></td>
+                <td>
+                    <a th:href="@{/editUser/{id}(id=${user.id})}" class="edit-btn">Update</a> <!-- Added Update link -->
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+</html>

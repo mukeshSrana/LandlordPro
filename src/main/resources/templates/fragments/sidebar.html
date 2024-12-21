@@ -94,7 +94,7 @@
             <button class="dropdown-btn" onclick="toggleDropdown('admin-options')">Admin</button>
             <ul id="admin-options" class="dropdown-content" style="display: none;">
                 <li>
-                    <a th:href="@{/handleUser}" th:classappend="${page == 'handleUser' ? 'active' : ''}" onclick="handleSelection(event, 'admin-options')">
+                    <a th:href="@{/admin/users}" th:classappend="${page == 'userAdmin' ? 'active' : ''}" onclick="handleSelection(event, 'admin-options')">
                         Users
                     </a>
                 </li>
