@@ -7,8 +7,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.landlordpro.domain.User;
+import com.landlordpro.dto.UserDto;
 import com.landlordpro.dto.UserRegistrationDTO;
 import com.landlordpro.dto.UserRole;
+import com.landlordpro.mapper.UserMapper;
 import com.landlordpro.repository.UserRepository;
 
 @Service
@@ -16,16 +18,18 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     // Restricting access to only users with ROLE_ADMIN
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        return userMapper.toDTOList(userRepository.findAll());
     }
 
     public boolean isUserExists(String email) {

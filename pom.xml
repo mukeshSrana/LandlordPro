@@ -90,6 +90,17 @@
             <version>2.18.1</version> <!-- Make sure to use the appropriate version matching your Jackson version -->
         </dependency>
 
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.6.3</version>
+        </dependency>
 
         <!-- Spring Boot Starter for Testing -->
         <dependency>
