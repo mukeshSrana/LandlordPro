@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.landlordpro.service.ContactService;
 import com.landlordpro.service.UserService;
 
 @Controller
@@ -13,8 +14,12 @@ import com.landlordpro.service.UserService;
 public class AdminController {
 
     private final UserService userService;
+    private final ContactService contactService;
 
-    public AdminController(UserService userService) { this.userService = userService; }
+    public AdminController(UserService userService, ContactService contactService) {
+        this.userService = userService;
+        this.contactService = contactService;
+    }
 
 //    @GetMapping("/editUser/{id}")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -32,5 +37,14 @@ public class AdminController {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("page", "userAdmin");
         return "userAdmin";
+    }
+
+    // Restricting access at the controller level
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/contacts")
+    public String getAllMessages(Model model) {
+        model.addAttribute("contacts", contactService.getAllContacts());
+        model.addAttribute("page", "contactAdmin");
+        return "contactAdmin";
     }
 }

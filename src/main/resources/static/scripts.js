@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (currentPage === 'report-1' || currentPage === 'report-2') {
     toggleDropdown('report-options');
   }
-  if (currentPage === 'userAdmin' || currentPage === 'handleMessage') {
+  if (currentPage === 'userAdmin' || currentPage === 'contactAdmin') {
     toggleDropdown('admin-options');
   }
 });
