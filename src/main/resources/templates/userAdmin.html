@@ -4,6 +4,7 @@
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/userAdminTable.css}">
+    <script th:src="@{/js/userAdmin.js}"></script>
 </head>
 <!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
@@ -23,9 +24,9 @@
             <tr th:each="user : ${users}">
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.username}"></td>
-                <td th:text="${user.roles}"></td>
-                <td th:text="${user.mobileNumber}"></td>
-                <td th:text="${user.enabled}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${user.roles}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${user.mobileNumber}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${user.enabled}"></td>
                 <td>
                     <a th:href="@{/editUser/{id}(id=${user.id})}" class="edit-btn">Update</a> <!-- Added Update link -->
                 </td>
