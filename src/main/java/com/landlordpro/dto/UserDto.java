@@ -1,5 +1,7 @@
 package com.landlordpro.dto;
 
+import java.util.UUID;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -32,7 +34,7 @@ public class UserDto {
 
     private boolean enabled;
 
-    private Long id;
+    private UUID id;
 }
 
 

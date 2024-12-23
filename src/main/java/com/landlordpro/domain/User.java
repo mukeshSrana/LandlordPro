@@ -2,6 +2,7 @@ package com.landlordpro.domain;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import com.landlordpro.dto.UserRole;
 
@@ -25,8 +26,9 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)  // Default generation strategy
+    @Column(columnDefinition = "CHAR(36)")  // Ensure it matches the DB column type
+    private UUID id;
 
     @Column(nullable = false, unique = true)
     private String username;

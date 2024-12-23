@@ -1,6 +1,7 @@
 package com.landlordpro.domain;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,8 +17,9 @@ import lombok.NoArgsConstructor;
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)  // Default generation strategy
+    @Column(columnDefinition = "CHAR(36)")  // Ensure it matches the DB column type
+    private UUID id;
 
     @Column(nullable = false)
     private String name;

@@ -3,7 +3,7 @@
 -- Step 1: Create the user_roles table
 CREATE TABLE user_roles
 (
-    user_id BIGINT,
+    user_id CHAR(36),
     role    VARCHAR(50),
     PRIMARY KEY (user_id, role),
     FOREIGN KEY (user_id) REFERENCES users (id)
