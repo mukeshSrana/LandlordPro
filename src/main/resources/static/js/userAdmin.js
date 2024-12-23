@@ -17,15 +17,12 @@ function enableEditing(cell) {
     const row = cell.closest('tr');
     const rolesHiddenInput = row.querySelector('input[name="roles"]');
     const mobileNumberHiddenInput = row.querySelector('input[name="mobileNumber"]');
-    const enabledNumberHiddenInput = row.querySelector('input[name="enabled"]');
 
     // Update the hidden input values based on the edited cell content
     if (cell.cellIndex === 2 && rolesHiddenInput) {
       rolesHiddenInput.value = cell.textContent.trim();
     } else if (cell.cellIndex === 3 && mobileNumberHiddenInput) {
       mobileNumberHiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 3 && enabledNumberHiddenInput) {
-      enabledNumberHiddenInput.value = cell.textContent.trim();
     }
   });
 }
