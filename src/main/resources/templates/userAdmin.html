@@ -27,8 +27,7 @@
                 <td ondblclick="enableEditing(this)" th:text="${user.roles}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${user.mobileNumber}"></td>
                 <td>
-                    <!-- Dropdown for enabled -->
-                    <select th:name="enabled">
+                    <select th:name="enabled" onchange="updateHiddenEnabledInput(this)">
                         <option value="true" th:selected="${user.enabled} == true">True</option>
                         <option value="false" th:selected="${user.enabled} == false">False</option>
                     </select>

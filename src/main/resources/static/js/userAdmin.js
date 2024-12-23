@@ -29,3 +29,13 @@ function enableEditing(cell) {
     }
   });
 }
+
+function updateHiddenEnabledInput(selectElement) {
+  const row = selectElement.closest('tr');
+  const hiddenEnabledInput = row.querySelector('input[name="enabled"]');
+
+  if (hiddenEnabledInput) {
+    hiddenEnabledInput.value = selectElement.value; // Update hidden input value
+  }
+}
+
