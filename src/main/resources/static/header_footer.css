@@ -50,20 +50,20 @@ footer p {
 
 /* Styling for the copyright symbol and year */
 footer p span.copyright {
-    font-size: 1.1rem; /* Slightly larger font size for copyright */
+    /*font-size: 1.1rem; !* Slightly larger font size for copyright *!*/
     color: #f1f1f1; /* Light gray color for the copyright */
 }
 
 /* Styling for the .landlord class */
 .landlord {
     margin-right: 10px; /* Space between 'Landlord Pro' and 'R&D Consulting' */
-    font-weight: bold; /* Bold for emphasis */
-    color: #ffb700; /* A warm yellow color for "Landlord Pro" */
+    /*font-weight: bold; !* Bold for emphasis *!*/
+    color: #f1f1f1; /* A warm yellow color for "Landlord Pro" */
 }
 
 /* Styling for the .consulting class */
 .consulting {
-    font-size: 0.9rem; /* Smaller font size for the second span */
+    font-size: 0.8rem; /* Smaller font size for the second span */
     font-style: italic; /* Italicize the text */
     color: #ccc; /* Light gray color for "R&D Consulting" */
 }
