@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import com.landlordpro.domain.User;
 import com.landlordpro.dto.UserDto;
@@ -32,5 +33,9 @@ public interface UserMapper {
     // Mapping for lists
     List<UserDto> toDTOList(List<User> users);
     List<User> toEntityList(List<UserDto> userDTOs);
+
+    // Method for updating existing user while keeping the extra fields
+    @Mapping(target = "roles", expression = "java(stringToRoles(userDTO.getRoles()))")
+    void updateEntityFromDto(UserDto userDTO, @MappingTarget User user);
 }
 

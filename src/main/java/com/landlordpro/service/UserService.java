@@ -1,7 +1,10 @@
 package com.landlordpro.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,28 @@ public class UserService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<UserDto> getAllUsers() {
         return userMapper.toDTOList(userRepository.findAll());
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public boolean updateUser(UserDto userDto) {
+        // Retrieve the existing user entity by ID
+        User existingUser = userRepository.findById(userDto.getId())
+            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userDto.getId()));
+
+        // Map the fields from the DTO to the existing entity
+        userMapper.updateEntityFromDto(userDto, existingUser);
+
+        // Save the updated entity
+        try {
+            userRepository.save(existingUser);
+        } catch (DataIntegrityViolationException ex) {
+            // Handle constraint violation, e.g., duplicate username
+            throw new RuntimeException("Constraint violation while updating user", ex);
+        } catch (Exception ex) {
+            // General exception handling
+            throw new RuntimeException("Unexpected error while updating user", ex);
+        }
+        return true;
     }
 
     public boolean isUserExists(String email) {

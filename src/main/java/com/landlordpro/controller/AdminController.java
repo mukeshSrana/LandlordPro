@@ -1,11 +1,17 @@
 package com.landlordpro.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.landlordpro.dto.UserDto;
 import com.landlordpro.service.ContactService;
 import com.landlordpro.service.UserService;
 
@@ -21,14 +27,25 @@ public class AdminController {
         this.contactService = contactService;
     }
 
-//    @GetMapping("/editUser/{id}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    public String editUser(@PathVariable Long id, Model model) {
-//        User user = userService.getUserById(id); // Fetch the user by ID
-//        model.addAttribute("user", user); // Add the user to the model for editing
-//        return "edit-user"; // Return the view name for editing user
-//    }
-
+    @PostMapping("/update/user")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String update(@ModelAttribute UserDto userDto) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            boolean updated = userService.updateUser(userDto);
+            if (updated) {
+                response.put("success", true);
+                response.put("userUpdated", updated);
+            } else {
+                response.put("success", false);
+                response.put("message", "Update failed: user not found or could not be updated.");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Error: " + e.getMessage());
+        }
+        return  "redirect:/admin/users";
+    }
 
     // Restricting access at the controller level
     @PreAuthorize("hasRole('ROLE_ADMIN')")
