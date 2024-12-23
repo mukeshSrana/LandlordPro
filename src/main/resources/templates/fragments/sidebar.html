@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <aside th:fragment="sidebar">
     <ul>
@@ -83,6 +84,23 @@
                 <li>
                     <a th:href="@{/report-2}" th:classappend="${page == 'report-2' ? 'active' : ''}" onclick="handleSelection(event, 'report-options')">
                         Report-2
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Admin Menu -->
+        <li sec:authorize="hasRole('ROLE_ADMIN')">
+            <button class="dropdown-btn" onclick="toggleDropdown('admin-options')">Admin</button>
+            <ul id="admin-options" class="dropdown-content" style="display: none;">
+                <li>
+                    <a th:href="@{/admin/users}" th:classappend="${page == 'userAdmin' ? 'active' : ''}" onclick="handleSelection(event, 'admin-options')">
+                        Users
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/contacts}" th:classappend="${page == 'contactAdmin' ? 'active' : ''}" onclick="handleSelection(event, 'admin-options')">
+                        Contacts
                     </a>
                 </li>
             </ul>

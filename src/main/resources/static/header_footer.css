@@ -28,19 +28,62 @@ header nav ul li a {
     text-decoration: none;
 }
 
+/* Footer Styling */
 footer {
-    background: #333;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    height: 20px;
+    background: #333; /* Dark background for the footer */
+    color: white; /* White text color for contrast */
+    text-align: center; /* Center-align the text */
+    padding: 1.5rem 0; /* Add vertical padding for spacing */
+    height: auto; /* Allow the footer to adjust height based on content */
+    position: relative; /* Position relative for any future adjustments or elements */
+    bottom: 0; /* Stick the footer at the bottom if needed */
+    width: 100%; /* Full width of the container */
 }
 
+/* Styling for the <p> tag inside footer */
+footer p {
+    font-family: 'Arial', sans-serif; /* Clean sans-serif font */
+    font-size: 1rem; /* Standard font size */
+    line-height: 1.6; /* Improved line height for readability */
+    margin: 0; /* Remove default margin */
+}
+
+/* Styling for the copyright symbol and year */
+footer p span.copyright {
+    /*font-size: 1.1rem; !* Slightly larger font size for copyright *!*/
+    color: #f1f1f1; /* Light gray color for the copyright */
+}
+
+/* Styling for the .landlord class */
 .landlord {
-    margin-right: 50px; /* Space between Landlord Pro and R&D consulting */
+    margin-right: 10px; /* Space between 'Landlord Pro' and 'R&D Consulting' */
+    /*font-weight: bold; !* Bold for emphasis *!*/
+    color: #f1f1f1; /* A warm yellow color for "Landlord Pro" */
 }
 
+/* Styling for the .consulting class */
 .consulting {
-    font-size: 0.8rem;  /* Smaller font size */
+    font-size: 0.8rem; /* Smaller font size for the second span */
     font-style: italic; /* Italicize the text */
+    color: #ccc; /* Light gray color for "R&D Consulting" */
+}
+
+/* Responsive Design: Adjust for smaller screens */
+@media (max-width: 768px) {
+    footer {
+        padding: 1rem 0; /* Adjust padding for mobile screens */
+    }
+
+    footer p {
+        font-size: 0.9rem; /* Smaller font size on mobile */
+        line-height: 1.4; /* Adjust line height for mobile */
+    }
+
+    .landlord {
+        font-size: 0.95rem; /* Slightly smaller text for "Landlord Pro" */
+    }
+
+    .consulting {
+        font-size: 0.8rem; /* Smaller text for "R&D Consulting" */
+    }
 }

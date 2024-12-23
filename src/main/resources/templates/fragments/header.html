@@ -1,9 +1,26 @@
+<head>
+    <script th:src="@{/auth-check.js}"></script>
+</head>
+<body>
+<script th:src="@{/auth-check.js}"></script>
+</body>
 <header>
     <nav>
         <h1>Landlord Pro</h1>
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
+            <li id="authStatus" th:data-authenticated="${isAuthenticated}">
+                <!-- Logout Form -->
+                <form id="logoutForm" action="/logout" method="post" style="display: none;">
+                    <button type="submit" id="logoutButton">Logout</button>
+                </form>
+
+                <a id="logoutLink" href="#" style="display:none;">Logout</a>
+                <a id="loginLink" href="/login" style="display:none;">Login</a>
+            </li>
         </ul>
     </nav>
 </header>
+
+
