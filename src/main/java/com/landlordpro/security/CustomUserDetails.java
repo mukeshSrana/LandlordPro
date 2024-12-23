@@ -14,6 +14,7 @@ import lombok.Data;
 public class CustomUserDetails implements UserDetails {
 
     private final UUID id;
+    private final String name;
     private final String username;
     private final String password;
     private final boolean isAccountNonExpired;
