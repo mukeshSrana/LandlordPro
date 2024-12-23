@@ -53,3 +53,38 @@
     background-color: #45a049;
     text-decoration: none;
 }
+/* Dropdown styling */
+.form-container select {
+    width: 100%; /* Adjusts to table cell width */
+    padding: 0.5rem; /* Matches padding of table cells */
+    border: 1px solid #ccc; /* Border to match input fields */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 1rem; /* Matches table font size */
+    background-color: #fff; /* White background for dropdown */
+    cursor: pointer; /* Indicate interactiveness */
+    transition: border-color 0.3s ease; /* Smooth border transition */
+}
+
+.form-container select:hover {
+    border-color: #4CAF50; /* Highlight border on hover */
+}
+
+.form-container select:focus {
+    outline: none; /* Remove default outline */
+    border-color: #45a049; /* Change border color when focused */
+    box-shadow: 0 0 5px rgba(69, 160, 73, 0.5); /* Add subtle shadow */
+}
+
+/* Dropdown option styling */
+.form-container select option {
+    font-size: 1rem; /* Consistent font size */
+    padding: 0.5rem; /* Padding inside options */
+}
+
+/* Adjust the cell for dropdown to ensure proper alignment */
+.form-container table td select {
+    margin: 0; /* Ensure no extra spacing in table cell */
+    padding: 0.3rem 0.5rem; /* Adjust padding for alignment */
+}
+
+
