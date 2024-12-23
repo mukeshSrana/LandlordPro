@@ -1,39 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Expense</title>
-</head>
-<body>
-<header>
-    <h1>Landlord Pro</h1>
-    <p>Manage your rental relations and expenses here</p>
-</header>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Create Expense</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<header>-->
+<!--    <h1>Landlord Pro</h1>-->
+<!--    <p>Manage your rental relations and expenses here</p>-->
+<!--</header>-->
 
-<div th:fragment="content">
-    <form th:action="@{/expenses/create}" th:object="${expense}" method="post">
-        <div class="form-group">
-            <label for="name">Expense Name</label>
-            <input type="text" id="name" th:field="*{name}" required>
-        </div>
-        <div class="form-group">
-            <label for="apartmentName">Apartment Name</label>
-            <select id="apartmentName" th:field="*{apartmentName}" required>
-                <option value="" disabled selected></option>
-                <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="amount">Amount</label>
-            <input type="number" id="amount" th:field="*{amount}" required>
-        </div>
-        <div class="form-group">
-            <label for="date">Date</label>
-            <input type="date" id="date" th:field="*{date}" required>
-        </div>
-        <button type="submit">Create Expense</button>
-    </form>
-</div>
-</body>
-</html>
+<!--<div th:fragment="content">-->
+<!--    <form th:action="@{/expenses/create}" th:object="${expense}" method="post">-->
+<!--        <div class="form-group">-->
+<!--            <label for="name">Expense Name</label>-->
+<!--            <input type="text" id="name" th:field="*{name}" required>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="apartmentName">Apartment Name</label>-->
+<!--            <select id="apartmentName" th:field="*{apartmentName}" required>-->
+<!--                <option value="" disabled selected></option>-->
+<!--                <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="amount">Amount</label>-->
+<!--            <input type="number" id="amount" th:field="*{amount}" required>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="date">Date</label>-->
+<!--            <input type="date" id="date" th:field="*{date}" required>-->
+<!--        </div>-->
+<!--        <button type="submit">Create Expense</button>-->
+<!--    </form>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

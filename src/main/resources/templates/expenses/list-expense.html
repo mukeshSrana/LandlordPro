@@ -1,74 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense List</title>
-    <link rel="stylesheet" href="/css/expense-list.css"> <!-- Reference the same CSS file -->
-</head>
-<body>
-<header>
-    <h1>Welcome to Landlord Pro</h1>
-    <p>Manage your rental relations and expenses here</p>
-</header>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Expense List</title>-->
+<!--    <link rel="stylesheet" href="/css/expense-list.css"> &lt;!&ndash; Reference the same CSS file &ndash;&gt;-->
+<!--</head>-->
+<!--<body>-->
+<!--<header>-->
+<!--    <h1>Welcome to Landlord Pro</h1>-->
+<!--    <p>Manage your rental relations and expenses here</p>-->
+<!--</header>-->
 
-<div th:if="${message}" th:classappend="${messageType == 'success' ? 'alert-success' : 'alert-error'}">
-    <p th:text="${message}"></p>
-</div>
+<!--<div th:if="${message}" th:classappend="${messageType == 'success' ? 'alert-success' : 'alert-error'}">-->
+<!--    <p th:text="${message}"></p>-->
+<!--</div>-->
 
-<div th:fragment="content">
-    <div class="filters">
-        <div class="filter-group">
-            <form action="/expenses/list" method="get">
-                <label for="year">Year:</label>
-                <select id="year" name="year" onchange="this.form.submit()">
-                    <option value="">Select Year</option>
-                    <option th:each="year : ${years}" th:value="${year}" th:text="${year}" th:selected="${year == selectedYear}"></option>
-                </select>
+<!--<div th:fragment="content">-->
+<!--    <div class="filters">-->
+<!--        <div class="filter-group">-->
+<!--            <form action="/expenses/list" method="get">-->
+<!--                <label for="year">Year:</label>-->
+<!--                <select id="year" name="year" onchange="this.form.submit()">-->
+<!--                    <option value="">Select Year</option>-->
+<!--                    <option th:each="year : ${years}" th:value="${year}" th:text="${year}" th:selected="${year == selectedYear}"></option>-->
+<!--                </select>-->
 
-                <label for="apartment">Apartment:</label>
-                <select id="apartment" name="apartmentName" onchange="this.form.submit()">
-                    <option value="">Select Apartment</option>
-                    <option th:each="apartment : ${apartments}" th:value="${apartment}" th:text="${apartment}" th:selected="${apartment == selectedApartment}"></option>
-                </select>
-            </form>
-        </div>
-    </div>
+<!--                <label for="apartment">Apartment:</label>-->
+<!--                <select id="apartment" name="apartmentName" onchange="this.form.submit()">-->
+<!--                    <option value="">Select Apartment</option>-->
+<!--                    <option th:each="apartment : ${apartments}" th:value="${apartment}" th:text="${apartment}" th:selected="${apartment == selectedApartment}"></option>-->
+<!--                </select>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
 
-    <table>
-        <thead>
-        <tr>
-            <th>Year</th>
-            <th>Apartment Name</th>
-            <th>Expense Name</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="expense : ${expenses}">
-            <tr>
-                <td th:text="${expense.year}"></td>
-                <td th:text="${expense.apartmentName}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${expense.amount}"></td>
-                <td th:text="${expense.date}"></td>
-                <td>
-                    <!-- Delete Form -->
-                    <form th:action="@{/expenses/delete}" method="post" style="display:inline;">
-                        <input type="hidden" name="id" th:value="${expense.id}">
-                        <input type="hidden" name="year" th:value="${expense.year}">
-                        <input type="hidden" name="apartmentName" th:value="${expense.apartmentName}">
-                        <button type="submit" class="delete-btn">Delete</button>
-                    </form>
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Year</th>-->
+<!--            <th>Apartment Name</th>-->
+<!--            <th>Expense Name</th>-->
+<!--            <th>Amount</th>-->
+<!--            <th>Date</th>-->
+<!--            <th>Action</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <th:block th:each="expense : ${expenses}">-->
+<!--            <tr>-->
+<!--                <td th:text="${expense.year}"></td>-->
+<!--                <td th:text="${expense.apartmentName}"></td>-->
+<!--                <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>-->
+<!--                <td ondblclick="enableEditing(this)" th:text="${expense.amount}"></td>-->
+<!--                <td th:text="${expense.date}"></td>-->
+<!--                <td>-->
+<!--                    &lt;!&ndash; Delete Form &ndash;&gt;-->
+<!--                    <form th:action="@{/expenses/delete}" method="post" style="display:inline;">-->
+<!--                        <input type="hidden" name="id" th:value="${expense.id}">-->
+<!--                        <input type="hidden" name="year" th:value="${expense.year}">-->
+<!--                        <input type="hidden" name="apartmentName" th:value="${expense.apartmentName}">-->
+<!--                        <button type="submit" class="delete-btn">Delete</button>-->
+<!--                    </form>-->
 
-                    <button type="button" class="update-btn" onclick="submitUpdate(this)">Update</button>
-                </td>
-            </tr>
-        </th:block>
-        </tbody>
-    </table>
-</div>
-</body>
-</html>
+<!--                    <button type="button" class="update-btn" onclick="submitUpdate(this)">Update</button>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </th:block>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
