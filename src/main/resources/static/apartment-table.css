@@ -37,21 +37,21 @@
     cursor: pointer; /* Optional, makes rows feel interactive */
 }
 
-/* Edit button styling */
 .form-container .edit-btn {
-    background-color: #4CAF50;
+    background-color: #007BFF;
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 10px 15px;
     border: none;
     border-radius: 4px;
+    cursor: pointer;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 1rem;
     display: inline-block;
     transition: background-color 0.3s ease;
 }
 
 .form-container .edit-btn:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
     text-decoration: none;
 }
 
