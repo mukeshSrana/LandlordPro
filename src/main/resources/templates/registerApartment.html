@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http:www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
@@ -25,10 +25,10 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <form th:action="@{/saveApartment}" method="post">
-        <label for="apartmentName">Apartment Name:</label>
-        <input type="text" id="apartmentName" name="apartmentName" required pattern="^[a-zA-Z0-9]+$"
-               title="Apartment name must contain only letters and numbers without spaces or special characters">
+    <form th:action="@{/apartment/save}" method="post">
+        <label for="apartmentShortName">Apartment Name(Short):</label>
+        <input type="text" id="apartmentShortName" name="apartmentShortName" required pattern="^[a-zA-Z0-9]+$"
+               title="Apartment short name must contain only letters and numbers without spaces or special characters">
 
         <label for="addressLine1">Address Line 1:</label>
         <input type="text" id="addressLine1" name="addressLine1" required>
@@ -39,21 +39,18 @@
         <label for="pincode">Pin Code:</label>
         <input type="text" id="pincode" name="pincode" required pattern="[0-9]{4,10}">
 
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" required>
-
-        <label for="country">Country:</label>
-        <select id="country" name="country" required>
-            <option value="">-- Select Country --</option>
-            <option value="Norway">Norway</option>
-            <option value="Sweden">Sweden</option>
-            <option value="Denmark">Denmark</option>
-            <option value="Finland">Finland</option>
-            <option value="Other">Other</option>
-        </select>
+        <div class="city-country-row">
+            <div class="city-container">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <div class="country-container">
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" value="Norway" required readonly>
+            </div>
+        </div>
 
         <button type="submit">Register</button>
     </form>
-    <p class="required-fields-info">All fields marked as required must be filled in.</p>
 </div>
 </html>

@@ -1,12 +1,11 @@
-package com.landlordpro.service;
+package com.landlordpro.security;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         // Return a new UserDetails object with the necessary details
-        return new org.springframework.security.core.userdetails.User(
+        return new CustomUserDetails(
+            user.getId(),
             user.getUsername(),
             user.getPassword(),
             user.isEnabled(),

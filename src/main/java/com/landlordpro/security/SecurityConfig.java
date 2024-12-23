@@ -1,4 +1,4 @@
-package com.landlordpro.config;
+package com.landlordpro.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +11,6 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import com.landlordpro.service.CustomUserDetailsService;
 
 @Configuration
 public class SecurityConfig {

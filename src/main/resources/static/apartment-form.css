@@ -1,3 +1,22 @@
+/* Adjust form container for better layout */
+/*.form-container {*/
+/*    width: 40%;*/
+/*    max-width: 600px;*/
+/*    margin: 2rem auto;*/
+/*    padding: 2rem;*/
+/*    border-radius: 8px;*/
+/*    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);*/
+/*    background-color: #f9f9f9;*/
+/*}*/
+
+/*.form-container {*/
+/*    width: 40%; !* Adjusted to 30% for better alignment *!*/
+/*    max-width: 600px; !* Ensures the form does not grow too large on wide screens *!*/
+/*    margin: 2rem 2rem; !* Aligns form to the left with spacing *!*/
+/*    padding: 1rem 2rem 2rem; !* Padding inside the form *!*/
+/*    border-radius: 8px;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*}*/
 /* Adjust form container to ensure no extra padding or margin */
 .form-container {
     width: 35%; /* Adjusted to 30% for better alignment */
@@ -58,6 +77,19 @@
     font-size: 1rem;
 }
 
+/* Styling for City and Country inputs in one row */
+.city-country-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.city-container,
+.country-container {
+    flex: 1;
+}
+
+/* Styling for the Register button */
 .form-container button {
     display: block;
     width: 100%;
@@ -100,4 +132,3 @@
     text-align: center; /* Optional, you can adjust based on your preference */
     font-style: italic; /* Optional */
 }
-

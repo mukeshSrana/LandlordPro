@@ -31,7 +31,7 @@ public class SidebarController {
     @GetMapping("/registerExpense")
     public String registerExpense(Model model) {
         model.addAttribute("page", "registerExpense");
-        model.addAttribute("apartmentNames", apartmentService.apartmentNames());
+        //model.addAttribute("apartmentNames", apartmentService.apartmentNames());
         return "registerExpense";
     }
 
@@ -43,7 +43,7 @@ public class SidebarController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error creating expense: " + e.getMessage());
         }
-        model.addAttribute("apartmentNames", apartmentService.apartmentNames());
+        //model.addAttribute("apartmentNames", apartmentService.apartmentNames());
         model.addAttribute("page", "registerExpense");
         return "redirect:/registerExpense";
     }
