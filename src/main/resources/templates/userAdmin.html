@@ -9,6 +9,14 @@
 <!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
     <main>
+        <div th:if="${response != null}">
+            <div th:if="${response.success}" class="alert alert-success">
+                <p th:text="${response.message}"></p>
+            </div>
+            <div th:if="${!response.success}" class="alert alert-danger">
+                <p th:text="${response.message}"></p>
+            </div>
+        </div>
         <table>
             <thead>
             <tr>
