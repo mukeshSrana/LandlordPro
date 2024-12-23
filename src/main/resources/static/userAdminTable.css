@@ -38,7 +38,7 @@
 
 /* Edit button styling */
 .form-container .edit-btn {
-    background-color: #4CAF50;
+    background-color: #007BFF;
     color: white;
     padding: 0.5rem 1rem;
     border: none;
@@ -50,7 +50,7 @@
 }
 
 .form-container .edit-btn:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
     text-decoration: none;
 }
 /* Dropdown styling */
@@ -66,12 +66,12 @@
 }
 
 .form-container select:hover {
-    border-color: #4CAF50; /* Highlight border on hover */
+    border-color: #0056b3; /* Highlight border on hover */
 }
 
 .form-container select:focus {
     outline: none; /* Remove default outline */
-    border-color: #45a049; /* Change border color when focused */
+    border-color: #007BFF; /* Change border color when focused */
     box-shadow: 0 0 5px rgba(69, 160, 73, 0.5); /* Add subtle shadow */
 }
 
