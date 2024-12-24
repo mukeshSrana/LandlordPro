@@ -26,7 +26,7 @@ spring:
       chain:
         enabled: true
   datasource:
-#    url: jdbc:h2:file:./data/testdb
+#    url: jdbc:h2:file:./data/testdb #use this ehen to deploy at rendor
     url: jdbc:h2:tcp://localhost:9092/./data/testdb;IFEXISTS=FALSE
     driver-class-name: org.h2.Driver
     username: sa
