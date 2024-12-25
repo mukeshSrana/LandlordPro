@@ -9,6 +9,8 @@ function enableEditing(cell) {
   cell.contentEditable = true;
   cell.focus();
 
+  const validationPattern = /^[a-zA-Z0-9]+$/;
+
   // Add an event listener to update hidden inputs when editing is complete
   cell.addEventListener('blur', () => {
     cell.contentEditable = false; // Disable editing
@@ -23,8 +25,14 @@ function enableEditing(cell) {
     const countryHiddenInput = row.querySelector('input[name="country"]');
 
     // Update the hidden input values based on the edited cell content
+    const newValue = cell.textContent.trim();
     if (cell.cellIndex === 0 && apartmentShortNameHiddenInput) {
-      apartmentShortNameHiddenInput.value = cell.textContent.trim();
+      if (validationPattern.test(newValue)) {
+        apartmentShortNameHiddenInput.value = newValue;
+      } else {
+        alert("Invalid input for apartment short name. Only alphanumeric characters are allowed.");
+        cell.textContent = apartmentShortNameHiddenInput.value; // Revert to the original value
+      }
     } else if (cell.cellIndex === 1 && addressLine1HiddenInput) {
       addressLine1HiddenInput.value = cell.textContent.trim();
     } else if (cell.cellIndex === 2 && addressLine2HiddenInput) {

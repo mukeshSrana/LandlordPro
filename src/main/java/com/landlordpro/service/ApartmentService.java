@@ -26,7 +26,11 @@ public class ApartmentService {
     }
 
     public boolean isExistsForUser(String apartmentName, UUID userId) {
-        return apartmentRepository.existsByApartmentShortNameAndUserId(apartmentName, userId);
+        return apartmentRepository.existsByApartmentShortNameIgnoreCaseAndUserId(apartmentName.toLowerCase(), userId);
+    }
+
+    public boolean isExistsForUser(UUID apartmentID, UUID userId) {
+        return apartmentRepository.existsByIdAndUserId(apartmentID, userId);
     }
 
     public List<String> getApartmentNamesForUser(UUID userId) {
@@ -44,7 +48,7 @@ public class ApartmentService {
     }
 
     public void update(ApartmentDto apartmentDto, UUID userId) {
-        if (!isExistsForUser(apartmentDto.getApartmentShortName(), userId)) {
+        if (!isExistsForUser(apartmentDto.getId(), userId)) {
             String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " not exists for the logged-in user.";
             throw new RuntimeException(errorMsg);
         }
