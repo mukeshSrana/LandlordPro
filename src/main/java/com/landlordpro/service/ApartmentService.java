@@ -43,7 +43,20 @@ public class ApartmentService {
         return apartmentMapper.toDTO(apartment);
     }
 
+    public void update(ApartmentDto apartmentDto, UUID userId) {
+        if (!isExistsForUser(apartmentDto.getApartmentShortName(), userId)) {
+            String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " not exists for the logged-in user.";
+            throw new RuntimeException(errorMsg);
+        }
+        save(apartmentDto);
+    }
+
     public void save(ApartmentDto apartmentDto) {
+        if (isExistsForUser(apartmentDto.getApartmentShortName(), apartmentDto.getUserId())) {
+            String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " already exists for the logged-in user.";
+            throw new RuntimeException(errorMsg);
+        }
+
         Apartment apartment = apartmentMapper.toEntity(apartmentDto);
         try {
             apartmentRepository.save(apartment);
@@ -57,12 +70,4 @@ public class ApartmentService {
             throw new RuntimeException(errorMessage, ex);
         }
     }
-
-//    public void update(ApartmentDto apartmentDto) {
-//        if (!isExistsForUser(apartmentDto.getApartmentShortName(), apartmentDto.getUserId())) {
-//            throw new RuntimeException(
-//                "Apartment with ID " + apartmentDto.getId() + " for User ID " + apartmentDto.getUserId() + " not found.");
-//        }
-//        save(apartmentDto);
-//    }
 }

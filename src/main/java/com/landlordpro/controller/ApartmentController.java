@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.landlordpro.config.AppConfig;
 import com.landlordpro.dto.ApartmentDto;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
@@ -22,11 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/apartment")
 public class ApartmentController {
-    private final AppConfig appConfig;
     private final ApartmentService apartmentService;
 
-    public ApartmentController(AppConfig appConfig, ApartmentService apartmentService) {
-        this.appConfig = appConfig;
+    public ApartmentController(ApartmentService apartmentService) {
         this.apartmentService = apartmentService;
     }
 
@@ -35,12 +32,6 @@ public class ApartmentController {
         try {
             // Retrieve the logged-in user's ID
             UUID userId = currentUserId(authentication);
-
-            // Check if an apartment with the same name already exists for the user
-            if (apartmentService.isExistsForUser(apartmentDto.getApartmentShortName(), userId)) {
-                model.addAttribute("errorMessage", "Apartment with this name already exists for the logged-in user.");
-                return "registerApartment"; // Return to the form with error message
-            }
 
             apartmentDto.setUserId(userId);
 
@@ -62,14 +53,8 @@ public class ApartmentController {
             // Retrieve the logged-in user's ID
             UUID userId = currentUserId(authentication);
 
-            // Check if an apartment with the same name already exists for the user
-            if (!apartmentService.isExistsForUser(apartmentDto.getApartmentShortName(), userId)) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Apartment with this name not exists for the logged-in user.");
-                return "redirect:/apartment/handle";
-            }
-
             // Save the apartment to the database
-            apartmentService.save(apartmentDto);
+            apartmentService.update(apartmentDto, userId);
 
             redirectAttributes.addFlashAttribute("successMessage", "Apartment updated successfully!");
             return "redirect:/apartment/handle"; // Redirect or forward to success page

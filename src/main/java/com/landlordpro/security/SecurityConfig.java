@@ -83,6 +83,5 @@ public class SecurityConfig {
             .passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
-
 }
 
