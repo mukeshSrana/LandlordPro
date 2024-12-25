@@ -1,6 +1,7 @@
 package com.landlordpro.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,6 @@ public interface ApartmentRepository extends JpaRepository<Apartment, UUID> {
     List<Apartment> findByUserId(UUID userId);
 
     boolean existsByApartmentShortNameAndUserId(String apartmentShortName, UUID userId);
+
+    Optional<Apartment> findByIdAndUserId(UUID apartmentId, UUID userId);
 }

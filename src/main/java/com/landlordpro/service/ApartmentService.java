@@ -3,6 +3,7 @@ package com.landlordpro.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.landlordpro.domain.Apartment;
@@ -15,11 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class ApartmentService {
-    //    private final ObjectMapper objectMapper;
     private final ApartmentRepository apartmentRepository;
-
-//    @Value("${app.file-storage.apartment}")
-//    private String fileStorageApartmentDir;
 
     private final ApartmentMapper apartmentMapper;
 
@@ -31,7 +28,6 @@ public class ApartmentService {
     public boolean isExistsForUser(String apartmentName, UUID userId) {
         return apartmentRepository.existsByApartmentShortNameAndUserId(apartmentName, userId);
     }
-
 
     public List<String> getApartmentNamesForUser(UUID userId) {
         return apartmentRepository.findApartmentNamesByUserId(userId);
@@ -49,6 +45,24 @@ public class ApartmentService {
 
     public void save(ApartmentDto apartmentDto) {
         Apartment apartment = apartmentMapper.toEntity(apartmentDto);
-        apartmentRepository.save(apartment);
+        try {
+            apartmentRepository.save(apartment);
+        } catch (DataIntegrityViolationException ex) {
+            String errorMessage = "Constraint violation while saving apartment=" + apartmentDto.getId() + "User=" + apartmentDto.getUserId();
+            log.error(errorMessage, ex); // Assuming you have a logger in place
+            throw new RuntimeException(errorMessage, ex);
+        } catch (Exception ex) {
+            String errorMessage = "Unexpected error while saving apartment=" + apartmentDto.getId() + "User=" + apartmentDto.getUserId();
+            log.error(errorMessage, ex); // Assuming you have a logger in place
+            throw new RuntimeException(errorMessage, ex);
+        }
     }
+
+//    public void update(ApartmentDto apartmentDto) {
+//        if (!isExistsForUser(apartmentDto.getApartmentShortName(), apartmentDto.getUserId())) {
+//            throw new RuntimeException(
+//                "Apartment with ID " + apartmentDto.getId() + " for User ID " + apartmentDto.getUserId() + " not found.");
+//        }
+//        save(apartmentDto);
+//    }
 }

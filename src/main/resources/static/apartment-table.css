@@ -9,6 +9,37 @@
     /*background-color: #f9f9f9; !* Light background for contrast *!*/
 }
 
+.form-container .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important; /* Ensure there's no margin at the top */
+    padding-top: 0 !important; /* Ensure there's no extra padding */
+    padding-bottom: 0 !important;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
+}
+
+/* Success message styling */
+.form-container .success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important; /* Ensure there's no margin at the top */
+    padding-top: 0 !important; /* Ensure there's no extra padding */
+    padding-bottom: 0 !important;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
+}
+
 /* Table styling */
 .form-container table {
     width: 100%;
@@ -53,5 +84,20 @@
 .form-container .edit-btn:hover {
     background-color: #0056b3;
     text-decoration: none;
+}
+
+.form-container .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.form-container .close-btn:hover {
+    color: #aaa;
 }
 

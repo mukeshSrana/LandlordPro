@@ -1,6 +1,5 @@
 package com.landlordpro.controller;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.config.AppConfig;
 import com.landlordpro.dto.ApartmentDto;
@@ -31,10 +31,10 @@ public class ApartmentController {
     }
 
     @PostMapping("/save")
-    public String saveApartment(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, Model model) {
+    public String save(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, Model model) {
         try {
             // Retrieve the logged-in user's ID
-            UUID userId = ((CustomUserDetails) authentication.getPrincipal()).getId();
+            UUID userId = currentUserId(authentication);
 
             // Check if an apartment with the same name already exists for the user
             if (apartmentService.isExistsForUser(apartmentDto.getApartmentShortName(), userId)) {
@@ -56,22 +56,42 @@ public class ApartmentController {
         }
     }
 
+    @PostMapping("/update")
+    public String update(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, RedirectAttributes redirectAttributes) {
+        try {
+            // Retrieve the logged-in user's ID
+            UUID userId = currentUserId(authentication);
+
+            // Check if an apartment with the same name already exists for the user
+            if (!apartmentService.isExistsForUser(apartmentDto.getApartmentShortName(), userId)) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Apartment with this name not exists for the logged-in user.");
+                return "redirect:/apartment/handle";
+            }
+
+            // Save the apartment to the database
+            apartmentService.save(apartmentDto);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Apartment updated successfully!");
+            return "redirect:/apartment/handle"; // Redirect or forward to success page
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while updating apartment: ", e);
+            return "redirect:/apartment/handle"; // Return to the form with error message
+        }
+    }
+
     @GetMapping("/register")
-    public String registerApartment(Model model) {
+    public String register(Model model) {
         model.addAttribute("page", "registerApartment");
         return "registerApartment";
     }
 
     @GetMapping("/handle")
-    public String handleApartment(Model model, Authentication authentication) {
-        model.addAttribute("apartments", apartmentForLoggedInUser(authentication));
+    public String handle(Model model, Authentication authentication) {
+        UUID userId = currentUserId(authentication);
+        model.addAttribute("apartments", apartmentService.getApartmentsForUser(userId));
         model.addAttribute("page", "handleApartment");
         return "handleApartment";
-    }
-
-    private List<ApartmentDto> apartmentForLoggedInUser(Authentication authentication) {
-        UUID userId = currentUserId(authentication);
-        return apartmentService.getApartmentsForUser(userId);
     }
 
     public UUID currentUserId(Authentication authentication) {

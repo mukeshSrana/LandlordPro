@@ -4,10 +4,28 @@
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/apartment-table.css}">
+    <script th:src="@{/js/apartmentUpdate.js}"></script>
+    <script>
+      function closeMessage(button) {
+        var messageBox = button.parentElement;
+        messageBox.style.display = 'none';
+      }
+    </script>
 </head>
 <!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
     <main>
+        <!-- Display success message -->
+        <div th:if="${successMessage}" class="success-message">
+            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <!-- Display error message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+            <p th:text="${errorMessage}"></p>
+        </div>
         <table>
             <thead>
             <tr>
@@ -22,14 +40,24 @@
             </thead>
             <tbody>
             <tr th:each="apartment : ${apartments}">
-                <td th:text="${apartment.apartmentShortName}"></td>
-                <td th:text="${apartment.addressLine1}"></td>
-                <td th:text="${apartment.addressLine2}"></td>
-                <td th:text="${apartment.pincode}"></td>
-                <td th:text="${apartment.city}"></td>
-                <td th:text="${apartment.country}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${apartment.apartmentShortName}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${apartment.addressLine1}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${apartment.addressLine2}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${apartment.pincode}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${apartment.city}"></td>
+                <td ondblclick="enableEditing(this)" th:text="${apartment.country}"></td>
                 <td>
-                    <a th:href="@{/apartment/update/{id}(id=${apartment.id})}" class="edit-btn">Update</a>
+                    <form th:action="@{/apartment/update}" method="post">
+                        <input type="hidden" th:name="apartmentShortName" th:value="${apartment.apartmentShortName}" />
+                        <input type="hidden" th:name="addressLine1" th:value="${apartment.addressLine1}" />
+                        <input type="hidden" th:name="addressLine2" th:value="${apartment.addressLine2}" />
+                        <input type="hidden" th:name="pincode" th:value="${apartment.pincode}" />
+                        <input type="hidden" th:name="city" th:value="${apartment.city}" />
+                        <input type="hidden" th:name="country" th:value="${apartment.country}" />
+                        <input type="hidden" th:name="userId" th:value="${apartment.userId}" />
+                        <input type="hidden" th:name="id" th:value="${apartment.id}" />
+                        <button type="submit" class="edit-btn">Update</button>
+                    </form>
                 </td>
             </tr>
             </tbody>
