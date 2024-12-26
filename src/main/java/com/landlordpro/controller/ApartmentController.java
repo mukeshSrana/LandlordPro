@@ -28,8 +28,8 @@ public class ApartmentController {
         this.apartmentService = apartmentService;
     }
 
-    @PostMapping("/save")
-    public String save(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, RedirectAttributes redirectAttributes){
+    @PostMapping("/add")
+    public String add(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, RedirectAttributes redirectAttributes){
         try {
             CustomUserDetails userDetails = currentUser(authentication);
             // Retrieve the logged-in user's ID
@@ -37,8 +37,7 @@ public class ApartmentController {
 
             apartmentDto.setUserId(userId);
 
-            // Save the apartment to the database
-            apartmentService.save(apartmentDto);
+            apartmentService.add(apartmentDto);
 
             redirectAttributes.addFlashAttribute("successMessage", "Apartment created successfully!");
             //return "registerApartment"; // Redirect or forward to success page
@@ -59,7 +58,6 @@ public class ApartmentController {
             // Retrieve the logged-in user's ID
             UUID userId = userDetails.getId();
 
-            // Save the apartment to the database
             apartmentService.update(apartmentDto, userId);
 
             redirectAttributes.addFlashAttribute("successMessage", "Apartment updated successfully!");
