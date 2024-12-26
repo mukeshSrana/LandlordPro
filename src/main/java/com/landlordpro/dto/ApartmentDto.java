@@ -20,6 +20,10 @@ public class ApartmentDto {
     @Size(max = 255, message = "Apartment short name should be up to 255 characters")  // Maximum length of 255
     private String apartmentShortName;
 
+    @NotBlank(message = "Owner name is mandatory")  // Ensure it's not blank
+    @Size(max = 100, message = "Owner name should be up to 100 characters")  // Maximum length of 255
+    private String ownerName;
+
     @NotBlank(message = "Address line 1 is mandatory")  // Ensure it's not blank
     @Size(max = 255, message = "Address line 1 should be up to 255 characters")  // Maximum length of 255
     private String addressLine1;

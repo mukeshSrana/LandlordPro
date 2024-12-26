@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.ApartmentDto;
+import com.landlordpro.dto.UserRole;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
 
@@ -31,8 +32,9 @@ public class ApartmentController {
     public String save(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, Model model) {
         model.addAttribute("page", "registerApartment");
         try {
+            CustomUserDetails userDetails = currentUser(authentication);
             // Retrieve the logged-in user's ID
-            UUID userId = currentUserId(authentication);
+            UUID userId = userDetails.getId();
 
             apartmentDto.setUserId(userId);
 
@@ -52,8 +54,9 @@ public class ApartmentController {
     public String update(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("page", "handleApartment");
         try {
+            CustomUserDetails userDetails = currentUser(authentication);
             // Retrieve the logged-in user's ID
-            UUID userId = currentUserId(authentication);
+            UUID userId = userDetails.getId();
 
             // Save the apartment to the database
             apartmentService.update(apartmentDto, userId);
@@ -68,22 +71,37 @@ public class ApartmentController {
     }
 
     @GetMapping("/register")
-    public String register(Model model) {
+    public String register(Model model, Authentication authentication) {
+        CustomUserDetails userDetails = currentUser(authentication);
+
+        // Check if user has ROLE_USER or ROLE_ADMIN
+        // Check if user has ROLE_USER or ROLE_ADMIN using the UserRole enum
+        boolean hasRoleUserOrAdmin = userDetails.getAuthorities().stream()
+            .anyMatch(authority ->
+                authority.getAuthority().equals(UserRole.ROLE_USER.toString()) ||
+                    authority.getAuthority().equals(UserRole.ROLE_ADMIN.toString())
+            );
+        // Only set ownerName if the user has either ROLE_USER or ROLE_ADMIN
+        if (hasRoleUserOrAdmin) {
+            model.addAttribute("ownerName", userDetails.getName());
+        }
+
         model.addAttribute("page", "registerApartment");
         return "registerApartment";
     }
 
     @GetMapping("/handle")
     public String handle(Model model, Authentication authentication) {
-        UUID userId = currentUserId(authentication);
+        CustomUserDetails userDetails = currentUser(authentication);
+        UUID userId = userDetails.getId();
         model.addAttribute("apartments", apartmentService.getApartmentsForUser(userId));
         model.addAttribute("page", "handleApartment");
         return "handleApartment";
     }
 
-    public UUID currentUserId(Authentication authentication) {
+    private CustomUserDetails currentUser(Authentication authentication) {
         if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {
-            return customUserDetails.getId();
+            return customUserDetails;
         }
         throw new IllegalStateException("Unexpected principal type");
     }

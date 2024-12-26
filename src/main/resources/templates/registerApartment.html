@@ -34,7 +34,8 @@
             </div>
             <div class="flex-half">
                 <label for="ownerName">Owner:</label>
-                <input type="text" id="ownerName" name="ownerName" required>
+                <input type="text" id="ownerName" name="ownerName" required th:value="${ownerName}"
+                       th:disabled="${ownerName != null}">
             </div>
         </div>
 
