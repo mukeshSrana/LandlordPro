@@ -52,7 +52,6 @@ public class ApartmentController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("page", "handleApartment");
         try {
             CustomUserDetails userDetails = currentUser(authentication);
             // Retrieve the logged-in user's ID
@@ -61,12 +60,12 @@ public class ApartmentController {
             apartmentService.update(apartmentDto, userId);
 
             redirectAttributes.addFlashAttribute("successMessage", "Apartment updated successfully!");
-            return "redirect:/apartment/handle"; // Redirect or forward to success page
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
             log.error("Unexpected error while updating apartment: ", e);
-            return "redirect:/apartment/handle"; // Return to the form with error message
         }
+        redirectAttributes.addFlashAttribute("page", "handleApartment");
+        return "redirect:/apartment/handle";
     }
 
     @GetMapping("/register")
