@@ -29,6 +29,7 @@ public class ApartmentController {
 
     @PostMapping("/save")
     public String save(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, Model model) {
+        model.addAttribute("page", "registerApartment");
         try {
             // Retrieve the logged-in user's ID
             UUID userId = currentUserId(authentication);
@@ -49,6 +50,7 @@ public class ApartmentController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("page", "handleApartment");
         try {
             // Retrieve the logged-in user's ID
             UUID userId = currentUserId(authentication);
