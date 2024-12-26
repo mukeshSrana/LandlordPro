@@ -34,8 +34,11 @@
             </div>
             <div class="flex-half">
                 <label for="ownerName">Owner:</label>
-                <input type="text" id="ownerName" name="ownerName" required th:value="${ownerName}"
-                       th:disabled="${ownerName != null}">
+                <!-- Disabled input for display -->
+                <input type="text" id="ownerName" name="ownerName" required th:value="${ownerName}" th:disabled="${ownerName != null}">
+
+                <!-- Hidden field to pass the value when the input is disabled -->
+                <input type="hidden" name="ownerName" th:value="${ownerName}">
             </div>
         </div>
 
