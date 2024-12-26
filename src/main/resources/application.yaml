@@ -46,5 +46,5 @@ spring:
     mode: HTML
     encoding: UTF-8
     cache: false
-    enable-spring-el-compiler: true
+    enable-spring-el-compiler: false
 

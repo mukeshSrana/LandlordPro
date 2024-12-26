@@ -11,7 +11,6 @@
       }
     </script>
 </head>
-<!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
     <!-- Display success message -->
     <div th:if="${successMessage}" class="success-message">
@@ -26,25 +25,43 @@
     </div>
 
     <form th:action="@{/apartment/save}" method="post">
-        <label for="apartmentShortName">Apartment Name(Short):</label>
-        <input type="text" id="apartmentShortName" name="apartmentShortName" required pattern="^[a-zA-Z0-9]+$"
-               title="Apartment short name must contain only letters and numbers without spaces or special characters">
+        <div class="form-row">
+            <div class="flex-half">
+                <label for="apartmentShortName">Apartment Name (Short):</label>
+                <input type="text" id="apartmentShortName" name="apartmentShortName" required
+                       pattern="^[a-zA-Z0-9]+$"
+                       title="Apartment short name must contain only letters and numbers without spaces or special characters">
+            </div>
+            <div class="flex-half">
+                <label for="ownerName">Owner:</label>
+                <input type="text" id="ownerName" name="ownerName" required>
+            </div>
+        </div>
 
-        <label for="addressLine1">Address Line 1:</label>
-        <input type="text" id="addressLine1" name="addressLine1" required>
+        <div class="form-row">
+            <div class="full-width">
+                <label for="addressLine1">Address Line 1:</label>
+                <input type="text" id="addressLine1" name="addressLine1" required>
+            </div>
+        </div>
 
-        <label for="addressLine2">Address Line 2:</label>
-        <input type="text" id="addressLine2" name="addressLine2">
+        <div class="form-row">
+            <div class="flex-large">
+                <label for="addressLine2">Address Line 2:</label>
+                <input type="text" id="addressLine2" name="addressLine2">
+            </div>
+            <div class="flex-small">
+                <label for="pincode">Pin Code:</label>
+                <input type="text" id="pincode" name="pincode" required pattern="[0-9]{4,10}" maxlength="5">
+            </div>
+        </div>
 
-        <label for="pincode">Pin Code:</label>
-        <input type="text" id="pincode" name="pincode" required pattern="[0-9]{4,10}">
-
-        <div class="city-country-row">
-            <div class="city-container">
+        <div class="form-row">
+            <div class="flex-large">
                 <label for="city">City:</label>
                 <input type="text" id="city" name="city" required>
             </div>
-            <div class="country-container">
+            <div class="flex-small">
                 <label for="country">Country:</label>
                 <input type="text" id="country" name="country" value="Norway" required readonly>
             </div>
