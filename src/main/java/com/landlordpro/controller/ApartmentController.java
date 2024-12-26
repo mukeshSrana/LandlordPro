@@ -29,7 +29,7 @@ public class ApartmentController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, Model model) {
+    public String save(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, RedirectAttributes redirectAttributes){
         try {
             CustomUserDetails userDetails = currentUser(authentication);
             // Retrieve the logged-in user's ID
@@ -40,14 +40,14 @@ public class ApartmentController {
             // Save the apartment to the database
             apartmentService.save(apartmentDto);
 
-            model.addAttribute("successMessage", "Apartment created successfully!");
+            redirectAttributes.addFlashAttribute("successMessage", "Apartment created successfully!");
             //return "registerApartment"; // Redirect or forward to success page
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
             log.error("Unexpected error while saving apartment: ", e);
             //return "registerApartment"; // Return to the form with error message
         }
-        model.addAttribute("page", "registerApartment");
+        redirectAttributes.addFlashAttribute("page", "registerApartment");
         return "redirect:/apartment/register";
     }
 
