@@ -70,11 +70,11 @@ public class ApartmentService {
         try {
             apartmentRepository.save(apartment);
         } catch (DataIntegrityViolationException ex) {
-            String errorMessage = "Constraint violation while saving apartment=" + apartmentDto.getId() + "User=" + apartmentDto.getUserId();
+            String errorMessage = "Constraint violation while saving apartment=" + apartmentDto.getId() + " User=" + apartmentDto.getUserId();
             log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         } catch (Exception ex) {
-            String errorMessage = "Unexpected error while saving apartment=" + apartmentDto.getId() + "User=" + apartmentDto.getUserId();
+            String errorMessage = "Unexpected error while saving apartment=" + apartmentDto.getId() + " User=" + apartmentDto.getUserId();
             log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         }

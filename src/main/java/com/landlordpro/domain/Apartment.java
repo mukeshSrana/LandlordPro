@@ -1,6 +1,6 @@
 package com.landlordpro.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -28,7 +28,7 @@ public class Apartment {
     @Column(name = "apartment_short_name", nullable = false, length = 255)
     private String apartmentShortName;
 
-    @Column(name = "owner_name", nullable = false, length = 100)
+    @Column(name = "user_name", nullable = false, length = 100)
     private String ownerName;
 
     @Column(name = "address_line1", nullable = false, length = 255)
@@ -47,10 +47,10 @@ public class Apartment {
     private String country;
 
     @Column(name = "created_date", nullable = false)
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     @Column(name = "updated_date")
-    private LocalDate updatedDate; // Date the apartment record was last updated
+    private LocalDateTime updatedDate; // Date the apartment record was last updated
 
     @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)") // Foreign key column
     private UUID userId;
@@ -58,12 +58,12 @@ public class Apartment {
     @PrePersist
     public void prePersist() {
         if (this.createdDate == null) {
-            this.createdDate = LocalDate.now();  // Set createdDate only when it's first persisted
+            this.createdDate = LocalDateTime.now();  // Set createdDate only when it's first persisted
         }
     }
 
     @PreUpdate
     public void preUpdate() {
-        this.updatedDate = LocalDate.now(); // Update the updatedDate when entity is updated
+        this.updatedDate = LocalDateTime.now(); // Update the updatedDate when entity is updated
     }
 }

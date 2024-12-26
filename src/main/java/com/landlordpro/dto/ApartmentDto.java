@@ -1,6 +1,6 @@
 package com.landlordpro.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.validation.constraints.NotBlank;
@@ -43,9 +43,9 @@ public class ApartmentDto {
     @Size(max = 100, message = "Country should be up to 100 characters")  // Maximum length of 100
     private String country;
 
-    private LocalDate createdDate = LocalDate.now();  // Date apartment was created
+    private LocalDateTime createdDate;  // Date apartment was created
 
-    private LocalDate updatedDate;  // Last updated date
+    private LocalDateTime updatedDate;  // Last updated date
 
     private UUID userId;  // Foreign key to user (user_id)
 }
