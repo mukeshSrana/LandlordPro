@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,11 +47,23 @@ public class Apartment {
     private String country;
 
     @Column(name = "created_date", nullable = false)
-    private LocalDate createdDate = LocalDate.now(); // Date the apartment record was created
+    private LocalDate createdDate;
 
     @Column(name = "updated_date")
     private LocalDate updatedDate; // Date the apartment record was last updated
 
     @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)") // Foreign key column
     private UUID userId;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.createdDate == null) {
+            this.createdDate = LocalDate.now();  // Set createdDate only when it's first persisted
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedDate = LocalDate.now(); // Update the updatedDate when entity is updated
+    }
 }
