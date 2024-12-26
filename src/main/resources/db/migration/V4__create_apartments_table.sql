@@ -2,6 +2,7 @@ CREATE TABLE apartments
 (
     id                   CHAR(36) PRIMARY KEY,                        -- UUID primary key for the apartment
     apartment_short_name VARCHAR(255) NOT NULL,                       -- Apartment short name
+    owner_name           VARCHAR(100) NOT NULL,
     address_line1        VARCHAR(255) NOT NULL,                       -- First address line
     address_line2        VARCHAR(255),                                -- Second address line
     pincode              VARCHAR(10)  NOT NULL,                       -- Pincode (non-nullable)

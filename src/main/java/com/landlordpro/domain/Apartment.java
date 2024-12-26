@@ -26,6 +26,9 @@ public class Apartment {
     @Column(name = "apartment_short_name", nullable = false, length = 255)
     private String apartmentShortName;
 
+    @Column(name = "owner_name", nullable = false, length = 100)
+    private String ownerName;
+
     @Column(name = "address_line1", nullable = false, length = 255)
     private String addressLine1;
 
