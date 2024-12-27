@@ -24,7 +24,7 @@
         <span class="close-btn" onclick="closeMessage(this)">&times;</span>
         <p th:text="${errorMessage}"></p>
     </div>
-    <form th:action="@{/expense/add}" method="post">
+    <form th:action="@{/expense/add}" method="post" enctype="multipart/form-data">
 
         <!-- Apartment Name and Expense Category in one row -->
         <div class="form-row">

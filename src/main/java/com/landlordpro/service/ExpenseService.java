@@ -272,4 +272,9 @@ public class ExpenseService {
             throw new RuntimeException(errorMessage, ex);
         }
     }
+
+    public ExpenseDto findById(UUID id) {
+        com.landlordpro.domain.Expense expense = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Apartment not found"));
+        return expenseMapper.toDTO(expense);
+    }
 }

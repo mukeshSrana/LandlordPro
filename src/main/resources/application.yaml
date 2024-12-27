@@ -20,6 +20,11 @@ server:
 
 
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB  # Adjust based on your needs
+      max-request-size: 10MB  # Adjust based on your needs
   web:
     resources:
       add-mappings: true

@@ -58,7 +58,10 @@
                 <td ondblclick="enableEditing(this)" th:text="${expense.amount}"></td>
                 <td th:text="${expense.expenseLocation}"></td>
                 <td th:text="${expense.date}"></td>
-                <td th:text="${expense.receiptData}"></td>
+                <td>
+                    <a th:if="${expense.receiptData != null}" th:href="@{/expense/downloadReceipt/{id}(id=${expense.id})}" target="_blank">Download</a>
+                </td>
+
                 <td>
                     <!-- Delete Form -->
                     <form th:action="@{/delete}" method="post" style="display:inline;">
