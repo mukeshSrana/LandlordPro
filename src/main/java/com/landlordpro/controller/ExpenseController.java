@@ -94,8 +94,6 @@ public class ExpenseController {
         @RequestParam("expenseLocation") String expenseLocation,
         @RequestParam("date") String date,
         @RequestParam("receiptData") MultipartFile receiptData,
-//        @ModelAttribute ExpenseDto expenseDto,
-//        @RequestParam("receiptData") MultipartFile receiptData,
         Authentication authentication,
         RedirectAttributes redirectAttributes){
         try {
