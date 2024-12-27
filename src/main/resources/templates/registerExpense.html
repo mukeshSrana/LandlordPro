@@ -4,20 +4,32 @@
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/expense-form.css}">
+    <script>
+      function closeMessage(button) {
+        var messageBox = button.parentElement;
+        messageBox.style.display = 'none';
+      }
+    </script>
 </head>
 <body>
 <div class="form-container" layout:fragment="content">
+    <!-- Display success message -->
+    <div th:if="${successMessage}" class="success-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Display error message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${errorMessage}"></p>
+    </div>
     <form th:action="@{/expense/add}" method="post">
 
         <!-- Apartment Name and Expense Category in one row -->
         <div class="form-row">
             <div class="flex-40">
                 <label for="apartmentName">Apartment Name:</label>
-<!--                <select id="apartmentName" name="apartmentName" required>-->
-<!--                    <option value="" disabled selected>Select Apartment</option>-->
-<!--                    <option th:each="apartment : ${apartmentIdNameMap}" th:value="${apartment}" th:text="${apartment}"></option>-->
-<!--                </select>-->
-
                 <select id="apartmentName" name="apartmentId" required>
                     <option value="" disabled selected>Select Apartment</option>
                     <option th:each="apartment : ${apartmentIdNameMap}"
