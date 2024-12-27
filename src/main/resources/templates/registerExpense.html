@@ -1,26 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http:www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/expense-form.css}">
 </head>
-<!-- Define the fragment where the content will go -->
-<div layout:fragment="content">
+<body>
+<div class="form-container" layout:fragment="content">
     <form th:action="@{/saveExpense}" method="post">
-        <label for="name">Expense Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter expense name" required>
-        <label for="apartmentName">Apartment Name</label>
-        <select id="apartmentName" name="apartmentName" required>
-            <option value="" disabled selected>Select Apartment</option>
-            <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>
-        </select>
-        <label for="amount">Amount</label>
-        <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
-        <label for="date">Date</label>
-        <input type="date" id="date" name="date" required>
+
+        <!-- Apartment Name and Expense Category in one row -->
+        <div class="form-row">
+            <div class="flex-40">
+                <label for="apartmentName">Apartment Name:</label>
+                <select id="apartmentName" name="apartmentName" required>
+                    <option value="" disabled selected>Select Apartment</option>
+                    <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>
+                </select>
+            </div>
+            <div class="flex-60">
+                <label for="category">Expense Category:</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Select Category</option>
+                    <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Expense Name and Amount in one row -->
+        <div class="form-row">
+            <div class="flex-large">
+                <label for="name">Expense Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="flex-small">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" required pattern="[0-9]{1,5}" maxlength="5">
+            </div>
+        </div>
+
+        <!-- Date -->
+        <div class="form-row">
+            <div class="flex-half">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
         <button type="submit">Create Expense</button>
     </form>
 </div>
+</body>
 </html>
-
