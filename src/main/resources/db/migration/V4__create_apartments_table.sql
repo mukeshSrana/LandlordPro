@@ -11,9 +11,9 @@ CREATE TABLE apartments
     created_date         TIMESTAMP    NOT NULL,                       -- Date created
     updated_date         TIMESTAMP,                                        -- Last update date
     user_id              CHAR(36)     NOT NULL,                       -- Foreign key to users table
-    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (id), -- Foreign key constraint
+    CONSTRAINT fk_apartment_user_id FOREIGN KEY (user_id) REFERENCES users (id), -- Foreign key constraint
     CONSTRAINT unique_apartment_user UNIQUE (apartment_short_name, user_id) -- Composite unique constraint
 );
 
 -- Optionally, index on user_id for performance
-CREATE INDEX idx_user_id ON apartments (user_id);
+CREATE INDEX idx_apartment_user_id ON apartments (user_id);

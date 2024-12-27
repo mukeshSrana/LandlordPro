@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.model.Expense;
 
 import lombok.extern.slf4j.Slf4j;
@@ -239,5 +240,9 @@ public class ExpenseService {
 
         // Return false if file doesn't exist or expense was not found
         return false;
+    }
+
+    public void add(ExpenseDto expenseDto) {
+        System.out.println(expenseDto.toString());
     }
 }

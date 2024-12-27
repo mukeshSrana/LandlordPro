@@ -5,8 +5,10 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.config.AppConfig;
+import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.model.Expense;
+import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ExpenseService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
-@RequestMapping("/expenses")
+@RequestMapping("/expense")
 public class ExpenseController {
 
     private final AppConfig appConfig;
@@ -31,6 +38,36 @@ public class ExpenseController {
         this.appConfig = appConfig;
         this.expenseService = expenseService;
     }
+
+    @PostMapping("/add")
+    public String add(@ModelAttribute ExpenseDto expenseDto, Authentication authentication, RedirectAttributes redirectAttributes){
+        try {
+            CustomUserDetails userDetails = currentUser(authentication);
+            // Retrieve the logged-in user's ID
+            UUID userId = userDetails.getId();
+
+            expenseDto.setUserId(userId);
+
+            expenseService.add(expenseDto);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Expense created successfully!");
+            //return "registerApartment"; // Redirect or forward to success page
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while saving expense: ", e);
+            //return "registerApartment"; // Return to the form with error message
+        }
+        redirectAttributes.addFlashAttribute("page", "registerExpense");
+        return "redirect:/expense/register";
+    }
+
+    @GetMapping("/register")
+    public String register(Model model, Authentication authentication) {
+        CustomUserDetails userDetails = currentUser(authentication);
+        model.addAttribute("page", "registerExpense");
+        return "registerExpense";
+    }
+
 
     @GetMapping("/list")
     public String listExpenses(
@@ -130,5 +167,12 @@ public class ExpenseController {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    private CustomUserDetails currentUser(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {
+            return customUserDetails;
+        }
+        throw new IllegalStateException("Unexpected principal type");
     }
 }
