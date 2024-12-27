@@ -52,7 +52,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/downloadReceipt/{id}")
-    public ResponseEntity<byte[]> downloadReceipt(@PathVariable UUID id) {
+    public ResponseEntity<byte[]> downloadReceipt(@PathVariable UUID id, Model model) {
         try {
             // Fetch the Expense object using the provided ID
             ExpenseDto expenseDto = expenseService.findById(id);
@@ -80,7 +80,9 @@ public class ExpenseController {
             // Return the file as a ResponseEntity
             return new ResponseEntity<>(receiptData, headers, HttpStatus.OK);
         } catch (Exception e) {
-            throw e;
+            model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while saving expense: ", e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -172,7 +174,8 @@ public class ExpenseController {
             model.addAttribute("selectedYear", year);
             model.addAttribute("selectedApartment", availableApartments.get(apartmentId));
         } catch (Exception e) {
-            throw e;
+            model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while saving expense: ", e);
         }
         model.addAttribute("page", "handleExpense");
         return "handleExpense";
