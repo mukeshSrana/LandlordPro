@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -77,29 +78,37 @@ public class ExpenseController {
     }
 
 
-    @GetMapping("/list")
+    @GetMapping("/handle")
     public String listExpenses(
-        @RequestParam(required = false) String year,
-        @RequestParam(required = false) String apartmentName,
-        Model model) throws IOException {
+        @RequestParam(required = false) Integer year,
+        @RequestParam(required = false) UUID apartmentId,
+        Authentication authentication,
+        Model model) {
+        try {
+            CustomUserDetails userDetails = currentUser(authentication);
+            UUID userId = userDetails.getId();
+            List<com.landlordpro.domain.Expense> expensesForUser = expenseService.getExpensesForUser(userId);
 
-        List<String> availableYears = expenseService.getAvailableYears();
-        List<String> availableApartments = expenseService.getAvailableApartments();
+            List<Integer> availableYears = getAvailableYears(expensesForUser);
+            Map<UUID, String> availableApartments = getAvailableApartments(expensesForUser);
 
-        String latestYear = availableYears.isEmpty() ? "0" : availableYears.get(availableYears.size() - 1);
+            Integer latestYear = availableYears.isEmpty() ? 0 : availableYears.get(availableYears.size() - 1);
 
-        if (year == null || year.isEmpty()) {
-            year = latestYear;
+            if (year == null) {
+                year = latestYear;
+            }
+
+            List<com.landlordpro.domain.Expense> expenses = getExpensesFiltered(expensesForUser, year, apartmentId);
+
+            model.addAttribute("expenses", expenses);
+            model.addAttribute("years", availableYears);
+            model.addAttribute("apartments", availableApartments);
+            model.addAttribute("selectedYear", year);
+            model.addAttribute("selectedApartment", availableApartments.get(apartmentId));
+        } catch (Exception e) {
+            throw e;
         }
-
-        List<Expense> expenses = expenseService.getExpensesFiltered(year, apartmentName);
-
-        model.addAttribute("expenses", expenses);
-        model.addAttribute("years", availableYears);
-        model.addAttribute("apartments", availableApartments);
-        model.addAttribute("selectedYear", year);
-        model.addAttribute("selectedApartment", apartmentName);
-        return "expenses/list-expense";
+        return "handleExpense";
     }
 
     @GetMapping("/new")
@@ -175,6 +184,32 @@ public class ExpenseController {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    private List<Integer> getAvailableYears(List<com.landlordpro.domain.Expense> expensesForUser) {
+        return expensesForUser.stream()
+            .map(expense -> expense.getDate().getYear()) // Extract the year from date
+            .distinct() // Get unique years
+            .sorted() // Sort the years in ascending order
+            .collect(Collectors.toList()); // Collect into a list
+    }
+
+    private Map<UUID, String> getAvailableApartments(List<com.landlordpro.domain.Expense> expensesForUser) {
+        List<UUID> apartmentsIds = expensesForUser.stream()
+            .map(com.landlordpro.domain.Expense::getApartmentId) // Extract apartmentId
+            .distinct() // Get unique apartmentIds
+            .sorted() // Sort the apartmentIds in ascending order
+            .collect(Collectors.toList());
+        return apartmentService.getApartmentIdNameMap(apartmentsIds);
+    }
+
+    private List<com.landlordpro.domain.Expense> getExpensesFiltered(List<com.landlordpro.domain.Expense> expensesForUser, Integer year, UUID apartmentId) {
+        return expensesForUser.stream()
+            // Filter by year, comparing against the year extracted from expense's date
+            .filter(expense -> year == null || year.equals(expense.getDate().getYear()))
+            // Filter by apartmentId only if it is not null
+            .filter(expense -> apartmentId == null || apartmentId.equals(expense.getApartmentId()))
+            .collect(Collectors.toList());
     }
 
     private CustomUserDetails currentUser(Authentication authentication) {

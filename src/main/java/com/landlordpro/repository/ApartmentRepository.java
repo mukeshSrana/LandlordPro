@@ -23,4 +23,6 @@ public interface ApartmentRepository extends JpaRepository<Apartment, UUID> {
     boolean existsByApartmentShortNameIgnoreCaseAndUserId(String apartmentShortName, UUID userId);
 
     boolean existsByIdAndUserId(UUID apartmentId, UUID userId);
+
+    List<Apartment> findByIdIn(List<UUID> apartmentIds);
 }

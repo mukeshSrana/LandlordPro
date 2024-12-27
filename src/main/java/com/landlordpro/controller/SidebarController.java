@@ -48,30 +48,6 @@ public class SidebarController {
         return "redirect:/registerExpense";
     }
 
-    @GetMapping("/handleExpense")
-    public String handleExpense(@RequestParam(required = false) String year,
-        @RequestParam(required = false) String apartmentName, Model model) throws IOException {
-        List<String> availableYears = expenseService.getAvailableYears();
-        List<String> availableApartments = expenseService.getAvailableApartments();
-
-        String latestYear = availableYears.isEmpty() ? "0" : availableYears.get(availableYears.size() - 1);
-
-        if (year == null || year.isEmpty()) {
-            year = latestYear;
-        }
-
-        List<Expense> expenses = expenseService.getExpensesFiltered(year, apartmentName);
-
-        model.addAttribute("expenses", expenses);
-        model.addAttribute("years", availableYears);
-        model.addAttribute("apartments", availableApartments);
-        model.addAttribute("selectedYear", year);
-        model.addAttribute("selectedApartment", apartmentName);
-
-        model.addAttribute("page", "handleExpense");
-        return "handleExpense";
-    }
-
     @PostMapping("/delete")
     public String deleteExpense(@RequestParam("id") String id,
         @RequestParam("year") String year,

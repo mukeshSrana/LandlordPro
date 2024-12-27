@@ -1,5 +1,6 @@
 package com.landlordpro.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -46,6 +47,18 @@ public class ApartmentService {
                 Apartment::getId,      // Key: Apartment ID
                 Apartment::getApartmentShortName // Value: Apartment Name
             ));
+    }
+
+    public Map<UUID, String> getApartmentIdNameMap(List<UUID> apartmentIds) {
+        List<Apartment> apartments = apartmentRepository.findByIdIn(apartmentIds);
+
+        // Transforming the result into a Map
+        Map<UUID, String> apartmentIdNameMap = new HashMap<>();
+        for (Apartment apartment : apartments) {
+            apartmentIdNameMap.put(apartment.getId(), apartment.getApartmentShortName());
+        }
+
+        return apartmentIdNameMap;
     }
 
     public List<ApartmentDto> getApartmentsForUser(UUID userId) {

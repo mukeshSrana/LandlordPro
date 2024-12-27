@@ -11,11 +11,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -38,11 +39,14 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final ExpenseMapper expenseMapper;
+    private final ApartmentService apartmentService;
 
-    public ExpenseService(ObjectMapper objectMapper, ExpenseRepository expenseRepository, ExpenseMapper expenseMapper) {
+    public ExpenseService(ObjectMapper objectMapper, ExpenseRepository expenseRepository, ExpenseMapper expenseMapper,
+        ApartmentService apartmentService) {
         this.objectMapper = objectMapper;
         this.expenseRepository = expenseRepository;
         this.expenseMapper = expenseMapper;
+        this.apartmentService = apartmentService;
     }
 
     public void saveExpense(Expense expense) throws IOException {
@@ -79,31 +83,6 @@ public class ExpenseService {
             log.error("Error saving expense for apartment: {}", expense.getApartmentName(), e);
             throw e; // Re-throw the exception after logging it
         }
-    }
-
-    // Fetch distinct years from all expenses
-    public List<String> getAvailableYears() throws IOException {
-        return getAllExpenses().stream()
-            .map(Expense::getYear)
-            .distinct()
-            .sorted() // Optional: Sort the years in ascending order
-            .collect(Collectors.toList());
-    }
-
-    // Fetch distinct apartment names from all expenses
-    public List<String> getAvailableApartments() throws IOException {
-        return getAllExpenses().stream()
-            .map(Expense::getApartmentName)
-            .distinct()
-            .sorted() // Optional: Sort apartment names alphabetically
-            .collect(Collectors.toList());
-    }
-
-    public List<Expense> getExpensesFiltered(String year, String apartmentName) throws IOException {
-        return getAllExpenses().stream()
-            .filter(expense -> year == null || year.isEmpty() || year.equals(expense.getYear()))
-            .filter(expense -> apartmentName == null || apartmentName.isEmpty() || apartmentName.equals(expense.getApartmentName()))
-            .collect(Collectors.toList());
     }
 
     public List<Expense> getAllExpenses() throws IOException {
@@ -250,7 +229,34 @@ public class ExpenseService {
         return false;
     }
 
-    public void add(ExpenseDto expenseDto) {
+    public List<com.landlordpro.domain.Expense> getExpensesForUser(UUID userId) {
+        try {
+            // Validate the input
+            if (userId == null) {
+                throw new IllegalArgumentException("User ID cannot be null");
+            }
+
+            // Fetch expenses
+            List<com.landlordpro.domain.Expense> expenses = expenseRepository.findByUserId(userId);
+
+            return expenses;
+
+        } catch (EmptyResultDataAccessException ex) {
+            // Handle specific database "no data found" case
+            throw new RuntimeException("No expenses found for user with ID: " + userId, ex);
+
+        } catch (IllegalArgumentException ex) {
+            // Handle invalid input
+            throw ex; // Rethrow, or handle as needed
+
+        } catch (RuntimeException ex) {
+            // Catch unexpected runtime exceptions
+            throw new RuntimeException("Unexpected error occurred", ex);
+        }
+    }
+
+
+    public void add(ExpenseDto expenseDto) throws Exception{
         save(expenseDto);
     }
 
