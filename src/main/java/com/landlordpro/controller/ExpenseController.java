@@ -86,7 +86,6 @@ public class ExpenseController {
         }
     }
 
-
     @PostMapping("/add")
     public String add(
         @RequestParam("apartmentId") UUID apartmentId,
@@ -145,9 +144,8 @@ public class ExpenseController {
         return "registerExpense";
     }
 
-
     @GetMapping("/handle")
-    public String listExpenses(
+    public String handle(
         @RequestParam(required = false) Integer year,
         @RequestParam(required = false) UUID apartmentId,
         Authentication authentication,
