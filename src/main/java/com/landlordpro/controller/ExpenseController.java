@@ -2,6 +2,7 @@ package com.landlordpro.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -277,8 +278,11 @@ public class ExpenseController {
             .filter(expense -> year == null || year.equals(expense.getDate().getYear()))
             // Filter by apartmentId only if it is not null
             .filter(expense -> apartmentId == null || apartmentId.equals(expense.getApartmentId()))
+            // Sort by year in ascending order
+            .sorted(Comparator.comparing(expense -> expense.getDate().getYear()))
             .collect(Collectors.toList());
     }
+
 
     private CustomUserDetails currentUser(Authentication authentication) {
         if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {
