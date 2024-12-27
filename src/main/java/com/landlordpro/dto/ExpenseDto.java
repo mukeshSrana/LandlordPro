@@ -20,7 +20,7 @@ public class ExpenseDto {
     private UUID id;  // UUID for expense
 
     @NotNull(message = "Apartment ID is mandatory")  // Ensure it's not null
-    private Integer apartmentId;  // Apartment ID
+    private UUID apartmentId;  // Apartment ID
 
     @NotNull(message = "User ID is mandatory")  // Ensure it's not null
     private UUID userId;  // User ID (UUID)

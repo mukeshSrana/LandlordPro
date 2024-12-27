@@ -51,6 +51,7 @@ public class ExpenseController {
             UUID userId = userDetails.getId();
 
             expenseDto.setUserId(userId);
+            expenseDto.setApartmentId(expenseDto.getApartmentId());
 
             expenseService.add(expenseDto);
 
@@ -68,8 +69,8 @@ public class ExpenseController {
     @GetMapping("/register")
     public String register(Model model, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
-        List<String> apartmentNamesForUser = apartmentService.getApartmentNamesForUser(userDetails.getId());
-        model.addAttribute("apartmentNames", apartmentNamesForUser);
+        Map<UUID, String> apartmentIdNameMap = apartmentService.getApartmentIdNameMap(userDetails.getId());
+        model.addAttribute("apartmentIdNameMap", apartmentIdNameMap);
         model.addAttribute("categories", DeductibleExpense.values());
         model.addAttribute("page", "registerExpense");
         return "registerExpense";

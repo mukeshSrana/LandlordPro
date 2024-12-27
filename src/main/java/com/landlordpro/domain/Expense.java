@@ -29,7 +29,7 @@ public class Expense {
     private UUID id;
 
     @Column(name = "apartment_id", nullable = false)
-    private Integer apartmentId;  // Assuming apartmentId is Integer as per your table definition
+    private UUID apartmentId;  // Assuming apartmentId is Integer as per your table definition
 
     @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)") // UUID column for user
     private UUID userId;

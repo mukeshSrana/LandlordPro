@@ -1,7 +1,9 @@
 package com.landlordpro.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,15 @@ public class ApartmentService {
 
     public List<String> getApartmentNamesForUser(UUID userId) {
         return apartmentRepository.findApartmentNamesByUserId(userId);
+    }
+
+    public Map<UUID, String> getApartmentIdNameMap(UUID userId) {
+        List<Apartment> apartments = apartmentRepository.findByUserId(userId);
+        return apartments.stream()
+            .collect(Collectors.toMap(
+                Apartment::getId,      // Key: Apartment ID
+                Apartment::getApartmentShortName // Value: Apartment Name
+            ));
     }
 
     public List<ApartmentDto> getApartmentsForUser(UUID userId) {
