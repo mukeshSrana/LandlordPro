@@ -35,7 +35,7 @@
                     <option th:each="entry : ${apartments}"
                             th:value="${entry.key}"
                             th:text="${entry.value}"
-                            th:selected="${entry.key == selectedApartment}">
+                            th:selected="${entry.value == selectedApartment}">
                     </option>
                 </select>
             </form>

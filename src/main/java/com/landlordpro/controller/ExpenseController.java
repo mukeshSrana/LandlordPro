@@ -107,6 +107,7 @@ public class ExpenseController {
         } catch (Exception e) {
             throw e;
         }
+        model.addAttribute("page", "handleExpense");
         return "handleExpense";
     }
 
