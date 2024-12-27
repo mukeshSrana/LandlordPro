@@ -16,13 +16,27 @@
                     <option th:each="year : ${years}" th:value="${year}" th:text="${year}" th:selected="${year == selectedYear}"></option>
                 </select>
 
-                <label for="apartment">Apartment:</label>
-                <select id="apartment" name="apartmentId" onchange="this.form.submit()">
+<!--                <label for="apartment">Apartment:</label>-->
+<!--                <select id="apartment" name="apartmentId" onchange="this.form.submit()">-->
+<!--                    <option value="">Select Apartment</option>-->
+<!--                    <option th:each="apartmentId, apartmentShortName : ${apartments}"-->
+<!--                            th:value="${apartmentId}"-->
+<!--                            th:text="${apartmentShortName}"-->
+<!--                            th:selected="${apartmentId == selectedApartment}"></option>-->
+<!--                </select>-->
+                <label for="apartmentName">Apartment Name:</label>
+                <select id="apartmentName" name="apartmentId" onchange="this.form.submit()">
                     <option value="">Select Apartment</option>
-                    <option th:each="apartmentId, apartmentShortName : ${apartments}"
-                            th:value="${apartmentId}"
-                            th:text="${apartmentShortName}"
-                            th:selected="${apartmentId == selectedApartment}"></option>
+<!--                    <option th:each="apartment : ${apartments}"-->
+<!--                            th:value="${apartment.key}"-->
+<!--                            th:text="${apartment.value}"-->
+<!--                            th:selected="${apartmentId == selectedApartment}">-->
+<!--                    </option>-->
+                    <option th:each="entry : ${apartments}"
+                            th:value="${entry.key}"
+                            th:text="${entry.value}"
+                            th:selected="${entry.key == selectedApartment}">
+                    </option>
                 </select>
             </form>
         </div>
@@ -43,7 +57,7 @@
         <th:block th:each="expense : ${expenses}">
             <tr>
                 <td th:text="${expense.date.year}"></td>
-                <td th:text="${expense.apartmentId}"></td>
+                <td th:text="${apartments[expense.apartmentId]}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${expense.amount}"></td>
                 <td th:text="${expense.date}"></td>

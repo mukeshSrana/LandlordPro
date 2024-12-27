@@ -1,6 +1,5 @@
 package com.landlordpro.controller;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -87,7 +86,7 @@ public class ExpenseController {
         try {
             CustomUserDetails userDetails = currentUser(authentication);
             UUID userId = userDetails.getId();
-            List<com.landlordpro.domain.Expense> expensesForUser = expenseService.getExpensesForUser(userId);
+            List<ExpenseDto> expensesForUser = expenseService.getExpensesForUser(userId);
 
             List<Integer> availableYears = getAvailableYears(expensesForUser);
             Map<UUID, String> availableApartments = getAvailableApartments(expensesForUser);
@@ -98,7 +97,7 @@ public class ExpenseController {
                 year = latestYear;
             }
 
-            List<com.landlordpro.domain.Expense> expenses = getExpensesFiltered(expensesForUser, year, apartmentId);
+            List<ExpenseDto> expenses = getExpensesFiltered(expensesForUser, year, apartmentId);
 
             model.addAttribute("expenses", expenses);
             model.addAttribute("years", availableYears);
@@ -186,7 +185,7 @@ public class ExpenseController {
         return ResponseEntity.ok(response);
     }
 
-    private List<Integer> getAvailableYears(List<com.landlordpro.domain.Expense> expensesForUser) {
+    private List<Integer> getAvailableYears(List<ExpenseDto> expensesForUser) {
         return expensesForUser.stream()
             .map(expense -> expense.getDate().getYear()) // Extract the year from date
             .distinct() // Get unique years
@@ -194,16 +193,16 @@ public class ExpenseController {
             .collect(Collectors.toList()); // Collect into a list
     }
 
-    private Map<UUID, String> getAvailableApartments(List<com.landlordpro.domain.Expense> expensesForUser) {
+    private Map<UUID, String> getAvailableApartments(List<ExpenseDto> expensesForUser) {
         List<UUID> apartmentsIds = expensesForUser.stream()
-            .map(com.landlordpro.domain.Expense::getApartmentId) // Extract apartmentId
+            .map(ExpenseDto::getApartmentId) // Extract apartmentId
             .distinct() // Get unique apartmentIds
             .sorted() // Sort the apartmentIds in ascending order
             .collect(Collectors.toList());
         return apartmentService.getApartmentIdNameMap(apartmentsIds);
     }
 
-    private List<com.landlordpro.domain.Expense> getExpensesFiltered(List<com.landlordpro.domain.Expense> expensesForUser, Integer year, UUID apartmentId) {
+    private List<ExpenseDto> getExpensesFiltered(List<ExpenseDto> expensesForUser, Integer year, UUID apartmentId) {
         return expensesForUser.stream()
             // Filter by year, comparing against the year extracted from expense's date
             .filter(expense -> year == null || year.equals(expense.getDate().getYear()))

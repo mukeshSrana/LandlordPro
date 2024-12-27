@@ -229,7 +229,7 @@ public class ExpenseService {
         return false;
     }
 
-    public List<com.landlordpro.domain.Expense> getExpensesForUser(UUID userId) {
+    public List<ExpenseDto> getExpensesForUser(UUID userId) {
         try {
             // Validate the input
             if (userId == null) {
@@ -238,9 +238,7 @@ public class ExpenseService {
 
             // Fetch expenses
             List<com.landlordpro.domain.Expense> expenses = expenseRepository.findByUserId(userId);
-
-            return expenses;
-
+            return expenseMapper.toDTOList(expenses);
         } catch (EmptyResultDataAccessException ex) {
             // Handle specific database "no data found" case
             throw new RuntimeException("No expenses found for user with ID: " + userId, ex);
