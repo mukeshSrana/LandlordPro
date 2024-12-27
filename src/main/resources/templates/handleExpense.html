@@ -46,10 +46,13 @@
         <thead>
         <tr>
             <th>Year</th>
-            <th>Apartment Name</th>
-            <th>Expense Name</th>
+            <th>Apartment name</th>
+            <th>Expense category</th>
+            <th>Expense name</th>
             <th>Amount</th>
+            <th>Expense location</th>
             <th>Date</th>
+            <th>Receipt</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -58,9 +61,12 @@
             <tr>
                 <td th:text="${expense.date.year}"></td>
                 <td th:text="${apartments[expense.apartmentId]}"></td>
+                <td th:text="${expense.category}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${expense.amount}"></td>
+                <td th:text="${expense.expenseLocation}"></td>
                 <td th:text="${expense.date}"></td>
+                <td th:text="${expense.receiptData}"></td>
                 <td>
                     <!-- Delete Form -->
                     <form th:action="@{/delete}" method="post" style="display:inline;">
