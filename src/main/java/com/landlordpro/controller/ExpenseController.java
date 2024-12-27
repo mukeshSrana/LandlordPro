@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.config.AppConfig;
+import com.landlordpro.dto.DeductibleExpense;
 import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.model.Expense;
 import com.landlordpro.security.CustomUserDetails;
+import com.landlordpro.service.ApartmentService;
 import com.landlordpro.service.ExpenseService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,10 +35,12 @@ public class ExpenseController {
 
     private final AppConfig appConfig;
     private final ExpenseService expenseService;
+    private final ApartmentService apartmentService;
 
-    public ExpenseController(AppConfig appConfig, ExpenseService expenseService) {
+    public ExpenseController(AppConfig appConfig, ExpenseService expenseService, ApartmentService apartmentService) {
         this.appConfig = appConfig;
         this.expenseService = expenseService;
+        this.apartmentService = apartmentService;
     }
 
     @PostMapping("/add")
@@ -64,6 +68,9 @@ public class ExpenseController {
     @GetMapping("/register")
     public String register(Model model, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
+        List<String> apartmentNamesForUser = apartmentService.getApartmentNamesForUser(userDetails.getId());
+        model.addAttribute("apartmentNames", apartmentNamesForUser);
+        model.addAttribute("categories", DeductibleExpense.values());
         model.addAttribute("page", "registerExpense");
         return "registerExpense";
     }

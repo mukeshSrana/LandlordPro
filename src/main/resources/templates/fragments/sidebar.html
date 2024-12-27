@@ -43,12 +43,12 @@
             <button class="dropdown-btn" onclick="toggleDropdown('expenses-options')">Expenses</button>
             <ul id="expenses-options" class="dropdown-content" style="display: none;">
                 <li>
-                    <a th:href="@{/registerExpense}" th:classappend="${page == 'registerExpense' ? 'active' : ''}" onclick="handleSelection(event, 'expenses-options')">
+                    <a th:href="@{/expense/register}" th:classappend="${page == 'registerExpense' ? 'active' : ''}" onclick="handleSelection(event, 'expenses-options')">
                         Register
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/handleExpense}" th:classappend="${page == 'handleExpense' ? 'active' : ''}" onclick="handleSelection(event, 'expenses-options')">
+                    <a th:href="@{/expense/handel}" th:classappend="${page == 'handleExpense' ? 'active' : ''}" onclick="handleSelection(event, 'expenses-options')">
                         Handle
                     </a>
                 </li>
