@@ -39,11 +39,23 @@
             </div>
         </div>
 
-        <!-- Date -->
+        <!-- Expense Location and Date in one row -->
         <div class="form-row">
-            <div class="flex-half">
-                <label for="date">Date:</label>
+            <div class="flex-large">
+                <label for="expenseLocation">Expense Location:</label>
+                <input type="text" id="expenseLocation" name="expenseLocation" required>
+            </div>
+            <div class="flex-small">
+                <label for="date">Expense date:</label>
                 <input type="date" id="date" name="date" required>
+            </div>
+        </div>
+
+        <!-- Receipt Upload -->
+        <div class="form-row">
+            <div class="flex-large">
+                <label for="receipt">Upload Receipt:</label>
+                <input type="file" id="receipt" name="receipt" accept="image/*,.pdf">
             </div>
         </div>
 
