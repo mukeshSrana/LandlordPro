@@ -91,11 +91,11 @@ public class ExpenseController {
             List<Integer> availableYears = getAvailableYears(expensesForUser);
             Map<UUID, String> availableApartments = getAvailableApartments(expensesForUser);
 
-            Integer latestYear = availableYears.isEmpty() ? 0 : availableYears.get(availableYears.size() - 1);
-
-            if (year == null) {
-                year = latestYear;
-            }
+//            Integer latestYear = availableYears.isEmpty() ? 0 : availableYears.get(availableYears.size() - 1);
+//
+//            if (year == null) {
+//                year = latestYear;
+//            }
 
             List<ExpenseDto> expenses = getExpensesFiltered(expensesForUser, year, apartmentId);
 
