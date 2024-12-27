@@ -15,12 +15,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.landlordpro.dto.ExpenseDto;
+import com.landlordpro.mapper.ExpenseMapper;
 import com.landlordpro.model.Expense;
+import com.landlordpro.repository.ExpenseRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,8 +36,13 @@ public class ExpenseService {
     @Value("${app.file-storage.base-dir}")
     private String fileStorageBaseDir;
 
-    public ExpenseService(ObjectMapper objectMapper) {
+    private final ExpenseRepository expenseRepository;
+    private final ExpenseMapper expenseMapper;
+
+    public ExpenseService(ObjectMapper objectMapper, ExpenseRepository expenseRepository, ExpenseMapper expenseMapper) {
         this.objectMapper = objectMapper;
+        this.expenseRepository = expenseRepository;
+        this.expenseMapper = expenseMapper;
     }
 
     public void saveExpense(Expense expense) throws IOException {
@@ -243,6 +251,21 @@ public class ExpenseService {
     }
 
     public void add(ExpenseDto expenseDto) {
-        System.out.println(expenseDto.toString());
+        save(expenseDto);
+    }
+
+    private void save(ExpenseDto expenseDto) throws RuntimeException {
+        com.landlordpro.domain.Expense expense = expenseMapper.toEntity(expenseDto);
+        try {
+            expenseRepository.save(expense);
+        } catch (DataIntegrityViolationException ex) {
+            String errorMessage = "Constraint violation while saving expense=" + expenseDto.getId() + " User=" + expenseDto.getUserId();
+            log.error(errorMessage, ex); // Assuming you have a logger in place
+            throw new RuntimeException(errorMessage, ex);
+        } catch (Exception ex) {
+            String errorMessage = "Unexpected error while saving expense=" + expenseDto.getId() + " User=" + expenseDto.getUserId();
+            log.error(errorMessage, ex); // Assuming you have a logger in place
+            throw new RuntimeException(errorMessage, ex);
+        }
     }
 }
