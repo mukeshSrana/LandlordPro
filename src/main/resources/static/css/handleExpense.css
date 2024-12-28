@@ -82,19 +82,18 @@ tr:hover {
     background-color: #0056b3;
 }
 
-.delete-btn {
-    background-color: #dc3545;
-}
+/*.delete-btn {*/
+/*    background-color: #dc3545;*/
+/*}*/
 
-.delete-btn:hover {
-    background-color: #c82333;
-}
+/*.delete-btn:hover {*/
+/*    background-color: #c82333;*/
+/*}*/
 
-/* Filters container styling */
+/* Styling the filters container */
 .filters {
     display: flex; /* Align filter elements horizontally */
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    gap: 1.5rem; /* Adjust spacing between the dropdowns */
     margin-bottom: 1.5rem; /* Space between filters and the table */
     padding: 1rem; /* Add padding inside the filters container */
     background-color: #f9f9f9; /* Light background for contrast */
@@ -103,10 +102,17 @@ tr:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
 }
 
-/* Filter group styling */
+/* Adjust spacing between filter groups */
 .filter-group {
-    display: flex; /* Align label and input horizontally */
-    align-items: center; /* Vertically center align label and input */
+    display: flex; /* Align items horizontally */
+    align-items: center; /* Vertically align items */
+    gap: 1rem; /* Space between items in the same group */
+    flex-grow: 1; /* Allow equal spacing between groups */
+}
+
+/* Add extra margin to the right of the first filter group */
+.filter-group select#year {
+    margin-right: 2rem; /* Push the second group to the right */
 }
 
 /* Label styling */
