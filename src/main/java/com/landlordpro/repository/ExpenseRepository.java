@@ -12,6 +12,7 @@ import com.landlordpro.domain.Expense;
 public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
 
      List<Expense> findByUserId(UUID userId);
+    void deleteByIdAndUserIdAndApartmentId(UUID id, UUID userId, UUID apartmentId);
 
     // Example: Find expenses by apartment ID
     // List<Expense> findByApartmentId(Integer apartmentId);

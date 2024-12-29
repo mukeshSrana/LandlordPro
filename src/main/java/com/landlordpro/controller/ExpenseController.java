@@ -210,22 +210,26 @@ public class ExpenseController {
     }
 
     @PostMapping("/delete")
-    public String deleteExpense(@RequestParam("id") String id,
-        @RequestParam("year") String year,
-        @RequestParam("apartmentName") String apartment,
+    public String deleteExpense(@RequestParam("id") UUID id,
+        @RequestParam("userId") UUID userId,
+        @RequestParam("apartmentId") UUID apartmentId,
+        Authentication authentication,
         RedirectAttributes redirectAttributes) {
-        // Logic to delete the expense using the provided details
-        boolean isDeleted = expenseService.deleteExpense(id, year, apartment);
-
-        if (isDeleted) {
-            redirectAttributes.addFlashAttribute("message", "Expense deleted successfully!");
-            redirectAttributes.addFlashAttribute("messageType", "success");
-        } else {
-            redirectAttributes.addFlashAttribute("message", "Expense could not be found or deleted.");
-            redirectAttributes.addFlashAttribute("messageType", "error");
+        try {
+            CustomUserDetails userDetails = currentUser(authentication);
+            // Retrieve the logged-in user's ID
+            if (userDetails.getId().equals(userId)) {
+                expenseService.deleteExpense(id, userId, apartmentId);
+            } else {
+                throw new RuntimeException("Logged in userId is not same as the deleted expense userId");
+            }
+            redirectAttributes.addFlashAttribute("successMessage", "Expense deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while deleting expense: ", e);
         }
-
-        return "redirect:/expenses/list"; // Redirect to the updated expense list
+        redirectAttributes.addFlashAttribute("page", "handleExpense");
+        return "redirect:/expense/handle";
     }
 
     @PostMapping("/update")

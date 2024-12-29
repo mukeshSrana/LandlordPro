@@ -26,6 +26,7 @@ import com.landlordpro.mapper.ExpenseMapper;
 import com.landlordpro.model.Expense;
 import com.landlordpro.repository.ExpenseRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -276,5 +277,10 @@ public class ExpenseService {
     public ExpenseDto findById(UUID id) {
         com.landlordpro.domain.Expense expense = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Apartment not found"));
         return expenseMapper.toDTO(expense);
+    }
+
+    @Transactional
+    public void deleteExpense(UUID id, UUID userId, UUID apartmentId) {
+        expenseRepository.deleteByIdAndUserIdAndApartmentId(id, userId, apartmentId);
     }
 }
