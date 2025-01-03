@@ -5,6 +5,12 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/handleExpense.css}">
     <script th:src="@{/js/filterTable.js}"></script>
+    <script>
+        function closeMessage(button) {
+            var messageBox = button.parentElement;
+            messageBox.style.display = 'none';
+        }
+    </script>
 </head>
 <!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
