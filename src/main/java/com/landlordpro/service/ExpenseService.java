@@ -1,5 +1,18 @@
 package com.landlordpro.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.landlordpro.dto.ExpenseDto;
+import com.landlordpro.mapper.ExpenseMapper;
+import com.landlordpro.model.Expense;
+import com.landlordpro.repository.ExpenseRepository;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.math.BigDecimal;
@@ -7,27 +20,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.landlordpro.dto.ExpenseDto;
-import com.landlordpro.mapper.ExpenseMapper;
-import com.landlordpro.model.Expense;
-import com.landlordpro.repository.ExpenseRepository;
-
-import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -151,6 +145,19 @@ public class ExpenseService {
                 }
             })
             .findFirst();
+    }
+
+    public void update(ExpenseDto expenseDto, UUID userId) throws RuntimeException {
+        if (!isExistsForUser(expenseDto.getId(), userId, expenseDto.getApartmentId())) {
+            String errorMsg = "Expense= " + expenseDto.getName() + " not exists for the logged-in user.";
+            throw new RuntimeException(errorMsg);
+        }
+
+        save(expenseDto);
+    }
+
+    public boolean isExistsForUser(UUID id, UUID userId, UUID apartmentId) {
+        return expenseRepository.existsByIdAndUserIdAndApartmentId(id, userId, apartmentId);
     }
 
     public boolean updateExpense(String id, String year, String apartmentName, String name, BigDecimal amount) {

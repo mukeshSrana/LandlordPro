@@ -1,32 +1,5 @@
 package com.landlordpro.controller;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import org.apache.tika.Tika;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.landlordpro.config.AppConfig;
 import com.landlordpro.dto.DeductibleExpense;
 import com.landlordpro.dto.ExpenseDto;
@@ -34,8 +7,23 @@ import com.landlordpro.model.Expense;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
 import com.landlordpro.service.ExpenseService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tika.Tika;
+import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -233,30 +221,21 @@ public class ExpenseController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Map<String, Object>> updateExpense(@RequestParam("id") String id,
-        @RequestParam("year") String year,
-        @RequestParam("apartmentName") String apartmentName,
-        @RequestParam("name") String name,
-        @RequestParam("amount") BigDecimal amount) {
-        Map<String, Object> response = new HashMap<>();
-
+    public String update(@ModelAttribute ExpenseDto expenseDto, Authentication authentication, RedirectAttributes redirectAttributes) {
         try {
-            // Logic to update the expense
-            boolean isUpdate = expenseService.updateExpense(id, year, apartmentName, name, amount);
+            CustomUserDetails userDetails = currentUser(authentication);
+            // Retrieve the logged-in user's ID
+            UUID userId = userDetails.getId();
 
-            if (isUpdate) {
-                response.put("success", true);
-                response.put("updatedExpense", isUpdate);
-            } else {
-                response.put("success", false);
-                response.put("message", "Update failed: Expense not found or could not be updated.");
-            }
+            expenseService.update(expenseDto, userId);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Expense updated successfully!");
         } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", "Error: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while updating expense: ", e);
         }
-
-        return ResponseEntity.ok(response);
+        redirectAttributes.addFlashAttribute("page", "handleExpense");
+        return "redirect:/expense/handle";
     }
 
     private List<Integer> getAvailableYears(List<ExpenseDto> expensesForUser) {

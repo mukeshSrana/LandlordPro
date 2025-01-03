@@ -70,7 +70,7 @@
                     <td th:text="${expense.category}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${expense.amount}"></td>
-                    <td th:text="${expense.expenseLocation}"></td>
+                    <td ondblclick="enableEditing(this)" th:text="${expense.expenseLocation}"></td>
                     <td th:text="${expense.date}"></td>
                     <td>
                         <a th:if="${expense.receiptData != null}" th:href="@{/expense/downloadReceipt/{id}(id=${expense.id})}" target="_blank">Download</a>
@@ -88,10 +88,16 @@
                         <!-- Update Form -->
                         <form th:action="@{/expense/update}" method="post" style="display:inline;">
                             <input type="hidden" name="id" th:value="${expense.id}">
-                            <input type="hidden" name="year" th:value="${expense.date.year}">
                             <input type="hidden" name="apartmentId" th:value="${expense.apartmentId}">
+                            <input type="hidden" name="userId" th:value="${expense.userId}">
+                            <input type="hidden" name="category" th:value="${expense.category}">
                             <input type="hidden" name="name" th:value="${expense.name}">
                             <input type="hidden" name="amount" th:value="${expense.amount}">
+                            <input type="hidden" name="date" th:value="${expense.date}">
+                            <input type="hidden" name="expenseLocation" th:value="${expense.expenseLocation}">
+                            <input type="hidden" name="receiptData" th:value="${expense.receiptData}">
+                            <input type="hidden" name="createdDate" th:value="${expense.createdDate}">
+                            <input type="hidden" name="updatedDate" th:value="${expense.updatedDate}">
                             <button type="submit" class="update-btn">Update</button>
                         </form>
                     </td>
