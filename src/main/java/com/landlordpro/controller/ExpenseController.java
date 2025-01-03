@@ -225,7 +225,11 @@ public class ExpenseController {
         try {
             CustomUserDetails userDetails = currentUser(authentication);
             // Retrieve the logged-in user's ID
-            UUID userId = userDetails.getId();
+            UUID userId = userDetails.getId();// Handle empty receiptData (convert to null if empty)
+
+            if (expenseDto.getReceiptData() != null && expenseDto.getReceiptData().length == 0) {
+                expenseDto.setReceiptData(null);
+            }
 
             expenseService.update(expenseDto, userId);
 
