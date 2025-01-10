@@ -1,4 +1,4 @@
-git .form-container {
+.form-container {
     width: 35%; /* Adjusted width */
     max-width: 500px; /* Limits maximum width */
     margin: 2rem 2rem; /* Centers the form */
