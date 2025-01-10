@@ -1,0 +1,165 @@
+git .form-container {
+    width: 35%; /* Adjusted width */
+    max-width: 500px; /* Limits maximum width */
+    margin: 2rem 2rem; /* Centers the form */
+    padding: 1rem 2rem 2rem; /* Adds padding for a cleaner look */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /*background-color: #f9f9f9; !* Light background for the form *!*/
+}
+
+/* Error message styling */
+.form-container .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important; /* Ensure there's no margin at the top */
+    padding-top: 0 !important; /* Ensure there's no extra padding */
+    padding-bottom: 0 !important;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
+}
+
+/* Success message styling */
+.form-container .success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important; /* Ensure there's no margin at the top */
+    padding-top: 0 !important; /* Ensure there's no extra padding */
+    padding-bottom: 0 !important;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
+}
+
+.form-container .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.form-container .close-btn:hover {
+    color: #aaa;
+}
+
+.form-container label {
+    display: block;
+    margin: 1rem 0 0.5rem;
+    font-weight: bold;
+    /*color: #333;*/
+}
+
+.form-container input,
+.form-container select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    /*background-color: #fff;*/
+}
+
+.form-container button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #0056b3;
+}
+
+.form-container input::placeholder {
+    font-style: italic;
+    color: #aaa;
+}
+
+/*.form-container .form-row {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    gap: 10px;*/
+/*}*/
+
+.form-container .form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Space between fields */
+}
+
+.form-container .form-row label {
+    margin-bottom: 0.5rem;
+}
+
+.form-container .form-row input,
+.form-container .form-row select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-container .form-row .flex-half {
+    flex: 1;
+}
+
+.form-container .form-row .flex-large {
+    flex: 4;
+}
+
+.form-container .form-row .flex-small {
+    flex: 1;
+}
+
+/* Flex for larger input fields */
+.form-container .flex-large {
+    flex: 3; /* Expense Name takes more space */
+}
+
+/* Flex for smaller input fields */
+.form-container .flex-small {
+    flex: 1; /* Amount takes less space */
+}
+
+.form-container .form-row .full-width {
+    flex: 1;
+    width: 100%;
+}
+
+/* Adjust flex for Apartment Name and Expense Category */
+.form-container .form-row .flex-40 {
+    flex: 2; /* 40% width */
+}
+
+.form-container .form-row .flex-60 {
+    flex: 3; /* 60% width */
+}
+
+/* Styling for the dropdown to make it consistent */
+.form-container select {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /*background-color: #fff;*/
+}
+
+.form-container #amount {
+    max-width: 200px; /* Optional: Constrain size of numeric fields */
+}

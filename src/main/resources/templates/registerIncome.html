@@ -1,26 +1,88 @@
 <!DOCTYPE html>
-<html xmlns:th="http:www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
-    <link rel="stylesheet" th:href="@{/expense-form.css}">
+    <link rel="stylesheet" th:href="@{/income-form.css}">
+    <script>
+        function closeMessage(button) {
+            var messageBox = button.parentElement;
+            messageBox.style.display = 'none';
+        }
+    </script>
 </head>
-<!-- Define the fragment where the content will go -->
-<div layout:fragment="content">
-    <form th:action="@{/saveExpense}" method="post">
-        <label for="name">Expense Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter expense name" required>
-        <label for="apartmentName">Apartment Name</label>
-        <select id="apartmentName" name="apartmentName" required>
-            <option value="" disabled selected>Select Apartment</option>
-            <option th:each="apartment : ${apartmentNames}" th:value="${apartment}" th:text="${apartment}"></option>
-        </select>
-        <label for="amount">Amount</label>
-        <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
-        <label for="date">Date</label>
-        <input type="date" id="date" name="date" required>
-        <button type="submit">Create Expense</button>
+<body>
+<div class="form-container" layout:fragment="content">
+    <!-- Display success message -->
+    <div th:if="${successMessage}" class="success-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Display error message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <form th:action="@{/income/add}" method="post" enctype="multipart/form-data">
+
+        <!-- Property and Tenant in one row -->
+        <div class="form-row">
+            <div class="flex-40">
+                <label for="propertyName">Property:</label>
+                <select id="propertyName" name="propertyId" required>
+                    <option value="" disabled selected>Select Property</option>
+                    <option th:each="property : ${propertyIdNameMap}"
+                            th:value="${property.key}"
+                            th:text="${property.value}">
+                    </option>
+                </select>
+            </div>
+            <div class="flex-60">
+                <label for="tenantName">Tenant:</label>
+                <select id="tenantName" name="tenantId" required>
+                    <option value="" disabled selected>Select Tenant</option>
+                    <option th:each="tenant : ${tenants}" th:value="${tenant.key}" th:text="${tenant.value}"></option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Date and Amount in one row -->
+        <div class="form-row">
+            <div class="flex-large">
+                <label for="date">Income Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="flex-small">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" required min="0" step="0.01">
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="form-row">
+            <div class="flex-large">
+                <label for="status">Payment Status:</label>
+                <select id="status" name="status" required>
+                    <option value="" disabled selected>Select Status</option>
+                    <option value="completed">Completed</option>
+                    <option value="pending">Pending</option>
+                    <option value="overdue">Overdue</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Receipt Upload -->
+        <div class="form-row">
+            <div class="flex-large">
+                <label for="receiptData">Upload Receipt (Optional):</label>
+                <input type="file" id="receiptData" name="receiptData" accept="image/*,.pdf">
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Register Income</button>
     </form>
 </div>
+</body>
 </html>
-
