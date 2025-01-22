@@ -29,12 +29,12 @@
         <!-- Property and Tenant in one row -->
         <div class="form-row">
             <div class="flex-40">
-                <label for="propertyName">Property:</label>
-                <select id="propertyName" name="propertyId" required>
-                    <option value="" disabled selected>Select Property</option>
-                    <option th:each="property : ${propertyIdNameMap}"
-                            th:value="${property.key}"
-                            th:text="${property.value}">
+                <label for="apartmentName">Apartment Name:</label>
+                <select id="apartmentName" name="apartmentId" required>
+                    <option value="" disabled selected>Select Apartment</option>
+                    <option th:each="apartment : ${apartmentIdNameMap}"
+                            th:value="${apartment.key}"
+                            th:text="${apartment.value}">
                     </option>
                 </select>
             </div>
@@ -65,9 +65,7 @@
                 <label for="status">Payment Status:</label>
                 <select id="status" name="status" required>
                     <option value="" disabled selected>Select Status</option>
-                    <option value="completed">Completed</option>
-                    <option value="pending">Pending</option>
-                    <option value="overdue">Overdue</option>
+                    <option th:each="status : ${status}" th:value="${status}" th:text="${status}"></option>
                 </select>
             </div>
             <div class="flex-70">

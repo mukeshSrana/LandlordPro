@@ -60,12 +60,12 @@
             <button class="dropdown-btn" onclick="toggleDropdown('income-options')">Income</button>
             <ul id="income-options" class="dropdown-content" style="display: none;">
                 <li>
-                    <a th:href="@{/registerIncome}" th:classappend="${page == 'registerIncome' ? 'active' : ''}" onclick="handleSelection(event, 'income-options')">
+                    <a th:href="@{/income/register}" th:classappend="${page == 'registerIncome' ? 'active' : ''}" onclick="handleSelection(event, 'income-options')">
                         Register
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/handleIncome}" th:classappend="${page == 'handleIncome' ? 'active' : ''}" onclick="handleSelection(event, 'income-options')">
+                    <a th:href="@{/income/handle}" th:classappend="${page == 'handleIncome' ? 'active' : ''}" onclick="handleSelection(event, 'income-options')">
                         Handle
                     </a>
                 </li>
