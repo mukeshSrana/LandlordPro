@@ -4,7 +4,7 @@ CREATE TABLE tenants
     full_name                         VARCHAR(255)   NOT NULL,
     date_of_birth                     DATE           NOT NULL,
     phone_number                      VARCHAR(15)    NOT NULL,
-    email                             VARCHAR(255)   NOT NULL UNIQUE,
+    email                             VARCHAR(255)   NOT NULL,
     user_id                           CHAR(36)       NOT NULL,
     apartment_id                      CHAR(36)       NOT NULL,
     lease_start_date                  DATE           NOT NULL,
@@ -20,6 +20,5 @@ CREATE TABLE tenants
 
 CREATE INDEX idx_tenant_user_id ON tenants (user_id);
 CREATE INDEX idx_tenant_apartment_id ON tenants (apartment_id);
-CREATE INDEX idx_tenant_email ON tenants (email);
 
 
