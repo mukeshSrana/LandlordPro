@@ -5,7 +5,6 @@
     padding: 1rem 2rem 2rem; /* Adds padding for a cleaner look */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /*background-color: #f9f9f9; !* Light background for the form *!*/
 }
 
 /* Error message styling */
@@ -59,7 +58,6 @@
     display: block;
     margin: 1rem 0 0.5rem;
     font-weight: bold;
-    /*color: #333;*/
 }
 
 .form-container input,
@@ -70,7 +68,6 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
-    /*background-color: #fff;*/
 }
 
 .form-container button {
@@ -93,16 +90,10 @@
     color: #aaa;
 }
 
-/*.form-container .form-row {*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    gap: 10px;*/
-/*}*/
-
 .form-container .form-row {
     display: flex;
     justify-content: space-between;
-    gap: 15px; /* Space between fields */
+    gap: 15px;
 }
 
 .form-container .form-row label {
@@ -115,31 +106,12 @@
     box-sizing: border-box;
 }
 
-.form-container .form-row .flex-half {
-    flex: 1;
-}
-
 .form-container .form-row .flex-large {
     flex: 4;
 }
 
 .form-container .form-row .flex-small {
     flex: 1;
-}
-
-/* Flex for larger input fields */
-.form-container .flex-large {
-    flex: 3; /* Expense Name takes more space */
-}
-
-/* Flex for smaller input fields */
-.form-container .flex-small {
-    flex: 1; /* Amount takes less space */
-}
-
-.form-container .form-row .full-width {
-    flex: 1;
-    width: 100%;
 }
 
 /* Adjust flex for Apartment Name and Expense Category */
