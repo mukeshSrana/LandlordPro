@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.groovy.util.Maps;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,7 +92,9 @@ public class IncomeController {
     public String register(Model model, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
         Map<UUID, String> apartmentIdNameMap = apartmentService.getApartmentIdNameMap(userDetails.getId());
+        Map<UUID, String> tenantIdNameMap = Maps.of(UUID.randomUUID(), "Name-1", UUID.randomUUID(), "Name-2");
         model.addAttribute("apartmentIdNameMap", apartmentIdNameMap);
+        model.addAttribute("tenantIdNameMap", tenantIdNameMap);
         model.addAttribute("status", IncomeStatus.values());
         model.addAttribute("page", "registerIncome");
         return "registerIncome";

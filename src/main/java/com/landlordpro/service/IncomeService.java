@@ -31,11 +31,11 @@ public class IncomeService {
         try {
             incomeRepository.save(income);
         } catch (DataIntegrityViolationException ex) {
-            String errorMessage = "Constraint violation while saving expense=" + incomeDto.getId() + " User=" + incomeDto.getUserId();
+            String errorMessage = "Constraint violation while saving income=" + incomeDto.getId() + " User=" + incomeDto.getUserId();
             log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         } catch (Exception ex) {
-            String errorMessage = "Unexpected error while saving expense=" + incomeDto.getId() + " User=" + incomeDto.getUserId();
+            String errorMessage = "Unexpected error while saving income=" + incomeDto.getId() + " User=" + incomeDto.getUserId();
             log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         }
