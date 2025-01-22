@@ -1,9 +1,9 @@
 package com.landlordpro.dto;
 
 public enum IncomeStatus {
-    COMPLETED("completed"),
-    PENDING("pending"),
-    OVERDUE("overdue");
+    COMPLETED("Completed"),
+    PENDING("Pending"),
+    OVERDUE("Overdue");
 
     private final String description;
 
