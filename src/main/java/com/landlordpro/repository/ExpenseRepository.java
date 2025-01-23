@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.landlordpro.domain.Expense;
-import com.landlordpro.domain.report.ExpenseSummary;
+import com.landlordpro.report.ExpenseSummary;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
@@ -17,7 +17,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
     void deleteByIdAndUserIdAndApartmentId(UUID id, UUID userId, UUID apartmentId);
     boolean existsByIdAndUserIdAndApartmentId(UUID id, UUID userId, UUID apartmentId);
 
-    @Query("SELECT new com.landlordpro.domain.report.ExpenseSummary(" +
+    @Query("SELECT new com.landlordpro.report.ExpenseSummary(" +
         "a.apartmentShortName, SUM(e.amount), YEAR(e.date)) " +
         "FROM Expense e JOIN e.apartment a " +
         "WHERE a.userId = :userId " +

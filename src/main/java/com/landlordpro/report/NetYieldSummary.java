@@ -1,4 +1,4 @@
-package com.landlordpro.domain.report;
+package com.landlordpro.report;
 
 import java.math.BigDecimal;
 
@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MonthlyIncomeSummary {
+public class NetYieldSummary {
     private String apartmentName;
-    private String tenantName;
-    private int month;
-    private int year;
+    private Integer year;
     private BigDecimal totalIncome;
-    private String paymentStatus;
+    private BigDecimal totalExpenses;
+    private BigDecimal netIncome;
+    private BigDecimal netYield;
 }
 

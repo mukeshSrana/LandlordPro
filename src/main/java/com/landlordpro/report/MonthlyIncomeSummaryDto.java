@@ -1,4 +1,4 @@
-package com.landlordpro.dto.report;
+package com.landlordpro.report;
 
 import java.math.BigDecimal;
 import java.time.Month;
