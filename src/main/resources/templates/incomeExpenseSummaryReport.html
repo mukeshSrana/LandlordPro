@@ -12,6 +12,7 @@
             <thead>
             <tr>
                 <th>Apartment Name</th>
+                <th>Year</th>
                 <th>Total Rental Income</th>
                 <th>Total Expenses</th>
                 <th>Net Income</th>
@@ -20,6 +21,7 @@
             <tbody>
             <tr th:each="summary : ${reportData}">
                 <td th:text="${summary.apartmentName}"></td>
+                <td th:text="${summary.year}"></td>
                 <td th:text="${summary.totalIncome}"></td>
                 <td th:text="${summary.totalExpenses}"></td>
                 <td th:text="${summary.netIncome}"></td>
