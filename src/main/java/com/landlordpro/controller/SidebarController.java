@@ -111,10 +111,10 @@ public class SidebarController {
         return "monthlyIncomeReport";
     }
 
-    @GetMapping("/report-2")
-    public String report2(Model model) {
-        model.addAttribute("page", "report-2");
-        return "report-2";
+    @GetMapping("/incomeExpenseSummaryReport")
+    public String incomeExpenseSummaryReport(Model model) {
+        model.addAttribute("page", "incomeExpenseSummaryReport");
+        return "incomeExpenseSummaryReport";
     }
 }
 

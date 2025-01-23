@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/reports.css}">
+</head>
+<!-- Define the fragment where the content will go -->
+<div class="form-container" layout:fragment="content">
+    <main>
+        <table>
+            <thead>
+            <tr>
+                <th>Apartment Name</th>
+                <th>Total Rental Income</th>
+                <th>Total Expenses</th>
+                <th>Net Income</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="summary : ${reportData}">
+                <td th:text="${summary.apartmentName}"></td>
+                <td th:text="${summary.totalIncome}"></td>
+                <td th:text="${summary.totalExpenses}"></td>
+                <td th:text="${summary.netIncome}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+</html>

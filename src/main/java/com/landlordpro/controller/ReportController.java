@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.landlordpro.dto.IncomeExpenseSummaryDTO;
 import com.landlordpro.dto.MonthlyIncomeReportDto;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ReportService;
@@ -31,6 +32,21 @@ public class ReportController {
         model.addAttribute("page", "monthlyIncomeReport");
 
         return "monthlyIncomeReport";
+    }
+
+
+    @GetMapping("/incomeExpenseSummary")
+    public String incomeExpenseSummary( Authentication authentication, Model model) {
+
+        CustomUserDetails userDetails = currentUser(authentication);
+
+        // Fetch the report data filtered by userId
+        List<IncomeExpenseSummaryDTO> reportData = reportService.getIncomeExpenseSummary(userDetails.getId());
+
+        model.addAttribute("reportData", reportData);
+        model.addAttribute("page", "incomeExpenseSummaryReport");
+
+        return "incomeExpenseSummaryReport";
     }
 
     private CustomUserDetails currentUser(Authentication authentication) {

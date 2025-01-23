@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (currentPage === 'registerIncome' || currentPage === 'handleIncome') {
     toggleDropdown('income-options');
   }
-  if (currentPage === 'monthlyIncomeReport' || currentPage === 'report-2') {
+  if (currentPage === 'monthlyIncomeReport' || currentPage === 'incomeExpenseSummaryReport') {
     toggleDropdown('report-options');
   }
   if (currentPage === 'userAdmin' || currentPage === 'contactAdmin') {
