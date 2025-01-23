@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.landlordpro.report.ExpenseSummary;
 import com.landlordpro.report.IncomeSummary;
-import com.landlordpro.report.MonthlyIncomeSummaryDto;
+import com.landlordpro.report.MonthlyIncomeSummary;
 import com.landlordpro.report.NetYieldSummary;
 import com.landlordpro.repository.ExpenseRepository;
 import com.landlordpro.repository.IncomeRepository;
@@ -31,7 +31,7 @@ public class ReportService {
         this.expenseRepository = expenseRepository;
     }
 
-    public List<MonthlyIncomeSummaryDto> getMonthlyIncomeReport(UUID userId) {
+    public List<MonthlyIncomeSummary> getMonthlyIncomeReport(UUID userId) {
         return incomeRepository.findMonthlyIncomeSummary(userId);
     }
 

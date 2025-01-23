@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class MonthlyIncomeSummaryDto {
+public class MonthlyIncomeSummary {
     private String apartmentName;
     private String tenantName;
     private int month;
