@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.groovy.util.Maps;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.landlordpro.config.AppConfig;
 import com.landlordpro.dto.IncomeDto;
 import com.landlordpro.dto.IncomeStatus;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
 import com.landlordpro.service.IncomeService;
+import com.landlordpro.service.TenantService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,12 +29,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/income")
 public class IncomeController {
 
-    private final AppConfig appConfig;
+    private final TenantService tenantService;
     private final IncomeService incomeService;
     private final ApartmentService apartmentService;
 
-    public IncomeController(AppConfig appConfig, IncomeService incomeService, ApartmentService apartmentService) {
-        this.appConfig = appConfig;
+    public IncomeController(TenantService tenantService, IncomeService incomeService, ApartmentService apartmentService) {
+        this.tenantService = tenantService;
         this.incomeService = incomeService;
         this.apartmentService = apartmentService;
     }
@@ -92,7 +91,7 @@ public class IncomeController {
     public String register(Model model, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
         Map<UUID, String> apartmentIdNameMap = apartmentService.getApartmentIdNameMap(userDetails.getId());
-        Map<UUID, String> tenantIdNameMap = Maps.of(UUID.randomUUID(), "Name-1", UUID.randomUUID(), "Name-2");
+        Map<UUID, String> tenantIdNameMap = tenantService.getTenantIdNameMap(userDetails.getId());
         model.addAttribute("apartmentIdNameMap", apartmentIdNameMap);
         model.addAttribute("tenantIdNameMap", tenantIdNameMap);
         model.addAttribute("status", IncomeStatus.values());

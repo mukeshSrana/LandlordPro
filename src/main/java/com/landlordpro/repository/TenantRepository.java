@@ -9,4 +9,5 @@ import com.landlordpro.domain.Tenant;
 
 public interface TenantRepository extends JpaRepository<Tenant, UUID> {
     List<Tenant> findByUserIdAndApartmentId(UUID userId, UUID apartmentId);
+    List<Tenant> findByUserId(UUID userId);
 }

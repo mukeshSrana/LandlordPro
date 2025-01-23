@@ -2,6 +2,8 @@ package com.landlordpro.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -58,6 +60,15 @@ public class TenantService {
         if (!validate) {
             throw new IllegalStateException("Tenant is already active.");
         }
+    }
+
+    public Map<UUID, String> getTenantIdNameMap(UUID userId) {
+        List<Tenant> tenants = tenantRepository.findByUserId(userId);
+        return tenants.stream()
+            .collect(Collectors.toMap(
+                Tenant::getId,
+                Tenant::getFullName
+            ));
     }
 }
 
