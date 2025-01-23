@@ -36,7 +36,7 @@ public class ReportService {
     }
 
     public List<MonthlyIncomeSummaryDto> getMonthlyIncomeReport(UUID userId) {
-        List<MonthlyIncomeSummary> monthlyIncomeSummaries = incomeRepository.findMonthlyIncomeReport(userId);
+        List<MonthlyIncomeSummary> monthlyIncomeSummaries = incomeRepository.findMonthlyIncomeSummary(userId);
         return reportMapper.toDTOList(monthlyIncomeSummaries);
     }
 
