@@ -58,7 +58,6 @@
                 <label for="tenantName">Tenant:</label>
                 <select id="tenantName" name="tenantId" required>
                     <option value="" disabled selected>Select Tenant</option>
-                    <option th:each="tenant : ${tenantIdNameMap}" th:value="${tenant.key}" th:text="${tenant.value}"></option>
                 </select>
             </div>
         </div>

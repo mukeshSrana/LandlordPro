@@ -91,9 +91,7 @@ public class IncomeController {
     public String register(Model model, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
         Map<UUID, String> apartmentIdNameMap = apartmentService.getApartmentIdNameMap(userDetails.getId());
-        Map<UUID, String> tenantIdNameMap = tenantService.getTenantIdNameMap(userDetails.getId());
         model.addAttribute("apartmentIdNameMap", apartmentIdNameMap);
-        model.addAttribute("tenantIdNameMap", tenantIdNameMap);
         model.addAttribute("status", IncomeStatus.values());
         model.addAttribute("page", "registerIncome");
         return "registerIncome";
