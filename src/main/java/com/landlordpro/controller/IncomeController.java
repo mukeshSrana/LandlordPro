@@ -2,6 +2,7 @@ package com.landlordpro.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -96,6 +98,14 @@ public class IncomeController {
         model.addAttribute("page", "registerIncome");
         return "registerIncome";
     }
+
+    @GetMapping("/tenants")
+    @ResponseBody
+    public List<Map<String, String>> getTenants(@RequestParam("apartmentId") UUID apartmentId, Authentication authentication) {
+        CustomUserDetails userDetails = currentUser(authentication);
+        return tenantService.getTenantsByApartmentId(userDetails.getId(), apartmentId);
+    }
+
 
     private CustomUserDetails currentUser(Authentication authentication) {
         if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {

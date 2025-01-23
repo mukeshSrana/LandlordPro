@@ -70,5 +70,12 @@ public class TenantService {
                 Tenant::getFullName
             ));
     }
+
+    public List<Map<String, String>> getTenantsByApartmentId(UUID userId, UUID apartmentId) {
+        return tenantRepository.findByUserIdAndApartmentId(userId, apartmentId)
+            .stream()
+            .map(tenant -> Map.of("id", tenant.getId().toString(), "name", tenant.getFullName()))
+            .toList();
+    }
 }
 

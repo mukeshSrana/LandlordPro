@@ -9,6 +9,23 @@
             var messageBox = button.parentElement;
             messageBox.style.display = 'none';
         }
+        function fetchTenants(apartmentId) {
+          if (apartmentId) {
+            fetch(`/income/tenants?apartmentId=` + apartmentId)
+              .then(response => response.json())
+              .then(data => {
+                const tenantDropdown = document.getElementById('tenantName');
+                tenantDropdown.innerHTML = '<option value="" disabled selected>Select Tenant</option>';
+                data.forEach(tenant => {
+                  const option = document.createElement('option');
+                  option.value = tenant.id;
+                  option.textContent = tenant.name;
+                  tenantDropdown.appendChild(option);
+                });
+              })
+              .catch(error => console.error('Error fetching tenants:', error));
+          }
+        }
     </script>
 </head>
 <body>
@@ -30,12 +47,11 @@
         <div class="form-row">
             <div class="flex-40">
                 <label for="apartmentName">Apartment Name:</label>
-                <select id="apartmentName" name="apartmentId" required>
+                <select id="apartmentName" name="apartmentId" required onchange="fetchTenants(this.value)">
                     <option value="" disabled selected>Select Apartment</option>
                     <option th:each="apartment : ${apartmentIdNameMap}"
                             th:value="${apartment.key}"
-                            th:text="${apartment.value}">
-                    </option>
+                            th:text="${apartment.value}"></option>
                 </select>
             </div>
             <div class="flex-60">
