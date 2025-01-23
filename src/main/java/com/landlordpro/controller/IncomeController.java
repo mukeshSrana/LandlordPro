@@ -77,11 +77,9 @@ public class IncomeController {
             incomeService.add(incomeDto);
 
             redirectAttributes.addFlashAttribute("successMessage", "Income created successfully!");
-            //return "registerApartment"; // Redirect or forward to success page
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
             log.error("Unexpected error while saving income: ", e);
-            //return "registerApartment"; // Return to the form with error message
         }
         redirectAttributes.addFlashAttribute("page", "registerIncome");
         return "redirect:/income/register";
