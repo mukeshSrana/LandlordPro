@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
-import com.landlordpro.domain.ExpenseSummary;
-import com.landlordpro.domain.IncomeSummary;
-import com.landlordpro.domain.MonthlyIncomeReport;
+import com.landlordpro.domain.report.ExpenseSummary;
+import com.landlordpro.domain.report.IncomeSummary;
+import com.landlordpro.domain.report.MonthlyIncomeSummary;
 import com.landlordpro.dto.NetYieldSummaryDTO;
 import com.landlordpro.dto.MonthlyIncomeReportDto;
 import com.landlordpro.mapper.ReportMapper;
@@ -36,8 +36,8 @@ public class ReportService {
     }
 
     public List<MonthlyIncomeReportDto> getMonthlyIncomeReport(UUID userId) {
-        List<MonthlyIncomeReport> monthlyIncomeReports = incomeRepository.findMonthlyIncomeReport(userId);
-        return reportMapper.toDTOList(monthlyIncomeReports);
+        List<MonthlyIncomeSummary> monthlyIncomeSummaries = incomeRepository.findMonthlyIncomeReport(userId);
+        return reportMapper.toDTOList(monthlyIncomeSummaries);
     }
 
     public List<NetYieldSummaryDTO> getNetYieldReport(UUID userId) {
