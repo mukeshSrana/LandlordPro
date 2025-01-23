@@ -9,12 +9,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.landlordpro.domain.Income;
-import com.landlordpro.dto.MonthlyIncomeReportDto;
+import com.landlordpro.domain.MonthlyIncomeReport;
 
 @Repository
 public interface IncomeRepository extends JpaRepository<Income, UUID> {
 
-    @Query("SELECT new com.landlordpro.dto.MonthlyIncomeReportDto(" +
+    @Query("SELECT new com.landlordpro.domain.MonthlyIncomeReport(" +
         "a.apartmentShortName, t.fullName, MONTH(i.date), YEAR(i.date), " +
         "SUM(i.amount), i.status) " +
         "FROM Income i " +
@@ -23,6 +23,6 @@ public interface IncomeRepository extends JpaRepository<Income, UUID> {
         "WHERE i.userId = :userId " +
         "GROUP BY a.apartmentShortName, t.fullName, MONTH(i.date), YEAR(i.date), i.status " +
         "ORDER BY YEAR(i.date), MONTH(i.date), a.apartmentShortName, t.fullName")
-    List<MonthlyIncomeReportDto> findMonthlyIncomeReport(@Param("userId") UUID userId);
+    List<MonthlyIncomeReport> findMonthlyIncomeReport(@Param("userId") UUID userId);
 }
 
