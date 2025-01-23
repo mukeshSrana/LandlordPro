@@ -11,6 +11,7 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @Configuration
 public class SecurityConfig {
@@ -44,7 +45,12 @@ public class SecurityConfig {
                         sessionRegistry.removeSessionInformation(request.getSession().getId());  // Remove session from registry
                     }
                 })
-                .logoutSuccessUrl("/login?logout")  // Redirect to login page on logout success
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    if (authentication != null) {
+                        sessionRegistry.removeSessionInformation(request.getSession().getId());
+                    }
+                    response.sendRedirect("/login?logout");
+                })
                 .invalidateHttpSession(true)  // Invalidate the session on logout
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")  // Optional: Delete the session cookie
@@ -55,7 +61,7 @@ public class SecurityConfig {
                 .sessionFixation().newSession()  // Prevent session fixation by creating a new session
                 .invalidSessionUrl("/login?sessionExpired")  // Redirect to login if session is invalid
                 .maximumSessions(1)  // Prevent multiple sessions for a user
-                .maxSessionsPreventsLogin(false)  // Prevent login if maximum sessions reached
+                .maxSessionsPreventsLogin(true)  // Prevent login if maximum sessions reached
                 .sessionRegistry(sessionRegistry)  // Attach session registry for tracking sessions
             )
             .csrf(csrf -> csrf
@@ -63,6 +69,11 @@ public class SecurityConfig {
             );
 
         return http.build();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 
     @Bean
