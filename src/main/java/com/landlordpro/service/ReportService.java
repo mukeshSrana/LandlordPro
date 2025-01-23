@@ -1,6 +1,7 @@
 package com.landlordpro.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import com.landlordpro.domain.ExpenseSummary;
 import com.landlordpro.domain.IncomeSummary;
 import com.landlordpro.domain.MonthlyIncomeReport;
-import com.landlordpro.dto.IncomeExpenseSummaryDTO;
+import com.landlordpro.dto.NetYieldSummaryDTO;
 import com.landlordpro.dto.MonthlyIncomeReportDto;
 import com.landlordpro.mapper.ReportMapper;
 import com.landlordpro.repository.ExpenseRepository;
@@ -39,7 +40,7 @@ public class ReportService {
         return reportMapper.toDTOList(monthlyIncomeReports);
     }
 
-    public List<IncomeExpenseSummaryDTO> getIncomeExpenseSummary(UUID userId) {
+    public List<NetYieldSummaryDTO> getNetYieldReport(UUID userId) {
         // Fetch income and expense summaries filtered by userId
         List<IncomeSummary> incomeSummaries = incomeRepository.findIncomeSummary(userId);
         List<ExpenseSummary> expenseSummaries = expenseRepository.findExpenseSummary(userId);
@@ -97,16 +98,21 @@ public class ReportService {
 
                 BigDecimal netIncome = totalIncome.subtract(totalExpenses);
 
-                return new IncomeExpenseSummaryDTO(
+                BigDecimal netYield = (totalIncome.compareTo(BigDecimal.ZERO) > 0)
+                    ? netIncome.multiply(BigDecimal.valueOf(100)).divide(totalIncome, 2, RoundingMode.HALF_UP)
+                    : BigDecimal.ZERO;
+
+                return new NetYieldSummaryDTO(
                     apartmentName,
                     year,
                     totalIncome,
                     totalExpenses,
-                    netIncome
+                    netIncome,
+                    netYield
                 );
             })
-            .sorted(Comparator.comparing(IncomeExpenseSummaryDTO::getYear)
-                .thenComparing(IncomeExpenseSummaryDTO::getApartmentName))
+            .sorted(Comparator.comparing(NetYieldSummaryDTO::getYear)
+                .thenComparing(NetYieldSummaryDTO::getApartmentName))
             .collect(Collectors.toList());
     }
 }

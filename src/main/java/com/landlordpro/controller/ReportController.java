@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.landlordpro.dto.IncomeExpenseSummaryDTO;
+import com.landlordpro.dto.NetYieldSummaryDTO;
 import com.landlordpro.dto.MonthlyIncomeReportDto;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ReportService;
@@ -35,18 +35,18 @@ public class ReportController {
     }
 
 
-    @GetMapping("/incomeExpenseSummary")
-    public String incomeExpenseSummary( Authentication authentication, Model model) {
+    @GetMapping("/netYield")
+    public String netYieldReport(Authentication authentication, Model model) {
 
         CustomUserDetails userDetails = currentUser(authentication);
 
         // Fetch the report data filtered by userId
-        List<IncomeExpenseSummaryDTO> reportData = reportService.getIncomeExpenseSummary(userDetails.getId());
+        List<NetYieldSummaryDTO> reportData = reportService.getNetYieldReport(userDetails.getId());
 
         model.addAttribute("reportData", reportData);
-        model.addAttribute("page", "incomeExpenseSummaryReport");
+        model.addAttribute("page", "netYieldReport");
 
-        return "incomeExpenseSummaryReport";
+        return "netYieldReport";
     }
 
     private CustomUserDetails currentUser(Authentication authentication) {
