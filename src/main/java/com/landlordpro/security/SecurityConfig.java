@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .sessionFixation().newSession()  // Prevent session fixation by creating a new session
                 .invalidSessionUrl("/login?sessionExpired")  // Redirect to login if session is invalid
                 .maximumSessions(1)  // Prevent multiple sessions for a user
-                .maxSessionsPreventsLogin(true)  // Prevent login if maximum sessions reached
+                .maxSessionsPreventsLogin(false)  // Prevent login if maximum sessions reached
                 .sessionRegistry(sessionRegistry)  // Attach session registry for tracking sessions
             )
             .csrf(csrf -> csrf
