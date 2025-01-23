@@ -5,6 +5,11 @@ import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class MonthlyIncomeSummaryDto {
     private String apartmentName;
     private String tenantName;
