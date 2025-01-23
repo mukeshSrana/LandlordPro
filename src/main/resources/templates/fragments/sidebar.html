@@ -26,12 +26,12 @@
             <button class="dropdown-btn" onclick="toggleDropdown('tenant-options')">Tenant</button>
             <ul id="tenant-options" class="dropdown-content" style="display: none;">
                 <li>
-                    <a th:href="@{/registerTenant}" th:classappend="${page == 'registerTenant' ? 'active' : ''}" onclick="handleSelection(event, 'tenant-options')">
+                    <a th:href="@{/tenant/register}" th:classappend="${page == 'registerTenant' ? 'active' : ''}" onclick="handleSelection(event, 'tenant-options')">
                         Register
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/handleTenant}" th:classappend="${page == 'handleTenant' ? 'active' : ''}" onclick="handleSelection(event, 'tenant-options')">
+                    <a th:href="@{/tenant/handle}" th:classappend="${page == 'handleTenant' ? 'active' : ''}" onclick="handleSelection(event, 'tenant-options')">
                         Handle
                     </a>
                 </li>

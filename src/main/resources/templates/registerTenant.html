@@ -14,7 +14,7 @@
     </script>
 </head>
 <div class="tenant-form" layout:fragment="content">
-    <form th:action="@{/saveTenant}" method="post">
+    <form th:action="@{/tenant/add}" method="post">
         <!-- Personal Details -->
         <fieldset>
             <legend>Personal Details</legend>
@@ -39,16 +39,14 @@
             <legend>Apartment Details</legend>
             <div class="form-group">
                 <label for="apartmentName">Apartment Name</label>
-                <select id="apartmentName" name="apartmentId" required onchange="updateApartmentName()">
+                <select id="apartmentName" name="apartmentId" required>
                     <option value="" disabled selected>Select Apartment</option>
                     <!-- Loop through apartmentNamesWithId, which is a Map -->
-                    <option th:each="entry : ${apartmentNamesWithId}"
-                            th:value="${entry.key}"
-                            th:data-name="${entry.value}"
-                            th:text="${entry.value}"></option>
+                    <option th:each="apartment : ${apartmentIdNameMap}"
+                            th:value="${apartment.key}"
+                            th:text="${apartment.value}">
+                    </option>
                 </select>
-                <!-- Hidden input to store the apartment name -->
-                <input type="hidden" id="apartmentNameHidden" name="apartmentName">
             </div>
         </fieldset>
 
@@ -60,18 +58,18 @@
                 <input type="date" id="leaseStartDate" name="leaseStartDate" required>
 
                 <label for="leaseEndDate">Lease End Date</label>
-                <input type="date" id="leaseEndDate" name="leaseEndDate" required>
+                <input type="date" id="leaseEndDate" name="leaseEndDate">
             </div>
             <div class="form-group">
                 <label for="monthlyRent">Monthly Rent</label>
-                <input type="number" id="monthlyRent" name="monthlyRent" step="0.01" required>
+                <input type="number" id="monthlyRent" name="monthlyRent" required>
 
                 <label for="securityDeposit">Security Deposit</label>
-                <input type="number" id="securityDeposit" name="securityDeposit" step="0.01" required>
+                <input type="number" id="securityDeposit" name="securityDeposit" required>
             </div>
             <div class="form-group">
                 <label for="securityDepositInstitutionName">Security Deposit Institution</label>
-                <input type="text" id="securityDepositInstitutionName" name="securityDepositInstitutionName">
+                <input type="text" id="securityDepositInstitutionName" name="securityDepositInstitutionName" required>
             </div>
         </fieldset>
         <button type="submit">Register Tenant</button>
