@@ -77,7 +77,7 @@
             <button class="dropdown-btn" onclick="toggleDropdown('report-options')">Reports</button>
             <ul id="report-options" class="dropdown-content" style="display: none;">
                 <li>
-                    <a th:href="@{/report-1}" th:classappend="${page == 'report-1' ? 'active' : ''}" onclick="handleSelection(event, 'report-options')">
+                    <a th:href="@{/reports/monthlyIncome}" th:classappend="${page == 'monthlyIncomeReport' ? 'active' : ''}" onclick="handleSelection(event, 'report-options')">
                         Report-1
                     </a>
                 </li>

@@ -10,7 +10,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -27,6 +29,14 @@ public class Income {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "CHAR(36)") // UUID column definition to ensure it matches DB column type
     private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "apartment_id", nullable = false, insertable = false, updatable = false)
+    private Apartment apartment;
+
+    @ManyToOne
+    @JoinColumn(name = "tenant_id", nullable = false, insertable = false, updatable = false)
+    private Tenant tenant;
 
     @Column(name = "apartment_id", nullable = false, columnDefinition = "CHAR(36)")
     private UUID apartmentId;

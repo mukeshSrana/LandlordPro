@@ -1,9 +1,7 @@
 package com.landlordpro.controller;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -107,10 +105,10 @@ public class SidebarController {
         return "handleIncome";
     }
 
-    @GetMapping("/report-1")
-    public String report1(Model model) {
-        model.addAttribute("page", "report-1");
-        return "report-1";
+    @GetMapping("/monthlyIncomeReport")
+    public String monthlyIncomeReport(Model model) {
+        model.addAttribute("page", "monthlyIncomeReport");
+        return "monthlyIncomeReport";
     }
 
     @GetMapping("/report-2")
