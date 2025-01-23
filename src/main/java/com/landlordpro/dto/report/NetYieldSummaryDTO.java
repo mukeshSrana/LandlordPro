@@ -1,4 +1,4 @@
-package com.landlordpro.dto;
+package com.landlordpro.dto.report;
 
 import java.math.BigDecimal;
 

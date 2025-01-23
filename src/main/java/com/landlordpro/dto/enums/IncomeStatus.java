@@ -1,4 +1,4 @@
-package com.landlordpro.dto;
+package com.landlordpro.dto.enums;
 
 public enum IncomeStatus {
     COMPLETED("Completed"),

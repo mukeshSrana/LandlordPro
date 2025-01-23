@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.IncomeDto;
-import com.landlordpro.dto.IncomeStatus;
+import com.landlordpro.dto.enums.IncomeStatus;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
 import com.landlordpro.service.IncomeService;

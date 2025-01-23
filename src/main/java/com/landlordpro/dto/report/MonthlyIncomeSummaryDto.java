@@ -1,11 +1,11 @@
-package com.landlordpro.dto;
+package com.landlordpro.dto.report;
 
 import java.math.BigDecimal;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
-public class MonthlyIncomeReportDto {
+public class MonthlyIncomeSummaryDto {
     private String apartmentName;
     private String tenantName;
     private int month;

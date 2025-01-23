@@ -1,8 +1,6 @@
 package com.landlordpro.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.landlordpro.domain.User;
 import com.landlordpro.dto.UserDto;
 import com.landlordpro.dto.UserRegistrationDTO;
-import com.landlordpro.dto.UserRole;
+import com.landlordpro.dto.enums.UserRole;
 import com.landlordpro.mapper.UserMapper;
 import com.landlordpro.repository.UserRepository;
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.ApartmentDto;
-import com.landlordpro.dto.UserRole;
+import com.landlordpro.dto.enums.UserRole;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
 

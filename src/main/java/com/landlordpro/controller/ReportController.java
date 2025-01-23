@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.landlordpro.dto.NetYieldSummaryDTO;
-import com.landlordpro.dto.MonthlyIncomeReportDto;
+import com.landlordpro.dto.report.MonthlyIncomeSummaryDto;
+import com.landlordpro.dto.report.NetYieldSummaryDTO;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ReportService;
 
@@ -27,7 +27,7 @@ public class ReportController {
     public String monthlyIncomeReport(Authentication authentication, Model model) {
         CustomUserDetails userDetails = currentUser(authentication);
 
-        List<MonthlyIncomeReportDto> reportData = reportService.getMonthlyIncomeReport(userDetails.getId());
+        List<MonthlyIncomeSummaryDto> reportData = reportService.getMonthlyIncomeReport(userDetails.getId());
         model.addAttribute("reportData", reportData);
         model.addAttribute("page", "monthlyIncomeReport");
 

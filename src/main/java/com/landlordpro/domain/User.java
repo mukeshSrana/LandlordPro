@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import com.landlordpro.dto.UserRole;
+import com.landlordpro.dto.enums.UserRole;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;

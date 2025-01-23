@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.config.AppConfig;
-import com.landlordpro.dto.DeductibleExpense;
+import com.landlordpro.dto.enums.DeductibleExpense;
 import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
