@@ -13,26 +13,34 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
+import com.landlordpro.report.ApartmentOccupancySummary;
 import com.landlordpro.report.ExpenseSummary;
 import com.landlordpro.report.IncomeSummary;
 import com.landlordpro.report.MonthlyIncomeSummary;
 import com.landlordpro.report.NetYieldSummary;
 import com.landlordpro.repository.ExpenseRepository;
 import com.landlordpro.repository.IncomeRepository;
+import com.landlordpro.repository.TenantRepository;
 
 @Service
 public class ReportService {
 
     private final IncomeRepository incomeRepository;
     private final ExpenseRepository expenseRepository;
+    private final TenantRepository tenantRepository;
 
-    public ReportService(IncomeRepository incomeRepository, ExpenseRepository expenseRepository) {
+    public ReportService(IncomeRepository incomeRepository, ExpenseRepository expenseRepository, TenantRepository tenantRepository) {
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
+        this.tenantRepository = tenantRepository;
     }
 
     public List<MonthlyIncomeSummary> getMonthlyIncomeReport(UUID userId) {
         return incomeRepository.findMonthlyIncomeSummary(userId);
+    }
+
+    public List<ApartmentOccupancySummary> getApartmentOccupancyReport(UUID userId) {
+        return tenantRepository.findApartmentOccupancyReport(userId);
     }
 
     public List<NetYieldSummary> getNetYieldReport(UUID userId) {

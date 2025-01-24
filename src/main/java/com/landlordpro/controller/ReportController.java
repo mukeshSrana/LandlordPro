@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.landlordpro.report.ApartmentOccupancySummary;
 import com.landlordpro.report.MonthlyIncomeSummary;
 import com.landlordpro.report.NetYieldSummary;
 import com.landlordpro.security.CustomUserDetails;
@@ -23,6 +24,17 @@ public class ReportController {
         this.reportService = reportService;
     }
 
+    @GetMapping("/apartmentOccupancy")
+    public String apartmentOccupancyReport(Authentication authentication, Model model) {
+        CustomUserDetails userDetails = currentUser(authentication);
+
+        List<ApartmentOccupancySummary> reportData = reportService.getApartmentOccupancyReport(userDetails.getId());
+        model.addAttribute("reportData", reportData);
+        model.addAttribute("page", "apartmentOccupancyReport");
+
+        return "apartmentOccupancyReport";
+    }
+
     @GetMapping("/monthlyIncome")
     public String monthlyIncomeReport(Authentication authentication, Model model) {
         CustomUserDetails userDetails = currentUser(authentication);
@@ -33,7 +45,6 @@ public class ReportController {
 
         return "monthlyIncomeReport";
     }
-
 
     @GetMapping("/netYield")
     public String netYieldReport(Authentication authentication, Model model) {

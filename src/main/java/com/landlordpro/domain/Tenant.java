@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -42,6 +44,10 @@ public class Tenant {
 
     @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)")
     private UUID userId;
+
+    @ManyToOne
+    @JoinColumn(name = "apartment_id", nullable = false, insertable = false, updatable = false)
+    private Apartment apartment;
 
     @Column(name = "apartment_id", nullable = false, columnDefinition = "CHAR(36)")
     private UUID apartmentId;

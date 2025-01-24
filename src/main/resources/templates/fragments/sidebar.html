@@ -86,6 +86,11 @@
                         NetYield
                     </a>
                 </li>
+                <li>
+                    <a th:href="@{/reports/apartmentOccupancy}" th:classappend="${page == 'apartmentOccupancyReport' ? 'active' : ''}" onclick="handleSelection(event, 'report-options')">
+                        Occupancy status
+                    </a>
+                </li>
             </ul>
         </li>
 
