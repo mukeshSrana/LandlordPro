@@ -57,7 +57,7 @@
 
         <!-- Income Menu -->
         <li>
-            <button class="dropdown-btn" onclick="toggleDropdown('income-options')">Income</button>
+            <button class="dropdown-btn" onclick="toggleDropdown('income-options')">Revenue</button>
             <ul id="income-options" class="dropdown-content" style="display: none;">
                 <li>
                     <a th:href="@{/income/register}" th:classappend="${page == 'registerIncome' ? 'active' : ''}" onclick="handleSelection(event, 'income-options')">
