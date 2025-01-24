@@ -15,13 +15,16 @@ public interface TenantRepository extends JpaRepository<Tenant, UUID> {
     List<Tenant> findByUserId(UUID userId);
 
     @Query("SELECT new com.landlordpro.report.ApartmentOccupancySummary(" +
-        "a.apartmentShortName, a.ownerName, t.fullName, t.leaseStartDate, t.leaseEndDate, " +
+        "a.apartmentShortName, a.ownerName, COALESCE(t.fullName, 'N/A'), " +
+        "t.leaseStartDate, t.leaseEndDate, " +
         "CASE " +
-        "  WHEN t.leaseEndDate IS NULL THEN 'Occupied' " +
-        "  WHEN t.leaseEndDate < CURRENT_DATE THEN 'Vacant' " +
-        "  ELSE 'Occupied' " +
+        "  WHEN t IS NULL THEN 'Vacant' " + // No tenant associated
+        "  WHEN t.leaseEndDate IS NULL THEN 'Occupied' " + // Tenant with no lease end date
+        "  WHEN t.leaseEndDate < CURRENT_DATE THEN 'Vacant' " + // Lease expired
+        "  ELSE 'Occupied' " + // Active lease
         "END) " +
-        "FROM Tenant t JOIN t.apartment a " +
+        "FROM Apartment a " +
+        "LEFT JOIN Tenant t ON t.apartment.id = a.id " + // Reverse relationship
         "WHERE a.userId = :userId")
     List<ApartmentOccupancySummary> findApartmentOccupancyReport(@Param("userId") UUID userId);
 }
