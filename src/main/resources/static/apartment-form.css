@@ -79,10 +79,11 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: auto; /* Reset width to auto */
-    align-self: flex-start; /* Align the button to the left */
-    padding: 10px 20px;
+    width: auto;
+    align-self: flex-start;
+    font-size: 1rem;
     margin-top: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .form-container button:hover {
