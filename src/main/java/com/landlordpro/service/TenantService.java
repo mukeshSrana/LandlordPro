@@ -1,6 +1,7 @@
 package com.landlordpro.service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -69,6 +70,18 @@ public class TenantService {
                 Tenant::getId,
                 Tenant::getFullName
             ));
+    }
+
+    public Map<UUID, String> getTenantIdNameMap(List<UUID> apartmentIds) {
+        List<Tenant> tenants = tenantRepository.findByIdIn(apartmentIds);
+
+        // Transforming the result into a Map
+        Map<UUID, String> tenantIdNameMap = new HashMap<>();
+        for (Tenant tenant : tenants) {
+            tenantIdNameMap.put(tenant.getId(), tenant.getFullName());
+        }
+
+        return tenantIdNameMap;
     }
 
     public List<Map<String, String>> getTenantsByApartmentId(UUID userId, UUID apartmentId) {

@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.dto.IncomeDto;
 import com.landlordpro.dto.enums.IncomeStatus;
 import com.landlordpro.security.CustomUserDetails;
@@ -127,12 +126,14 @@ public class IncomeController {
 
             List<Integer> availableYears = getAvailableYears(incomesForUser);
             Map<UUID, String> availableApartments = getAvailableApartments(incomesForUser);
+            Map<UUID, String> availableTenants = getAvailableTenants(incomesForUser);
 
             List<IncomeDto> incomes = getExpensesFiltered(incomesForUser, year, apartmentId);
 
             model.addAttribute("incomes", incomes);
             model.addAttribute("years", availableYears);
             model.addAttribute("apartments", availableApartments);
+            model.addAttribute("tenants", availableTenants);
             model.addAttribute("selectedYear", year);
             model.addAttribute("selectedApartment", availableApartments.get(apartmentId));
         } catch (Exception e) {
@@ -193,6 +194,15 @@ public class IncomeController {
             .sorted() // Sort the apartmentIds in ascending order
             .collect(Collectors.toList());
         return apartmentService.getApartmentIdNameMap(apartmentsIds);
+    }
+
+    private Map<UUID, String> getAvailableTenants(List<IncomeDto> incomesForUser) {
+        List<UUID> tenantsIds = incomesForUser.stream()
+            .map(IncomeDto::getTenantId) // Extract apartmentId
+            .distinct() // Get unique apartmentIds
+            .sorted() // Sort the apartmentIds in ascending order
+            .collect(Collectors.toList());
+        return tenantService.getTenantIdNameMap(tenantsIds);
     }
 
     private List<IncomeDto> getExpensesFiltered(List<IncomeDto> incomesForUser, Integer year, UUID apartmentId) {

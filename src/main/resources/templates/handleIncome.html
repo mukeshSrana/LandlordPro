@@ -73,7 +73,7 @@
                 <tr>
                     <td th:text="${income.date.year}"></td>
                     <td th:text="${apartments[income.apartmentId]}"></td>
-                    <td th:text="${income.tenantId}"></td>
+                    <td th:text="${tenants[income.tenantId]}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${income.date}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${income.amount}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${income.status}"></td>

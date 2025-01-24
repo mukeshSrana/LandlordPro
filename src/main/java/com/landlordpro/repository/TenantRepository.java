@@ -13,6 +13,7 @@ import com.landlordpro.report.ApartmentOccupancySummary;
 public interface TenantRepository extends JpaRepository<Tenant, UUID> {
     List<Tenant> findByUserIdAndApartmentId(UUID userId, UUID apartmentId);
     List<Tenant> findByUserId(UUID userId);
+    List<Tenant> findByIdIn(List<UUID> tenantIds);
 
     @Query("SELECT new com.landlordpro.report.ApartmentOccupancySummary(" +
         "a.apartmentShortName, a.ownerName, COALESCE(t.fullName, 'N/A'), " +
