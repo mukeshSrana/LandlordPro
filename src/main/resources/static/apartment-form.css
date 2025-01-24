@@ -1,6 +1,7 @@
 .form-container {
     width: 35%; /* Adjusted to 30% for better alignment */
     max-width: 500px; /* Ensures the form does not grow too large on wide screens */
+    max-height: 500px;
     margin: 2rem 2rem; /* Aligns form to the left with spacing */
     padding: 1rem 2rem 2rem; /* Padding inside the form */
     border-radius: 8px;

@@ -1,6 +1,7 @@
 .form-container {
     width: 35%; /* Adjusted width */
     max-width: 500px; /* Limits maximum width */
+    max-height: 500px;
     margin: 2rem 2rem; /* Centers the form */
     padding: 1rem 2rem 2rem; /* Adds padding for a cleaner look */
     border-radius: 8px;
