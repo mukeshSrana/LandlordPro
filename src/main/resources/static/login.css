@@ -1,26 +1,22 @@
-/* Login Page Container */
-.main-container {
-    width: 80%; /* Full width but ensures max-width is maintained */
-    max-width: 500px; /* Limit form width to a maximum of 500px */
+.form-container {
+    width: 35%; /* Adjusted width */
+    max-width: 500px; /* Limits maximum width */
     max-height: 400px;
-    padding: 20px;
-    margin: 2rem 2rem;
-    background-color: #fff;
+    margin: 2rem 2rem; /* Centers the form */
+    padding: 1rem 2rem 2rem; /* Adds padding for a cleaner look */
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /*background-color: #f9f9f9; !* Light background for the form *!*/
 }
 
-/* Form Elements Styling */
 form div {
     margin-bottom: 1.5rem;
 }
 
 form label {
     display: block;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    color: #333;
+    margin: 1rem 0 0.5rem;
+    font-weight: bold;
 }
 
 form input {
