@@ -75,9 +75,9 @@
                     <td th:text="${apartments[income.apartmentId]}"></td>
                     <td th:text="${tenants[income.tenantId]}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${income.date}"></td>
-                    <td ondblclick="enableEditing(this)" th:text="${#numbers.formatCurrency(income.amount)}"></td>
+                    <td ondblclick="enableEditing(this)" th:text="${income.amount}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${income.status}"></td>
-                    <td th:text="${income.comments}"></td>
+                    <td ondblclick="enableEditing(this)" th:text="${income.comments}"></td>
                     <td>
                         <a th:if="${income.receiptData != null}" th:href="@{/income/downloadReceipt/{id}(id=${income.id})}" target="_blank">Download</a>
                     </td>
@@ -96,11 +96,11 @@
                             <input type="hidden" name="id" th:value="${income.id}">
                             <input type="hidden" name="apartmentId" th:value="${income.apartmentId}">
                             <input type="hidden" name="userId" th:value="${income.userId}">
-                            <input type="hidden" name="category" th:value="${income.tenantId}">
-                            <input type="hidden" name="name" th:value="${income.date}">
+                            <input type="hidden" name="tenantId" th:value="${income.tenantId}">
+                            <input type="hidden" name="date" th:value="${income.date}">
                             <input type="hidden" name="amount" th:value="${income.amount}">
-                            <input type="hidden" name="date" th:value="${income.status}">
-                            <input type="hidden" name="expenseLocation" th:value="${income.comments}">
+                            <input type="hidden" name="status" th:value="${income.status}">
+                            <input type="hidden" name="comments" th:value="${income.comments}">
                             <input type="hidden" name="receiptData" th:value="${income.receiptData}">
                             <input type="hidden" name="createdDate" th:value="${income.createdDate}">
                             <input type="hidden" name="updatedDate" th:value="${income.updatedDate}">

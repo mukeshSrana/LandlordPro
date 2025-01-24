@@ -78,4 +78,17 @@ public class IncomeService {
     public void deleteIncome(UUID id, UUID userId, UUID apartmentId) {
         incomeRepository.deleteByIdAndUserIdAndApartmentId(id, userId, apartmentId);
     }
+
+    public void update(IncomeDto incomeDto, UUID userId) {
+        if (!isExistsForUser(incomeDto.getId(), userId, incomeDto.getApartmentId())) {
+            String errorMsg = "Income= " + incomeDto.getId() + " not exists for the logged-in user.";
+            throw new RuntimeException(errorMsg);
+        }
+
+        save(incomeDto);
+    }
+
+    public boolean isExistsForUser(UUID id, UUID userId, UUID apartmentId) {
+        return incomeRepository.existsByIdAndUserIdAndApartmentId(id, userId, apartmentId);
+    }
 }

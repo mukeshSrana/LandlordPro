@@ -15,17 +15,20 @@ function enableEditing(cell) {
 
     // Find the hidden input corresponding to this cell
     const row = cell.closest('tr');
-    const nameHiddenInput = row.querySelector('input[name="name"]');
+    const dateHiddenInput = row.querySelector('input[name="date"]');
     const amountHiddenInput = row.querySelector('input[name="amount"]');
-    const expenseLocationHiddenInput = row.querySelector('input[name="expenseLocation"]');
+    const statusHiddenInput = row.querySelector('input[name="status"]');
+    const commentsHiddenInput = row.querySelector('input[name="comments"]');2
 
     // Update the hidden input values based on the edited cell content
-    if (cell.cellIndex === 3 && nameHiddenInput) {
-      nameHiddenInput.value = cell.textContent.trim();
+    if (cell.cellIndex === 3 && dateHiddenInput) {
+      dateHiddenInput.value = cell.textContent.trim();
     } else if (cell.cellIndex === 4 && amountHiddenInput) {
       amountHiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 5 && expenseLocationHiddenInput) {
-      expenseLocationHiddenInput.value = cell.textContent.trim();
+    } else if (cell.cellIndex === 5 && statusHiddenInput) {
+      statusHiddenInput.value = cell.textContent.trim();
+    } else if (cell.cellIndex === 6 && commentsHiddenInput) {
+      commentsHiddenInput.value = cell.textContent.trim();
     }
   });
 }

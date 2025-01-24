@@ -15,6 +15,7 @@ import com.landlordpro.report.MonthlyIncomeSummary;
 @Repository
 public interface IncomeRepository extends JpaRepository<Income, UUID> {
 
+    boolean existsByIdAndUserIdAndApartmentId(UUID id, UUID userId, UUID apartmentId);
     void deleteByIdAndUserIdAndApartmentId(UUID id, UUID userId, UUID apartmentId);
     List<Income> findByUserId(UUID userId);
 

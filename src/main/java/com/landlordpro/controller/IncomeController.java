@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,6 +114,28 @@ public class IncomeController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
             log.error("Unexpected error while deleting income: ", e);
+        }
+        redirectAttributes.addFlashAttribute("page", "handleIncome");
+        return "redirect:/income/handle";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute IncomeDto incomeDto, Authentication authentication, RedirectAttributes redirectAttributes) {
+        try {
+            CustomUserDetails userDetails = currentUser(authentication);
+            // Retrieve the logged-in user's ID
+            UUID userId = userDetails.getId();
+
+            if (incomeDto.getReceiptData() != null && incomeDto.getReceiptData().length == 0) {
+                incomeDto.setReceiptData(null);
+            }
+
+            incomeService.update(incomeDto, userId);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Income updated successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while updating Income: ", e);
         }
         redirectAttributes.addFlashAttribute("page", "handleIncome");
         return "redirect:/income/handle";
