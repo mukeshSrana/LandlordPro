@@ -8,7 +8,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.landlordpro.domain.Income;
-import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.dto.IncomeDto;
 import com.landlordpro.mapper.IncomeMapper;
 import com.landlordpro.repository.IncomeRepository;
@@ -53,7 +52,6 @@ public class IncomeService {
                 throw new IllegalArgumentException("User ID cannot be null");
             }
 
-            // Fetch expenses
             List<Income> incomes = incomeRepository.findByUserId(userId);
             return incomeMapper.toDTOList(incomes);
         } catch (EmptyResultDataAccessException ex) {

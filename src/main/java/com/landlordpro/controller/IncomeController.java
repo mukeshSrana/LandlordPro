@@ -68,7 +68,6 @@ public class IncomeController {
                 receiptBytes = receiptData.getBytes();  // Convert to byte array
             }
 
-            // Create an ExpenseDto manually since the @ModelAttribute doesn't handle MultipartFile well
             IncomeDto incomeDto = new IncomeDto();
             incomeDto.setApartmentId(apartmentId);
             incomeDto.setStatus(status);
@@ -128,7 +127,7 @@ public class IncomeController {
             Map<UUID, String> availableApartments = getAvailableApartments(incomesForUser);
             Map<UUID, String> availableTenants = getAvailableTenants(incomesForUser);
 
-            List<IncomeDto> incomes = getExpensesFiltered(incomesForUser, year, apartmentId);
+            List<IncomeDto> incomes = getIncomeFiltered(incomesForUser, year, apartmentId);
 
             model.addAttribute("incomes", incomes);
             model.addAttribute("years", availableYears);
@@ -147,7 +146,6 @@ public class IncomeController {
     @GetMapping("/downloadReceipt/{id}")
     public ResponseEntity<byte[]> downloadReceipt(@PathVariable UUID id, Model model) {
         try {
-            // Fetch the Expense object using the provided ID
             IncomeDto incomeDto = incomeService.findById(id);
 
             // Check if receiptData is null
@@ -205,9 +203,8 @@ public class IncomeController {
         return tenantService.getTenantIdNameMap(tenantsIds);
     }
 
-    private List<IncomeDto> getExpensesFiltered(List<IncomeDto> incomesForUser, Integer year, UUID apartmentId) {
+    private List<IncomeDto> getIncomeFiltered(List<IncomeDto> incomesForUser, Integer year, UUID apartmentId) {
         return incomesForUser.stream()
-            // Filter by year, comparing against the year extracted from expense's date
             .filter(income -> year == null || year.equals(income.getDate().getYear()))
             // Filter by apartmentId only if it is not null
             .filter(income -> apartmentId == null || apartmentId.equals(income.getApartmentId()))
