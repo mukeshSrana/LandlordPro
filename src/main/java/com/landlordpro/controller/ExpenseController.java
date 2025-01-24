@@ -80,7 +80,7 @@ public class ExpenseController {
             return new ResponseEntity<>(receiptData, headers, HttpStatus.OK);
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while saving expense: ", e);
+            log.error("Unexpected error while downloading expense receipt: ", e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -172,7 +172,7 @@ public class ExpenseController {
             model.addAttribute("selectedApartment", availableApartments.get(apartmentId));
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while saving expense: ", e);
+            log.error("Unexpected error while handling expense: ", e);
         }
         model.addAttribute("page", "handleExpense");
         return "handleExpense";

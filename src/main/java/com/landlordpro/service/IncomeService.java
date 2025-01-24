@@ -1,9 +1,14 @@
 package com.landlordpro.service;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.landlordpro.domain.Income;
+import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.dto.IncomeDto;
 import com.landlordpro.mapper.IncomeMapper;
 import com.landlordpro.repository.IncomeRepository;
@@ -39,5 +44,34 @@ public class IncomeService {
             log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         }
+    }
+
+    public List<IncomeDto> getIncomeForUser(UUID userId) {
+        try {
+            // Validate the input
+            if (userId == null) {
+                throw new IllegalArgumentException("User ID cannot be null");
+            }
+
+            // Fetch expenses
+            List<Income> incomes = incomeRepository.findByUserId(userId);
+            return incomeMapper.toDTOList(incomes);
+        } catch (EmptyResultDataAccessException ex) {
+            // Handle specific database "no data found" case
+            throw new RuntimeException("No income found for user with ID: " + userId, ex);
+
+        } catch (IllegalArgumentException ex) {
+            // Handle invalid input
+            throw ex; // Rethrow, or handle as needed
+
+        } catch (RuntimeException ex) {
+            // Catch unexpected runtime exceptions
+            throw new RuntimeException("Unexpected error occurred", ex);
+        }
+    }
+
+    public IncomeDto findById(UUID id) {
+        Income income = incomeRepository.findById(id).orElseThrow(() -> new RuntimeException("Apartment not found"));
+        return incomeMapper.toDTO(income);
     }
 }

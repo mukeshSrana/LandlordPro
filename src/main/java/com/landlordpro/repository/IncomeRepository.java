@@ -15,6 +15,8 @@ import com.landlordpro.report.MonthlyIncomeSummary;
 @Repository
 public interface IncomeRepository extends JpaRepository<Income, UUID> {
 
+    List<Income> findByUserId(UUID userId);
+
     @Query("SELECT new com.landlordpro.report.MonthlyIncomeSummary(" +
         "a.apartmentShortName, t.fullName, MONTH(i.date), YEAR(i.date), " +
         "SUM(i.amount), i.status) " +

@@ -2,14 +2,23 @@ package com.landlordpro.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.apache.tika.Tika;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.dto.IncomeDto;
 import com.landlordpro.dto.enums.IncomeStatus;
 import com.landlordpro.security.CustomUserDetails;
@@ -104,6 +114,97 @@ public class IncomeController {
         return tenantService.getTenantsByApartmentId(userDetails.getId(), apartmentId);
     }
 
+    @GetMapping("/handle")
+    public String handle(
+        @RequestParam(required = false) Integer year,
+        @RequestParam(required = false) UUID apartmentId,
+        Authentication authentication,
+        Model model) {
+        try {
+            CustomUserDetails userDetails = currentUser(authentication);
+            UUID userId = userDetails.getId();
+            List<IncomeDto> incomesForUser = incomeService.getIncomeForUser(userId);
+
+            List<Integer> availableYears = getAvailableYears(incomesForUser);
+            Map<UUID, String> availableApartments = getAvailableApartments(incomesForUser);
+
+            List<IncomeDto> incomes = getExpensesFiltered(incomesForUser, year, apartmentId);
+
+            model.addAttribute("incomes", incomes);
+            model.addAttribute("years", availableYears);
+            model.addAttribute("apartments", availableApartments);
+            model.addAttribute("selectedYear", year);
+            model.addAttribute("selectedApartment", availableApartments.get(apartmentId));
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while handling income: ", e);
+        }
+        model.addAttribute("page", "handleIncome");
+        return "handleIncome";
+    }
+
+    @GetMapping("/downloadReceipt/{id}")
+    public ResponseEntity<byte[]> downloadReceipt(@PathVariable UUID id, Model model) {
+        try {
+            // Fetch the Expense object using the provided ID
+            IncomeDto incomeDto = incomeService.findById(id);
+
+            // Check if receiptData is null
+            if (incomeDto.getReceiptData() == null) {
+                // Return a 404 Not Found or 204 No Content if the receipt is missing
+                return ResponseEntity.notFound().build(); // or ResponseEntity.noContent().build();
+            }
+
+            // Retrieve the receipt data (byte array)
+            byte[] receiptData = incomeDto.getReceiptData();
+
+            // Use Apache Tika to detect the file's MIME type
+            Tika tika = new Tika();
+            String mimeType = tika.detect(receiptData);
+
+            // Set the appropriate Content-Type for the file based on its MIME type
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(mimeType));
+
+            // Set the file's disposition as inline (display it in the browser)
+            headers.setContentDisposition(ContentDisposition.inline().filename("receipt").build());
+
+            // Return the file as a ResponseEntity
+            return new ResponseEntity<>(receiptData, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while downloading income receipt: ", e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    private List<Integer> getAvailableYears(List<IncomeDto> incomesForUser) {
+        return incomesForUser.stream()
+            .map(income -> income.getDate().getYear()) // Extract the year from date
+            .distinct() // Get unique years
+            .sorted() // Sort the years in ascending order
+            .collect(Collectors.toList()); // Collect into a list
+    }
+
+    private Map<UUID, String> getAvailableApartments(List<IncomeDto> incomesForUser) {
+        List<UUID> apartmentsIds = incomesForUser.stream()
+            .map(IncomeDto::getApartmentId) // Extract apartmentId
+            .distinct() // Get unique apartmentIds
+            .sorted() // Sort the apartmentIds in ascending order
+            .collect(Collectors.toList());
+        return apartmentService.getApartmentIdNameMap(apartmentsIds);
+    }
+
+    private List<IncomeDto> getExpensesFiltered(List<IncomeDto> incomesForUser, Integer year, UUID apartmentId) {
+        return incomesForUser.stream()
+            // Filter by year, comparing against the year extracted from expense's date
+            .filter(income -> year == null || year.equals(income.getDate().getYear()))
+            // Filter by apartmentId only if it is not null
+            .filter(income -> apartmentId == null || apartmentId.equals(income.getApartmentId()))
+            // Sort by year in ascending order
+            .sorted(Comparator.comparing(income -> income.getDate().getYear()))
+            .collect(Collectors.toList());
+    }
 
     private CustomUserDetails currentUser(Authentication authentication) {
         if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {
