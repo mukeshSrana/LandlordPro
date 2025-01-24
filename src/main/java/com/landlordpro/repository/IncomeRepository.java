@@ -15,6 +15,7 @@ import com.landlordpro.report.MonthlyIncomeSummary;
 @Repository
 public interface IncomeRepository extends JpaRepository<Income, UUID> {
 
+    void deleteByIdAndUserIdAndApartmentId(UUID id, UUID userId, UUID apartmentId);
     List<Income> findByUserId(UUID userId);
 
     @Query("SELECT new com.landlordpro.report.MonthlyIncomeSummary(" +

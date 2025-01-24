@@ -12,6 +12,7 @@ import com.landlordpro.dto.IncomeDto;
 import com.landlordpro.mapper.IncomeMapper;
 import com.landlordpro.repository.IncomeRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -71,5 +72,10 @@ public class IncomeService {
     public IncomeDto findById(UUID id) {
         Income income = incomeRepository.findById(id).orElseThrow(() -> new RuntimeException("Apartment not found"));
         return incomeMapper.toDTO(income);
+    }
+
+    @Transactional
+    public void deleteIncome(UUID id, UUID userId, UUID apartmentId) {
+        incomeRepository.deleteByIdAndUserIdAndApartmentId(id, userId, apartmentId);
     }
 }
