@@ -84,8 +84,8 @@ public class TenantService {
         return tenantIdNameMap;
     }
 
-    public List<Map<String, String>> getTenantsByApartmentId(UUID userId, UUID apartmentId) {
-        return tenantRepository.findByUserIdAndApartmentId(userId, apartmentId)
+    public List<Map<String, String>> findActiveTenantsByUserIdAndApartmentId(UUID userId, UUID apartmentId) {
+        return tenantRepository.findActiveTenantsByUserIdAndApartmentId(userId, apartmentId)
             .stream()
             .map(tenant -> Map.of("id", tenant.getId().toString(), "name", tenant.getFullName()))
             .toList();

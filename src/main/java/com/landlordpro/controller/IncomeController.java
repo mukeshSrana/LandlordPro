@@ -107,9 +107,9 @@ public class IncomeController {
 
     @GetMapping("/tenants")
     @ResponseBody
-    public List<Map<String, String>> getTenants(@RequestParam("apartmentId") UUID apartmentId, Authentication authentication) {
+    public List<Map<String, String>> getActiveTenants(@RequestParam("apartmentId") UUID apartmentId, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
-        return tenantService.getTenantsByApartmentId(userDetails.getId(), apartmentId);
+        return tenantService.findActiveTenantsByUserIdAndApartmentId(userDetails.getId(), apartmentId);
     }
 
     @GetMapping("/handle")

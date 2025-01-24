@@ -11,6 +11,12 @@ import com.landlordpro.domain.Tenant;
 import com.landlordpro.report.ApartmentOccupancySummary;
 
 public interface TenantRepository extends JpaRepository<Tenant, UUID> {
+    @Query("SELECT t FROM Tenant t " +
+        "WHERE t.apartment.id = :apartmentId " +
+        "AND t.userId = :userId " +
+        "AND (t.leaseEndDate IS NULL OR t.leaseEndDate >= CURRENT_DATE)")
+    List<Tenant> findActiveTenantsByUserIdAndApartmentId(@Param("userId") UUID userId, @Param("apartmentId") UUID apartmentId);
+
     List<Tenant> findByUserIdAndApartmentId(UUID userId, UUID apartmentId);
     List<Tenant> findByUserId(UUID userId);
     List<Tenant> findByIdIn(List<UUID> tenantIds);
