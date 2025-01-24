@@ -23,10 +23,10 @@
             <tr th:each="data : ${reportData}">
                 <td th:text="${data.apartmentName}"></td>
                 <td th:text="${data.year}"></td>
-                <td th:text="${data.totalIncome}"></td>
-                <td th:text="${data.totalExpenses}"></td>
-                <td th:text="${data.netIncome}"></td>
-                <td th:text="${data.netYield}"></td>
+                <td th:text="${#numbers.formatCurrency(data.totalIncome)}"></td>
+                <td th:text="${#numbers.formatCurrency(data.totalExpenses)}"></td>
+                <td th:text="${#numbers.formatCurrency(data.netIncome)}"></td>
+                <td th:text="${#numbers.formatCurrency(data.netYield)}"></td>
             </tr>
             </tbody>
         </table>

@@ -75,7 +75,7 @@
                     <td th:text="${apartments[income.apartmentId]}"></td>
                     <td th:text="${tenants[income.tenantId]}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${income.date}"></td>
-                    <td ondblclick="enableEditing(this)" th:text="${income.amount}"></td>
+                    <td ondblclick="enableEditing(this)" th:text="${#numbers.formatCurrency(income.amount)}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${income.status}"></td>
                     <td th:text="${income.comments}"></td>
                     <td>
