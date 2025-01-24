@@ -100,22 +100,14 @@
     gap: 15px;
 }
 
-.form-container .form-row label {
-    margin-bottom: 0.5rem;
-}
-
 .form-container .form-row input,
 .form-container .form-row select {
     width: 100%;
     box-sizing: border-box;
 }
 
-.form-container .form-row .flex-large {
-    flex: 4;
-}
-
-.form-container .form-row .flex-small {
-    flex: 1;
+.form-container .form-row .flex-30 {
+    flex: 1.5; /* 30% width */
 }
 
 /* Adjust flex for Apartment Name and Expense Category */
@@ -133,18 +125,15 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    /*background-color: #fff;*/
 }
 
-.form-container #amount {
-    max-width: 200px; /* Optional: Constrain size of numeric fields */
+.form-container .form-row .flex-large {
+    flex: 4;
 }
 
-.flex-30 {
-    flex: 0 0 30%;
-    margin-right: 1rem;
-}
-
-.flex-70 {
-    flex: 0 0 70%;
+.form-container .form-row .flex-comment textarea {
+    width: 500px; /* Makes the textarea fill the parent container */
+    height: 50px; /* Explicitly set the height */
+    resize: none; /* Prevent resizing */
+    box-sizing: border-box; /* Ensures padding and borders are included in the width/height */
 }
