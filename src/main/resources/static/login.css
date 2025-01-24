@@ -41,15 +41,16 @@ form input:focus {
 
 /* Submit Button Styling */
 button[type="submit"] {
-    /*width: 100%; !* Full width for the button *!*/
-    background-color: #007bff;
+    background-color: #007BFF;
     color: white;
-    /*padding: 0.8rem;*/
     padding: 10px 15px;
     border: none;
-    border-radius: 5px;
-    font-size: 1rem;
+    border-radius: 4px;
     cursor: pointer;
+    width: auto;
+    align-self: flex-start;
+    font-size: 1rem;
+    margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 
