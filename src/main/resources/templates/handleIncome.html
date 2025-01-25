@@ -76,7 +76,17 @@
                     <td th:text="${tenants[income.tenantId]}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${income.date}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${income.amount}"></td>
-                    <td ondblclick="enableEditing(this)" th:text="${income.status}"></td>
+                    <td>
+                        <select id="status" name="status">
+                            <option
+                                th:each="status : ${statusList}"
+                                th:value="${status}"
+                                th:text="${status}"
+                                th:selected="${status == income.status}">
+                            </option>
+                        </select>
+                    </td>
+
                     <td ondblclick="enableEditing(this)" th:text="${income.comments}"></td>
                     <td>
                         <a th:if="${income.receiptData != null}" th:href="@{/income/downloadReceipt/{id}(id=${income.id})}" target="_blank">Download</a>

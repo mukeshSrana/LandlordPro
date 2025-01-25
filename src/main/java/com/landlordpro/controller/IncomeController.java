@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.tika.Tika;
 import org.springframework.http.ContentDisposition;
@@ -181,6 +182,10 @@ public class IncomeController {
             model.addAttribute("tenants", availableTenants);
             model.addAttribute("selectedYear", year);
             model.addAttribute("selectedApartment", availableApartments.get(apartmentId));
+            List<String> statusList = Stream.of(IncomeStatus.values())
+                .map(Enum::toString)
+                .toList();
+            model.addAttribute("statusList", statusList);
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
             log.error("Unexpected error while handling income: ", e);
