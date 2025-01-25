@@ -82,6 +82,20 @@ tr:hover {
     background-color: #0056b3;
 }
 
+.status-column {
+    width: 150px; /* Set width as needed */
+    height: 50px; /* Set height as needed */
+    vertical-align: middle; /* Align content vertically in the middle */
+    text-align: center; /* Align content horizontally in the center (optional) */
+}
+
+.status-column select {
+    height: 40px; /* Match the height of the dropdown */
+    line-height: 40px; /* Align text vertically in the dropdown */
+    padding: 5px; /* Add some padding for better spacing */
+    font-size: 14px; /* Adjust font size if needed */
+}
+
 /*.delete-btn {*/
 /*    background-color: #dc3545;*/
 /*}*/
