@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -66,6 +67,10 @@ public class Tenant {
 
     @Column(name = "security_deposit_institution_name", length = 255)
     private String securityDepositInstitutionName;
+
+    @Lob
+    @Column(name = "receipt_data")
+    private byte[] receiptData; // Store the uploaded receipt as binary data (BLOB)
 
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;

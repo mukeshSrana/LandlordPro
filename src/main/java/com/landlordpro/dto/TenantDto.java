@@ -60,6 +60,8 @@ public class TenantDto {
     @Size(max = 255, message = "Security deposit institution name must be up to 255 characters")
     private String securityDepositInstitutionName;  // Institution name for the deposit
 
+    private byte[] receiptData;  // Binary data for the receipt
+
     private LocalDateTime createdDate;  // Date when the tenant record was created
 
     private LocalDateTime updatedDate;  // Last updated date

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.TenantDto;
@@ -40,6 +41,7 @@ public class TenantController {
         @RequestParam("dateOfBirth") String dateOfBirth,
         @RequestParam("phoneNumber") String phoneNumber,
         @RequestParam("email") String email,
+        @RequestParam("receiptData") MultipartFile receiptData,
         @RequestParam("apartmentId") UUID apartmentId,
         @RequestParam("leaseStartDate") String leaseStartDate,
         @RequestParam(value = "leaseEndDate", required = false) String leaseEndDate,
@@ -50,6 +52,11 @@ public class TenantController {
         RedirectAttributes redirectAttributes
     ) {
         try {
+            // Convert the MultipartFile to a byte[] and set it in the DTO
+            byte[] receiptBytes = null;
+            if (!receiptData.isEmpty()) {
+                receiptBytes = receiptData.getBytes();  // Convert to byte array
+            }
             // Parse dates from strings
             LocalDate dob = LocalDate.parse(dateOfBirth);
             LocalDate leaseStart = LocalDate.parse(leaseStartDate);
@@ -66,6 +73,7 @@ public class TenantController {
             tenantDto.setDateOfBirth(dob);
             tenantDto.setPhoneNumber(phoneNumber);
             tenantDto.setEmail(email);
+            tenantDto.setReceiptData(receiptBytes);
             tenantDto.setApartmentId(apartmentId);
             tenantDto.setLeaseStartDate(leaseStart);
             tenantDto.setLeaseEndDate(leaseEnd);
