@@ -45,7 +45,7 @@ public class TenantController {
         @RequestParam(value = "leaseEndDate", required = false) String leaseEndDate,
         @RequestParam("monthlyRent") BigDecimal monthlyRent,
         @RequestParam(value = "securityDeposit") BigDecimal securityDeposit,
-        @RequestParam(value = "securityDepositInstitutionName") String securityDepositInstitutionName,
+        @RequestParam(value = "securityInstitution") String securityDepositInstitutionName,
         Authentication authentication,
         RedirectAttributes redirectAttributes
     ) {
