@@ -2,8 +2,11 @@ package com.landlordpro.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -98,7 +101,6 @@ public class TenantController {
         return "redirect:/tenant/register";
     }
 
-
     @GetMapping("/register")
     public String register(Model model, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
@@ -109,7 +111,31 @@ public class TenantController {
     }
 
     @GetMapping("/handle")
-    public String handleIncome(Model model) {
+    public String handle(
+        @RequestParam(required = false) Integer year,
+        @RequestParam(required = false) UUID apartmentId,
+        Authentication authentication,
+        Model model) {
+        try {
+            CustomUserDetails userDetails = currentUser(authentication);
+            UUID userId = userDetails.getId();
+            List<TenantDto> expensesForUser = tenantService.getTenantsForUser(userId);
+
+            List<Integer> availableYears = getAvailableYears(expensesForUser);
+            Map<UUID, String> availableApartments = getAvailableApartments(expensesForUser);
+
+            List<TenantDto> tenants = getTenantsFiltered(expensesForUser, year, apartmentId);
+
+            model.addAttribute("tenants", tenants);
+            model.addAttribute("years", availableYears);
+            model.addAttribute("apartments", availableApartments);
+            model.addAttribute("selectedYear", year);
+            model.addAttribute("selectedApartment", availableApartments.get(apartmentId));
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while handling tenant: ", e);
+        }
+
         model.addAttribute("page", "handleTenant");
         return "handleTenant";
     }
@@ -119,6 +145,34 @@ public class TenantController {
             return customUserDetails;
         }
         throw new IllegalStateException("Unexpected principal type");
+    }
+
+    private List<TenantDto> getTenantsFiltered(List<TenantDto> tenantsForUser, Integer year, UUID apartmentId) {
+        return tenantsForUser.stream()
+            // Filter by year, comparing against the year extracted from expense's date
+            .filter(tenant -> year == null || year.equals(tenant.getLeaseEndDate().getYear()))
+            // Filter by apartmentId only if it is not null
+            .filter(expense -> apartmentId == null || apartmentId.equals(expense.getApartmentId()))
+            // Sort by year in ascending order
+            .sorted(Comparator.comparing(tenant -> tenant.getLeaseStartDate().getYear()))
+            .collect(Collectors.toList());
+    }
+
+    private List<Integer> getAvailableYears(List<TenantDto> tenantsForUser) {
+        return tenantsForUser.stream()
+            .map(tenant -> tenant.getLeaseStartDate().getYear()) // Extract the year from date
+            .distinct() // Get unique years
+            .sorted() // Sort the years in ascending order
+            .collect(Collectors.toList()); // Collect into a list
+    }
+
+    private Map<UUID, String> getAvailableApartments(List<TenantDto> tenantsForUser) {
+        List<UUID> apartmentsIds = tenantsForUser.stream()
+            .map(TenantDto::getApartmentId) // Extract apartmentId
+            .distinct() // Get unique apartmentIds
+            .sorted() // Sort the apartmentIds in ascending order
+            .collect(Collectors.toList());
+        return apartmentService.getApartmentIdNameMap(apartmentsIds);
     }
 }
 

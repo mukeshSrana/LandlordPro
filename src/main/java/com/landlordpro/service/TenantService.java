@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.landlordpro.domain.Tenant;
@@ -90,5 +91,30 @@ public class TenantService {
             .map(tenant -> Map.of("id", tenant.getId().toString(), "name", tenant.getFullName()))
             .toList();
     }
+
+    public List<TenantDto> getTenantsForUser(UUID userId) {
+        try {
+            // Validate the input
+            if (userId == null) {
+                throw new IllegalArgumentException("User ID cannot be null");
+            }
+
+            // Fetch expenses
+            List<Tenant> tenants = tenantRepository.findByUserId(userId);
+            return tenantMapper.toDTOList(tenants);
+        } catch (EmptyResultDataAccessException ex) {
+            // Handle specific database "no data found" case
+            throw new RuntimeException("No tenants found for user with ID: " + userId, ex);
+
+        } catch (IllegalArgumentException ex) {
+            // Handle invalid input
+            throw ex; // Rethrow, or handle as needed
+
+        } catch (RuntimeException ex) {
+            // Catch unexpected runtime exceptions
+            throw new RuntimeException("Unexpected error occurred", ex);
+        }
+    }
+
 }
 
