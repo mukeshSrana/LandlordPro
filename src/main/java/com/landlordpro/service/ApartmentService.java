@@ -28,7 +28,7 @@ public class ApartmentService {
         this.apartmentRepository = apartmentRepository;
     }
 
-    public boolean isExistsForUser(String apartmentName, UUID userId) {
+    public boolean isUniueApartmentNameForUser(String apartmentName, UUID userId) {
         return apartmentRepository.existsByApartmentShortNameIgnoreCaseAndUserId(apartmentName.toLowerCase(), userId);
     }
 
@@ -76,20 +76,19 @@ public class ApartmentService {
             String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " not exists for the logged-in user.";
             throw new RuntimeException(errorMsg);
         }
-
         save(apartmentDto);
     }
 
     public void add(ApartmentDto apartmentDto) throws RuntimeException {
-        if (isExistsForUser(apartmentDto.getApartmentShortName(), apartmentDto.getUserId())) {
-            String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " already exists for the logged-in user.";
-            throw new RuntimeException(errorMsg);
-        }
-
         save(apartmentDto);
     }
 
     private void save(ApartmentDto apartmentDto) throws RuntimeException {
+        if (isUniueApartmentNameForUser(apartmentDto.getApartmentShortName(), apartmentDto.getUserId())) {
+            String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " already exists for the logged-in user.";
+            throw new RuntimeException(errorMsg);
+        }
+
         Apartment apartment = apartmentMapper.toEntity(apartmentDto);
         try {
             apartmentRepository.save(apartment);
