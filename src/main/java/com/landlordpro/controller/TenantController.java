@@ -122,7 +122,6 @@ public class TenantController {
             List<TenantDto> tenantsForUser = tenantService.getTenantsForUser(userId);
 
             List<Integer> availableYears = getAvailableYears(tenantsForUser);
-            //Map<UUID, String> availableApartments = getAvailableApartments(tenantsForUser);
 
             Integer latestYear = availableYears.isEmpty() ? 0 : availableYears.get(availableYears.size() - 1);
 
@@ -131,18 +130,6 @@ public class TenantController {
             }
 
             Map<UUID, String> availableApartments = getAvailableApartments(tenantsForUser, year);
-
-//            if (apartmentId == null) {
-//                if (!availableApartments.isEmpty()) {
-//                    apartmentId = availableApartments.keySet().iterator().next(); // Get the first available apartment ID
-//                }
-//            } else {
-//                if (!availableApartments.isEmpty()) {
-//                    if (availableApartments.get(apartmentId) == null) {
-//                        apartmentId = availableApartments.keySet().iterator().next();
-//                    }
-//                }
-//            }
 
             // Set apartmentId to the first available one if it's null or not present in the map
             if (apartmentId == null || !availableApartments.containsKey(apartmentId)) {
