@@ -24,5 +24,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
         "GROUP BY YEAR(e.date), e.apartmentId " +
         "ORDER BY YEAR(e.date), e.apartmentId")
     List<ExpenseSummary> findExpenseSummary(@Param("userId") UUID userId);
+
+    boolean existsByApartmentId(UUID id);
 }
 

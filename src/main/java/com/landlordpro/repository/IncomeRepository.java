@@ -37,5 +37,7 @@ public interface IncomeRepository extends JpaRepository<Income, UUID> {
         "GROUP BY YEAR(i.date), i.apartmentId " +
         "ORDER BY YEAR(i.date), i.apartmentId")
     List<IncomeSummary> findIncomeSummary(@Param("userId") UUID userId);
+
+    boolean existsByApartmentId(UUID id);
 }
 

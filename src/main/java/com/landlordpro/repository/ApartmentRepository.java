@@ -26,4 +26,6 @@ public interface ApartmentRepository extends JpaRepository<Apartment, UUID> {
     boolean existsByIdAndUserId(UUID apartmentId, UUID userId);
 
     List<Apartment> findByIdIn(List<UUID> apartmentIds);
+
+    Optional<Apartment> findByIdAndUserId(UUID id, UUID userId);
 }

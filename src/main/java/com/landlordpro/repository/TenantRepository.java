@@ -34,4 +34,6 @@ public interface TenantRepository extends JpaRepository<Tenant, UUID> {
         "LEFT JOIN Tenant t ON t.apartment.id = a.id " + // Reverse relationship
         "WHERE a.userId = :userId")
     List<ApartmentOccupancySummary> findApartmentOccupancyReport(@Param("userId") UUID userId);
+
+    boolean existsByApartmentId(UUID id);
 }

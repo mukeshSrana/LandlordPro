@@ -13,6 +13,9 @@ import com.landlordpro.domain.Apartment;
 import com.landlordpro.dto.ApartmentDto;
 import com.landlordpro.mapper.ApartmentMapper;
 import com.landlordpro.repository.ApartmentRepository;
+import com.landlordpro.repository.ExpenseRepository;
+import com.landlordpro.repository.IncomeRepository;
+import com.landlordpro.repository.TenantRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +26,21 @@ public class ApartmentService {
     private final ApartmentRepository apartmentRepository;
 
     private final ApartmentMapper apartmentMapper;
+    private final IncomeRepository incomeRepository;
+    private final TenantRepository tenantRepository;
+    private final ExpenseRepository expenseRepository;
 
-    public ApartmentService(ApartmentMapper apartmentMapper, ApartmentRepository apartmentRepository) {
+    public ApartmentService(
+        ApartmentMapper apartmentMapper,
+        ApartmentRepository apartmentRepository,
+        IncomeRepository incomeRepository,
+        TenantRepository tenantRepository,
+        ExpenseRepository expenseRepository) {
         this.apartmentMapper = apartmentMapper;
         this.apartmentRepository = apartmentRepository;
+        this.incomeRepository = incomeRepository;
+        this.tenantRepository = tenantRepository;
+        this.expenseRepository = expenseRepository;
     }
 
     public boolean isUniueApartmentNameForUser(String apartmentName, UUID userId) {
@@ -106,6 +120,21 @@ public class ApartmentService {
 
     @Transactional
     public void delete(UUID id, UUID userId) {
+        // Check if the apartment exists and belongs to the user
+        apartmentRepository.findByIdAndUserId(id, userId)
+            .orElseThrow(() -> new IllegalArgumentException("Apartment not found or does not belong to the user"));
+
+        // Validate dependencies
+        boolean hasIncome = incomeRepository.existsByApartmentId(id);
+        boolean hasTenant = tenantRepository.existsByApartmentId(id);
+        boolean hasExpense = expenseRepository.existsByApartmentId(id);
+
+        if (hasIncome || hasTenant || hasExpense) {
+            throw new IllegalStateException("Cannot delete apartment with existing income, tenants, or expenses.");
+        }
+
+        // Perform the delete operation
         apartmentRepository.deleteByIdAndUserId(id, userId);
     }
+
 }
