@@ -187,6 +187,7 @@ public class ExpenseController {
     public String deleteExpense(@RequestParam("id") UUID id,
         @RequestParam("userId") UUID userId,
         @RequestParam("apartmentId") UUID apartmentId,
+        @RequestParam("year") Integer year,
         Authentication authentication,
         RedirectAttributes redirectAttributes) {
         try {
@@ -203,7 +204,7 @@ public class ExpenseController {
             log.error("Unexpected error while deleting expense: ", e);
         }
         redirectAttributes.addFlashAttribute("page", "handleExpense");
-        return "redirect:/expense/handle";
+        return "redirect:/expense/handle?year=" + year + "&apartmentId=" + apartmentId;
     }
 
     @PostMapping("/update")

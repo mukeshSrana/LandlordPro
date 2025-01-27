@@ -88,6 +88,7 @@
                             <input type="hidden" name="id" th:value="${expense.id}">
                             <input type="hidden" name="userId" th:value="${expense.userId}">
                             <input type="hidden" name="apartmentId" th:value="${expense.apartmentId}">
+                            <input type="hidden" name="year" th:value="${expense.getDate().year}">
                             <button type="submit" class="delete-btn">Delete</button>
                         </form>
 
