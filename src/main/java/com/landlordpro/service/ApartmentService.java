@@ -71,7 +71,7 @@ public class ApartmentService {
         return apartmentMapper.toDTO(apartment);
     }
 
-    public void update(ApartmentDto apartmentDto, UUID userId) throws RuntimeException {
+    public void update(ApartmentDto apartmentDto, UUID userId) {
         if (!isExistsForUser(apartmentDto.getId(), userId)) {
             String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " not exists for the logged-in user.";
             throw new RuntimeException(errorMsg);
@@ -79,11 +79,11 @@ public class ApartmentService {
         save(apartmentDto);
     }
 
-    public void add(ApartmentDto apartmentDto) throws RuntimeException {
+    public void add(ApartmentDto apartmentDto) {
         save(apartmentDto);
     }
 
-    private void save(ApartmentDto apartmentDto) throws RuntimeException {
+    private void save(ApartmentDto apartmentDto) {
         if (isUniueApartmentNameForUser(apartmentDto.getApartmentShortName(), apartmentDto.getUserId())) {
             String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " already exists for the logged-in user.";
             throw new RuntimeException(errorMsg);
