@@ -110,24 +110,6 @@
     cursor: pointer; /* Optional, makes rows feel interactive */
 }
 
-.form-container .edit-btn {
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 1rem;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-}
-
-.form-container .edit-btn:hover {
-    background-color: #0056b3;
-    text-decoration: none;
-}
-
 .form-container .close-btn {
     position: absolute;
     top: 10px;
@@ -141,5 +123,27 @@
 
 .form-container .close-btn:hover {
     color: #aaa;
+}
+
+/* Button styling for Delete and Update buttons */
+.delete-btn, .update-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover, .update-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Force buttons to stay inline */
+.delete-btn, .update-btn {
+    display: inline-block;
+    margin: 0;
 }
 
