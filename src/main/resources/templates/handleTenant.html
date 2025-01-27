@@ -61,8 +61,9 @@
 <!--                <th>Apartment</th>-->
                 <th>Tenant</th>
 <!--                <th>Date of Birth</th>-->
+                <th>Contact</th>
 <!--                <th>Phone</th>-->
-                <th>Email</th>
+<!--                <th>Email</th>-->
                 <th>Lease Start</th>
                 <th>Lease End</th>
                 <th>Monthly Rent(Kr)</th>
@@ -77,10 +78,19 @@
                 <tr>
 <!--                    <td th:text="${tenant.leaseStartDate.year}"></td>-->
 <!--                    <td th:text="${apartments[tenant.apartmentId]}"></td>-->
-                    <td th:text="${tenant.fullName}"></td>
+<!--                    <td th:text="${tenant.fullName}"></td>-->
+                    <td>
+                        <span th:text="${tenant.fullName}"></span><br>
+                        <span th:text="${#temporals.format(tenant.dateOfBirth, 'dd.MM.yyyy')}"></span>
+                    </td>
 <!--                    <td ondblclick="enableEditing(this)" th:text="${tenant.dateOfBirth}"></td>-->
+<!--                    <td th:text="${tenant.phoneNumber + tenant.email}"></td>-->
+                    <td>
+                        <span th:text="${tenant.phoneNumber}"></span><br>
+                        <span th:text="${tenant.email}"></span>
+                    </td>
 <!--                    <td ondblclick="enableEditing(this)" th:text="${tenant.phoneNumber}"></td>-->
-                    <td ondblclick="enableEditing(this)" th:text="${tenant.email}"></td>
+<!--                    <td ondblclick="enableEditing(this)" th:text="${tenant.email}"></td>-->
                     <td th:text="${tenant.leaseStartDate}"></td>
                     <td th:text="${tenant.leaseEndDate}"></td>
                     <td th:text="${tenant.monthlyRent}"></td>
