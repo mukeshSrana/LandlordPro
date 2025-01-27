@@ -1,13 +1,15 @@
 /* Styling for the form container and overall layout */
 .form-container {
-    width: 80%;
-    max-width: 1200px;
-    margin: 2rem 2rem;
-    padding: 1rem 2rem 2rem;
+    width: 100%; /* Adjust to prevent potential overflow */
+    max-width: 1800px;
+    margin: 2rem 2rem; /* Center container */
+    padding: 0.5rem 0.5rem; /* Adjust padding to prevent overflow */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /*overflow-x: hidden; !* Prevent unnecessary scrollbars *!*/
 }
 
+/* Success and error message styles */
 .success-message, .error-message {
     background-color: #d4edda;
     color: #155724;
@@ -26,6 +28,7 @@
     border: 1px solid #f5c6cb;
 }
 
+/* Close button styles for messages */
 .close-btn {
     position: absolute;
     top: 10px;
@@ -43,9 +46,10 @@
 
 /* Table styling */
 table {
-    width: 100%;
+    width: 100%; /* Ensure the table always fits within the container */
     border-collapse: collapse;
     margin-top: 1rem;
+    table-layout: auto; /* Allow dynamic column widths */
 }
 
 thead {
@@ -82,75 +86,61 @@ tr:hover {
     background-color: #0056b3;
 }
 
-/*.delete-btn {*/
-/*    background-color: #dc3545;*/
-/*}*/
-
-/*.delete-btn:hover {*/
-/*    background-color: #c82333;*/
-/*}*/
-
 /* Styling the filters container */
 .filters {
-    display: flex; /* Align filter elements horizontally */
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    margin-bottom: 1.5rem; /* Space between filters and the table */
-    padding: 1rem; /* Add padding inside the filters container */
-    background-color: #f9f9f9; /* Light background for contrast */
-    border: 1px solid #ddd; /* Subtle border for separation */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Adjust spacing between filter groups */
 .filter-group {
-    display: flex; /* Align items horizontally */
-    align-items: center; /* Vertically align items */
-    gap: 1rem; /* Space between items in the same group */
-    flex-grow: 1; /* Allow equal spacing between groups */
-}
-
-/* Add extra margin to the right of the first filter group */
-.filter-group select#year {
-    margin-right: 2rem; /* Push the second group to the right */
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-grow: 1;
 }
 
 /* Label styling */
 .filter-group label {
-    font-size: 1rem; /* Standard font size */
-    font-weight: 600; /* Slightly bold for emphasis */
-    margin-right: 0.5rem; /* Space between label and select */
-    color: #333; /* Dark text color for readability */
+    font-size: 1rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    color: #333;
 }
 
 /* Select dropdown styling */
 .filter-group select {
-    padding: 0.5rem; /* Comfortable padding for better usability */
-    font-size: 1rem; /* Match the label font size */
-    border: 1px solid #ddd; /* Subtle border for the dropdown */
-    border-radius: 4px; /* Rounded edges */
-    background-color: #fff; /* Neutral background */
-    color: #333; /* Dark text for visibility */
-    transition: border-color 0.2s ease; /* Smooth border hover effect */
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.2s ease;
 }
 
-/* Hover and focus effect for select dropdown */
 .filter-group select:focus,
 .filter-group select:hover {
-    border-color: #007BFF; /* Highlight border color */
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Add a subtle shadow */
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
 
 /* Ensure forms inside table cells are displayed inline */
 td > form {
-    display: inline-block; /* Keep forms inline */
+    display: inline-block;
     margin: 0;
-    vertical-align: middle; /* Align forms in the middle vertically */
+    vertical-align: middle;
 }
 
 td > form + form {
-    margin-left: 0.5rem; /* Add spacing between adjacent forms */
+    margin-left: 0.5rem;
 }
 
 /* Force buttons to stay inline */
@@ -159,20 +149,23 @@ td > form + form {
     margin: 0;
 }
 
-/* Prevent wrapping in small screens */
-td {
-    white-space: nowrap; /* Prevent content wrapping inside the cell */
-}
-
-/* Responsive layout for smaller screens if needed */
+/* Responsive layout for smaller screens */
 @media (max-width: 768px) {
-    td > form {
-        display: inline-block; /* Ensure inline-block is respected */
+    .form-container {
+        padding: 1rem; /* Reduce padding for smaller screens */
     }
 
-    td {
-        white-space: normal; /* Allow wrapping if desired for other cells */
+    .filters {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    table {
+        table-layout: fixed; /* Force table to fit within the container */
+    }
+
+    th, td {
+        word-wrap: break-word; /* Allow content to wrap inside cells */
+        white-space: normal; /* Prevent overflow in cells */
     }
 }
-
-
