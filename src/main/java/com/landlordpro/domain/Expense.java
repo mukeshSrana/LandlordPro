@@ -36,10 +36,10 @@ public class Expense {
     @JoinColumn(name = "apartment_id", nullable = false, insertable = false, updatable = false)
     private Apartment apartment;
 
-    @Column(name = "apartment_id", nullable = false, columnDefinition = "CHAR(36)", insertable = false, updatable = false)
+    @Column(name = "apartment_id", nullable = false, columnDefinition = "CHAR(36)", updatable = false)
     private UUID apartmentId;  // Assuming apartmentId is Integer as per your table definition
 
-    @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)", insertable = false, updatable = false) // UUID column for user
+    @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)", updatable = false) // UUID column for user
     private UUID userId;
 
     @Column(nullable = false, length = 255)
