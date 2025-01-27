@@ -1,6 +1,9 @@
 package com.landlordpro.controller;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.ApartmentDto;
@@ -58,14 +62,15 @@ public class ApartmentController {
             UUID userId = userDetails.getId();
 
             apartmentService.update(apartmentDto, userId);
-
             redirectAttributes.addFlashAttribute("successMessage", "Apartment updated successfully!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
             log.error("Unexpected error while updating apartment: ", e);
         }
+        // Add query parameters for year and apartmentId
+        Integer year = apartmentDto.getCreatedDate().getYear();
         redirectAttributes.addFlashAttribute("page", "handleApartment");
-        return "redirect:/apartment/handle";
+        return "redirect:/apartment/handle?year=" + year;
     }
 
     @GetMapping("/register")
@@ -89,12 +94,44 @@ public class ApartmentController {
     }
 
     @GetMapping("/handle")
-    public String handle(Model model, Authentication authentication) {
+    public String handle(
+        @RequestParam(required = false) Integer year,
+        Model model,
+        Authentication authentication) {
+
         CustomUserDetails userDetails = currentUser(authentication);
         UUID userId = userDetails.getId();
-        model.addAttribute("apartments", apartmentService.getApartmentsForUser(userId));
+        List<ApartmentDto> apartmentsForUser = apartmentService.getApartmentsForUser(userId);
+        List<Integer> availableYears = getAvailableYears(apartmentsForUser);
+
+        Integer latestYear = availableYears.isEmpty() ? 0 : availableYears.get(availableYears.size() - 1);
+
+        if (year == null) {
+            year = latestYear;
+        }
+        List<ApartmentDto> apartments = getApartmentsFiltered(apartmentsForUser, year);
+
+        model.addAttribute("apartments", apartments);
+        model.addAttribute("years", availableYears);
+        model.addAttribute("selectedYear", year);
         model.addAttribute("page", "handleApartment");
         return "handleApartment";
+    }
+
+    private List<ApartmentDto> getApartmentsFiltered(List<ApartmentDto> apartmentsForUser, Integer year) {
+        return apartmentsForUser.stream()
+            .filter(apartment -> year == null || year.equals(apartment.getCreatedDate().getYear()))
+            // Sort by year in ascending order
+            .sorted(Comparator.comparing(apartment -> apartment.getCreatedDate().getYear()))
+            .collect(Collectors.toList());
+    }
+
+    private List<Integer> getAvailableYears(List<ApartmentDto> apartmentsForUser) {
+        return apartmentsForUser.stream()
+            .map(apartment -> apartment.getCreatedDate().getYear()) // Extract the year from date
+            .distinct() // Get unique years
+            .sorted() // Sort the years in ascending order
+            .collect(Collectors.toList()); // Collect into a list
     }
 
     private CustomUserDetails currentUser(Authentication authentication) {

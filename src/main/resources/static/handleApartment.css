@@ -3,7 +3,8 @@
     width: 80%; /* Adjusted for table layout */
     max-width: 1200px; /* Ensures the table does not grow too large */
     margin: 2rem 2rem; /* Center the form container */
-    padding: 1rem 2rem 2rem;
+    /*padding: 1rem 2rem 2rem;*/
+    padding: 0.5rem 0.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /*background-color: #f9f9f9; !* Light background for contrast *!*/
@@ -39,6 +40,47 @@
     text-align: center;
     position: relative;
 }
+
+/* Adjust spacing between filter groups */
+.filter-group {
+    display: flex; /* Align items horizontally */
+    align-items: center; /* Vertically align items */
+    gap: 1rem; /* Space between items in the same group */
+    flex-grow: 1; /* Allow equal spacing between groups */
+}
+
+/* Add extra margin to the right of the first filter group */
+.filter-group select#year {
+    margin-right: 2rem; /* Push the second group to the right */
+}
+
+/* Label styling */
+.filter-group label {
+    font-size: 1rem; /* Standard font size */
+    font-weight: 600; /* Slightly bold for emphasis */
+    margin-right: 0.5rem; /* Space between label and select */
+    color: #333; /* Dark text color for readability */
+}
+
+/* Select dropdown styling */
+.filter-group select {
+    padding: 0.5rem; /* Comfortable padding for better usability */
+    font-size: 1rem; /* Match the label font size */
+    border: 1px solid #ddd; /* Subtle border for the dropdown */
+    border-radius: 4px; /* Rounded edges */
+    background-color: #fff; /* Neutral background */
+    color: #333; /* Dark text for visibility */
+    transition: border-color 0.2s ease; /* Smooth border hover effect */
+}
+
+/* Hover and focus effect for select dropdown */
+.filter-group select:focus,
+.filter-group select:hover {
+    border-color: #007BFF; /* Highlight border color */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Add a subtle shadow */
+}
+
 
 /* Table styling */
 .form-container table {
