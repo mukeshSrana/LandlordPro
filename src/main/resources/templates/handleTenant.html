@@ -57,11 +57,11 @@
         <table>
             <thead>
             <tr>
-                <th>Year</th>
-                <th>Apartment</th>
+<!--                <th>Year</th>-->
+<!--                <th>Apartment</th>-->
                 <th>Tenant</th>
-                <th>Date of Birth</th>
-                <th>Phone</th>
+<!--                <th>Date of Birth</th>-->
+<!--                <th>Phone</th>-->
                 <th>Email</th>
                 <th>Lease Start</th>
                 <th>Lease End</th>
@@ -75,11 +75,11 @@
             <tbody>
             <th:block th:each="tenant : ${tenants}">
                 <tr>
-                    <td th:text="${tenant.leaseStartDate.year}"></td>
-                    <td th:text="${apartments[tenant.apartmentId]}"></td>
+<!--                    <td th:text="${tenant.leaseStartDate.year}"></td>-->
+<!--                    <td th:text="${apartments[tenant.apartmentId]}"></td>-->
                     <td th:text="${tenant.fullName}"></td>
-                    <td ondblclick="enableEditing(this)" th:text="${tenant.dateOfBirth}"></td>
-                    <td ondblclick="enableEditing(this)" th:text="${tenant.phoneNumber}"></td>
+<!--                    <td ondblclick="enableEditing(this)" th:text="${tenant.dateOfBirth}"></td>-->
+<!--                    <td ondblclick="enableEditing(this)" th:text="${tenant.phoneNumber}"></td>-->
                     <td ondblclick="enableEditing(this)" th:text="${tenant.email}"></td>
                     <td th:text="${tenant.leaseStartDate}"></td>
                     <td th:text="${tenant.leaseEndDate}"></td>

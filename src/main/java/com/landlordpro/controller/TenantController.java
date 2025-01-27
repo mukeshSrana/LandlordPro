@@ -119,12 +119,37 @@ public class TenantController {
         try {
             CustomUserDetails userDetails = currentUser(authentication);
             UUID userId = userDetails.getId();
-            List<TenantDto> expensesForUser = tenantService.getTenantsForUser(userId);
+            List<TenantDto> tenantsForUser = tenantService.getTenantsForUser(userId);
 
-            List<Integer> availableYears = getAvailableYears(expensesForUser);
-            Map<UUID, String> availableApartments = getAvailableApartments(expensesForUser);
+            List<Integer> availableYears = getAvailableYears(tenantsForUser);
+            //Map<UUID, String> availableApartments = getAvailableApartments(tenantsForUser);
 
-            List<TenantDto> tenants = getTenantsFiltered(expensesForUser, year, apartmentId);
+            Integer latestYear = availableYears.isEmpty() ? 0 : availableYears.get(availableYears.size() - 1);
+
+            if (year == null) {
+                year = latestYear;
+            }
+
+            Map<UUID, String> availableApartments = getAvailableApartments(tenantsForUser, year);
+
+//            if (apartmentId == null) {
+//                if (!availableApartments.isEmpty()) {
+//                    apartmentId = availableApartments.keySet().iterator().next(); // Get the first available apartment ID
+//                }
+//            } else {
+//                if (!availableApartments.isEmpty()) {
+//                    if (availableApartments.get(apartmentId) == null) {
+//                        apartmentId = availableApartments.keySet().iterator().next();
+//                    }
+//                }
+//            }
+
+            // Set apartmentId to the first available one if it's null or not present in the map
+            if (apartmentId == null || !availableApartments.containsKey(apartmentId)) {
+                apartmentId = availableApartments.keySet().stream().findFirst().orElse(null);
+            }
+
+            List<TenantDto> tenants = getTenantsFiltered(tenantsForUser, year, apartmentId);
 
             model.addAttribute("tenants", tenants);
             model.addAttribute("years", availableYears);
@@ -149,10 +174,9 @@ public class TenantController {
 
     private List<TenantDto> getTenantsFiltered(List<TenantDto> tenantsForUser, Integer year, UUID apartmentId) {
         return tenantsForUser.stream()
-            // Filter by year, comparing against the year extracted from expense's date
-            .filter(tenant -> year == null || year.equals(tenant.getLeaseEndDate().getYear()))
+            .filter(tenant -> year == null || year.equals(tenant.getLeaseStartDate().getYear()))
             // Filter by apartmentId only if it is not null
-            .filter(expense -> apartmentId == null || apartmentId.equals(expense.getApartmentId()))
+            .filter(tenant -> apartmentId == null || apartmentId.equals(tenant.getApartmentId()))
             // Sort by year in ascending order
             .sorted(Comparator.comparing(tenant -> tenant.getLeaseStartDate().getYear()))
             .collect(Collectors.toList());
@@ -166,8 +190,9 @@ public class TenantController {
             .collect(Collectors.toList()); // Collect into a list
     }
 
-    private Map<UUID, String> getAvailableApartments(List<TenantDto> tenantsForUser) {
+    private Map<UUID, String> getAvailableApartments(List<TenantDto> tenantsForUser, Integer year) {
         List<UUID> apartmentsIds = tenantsForUser.stream()
+            .filter(tenantDto -> tenantDto.getLeaseStartDate().getYear() == year)
             .map(TenantDto::getApartmentId) // Extract apartmentId
             .distinct() // Get unique apartmentIds
             .sorted() // Sort the apartmentIds in ascending order
