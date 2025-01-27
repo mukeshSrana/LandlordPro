@@ -155,14 +155,19 @@ public class ExpenseController {
             List<ExpenseDto> expensesForUser = expenseService.getExpensesForUser(userId);
 
             List<Integer> availableYears = getAvailableYears(expensesForUser);
-            Map<UUID, String> availableApartments = getAvailableApartments(expensesForUser);
 
-//            Integer latestYear = availableYears.isEmpty() ? 0 : availableYears.get(availableYears.size() - 1);
-//
-//            if (year == null) {
-//                year = latestYear;
-//            }
+            Integer latestYear = availableYears.isEmpty() ? 0 : availableYears.get(availableYears.size() - 1);
 
+            if (year == null) {
+                year = latestYear;
+            }
+
+            Map<UUID, String> availableApartments = getAvailableApartments(expensesForUser, year);
+
+            // Set apartmentId to the first available one if it's null or not present in the map
+            if (apartmentId == null || !availableApartments.containsKey(apartmentId)) {
+                apartmentId = availableApartments.keySet().stream().findFirst().orElse(null);
+            }
             List<ExpenseDto> expenses = getExpensesFiltered(expensesForUser, year, apartmentId);
 
             model.addAttribute("expenses", expenses);
@@ -219,8 +224,13 @@ public class ExpenseController {
             redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
             log.error("Unexpected error while updating expense: ", e);
         }
+
+        // Add query parameters for year and apartmentId
+        Integer year = expenseDto.getDate().getYear(); // Assuming ExpenseDto has a `getYear` method
+        UUID apartmentId = expenseDto.getApartmentId(); // Assuming ExpenseDto has a `getApartmentId` method
+
         redirectAttributes.addFlashAttribute("page", "handleExpense");
-        return "redirect:/expense/handle";
+        return "redirect:/expense/handle?year=" + year + "&apartmentId=" + apartmentId;
     }
 
     private List<Integer> getAvailableYears(List<ExpenseDto> expensesForUser) {
@@ -231,8 +241,9 @@ public class ExpenseController {
             .collect(Collectors.toList()); // Collect into a list
     }
 
-    private Map<UUID, String> getAvailableApartments(List<ExpenseDto> expensesForUser) {
+    private Map<UUID, String> getAvailableApartments(List<ExpenseDto> expensesForUser, Integer year) {
         List<UUID> apartmentsIds = expensesForUser.stream()
+            .filter(expenseDto -> expenseDto.getDate().getYear() == year)
             .map(ExpenseDto::getApartmentId) // Extract apartmentId
             .distinct() // Get unique apartmentIds
             .sorted() // Sort the apartmentIds in ascending order

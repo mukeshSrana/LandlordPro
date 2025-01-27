@@ -4,7 +4,7 @@
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/css/handleExpense.css}">
-    <script th:src="@{/js/filterTable.js}"></script>
+    <script th:src="@{/js/expenseFilterTable.js}"></script>
     <script>
         function closeMessage(button) {
             var messageBox = button.parentElement;
@@ -57,8 +57,8 @@
         <table>
             <thead>
             <tr>
-                <th>Year</th>
-                <th>Apartment</th>
+<!--                <th>Year</th>-->
+<!--                <th>Apartment</th>-->
                 <th>Expense Category</th>
                 <th>Expense Name</th>
                 <th>Amount</th>
@@ -71,8 +71,8 @@
             <tbody>
             <th:block th:each="expense : ${expenses}">
                 <tr>
-                    <td th:text="${expense.date.year}"></td>
-                    <td th:text="${apartments[expense.apartmentId]}"></td>
+<!--                    <td th:text="${expense.date.year}"></td>-->
+<!--                    <td th:text="${apartments[expense.apartmentId]}"></td>-->
                     <td th:text="${expense.category}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
                     <td ondblclick="enableEditing(this)" th:text="${expense.amount}"></td>
