@@ -15,6 +15,7 @@ import com.landlordpro.domain.Apartment;
 public interface ApartmentRepository extends JpaRepository<Apartment, UUID> {
     @Query("SELECT a.apartmentShortName FROM Apartment a WHERE a.userId = :userId")
     List<String> findApartmentNamesByUserId(@Param("userId") UUID userId);
+    void deleteByIdAndUserId(UUID id, UUID userId);
 
     List<Apartment> findByUserId(UUID userId);
 

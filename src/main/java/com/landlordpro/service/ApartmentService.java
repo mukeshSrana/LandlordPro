@@ -14,6 +14,7 @@ import com.landlordpro.dto.ApartmentDto;
 import com.landlordpro.mapper.ApartmentMapper;
 import com.landlordpro.repository.ApartmentRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -101,5 +102,10 @@ public class ApartmentService {
             log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         }
+    }
+
+    @Transactional
+    public void delete(UUID id, UUID userId) {
+        apartmentRepository.deleteByIdAndUserId(id, userId);
     }
 }

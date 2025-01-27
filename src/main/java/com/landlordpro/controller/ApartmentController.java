@@ -73,6 +73,29 @@ public class ApartmentController {
         return "redirect:/apartment/handle?year=" + year;
     }
 
+    @PostMapping("/delete")
+    public String delete(@RequestParam("id") UUID id,
+        @RequestParam("userId") UUID userId,
+        @RequestParam("year") Integer year,
+        Authentication authentication,
+        RedirectAttributes redirectAttributes) {
+        try {
+            CustomUserDetails userDetails = currentUser(authentication);
+            // Retrieve the logged-in user's ID
+            if (userDetails.getId().equals(userId)) {
+                apartmentService.delete(id, userId);
+            } else {
+                throw new RuntimeException("Logged in userId is not same as the deleted apartment userId");
+            }
+            redirectAttributes.addFlashAttribute("successMessage", "Apartment deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+            log.error("Unexpected error while deleting apartment: ", e);
+        }
+        redirectAttributes.addFlashAttribute("page", "handleApartment");
+        return "redirect:/apartment/handle?year=" + year;
+    }
+
     @GetMapping("/register")
     public String register(Model model, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
