@@ -21,8 +21,6 @@ function enableEditing(cell) {
     const addressLine1HiddenInput = row.querySelector('input[name="addressLine1"]');
     const addressLine2HiddenInput = row.querySelector('input[name="addressLine2"]');
     const pincodeHiddenInput = row.querySelector('input[name="pincode"]');
-    const cityHiddenInput = row.querySelector('input[name="city"]');
-    const countryHiddenInput = row.querySelector('input[name="country"]');
 
     // Update the hidden input values based on the edited cell content
     const newValue = cell.textContent.trim();
@@ -39,10 +37,6 @@ function enableEditing(cell) {
       addressLine2HiddenInput.value = cell.textContent.trim();
     } else if (cell.cellIndex === 4 && pincodeHiddenInput) {
       pincodeHiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 5 && cityHiddenInput) {
-      cityHiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 6 && countryHiddenInput) {
-      countryHiddenInput.value = cell.textContent.trim();
     }
   });
 }

@@ -64,8 +64,8 @@
                 <td ondblclick="enableEditing(this)" th:text="${apartment.addressLine1}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${apartment.addressLine2}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${apartment.pincode}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${apartment.city}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${apartment.country}"></td>
+                <td th:text="${apartment.city}"></td>
+                <td th:text="${apartment.country}"></td>
                 <td>
                     <!-- Delete Form -->
                     <form th:action="@{/apartment/delete}" method="post" style="display:inline;">
