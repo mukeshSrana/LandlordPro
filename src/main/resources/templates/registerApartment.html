@@ -9,6 +9,37 @@
         var messageBox = button.parentElement;
         messageBox.style.display = 'none';
       }
+      async function fetchCity() {
+        const pincodeInput = document.getElementById('pincode');
+        const cityInput = document.getElementById('city');
+        const submitButton = document.getElementById('submit-button');
+        const pincode = pincodeInput.value;
+
+        if (pincode.length >= 4) {
+          try {
+            const response = await fetch(`/api/pincode/${pincode}`);
+            if (response.ok) {
+              const city = await response.text();
+              cityInput.value = city;
+            } else {
+              cityInput.value = "City not found";
+            }
+          } catch (error) {
+            console.error("Error fetching city:", error);
+            cityInput.value = "Error fetching city";
+          }
+        } else {
+          cityInput.value = ""; // Clear city if pincode is too short
+        }
+      }
+
+      function validateForm(event) {
+        const cityInput = document.getElementById('city');
+        if (cityInput.value === "City not found" || cityInput.value === "Error fetching city" || cityInput.value === "") {
+          event.preventDefault(); // Prevent form submission
+          alert("Please provide a valid pincode to get a city.");
+        }
+      }
     </script>
 </head>
 <div class="form-container" layout:fragment="content">
@@ -24,7 +55,7 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <form th:action="@{/apartment/add}" method="post">
+    <form th:action="@{/apartment/add}" method="post" onsubmit="validateForm(event)">
         <div class="form-row">
             <div class="flex-half">
                 <label for="apartmentShortName">Apartment Name (Short):</label>
@@ -56,14 +87,14 @@
             </div>
             <div class="flex-small">
                 <label for="pincode">Pin Code:</label>
-                <input type="text" id="pincode" name="pincode" required pattern="[0-9]{4,10}" maxlength="5">
+                <input type="text" id="pincode" name="pincode" required pattern="[0-9]{4,10}" maxlength="5" onchange="fetchCity()">
             </div>
         </div>
 
         <div class="form-row">
             <div class="flex-large">
                 <label for="city">City:</label>
-                <input type="text" id="city" name="city" required>
+                <input type="text" id="city" name="city" required readonly>
             </div>
             <div class="flex-small">
                 <label for="country">Country:</label>
@@ -71,7 +102,7 @@
             </div>
         </div>
 
-        <button type="submit">Register</button>
+        <button type="submit" id="submit-button">Register</button>
     </form>
 </div>
 </html>
