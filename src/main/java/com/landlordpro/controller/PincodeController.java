@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,12 +25,18 @@ public class PincodeController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Value("${app.pincode.url}")
+    private String pincodeUrl;
+
+    @Value("${app.pincode.country}")
+    private String country;
+
+    @Value("${app.pincode.user}")
+    private String user;
+
     @GetMapping("/{postalCode}")
     public ResponseEntity<String> getCityByPincode(@PathVariable String postalCode) {
-        String countryCode = "NO";
-        String username = "landlordpro";
-
-        String url = "http://api.geonames.org/postalCodeLookupJSON?postalcode=" + postalCode + "&country=" + countryCode + "&username=" + username;
+        String url = pincodeUrl+"?postalcode=" + postalCode + "&country=" + country + "&username=" + user;
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()

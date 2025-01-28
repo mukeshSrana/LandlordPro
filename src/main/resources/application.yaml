@@ -3,21 +3,16 @@ logging:
     org.springframework.security: info
 
 app:
-  apartment-names:
-    - hauketo
-    - grefsen
-    - lorenskog
-    - bjorndal
-  file-storage:
-    base-dir: ./data/expenses
-    apartment: ./data/apartments
-    tenant: ./data/tenants
+  pincode:
+    url: "http://api.geonames.org/postalCodeLookupJSON"
+    country: "NO"
+    user: "landlordpro"
+
 server:
   port: 8080
   servlet:
     session:
       timeout: 30m  # Session timeout set to 30 minutes
-
 
 spring:
   servlet:

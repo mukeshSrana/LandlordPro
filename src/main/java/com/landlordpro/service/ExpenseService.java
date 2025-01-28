@@ -1,16 +1,12 @@
 package com.landlordpro.service;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.mapper.ExpenseMapper;
 import com.landlordpro.repository.ExpenseRepository;
@@ -21,22 +17,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class ExpenseService {
-    private final Path basePath = Paths.get("./data/expenses");
-    private final ObjectMapper objectMapper;
-
-    @Value("${app.file-storage.base-dir}")
-    private String fileStorageBaseDir;
+//    private final Path basePath = Paths.get("./data/expenses");
+//    private final ObjectMapper objectMapper;
+//
+//    @Value("${app.file-storage.base-dir}")
+//    private String fileStorageBaseDir;
 
     private final ExpenseRepository expenseRepository;
     private final ExpenseMapper expenseMapper;
-    private final ApartmentService apartmentService;
 
-    public ExpenseService(ObjectMapper objectMapper, ExpenseRepository expenseRepository, ExpenseMapper expenseMapper,
-        ApartmentService apartmentService) {
-        this.objectMapper = objectMapper;
+    public ExpenseService(ExpenseRepository expenseRepository, ExpenseMapper expenseMapper) {
         this.expenseRepository = expenseRepository;
         this.expenseMapper = expenseMapper;
-        this.apartmentService = apartmentService;
     }
 
     public void update(ExpenseDto expenseDto, UUID userId) throws RuntimeException {
