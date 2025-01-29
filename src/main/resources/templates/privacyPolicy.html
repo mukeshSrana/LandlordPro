@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout.html}">
+<head>
+    <style>
+        ul {
+            display: block;
+            list-style-type: disc;
+            margin-top: 1em;
+            margin-bottom: 1em;
+            margin-left: 0;
+            margin-right: 0;
+            padding-left: 40px;
+        }
+    </style>
+</head>
+<!-- Define the fragment where the content will go -->
+<div layout:fragment="content">    <!-- About Page Content -->
+    <main>
+        <h2>Personvernpolicy for LandlordPro</h2>
+
+        <h3>1. Om LandlordPro</h3>
+        <p>LandlordPro gir brukere (utleiere) verktøy for å administrere leieforhold.
+            Det er brukeren selv som registrerer og behandler personopplysninger,
+            og LandlordPro fungerer kun som en teknisk plattform.</p>
+
+        <h3>2. Hvem er ansvarlig for dataene?</h3>
+        <ul>
+            <li>
+                <strong>Brukeren (utleieren)</strong> er behandlingsansvarlig for personopplysningene de registrerer.
+            </li>
+            <li>
+                <strong>LandlordPro er en databehandler</strong> og lagrer informasjonen på vegne av brukeren.
+            </li>
+        </ul>
+
+        <h3>3. Hvilke data behandles?</h3>
+        <p>
+            Brukeren kan registrere følgende informasjon om leietakere:
+        </p>
+        <ul>
+            <li>
+                Navn, adresse, telefonnummer og e-post både til brukeren selv og leietakere
+            </li>
+            <li>
+                Leieavtaler og betalingshistorikk
+            </li>
+            <li>
+                Eventuelle utgifter knyttet til leieforholdet
+            </li>
+            <li>
+                Opplastede kontrakter og dokumenter
+            </li>
+        </ul>
+
+        <h3>4. Hvordan brukes disse dataene?</h3>
+        <p>
+            Personopplysninger registreres og brukes kun for å administrere leieforholdet.
+        </p>
+
+        <h3>5. Sletting og lagring av data</h3>
+        <ul>
+            <li>
+                Brukeren kan når som helst slette leietakerdata.
+            </li>
+            <li>
+                Dataene lagres så lenge det er nødvendig for administrasjon.
+            </li>
+        </ul>
+
+        <h3>6. Rettigheter for leietakere</h3>
+        <p>
+            Leietakere har rett til å:
+        </p>
+        <p>
+            ✔️ Be om innsyn i hvilke opplysninger utleieren har lagret
+        </p>
+        <p>
+            ✔️ Kreve retting eller sletting av sine personopplysninger
+        </p>
+        <p>
+            Leietakere må kontakte sin <strong>utleier</strong> for å utøve disse rettighetene.
+        </p>
+
+        <h3>7. Sikkerhet og lagring av data</h3>
+        <p>
+            🔒 Alle personopplysninger er beskyttes med tilgangskontroller.
+        </p>
+        <p>
+            🔒 Opplastede leie kontrakter lagres kryptert og er kun tilgjengelige for utleieren.
+        </p>
+
+        <p>
+            Hvis du har spørsmål om personvern i LandlordPro, <a href="/contact">kontakt oss</a>.
+        </p>
+
+    </main>
+</div>
+</html>
