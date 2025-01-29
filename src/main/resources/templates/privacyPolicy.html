@@ -1,19 +1,9 @@
 <!DOCTYPE html>
-<html
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout.html}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
 <head>
-    <style>
-        ul {
-            display: block;
-            list-style-type: disc;
-            margin-top: 1em;
-            margin-bottom: 1em;
-            margin-left: 0;
-            margin-right: 0;
-            padding-left: 40px;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/privacy-policy.css}">
 </head>
 <!-- Define the fragment where the content will go -->
 <div layout:fragment="content">    <!-- About Page Content -->
@@ -26,7 +16,7 @@
             and LandlordPro only functions as a technical platform.</p>
 
         <h3>2. Who is responsible for the data?</h3>
-        <ul>
+        <ul class="ul-privacy ">
             <li>
                 <strong>The user (landlord)</strong> is the data controller for the personal data they register.
             </li>
@@ -39,7 +29,7 @@
         <p>
             The user can register the following information about tenants:
         </p>
-        <ul>
+        <ul class="ul-privacy ">
             <li>
                 Name, address, phone number, and email of both the user and tenants
             </li>
@@ -60,7 +50,7 @@
         </p>
 
         <h3>5. Deletion and storage of data</h3>
-        <ul>
+        <ul class="ul-privacy">
             <li>
                 The user can delete tenant data at any time.
             </li>
