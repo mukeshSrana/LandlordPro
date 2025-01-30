@@ -28,7 +28,7 @@
     <!-- Display success message -->
     <div th:if="${successMessage}" class="success-message">
         <span class="close-btn" onclick="closeMessage(this)">&times;</span>
-        <p th:text="${successMessage}"></p>
+        <p th:utext="${successMessage}"></p>
     </div>
 
     <!-- Display error message -->
