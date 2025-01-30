@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS incomes;
 CREATE TABLE incomes
 (
     id           CHAR(36) PRIMARY KEY,
@@ -12,7 +13,7 @@ CREATE TABLE incomes
     created_date TIMESTAMP      NOT NULL,
     updated_date TIMESTAMP,
     CONSTRAINT fk_income_apartment_id FOREIGN KEY (apartment_id) REFERENCES apartments (id),
-    CONSTRAINT fk_income_user_id FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT fk_income_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT,
     CONSTRAINT fk_income_tenant_id FOREIGN KEY (tenant_id) REFERENCES tenants (id)
 );
 

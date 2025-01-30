@@ -44,13 +44,17 @@ public class User {
     private String mobileNumber;
 
     @Column(name="accept_consent", nullable = false)
+    @AssertTrue
     private boolean acceptConsent;
 
     @Column(name="acceptTenantDataResponsibility", nullable = false)
+    @AssertTrue
     private boolean acceptTenantDataResponsibility;
 
+    @Column(name="is_deleted", nullable = false)
+    private boolean isDeleted;
+
     @Column(nullable = false)
-    @AssertTrue
     private boolean enabled;
 
     @Column(name = "account_non_expired", nullable = false)

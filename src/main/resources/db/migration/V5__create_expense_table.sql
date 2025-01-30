@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS expenses;
 CREATE TABLE expenses
 (
     id               CHAR(36) PRIMARY KEY,
@@ -12,7 +13,7 @@ CREATE TABLE expenses
     created_date     TIMESTAMP      NOT NULL,
     updated_date     TIMESTAMP,
     CONSTRAINT fk_expense_apartment_id FOREIGN KEY (apartment_id) REFERENCES apartments (id),
-    CONSTRAINT fk_expense_user_id FOREIGN KEY (user_id) REFERENCES users (id)
+    CONSTRAINT fk_expense_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT
 );
 
 CREATE INDEX idx_expense_apartment_id ON expenses (apartment_id);
