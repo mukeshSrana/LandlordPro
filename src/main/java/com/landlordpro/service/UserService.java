@@ -70,6 +70,7 @@ public class UserService {
         user.setName(registrationDTO.getName());
         user.setMobileNumber(registrationDTO.getMobileNumber());
         user.setAcceptConsent(registrationDTO.isAcceptConsent());
+        user.setAcceptTenantDataResponsibility(registrationDTO.isAcceptTenantDataResponsibility());
 
         user.setEnabled(true);
         user.setAccountNonExpired(true);

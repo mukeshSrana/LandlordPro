@@ -44,11 +44,11 @@ public class User {
     private String mobileNumber;
 
     @Column(name="accept_consent", nullable = false)
-    @AssertTrue
+    @AssertTrue(message = "accept_consent must be true")
     private boolean acceptConsent;
 
     @Column(name="accept_tenant_data_responsibility", nullable = false)
-    @AssertTrue
+    @AssertTrue(message = "accept_tenant_data_responsibility must be true")
     private boolean acceptTenantDataResponsibility;
 
     @Column(name="is_deleted", nullable = false)
