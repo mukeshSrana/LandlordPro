@@ -12,9 +12,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.landlordpro.domain.Tenant;
+import com.landlordpro.domain.User;
 import com.landlordpro.dto.TenantDto;
 import com.landlordpro.mapper.TenantMapper;
 import com.landlordpro.repository.TenantRepository;
+import com.landlordpro.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,11 +24,19 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TenantService {
     private final TenantRepository tenantRepository;
+    private final UserRepository userRepository;
     private final TenantMapper tenantMapper;
+    private final EmailService emailService;
 
-    public TenantService(TenantRepository tenantRepository, TenantMapper tenantMapper) {
+    public TenantService(
+        TenantRepository tenantRepository,
+        UserRepository userRepository,
+        TenantMapper tenantMapper,
+        EmailService emailService) {
         this.tenantRepository = tenantRepository;
+        this.userRepository = userRepository;
         this.tenantMapper = tenantMapper;
+        this.emailService = emailService;
     }
 
     public void add(TenantDto tenantDto) throws Exception {
@@ -39,6 +49,12 @@ public class TenantService {
         try {
             validate(tenant);
             tenantRepository.save(tenant);
+            User user = userRepository.findById(tenant.getUserId())
+                .orElseThrow(() -> new RuntimeException(
+                    "User(landlord) not found for user-id " + tenant.getUserId())
+                );
+            byte[] privatePolicyPdf = emailService.generatePrivatePolicyPdf(tenant.getFullName(), user.getName(), user.getUsername(), user.getMobileNumber());
+            emailService.sendPrivacyPolicyEmail(privatePolicyPdf, tenant.getEmail(), tenant.getFullName(), user.getName());
         } catch (DataIntegrityViolationException ex) {
             String errorMessage = "Constraint violation while saving tenant=" + tenantDto.getFullName();
             log.error(errorMessage, ex); // Assuming you have a logger in place
