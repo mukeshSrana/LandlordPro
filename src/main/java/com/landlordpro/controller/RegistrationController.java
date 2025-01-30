@@ -31,9 +31,14 @@ public class RegistrationController {
             return "register"; // If validation errors, return to registration page
         }
 
+        if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
+            model.addAttribute("errorMessage", "Passwords do not match.");
+            return "register"; // Reload the form with an error message
+        }
+
         // Check if the user already exists
         if (userService.isUserExists(userDTO.getUsername())) {
-            model.addAttribute("error", "An account with this email already exists.");
+            model.addAttribute("errorMessage", "An account with this email already exists.");
             return "register";
         }
 
@@ -43,7 +48,7 @@ public class RegistrationController {
 
             return "register";
         } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
             return "register";
         }
     }
