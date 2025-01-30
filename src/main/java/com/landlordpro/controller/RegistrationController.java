@@ -38,7 +38,7 @@ public class RegistrationController {
         }
 
         if (!acceptConsent) {
-            model.addAttribute("errorMessage", "You must accept private-policy and GDPR consent to register.");
+            model.addAttribute("errorMessage", "You must accept private-policy/GDPR-consent to register.");
             return "register";
         }
 
