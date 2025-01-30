@@ -69,6 +69,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
         user.setName(registrationDTO.getName());
         user.setMobileNumber(registrationDTO.getMobileNumber());
+        user.setAcceptConsent(registrationDTO.isAcceptConsent());
         user.setEnabled(true);
         user.setAccountNonExpired(true);
         user.setCredentialsNonExpired(true);

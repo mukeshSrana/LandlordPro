@@ -16,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.AssertTrue;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -42,7 +43,11 @@ public class User {
     @Column(name = "mobile_nr", nullable = false, length = 15)
     private String mobileNumber;
 
+    @Column(name="accept_consent", nullable = false)
+    private boolean acceptConsent;
+
     @Column(nullable = false)
+    @AssertTrue
     private boolean enabled;
 
     @Column(name = "account_non_expired", nullable = false)
