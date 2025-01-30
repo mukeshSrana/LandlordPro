@@ -51,6 +51,9 @@ public class UserRegistrationDTO {
     @AssertTrue(message = "Accept consent is required")
     private boolean acceptConsent;
 
+    @AssertTrue(message = "Accept tenant data responsibility is required")
+    private boolean acceptTenantDataResponsibility;
+
     private String roles; // Comma-separated roles
 
 

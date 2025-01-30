@@ -31,14 +31,15 @@ public class RegistrationController {
         Model model,
         @ModelAttribute("user") @Valid UserRegistrationDTO userDTO,
         @RequestParam("acceptConsent") boolean acceptConsent,
+        @RequestParam("acceptTenantDataResponsibility") boolean acceptTenantDataResponsibility,
         BindingResult result) {
 
         if (result.hasErrors()) {
             return "register"; // If validation errors, return to registration page
         }
 
-        if (!acceptConsent) {
-            model.addAttribute("errorMessage", "You must accept private-policy/GDPR-consent to register.");
+        if (!acceptConsent || !acceptTenantDataResponsibility) {
+            model.addAttribute("errorMessage", "You must accept private-policy/GDPR-consent and acknowledge your responsibility for tenant data.");
             return "register";
         }
 

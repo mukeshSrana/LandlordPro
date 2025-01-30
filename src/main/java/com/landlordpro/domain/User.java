@@ -46,6 +46,9 @@ public class User {
     @Column(name="accept_consent", nullable = false)
     private boolean acceptConsent;
 
+    @Column(name="acceptTenantDataResponsibility", nullable = false)
+    private boolean acceptTenantDataResponsibility;
+
     @Column(nullable = false)
     @AssertTrue
     private boolean enabled;
