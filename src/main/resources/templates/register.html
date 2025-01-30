@@ -78,16 +78,16 @@
             </div>
         </div>
 
-        <!-- GDPR Consent and Privacy Policy Acceptance -->
         <div class="form-row">
-            <div class="full-width">
-                <label for="acceptConsent">
-                    I agree to the processing of my personal data in accordance with the
-                    <a href="/privacyPolicy" target="_blank">Privacy Policy</a> and GDPR.
+            <div class= "checkbox-container">
+                <label>
+                    <input type="checkbox" id="acceptConsent" name="acceptConsent" th:field="*{acceptConsent}" required>
+                    <p> I agree to the processing of my personal data in accordance with the
+                    <a href="/privacyPolicy" target="_blank">Privacy Policy</a> and GDPR.</p>
                 </label>
-                <input type="checkbox" id="acceptConsent" name="acceptConsent" th:field="*{acceptConsent}" required>
             </div>
         </div>
+
 
         <button type="submit">Register</button>
     </form>
