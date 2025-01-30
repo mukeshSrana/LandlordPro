@@ -73,15 +73,23 @@
             <div class="half-width">
                 <label for="mobileNumber">Mobile Number:</label>
                 <input type="text" id="mobileNumber" name="mobileNumber" th:field="*{mobileNumber}" required
-                       pattern="^\+?[0-9]{10,15}$"
-                       title="Enter a valid mobile number (10-15 digits, optional + at the beginning)">
+                       pattern="^\+?[0-9]{8,12}$"
+                       title="Enter a valid mobile number (8-12 digits, optional + at the beginning)">
             </div>
         </div>
 
+        <!-- GDPR Consent and Privacy Policy Acceptance -->
+        <div class="form-row">
+            <div class="full-width">
+                <label for="acceptConsent">
+                    I agree to the processing of my personal data in accordance with the
+                    <a href="/privacyPolicy" target="_blank">Privacy Policy</a> and GDPR.
+                </label>
+                <input type="checkbox" id="acceptConsent" name="acceptConsent" th:field="*{acceptConsent}" required>
+            </div>
+        </div>
 
         <button type="submit">Register</button>
-
     </form>
 </div>
-
 </html>

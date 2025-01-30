@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.landlordpro.dto.UserRegistrationDTO;
 import com.landlordpro.service.UserService;
@@ -26,9 +27,19 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String registerUser(Model model, @ModelAttribute("user") @Valid UserRegistrationDTO userDTO, BindingResult result) {
+    public String registerUser(
+        Model model,
+        @ModelAttribute("user") @Valid UserRegistrationDTO userDTO,
+        @RequestParam("acceptConsent") boolean acceptConsent,
+        BindingResult result) {
+
         if (result.hasErrors()) {
             return "register"; // If validation errors, return to registration page
+        }
+
+        if (!acceptConsent) {
+            model.addAttribute("errorMessage", "You must accept private-policy and GDPR consent to register.");
+            return "register";
         }
 
         if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
