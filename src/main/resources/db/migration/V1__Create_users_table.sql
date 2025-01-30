@@ -16,7 +16,7 @@ CREATE TABLE users
     account_non_locked      BOOLEAN      NOT NULL DEFAULT TRUE,    -- Account locked status
     mobile_nr               VARCHAR(15)  NOT NULL,                -- Mobile number
     is_deleted              BOOLEAN      DEFAULT FALSE,            -- Whether the account is deleted (soft delete)
-    acceptConsent           BOOLEAN      DEFAULT FALSE,            -- Whether the user accepted consent
-    acceptTenantDataResponsibility BOOLEAN DEFAULT FALSE           -- Whether the user accepted tenant data responsibility
+    accept_consent           BOOLEAN      DEFAULT FALSE,            -- Whether the user accepted consent
+    accept_tenant_data_responsibility BOOLEAN DEFAULT FALSE           -- Whether the user accepted tenant data responsibility
 );
 
