@@ -53,7 +53,7 @@ public class TenantService {
                 .orElseThrow(() -> new RuntimeException(
                     "User(landlord) not found for user-id " + tenant.getUserId())
                 );
-            byte[] privatePolicyPdf = emailService.generatePrivatePolicyPdf(tenant.getFullName(), user.getName(), user.getUsername(), user.getMobileNumber());
+            byte[] privatePolicyPdf = emailService.generatePrivatePolicyPdf(user.getName(), user.getUsername(), user.getMobileNumber());
             emailService.sendPrivacyPolicyEmail(privatePolicyPdf, tenant.getEmail(), tenant.getFullName(), user.getName());
         } catch (DataIntegrityViolationException ex) {
             String errorMessage = "Constraint violation while saving tenant=" + tenantDto.getFullName();

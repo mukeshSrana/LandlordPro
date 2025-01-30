@@ -13,7 +13,7 @@ import com.itextpdf.layout.element.Paragraph;
 @Service
 public class PdfGeneratorService {
 
-    public byte[] generateGdprPdf(String tenantName, String landlordName, String landlordEmail, String landlordPhone) {
+    public byte[] generateGdprPdf(String landlordName, String landlordEmail, String landlordPhone) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfWriter writer = new PdfWriter(outputStream);
         PdfDocument pdf = new PdfDocument(writer);
