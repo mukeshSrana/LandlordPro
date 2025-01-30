@@ -1,105 +1,141 @@
-/* Form container styling */
-.register-container {
-    width: 80%; /* Adjusted for form layout */
-    max-width: 600px; /* Ensures the register form doesn't grow too large */
-    max-height: 520px;
-    /*margin: 2rem auto; !* Center the form container *!*/
-    /*padding: 2rem;*/
-    margin: 2rem 2rem;
-    padding: 20px;
+.form-container {
+    width: 35%; /* Adjusted to 30% for better alignment */
+    max-width: 600px; /* Ensures the form does not grow too large on wide screens */
+    max-height: 400px;
+    margin: 2rem 2rem; /* Aligns form to the left with spacing */
+    padding: 1rem 2rem 2rem; /* Padding inside the form */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff; /* Light background for contrast */
-}
-
-/* Form title styling */
-h2 {
-    text-align: center;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    color: #333;
-}
-
-/* Form group styling for individual fields */
-.form-group {
-    margin-bottom: 1.5rem; /* Add space between form fields */
-}
-
-/* Label styling */
-.form-group label {
-    display: block;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    color: #333;
-}
-
-/* Input field styling */
-.form-group input {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-}
-
-.form-group input:focus {
-    border-color: #007bff;
-    outline: none;
 }
 
 /* Error message styling */
-.error-message {
-    color: #d9534f;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-    display: block;
+.form-container .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important; /* Ensure there's no margin at the top */
+    padding-top: 0 !important; /* Ensure there's no extra padding */
+    padding-bottom: 0 !important;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
 }
 
-.success-message {
-    color: #4CAF50;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-    display: block;
+/* Success message styling */
+.form-container .success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important; /* Ensure there's no margin at the top */
+    padding-top: 0 !important; /* Ensure there's no extra padding */
+    padding-bottom: 0 !important;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
 }
 
-/* Submit button styling */
-.btn-submit {
-    /*width: 100%;*/
+.form-container .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.form-container .close-btn:hover {
+    color: #aaa;
+}
+
+.form-container .required-fields-info {
+    color: #444;
+    font-size: 1rem;
+    margin-top: 2rem;
+    text-align: center; /* Optional, you can adjust based on your preference */
+    font-style: italic; /* Optional */
+}
+
+/* General form input styling */
+.form-container label {
+    display: block;
+    margin: 1rem 0 0.5rem;
+    font-weight: bold;
+}
+
+.form-container input,
+.form-container select {
+    width: 100%;
+    /*max-width: 450px;*/
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+
+    width: 100%;
+    max-width: 100%;
+}
+
+.form-container button {
     background-color: #007BFF;
     color: white;
     padding: 10px 15px;
-    /*padding: 0.8rem;*/
     border: none;
     border-radius: 4px;
-    font-size: 1rem;
     cursor: pointer;
+    width: auto;
+    align-self: flex-start;
+    font-size: 1rem;
+    margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 
-.btn-submit:hover {
+.form-container button:hover {
     background-color: #0056b3;
 }
 
-/* Registration link styling (if any) */
-.register-link {
-    text-align: center;
-    margin-top: 1rem;
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+.form-row > div {
+    display: flex;
+    flex-direction: column;
+}
+.form-row label {
+    margin-bottom: 5px;
+}
+.form-row input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+.form-row .flex-half {
+    flex: 1;
 }
 
-.register-link a {
-    color: #007bff;
-    text-decoration: none;
+.form-row .full-width {
+    flex: 1;
+    width: 100%;
 }
 
-.register-link a:hover {
-    text-decoration: underline;
+.form-container form {
+    display: flex;
+    flex-direction: column;
 }
 
 /* Adjust responsive layout for small screens */
 @media (max-width: 768px) {
-    .register-container {
+    .form-container {
         width: 90%; /* Make the form take up more space on smaller screens */
     }
 }

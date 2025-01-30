@@ -1,61 +1,64 @@
 <!DOCTYPE html>
-<html xmlns:th="http:www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/register.css}">
+    <script>
+      function closeMessage(button) {
+        var messageBox = button.parentElement;
+        messageBox.style.display = 'none';
+      }
+    </script>
 </head>
-<div class="register-container" layout:fragment="content">
-    <!-- Success Message -->
-    <div th:if="${successMessage}">
-        <p th:utext="${successMessage}" class="success-message"></p> <!-- This will render the message with HTML content (the login link) -->
+<div class="form-container" layout:fragment="content">
+    <!-- Display success message -->
+    <div th:if="${successMessage}" class="success-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${successMessage}"></p>
     </div>
 
-    <!-- Error Message -->
-    <div th:if="${error}">
-        <p th:text="${error}" class="error-message"></p>
+    <!-- Display error message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${errorMessage}"></p>
     </div>
 
     <form th:action="@{/register}" method="post" th:object="${user}">
-        <!-- Name -->
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" th:field="*{name}" placeholder="Enter your name" required>
-            <span class="error-message" th:if="${#fields.hasErrors('name')}" th:text="${#fields.errors('name')}"></span>
+        <div class="form-row">
+            <div class="flex-half">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" th:field="*{name}" required
+                       pattern="^[a-zA-Z]+$"
+                       title="Name must contain only letters">
+            </div>
+            <div class="flex-half">
+                <label for="username">Username(email):</label>
+                <input type="text" id="username" name="username" th:field="*{username}" required>
+            </div>
         </div>
 
-        <!-- Username -->
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" th:field="*{username}" placeholder="Enter your username" required>
-            <span class="error-message" th:if="${#fields.hasErrors('username')}" th:text="${#fields.errors('username')}"></span>
+        <div class="form-row">
+            <div class="flex-half">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" th:field="*{password}" required>
+            </div>
+            <div class="flex-half">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" required>
+            </div>
         </div>
 
-        <!-- Password -->
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" th:field="*{password}" placeholder="Enter your password" required>
-            <span class="error-message" th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password')}"></span>
+        <div class="form-row">
+            <div class="full-width">
+                <label for="mobileNumber">Mobile Number:</label>
+                <input type="text" id="mobileNumber" name="mobileNumber" th:field="*{mobileNumber}" required>
+            </div>
         </div>
 
-        <!-- Confirm Password -->
-        <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" placeholder="Re-enter your password" required>
-            <span class="error-message" th:if="${#fields.hasErrors('confirmPassword')}" th:text="${#fields.errors('confirmPassword')}"></span>
-        </div>
 
-        <!-- Mobile Number -->
-        <div class="form-group">
-            <label for="mobileNumber">Mobile Number</label>
-            <input type="text" id="mobileNumber" name="mobileNumber" th:field="*{mobileNumber}" placeholder="Enter your mobile number" required>
-            <span class="error-message" th:if="${#fields.hasErrors('mobileNumber')}" th:text="${#fields.errors('mobileNumber')}"></span>
-        </div>
+        <button type="submit">Register</button>
 
-        <!-- Submit Button -->
-        <div class="form-group">
-            <button type="submit" class="btn-submit">Register</button>
-        </div>
     </form>
 </div>
 
