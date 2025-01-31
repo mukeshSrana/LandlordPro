@@ -22,7 +22,7 @@ import com.landlordpro.dto.TenantDto;
 import com.landlordpro.dto.UserDto;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
-import com.landlordpro.service.EmailService;
+import com.landlordpro.service.TenantGdprGeneratorService;
 import com.landlordpro.service.TenantService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +34,12 @@ public class TenantController {
 
     private final ApartmentService apartmentService;
     private final TenantService tenantService;
-    private final EmailService emailService;
+    private final TenantGdprGeneratorService tenantGdprGeneratorService;
 
-    public TenantController(ApartmentService apartmentService, TenantService tenantService, EmailService emailService) {
+    public TenantController(ApartmentService apartmentService, TenantService tenantService, TenantGdprGeneratorService tenantGdprGeneratorService) {
         this.apartmentService = apartmentService;
         this.tenantService = tenantService;
-        this.emailService = emailService;
+        this.tenantGdprGeneratorService = tenantGdprGeneratorService;
     }
 
     @PostMapping("/add")
@@ -89,7 +89,7 @@ public class TenantController {
             tenantDto.setSecurityDepositInstitutionName(securityDepositInstitutionName);
             tenantDto.setUserId(userId);
 
-            tenantDto.setPrivatePolicy(privatePolicy(userId));
+            tenantDto.setPrivatePolicy(privatePolicy(tenantDto.getFullName(), userId));
 
             // Call the service layer to save the tenant
             tenantService.add(tenantDto);
@@ -107,9 +107,9 @@ public class TenantController {
         return "redirect:/tenant/register";
     }
 
-    private byte[] privatePolicy(UUID userId) {
+    private byte[] privatePolicy(String tenantName, UUID userId) {
         UserDto user = tenantService.getUser(userId);
-        return emailService.generatePrivatePolicyPdf(user.getName(), user.getUsername(), user.getMobileNumber());
+        return tenantGdprGeneratorService.generateGdprPdf(tenantName, user.getName(), user.getUsername(), user.getMobileNumber());
     }
 
     @GetMapping("/register")

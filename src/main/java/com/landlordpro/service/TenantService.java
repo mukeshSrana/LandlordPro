@@ -1,14 +1,15 @@
 package com.landlordpro.service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.landlordpro.domain.Apartment;
@@ -34,7 +35,6 @@ public class TenantService {
     private final ApartmentRepository apartmentRepository;
     private final UserRepository userRepository;
     private final TenantMapper tenantMapper;
-    private final EmailService emailService;
     private final UserMapper userMapper;
     private final ApartmentMapper apartmentMapper;
 
@@ -42,12 +42,11 @@ public class TenantService {
         TenantRepository tenantRepository, ApartmentRepository apartmentRepository,
         UserRepository userRepository,
         TenantMapper tenantMapper,
-        EmailService emailService, UserMapper userMapper, ApartmentMapper apartmentMapper) {
+        UserMapper userMapper, ApartmentMapper apartmentMapper) {
         this.tenantRepository = tenantRepository;
         this.apartmentRepository = apartmentRepository;
         this.userRepository = userRepository;
         this.tenantMapper = tenantMapper;
-        this.emailService = emailService;
         this.userMapper = userMapper;
         this.apartmentMapper = apartmentMapper;
     }
@@ -129,28 +128,12 @@ public class TenantService {
     }
 
     public List<TenantDto> getTenantsForUser(UUID userId) {
-        try {
-            // Validate the input
-            if (userId == null) {
-                throw new IllegalArgumentException("User ID cannot be null");
-            }
+        Objects.requireNonNull(userId, "User ID cannot be null");
 
-            // Fetch expenses
-            List<Tenant> tenants = tenantRepository.findByUserId(userId);
-            return tenantMapper.toDTOList(tenants);
-        } catch (EmptyResultDataAccessException ex) {
-            // Handle specific database "no data found" case
-            throw new RuntimeException("No tenants found for user with ID: " + userId, ex);
-
-        } catch (IllegalArgumentException ex) {
-            // Handle invalid input
-            throw ex; // Rethrow, or handle as needed
-
-        } catch (RuntimeException ex) {
-            // Catch unexpected runtime exceptions
-            throw new RuntimeException("Unexpected error occurred", ex);
-        }
+        List<Tenant> tenants = tenantRepository.findByUserId(userId);
+        return tenants.isEmpty() ? Collections.emptyList() : tenantMapper.toDTOList(tenants);
     }
+
 
     public TenantDto findById(UUID id) {
         return tenantRepository.findById(id)
