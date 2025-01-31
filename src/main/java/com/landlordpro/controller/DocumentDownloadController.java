@@ -36,10 +36,11 @@ public class DocumentDownloadController {
             .collect(Collectors.toMap(DocumentService::getType, Function.identity()));
     }
 
-    @GetMapping("/{type}/{id}")
+    @GetMapping("/{type}/{id}/{documentType}")
     public ResponseEntity<byte[]> downloadDocument(
         @PathVariable String type,
         @PathVariable UUID id,
+        @PathVariable String documentType,
         Model model) {
         try {
             DocumentService service = documentServices.get(type.toLowerCase());
@@ -47,7 +48,7 @@ public class DocumentDownloadController {
                 return ResponseEntity.badRequest().body(("Invalid document type: " + type).getBytes());
             }
 
-            DocumentDto documentDto = service.findById(id);
+            DocumentDto documentDto = service.findById(id, documentType);
             if (documentDto.getData() == null) {
                 return ResponseEntity.notFound().build();
             }

@@ -22,9 +22,25 @@ public class TenantDocumentService implements DocumentService {
     }
 
     @Override
-    public DocumentDto findById(UUID id) {
+    public DocumentDto findById(UUID id, String documentType) {
         TenantDto tenant = tenantService.findById(id);
-        return new DocumentDto(tenant.getPrivatePolicy(), tenant.getFullName() + "-PrivatePolicy.pdf");
+        byte[] documentData;
+        String filename;
+
+        switch (documentType.toLowerCase()) {
+        case "privacy-policy":
+            documentData = tenant.getPrivatePolicy();
+            filename = tenant.getFullName() + "_privacy_policy.pdf";
+            break;
+        case "contract":
+            documentData = tenant.getReceiptData();
+            filename = tenant.getFullName() + "rental_contract.pdf";
+            break;
+        default:
+            throw new IllegalArgumentException("Unsupported document type: " + documentType);
+        }
+
+        return new DocumentDto(documentData, filename);
     }
 
     @Override
