@@ -1,9 +1,9 @@
 /* Styling for the form container and overall layout */
 .form-container {
-    width: 80%;
-    max-width: 1200px;
+    width: 100%;
+    max-width: 1500px;
     margin: 2rem 2rem;
-    padding: 1rem 2rem 2rem;
+    padding: 0.5rem 0.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
