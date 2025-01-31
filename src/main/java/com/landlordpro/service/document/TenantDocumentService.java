@@ -35,7 +35,7 @@ public class TenantDocumentService implements DocumentService {
             break;
         case "contract":
             documentData = tenant.getReceiptData();
-            filename = tenant.getFullName() + "rental_contract.pdf";
+            filename = tenant.getFullName() + "_rental_contract.pdf";
             break;
         default:
             throw new IllegalArgumentException("Unsupported document type: " + documentType);

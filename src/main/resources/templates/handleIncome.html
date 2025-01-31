@@ -89,7 +89,12 @@
 
                     <td ondblclick="enableEditing(this)" th:text="${income.comments}"></td>
                     <td>
-                        <a th:if="${income.receiptData != null}" th:href="@{/income/downloadReceipt/{id}(id=${income.id})}" target="_blank">Download</a>
+                        <a th:if="${income.receiptData != null}"
+                           th:href="@{/download/income/{id}/receipt(id=${income.id})}"
+                           target="_blank">
+                            Download
+                        </a>
+
                     </td>
 
                     <td>

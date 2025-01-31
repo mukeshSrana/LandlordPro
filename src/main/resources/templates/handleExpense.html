@@ -79,7 +79,11 @@
                     <td ondblclick="enableEditing(this)" th:text="${expense.expenseLocation}"></td>
                     <td th:text="${expense.date}"></td>
                     <td>
-                        <a th:if="${expense.receiptData != null}" th:href="@{/expense/downloadReceipt/{id}(id=${expense.id})}" target="_blank">Download</a>
+                        <a th:if="${expense.receiptData != null}"
+                           th:href="@{/download/expense/{id}/receipt(id=${expense.id})}"
+                           target="_blank">
+                            Download
+                        </a>
                     </td>
 
                     <td>
