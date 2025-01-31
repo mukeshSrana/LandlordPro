@@ -44,10 +44,8 @@ public class EmailService {
             Email to = new Email(toEmail, toName);
             String subject = "Personvernerklæring – Leieforhold hos " + fromName;
             Content content = new Content("text/plain", "Hei " + toName + ",\n\nHer er din personvernerklæring som PDF-vedlegg.");
-
             Mail mail = new Mail(from, subject, to, content);
 
-            // Attach PDF
             Attachments attachment = new Attachments();
             attachment.setContent(Base64.getEncoder().encodeToString(pdf));
             attachment.setType("application/pdf");
@@ -55,7 +53,6 @@ public class EmailService {
             attachment.setDisposition("attachment");
             mail.addAttachments(attachment);
 
-            // Send the email via SendGrid API
             SendGrid sg = new SendGrid(SENDGRID_API_KEY);
             Request request = new Request();
             request.setMethod(Method.POST);
@@ -63,11 +60,12 @@ public class EmailService {
             request.setBody(mail.build());
             Response response = sg.api(request);
 
-            System.out.println("Email sent! Status Code: " + response.getStatusCode());
+            if (response.getStatusCode() != 200) {
+                throw new RuntimeException("Failed to send email, status code: " + response.getStatusCode());
+            }
 
         } catch (IOException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException("Error while sending privacy-policy (PDF) to " + toName + " from " + fromName);
+            throw new RuntimeException("Error while sending privacy-policy email to " + toName, ex);
         }
     }
 

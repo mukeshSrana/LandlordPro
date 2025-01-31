@@ -72,6 +72,10 @@ public class Tenant {
     @Column(name = "receipt_data")
     private byte[] receiptData; // Store the uploaded receipt as binary data (BLOB)
 
+    @Lob
+    @Column(name = "private_policy")
+    private byte[] privatePolicy;
+
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 

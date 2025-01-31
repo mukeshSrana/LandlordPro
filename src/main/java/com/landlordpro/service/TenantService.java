@@ -39,45 +39,45 @@ public class TenantService {
         this.emailService = emailService;
     }
 
-    public void add(TenantDto tenantDto) throws Exception {
-        save(tenantDto);
+    public void add(TenantDto tenantDto) {
+        try {
+            Tenant tenant = tenantMapper.toEntity(tenantDto);
+            validate(tenant);
+            User user = getUser(tenant);
+            byte[] privatePolicy = emailService.generatePrivatePolicyPdf(user.getName(), user.getUsername(), user.getMobileNumber());
+            tenant.setPrivatePolicy(privatePolicy);
+            save(tenant);
+            emailService.sendPrivacyPolicyEmail(privatePolicy, tenant.getEmail(), tenant.getFullName(), user.getName());
+        } catch (IllegalStateException e) {
+            throw new RuntimeException("Validation failed: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while adding tenant", e);
+        }
     }
 
-    private void save(TenantDto tenantDto) throws RuntimeException {
-        Tenant tenant = tenantMapper.toEntity(tenantDto);
-
+    private void save(Tenant tenant) {
         try {
-            validate(tenant);
             tenantRepository.save(tenant);
-            User user = userRepository.findById(tenant.getUserId())
-                .orElseThrow(() -> new RuntimeException(
-                    "User(landlord) not found for user-id " + tenant.getUserId())
-                );
-            byte[] privatePolicyPdf = emailService.generatePrivatePolicyPdf(user.getName(), user.getUsername(), user.getMobileNumber());
-            emailService.sendPrivacyPolicyEmail(privatePolicyPdf, tenant.getEmail(), tenant.getFullName(), user.getName());
         } catch (DataIntegrityViolationException ex) {
-            String errorMessage = "Constraint violation while saving tenant=" + tenantDto.getFullName();
-            log.error(errorMessage, ex); // Assuming you have a logger in place
-            throw new RuntimeException(errorMessage, ex);
+            throw new RuntimeException("Tenant already exists or constraint violation for tenant=" + tenant.getFullName(), ex);
         } catch (Exception ex) {
-            String errorMessage = "Unexpected error while saving tenant=" + tenantDto.getFullName();
-            log.error(errorMessage, ex); // Assuming you have a logger in place
-            throw new RuntimeException(errorMessage, ex);
+            throw new RuntimeException("Unexpected error while saving tenant=" + tenant.getFullName(), ex);
         }
     }
 
     private void validate(Tenant tenant) {
-        List<Tenant> tenants =
-            tenantRepository.findByUserIdAndApartmentId(tenant.getUserId(), tenant.getApartmentId());
-        List<Tenant> activeTenants = tenants.stream()
-            .filter(t -> t.getLeaseEndDate() == null || t.getLeaseEndDate().isAfter(LocalDate.now()))
-            .collect(Collectors.toList());
+        List<Tenant> tenants = tenantRepository.findByUserIdAndApartmentId(tenant.getUserId(), tenant.getApartmentId());
+        boolean isActive = tenants.stream()
+            .anyMatch(t -> t.getLeaseEndDate() == null || t.getLeaseEndDate().isAfter(LocalDate.now()));
 
-        boolean validate = !activeTenants.contains(tenant);
-
-        if (!validate) {
+        if (isActive) {
             throw new IllegalStateException("Tenant is already active.");
         }
+    }
+
+    private User getUser(Tenant tenant) {
+        return userRepository.findById(tenant.getUserId())
+            .orElseThrow(() -> new RuntimeException("User (landlord) not found for user-id " + tenant.getUserId()));
     }
 
     public Map<UUID, String> getTenantIdNameMap(UUID userId) {
