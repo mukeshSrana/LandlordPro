@@ -95,7 +95,11 @@ public class TenantController {
             tenantService.add(tenantDto);
 
             // Add a success message
-            redirectAttributes.addFlashAttribute("successMessage", "Tenant added successfully!");
+            redirectAttributes.addFlashAttribute("successMessage",
+                "Tenant added successfully. "
+                    + "The GDPR document has been saved under /Tenant/Handle/. "
+                    + "Please send it to your tenant."
+            );
         } catch (Exception e) {
             // Handle exceptions and add an error message
             redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
