@@ -1,12 +1,13 @@
 .form-container {
-    width: 35%; /* Adjusted width */
-    max-width: 500px; /* Limits maximum width */
+    width: 100%;
+    max-width: 600px;
     max-height: 600px;
-    margin: 2rem 2rem; /* Centers the form */
-    padding: 2rem 2rem; /* Adds padding for a cleaner look */
+    margin: 2rem 2rem;
+    padding: 2rem 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 /* Error message styling */
 .form-container .error-message {
