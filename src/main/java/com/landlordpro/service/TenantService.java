@@ -11,10 +11,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.landlordpro.domain.Apartment;
 import com.landlordpro.domain.Tenant;
 import com.landlordpro.domain.User;
 import com.landlordpro.dto.TenantDto;
 import com.landlordpro.mapper.TenantMapper;
+import com.landlordpro.repository.ApartmentRepository;
 import com.landlordpro.repository.TenantRepository;
 import com.landlordpro.repository.UserRepository;
 
@@ -24,16 +26,18 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TenantService {
     private final TenantRepository tenantRepository;
+    private final ApartmentRepository apartmentRepository;
     private final UserRepository userRepository;
     private final TenantMapper tenantMapper;
     private final EmailService emailService;
 
     public TenantService(
-        TenantRepository tenantRepository,
+        TenantRepository tenantRepository, ApartmentRepository apartmentRepository,
         UserRepository userRepository,
         TenantMapper tenantMapper,
         EmailService emailService) {
         this.tenantRepository = tenantRepository;
+        this.apartmentRepository = apartmentRepository;
         this.userRepository = userRepository;
         this.tenantMapper = tenantMapper;
         this.emailService = emailService;
@@ -67,12 +71,20 @@ public class TenantService {
 
     private void validate(Tenant tenant) {
         List<Tenant> tenants = tenantRepository.findByUserIdAndApartmentId(tenant.getUserId(), tenant.getApartmentId());
-        boolean isActive = tenants.stream()
-            .anyMatch(t -> t.getLeaseEndDate() == null || t.getLeaseEndDate().isAfter(LocalDate.now()));
 
-        if (isActive) {
-            throw new IllegalStateException("Tenant is already active.");
+        List<Tenant> activeTenants = tenants.stream()
+            .filter(t -> t.getLeaseEndDate() == null || t.getLeaseEndDate().isAfter(LocalDate.now()))
+            .collect(Collectors.toList());
+
+        if (activeTenants.contains(tenant)) {
+            throw new IllegalStateException(
+                "Tenant " + tenant.getFullName() + " is already active for apartment " + getApartment(tenant).getApartmentShortName());
         }
+    }
+
+    private Apartment getApartment(Tenant tenant) {
+        return apartmentRepository.findByIdAndUserId(tenant.getApartmentId(), tenant.getUserId())
+            .orElseThrow(() -> new RuntimeException("Apartment not found for user-id " + tenant.getUserId()));
     }
 
     private User getUser(Tenant tenant) {
