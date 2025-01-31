@@ -3,7 +3,7 @@
     max-width: 500px; /* Ensures the form does not grow too large on wide screens */
     max-height: 500px;
     margin: 2rem 2rem; /* Aligns form to the left with spacing */
-    padding: 1rem 2rem 2rem; /* Padding inside the form */
+    padding: 2rem 2rem; /* Padding inside the form */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
