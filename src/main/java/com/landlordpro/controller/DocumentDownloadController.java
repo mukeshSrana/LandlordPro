@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.landlordpro.dto.DocumentDto;
-import com.landlordpro.service.DocumentService;
+import com.landlordpro.service.document.DocumentService;
 
 import lombok.extern.slf4j.Slf4j;
 

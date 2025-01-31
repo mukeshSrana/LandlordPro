@@ -22,7 +22,7 @@ import com.landlordpro.dto.TenantDto;
 import com.landlordpro.dto.UserDto;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
-import com.landlordpro.service.TenantGdprGeneratorService;
+import com.landlordpro.service.document.TenantGdprGeneratorService;
 import com.landlordpro.service.TenantService;
 
 import lombok.extern.slf4j.Slf4j;

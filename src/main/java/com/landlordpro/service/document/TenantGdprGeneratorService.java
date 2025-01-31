@@ -1,4 +1,4 @@
-package com.landlordpro.service;
+package com.landlordpro.service.document;
 
 
 import java.io.ByteArrayOutputStream;

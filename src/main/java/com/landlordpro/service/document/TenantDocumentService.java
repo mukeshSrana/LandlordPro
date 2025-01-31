@@ -1,4 +1,4 @@
-package com.landlordpro.service;
+package com.landlordpro.service.document;
 
 import java.util.UUID;
 
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.landlordpro.dto.DocumentDto;
 import com.landlordpro.dto.TenantDto;
+import com.landlordpro.service.TenantService;
 
 @Service
 public class TenantDocumentService implements DocumentService {
