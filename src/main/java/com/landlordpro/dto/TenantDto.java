@@ -62,6 +62,8 @@ public class TenantDto {
 
     private byte[] receiptData;  // Binary data for the receipt
 
+    private byte[] privatePolicy;
+
     private LocalDateTime createdDate;  // Date when the tenant record was created
 
     private LocalDateTime updatedDate;  // Last updated date

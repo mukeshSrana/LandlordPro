@@ -14,7 +14,7 @@ CREATE TABLE tenants
     security_deposit                  DECIMAL(10, 2) CHECK (security_deposit >= 0),
     security_deposit_institution_name VARCHAR(255),
     receipt_data                      BLOB,
-    private_policy                    BLOB,
+    private_policy                    BLOB           NOT NULL,
     created_date                      TIMESTAMP      NOT NULL,
     updated_date                      TIMESTAMP,
     CONSTRAINT fk_tenant_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT,

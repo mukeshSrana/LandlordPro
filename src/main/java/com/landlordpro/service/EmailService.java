@@ -26,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 public class EmailService {
     private final String SENDGRID_API_KEY = "SG.2KYRy1cRSV6223xKz3vKDQ.4JF4xKlitdZgHD2nazlU4eZgYjM1GmWyJ0Y46GNj0ak1";
 
+    private final String MAILGUN_API_KEY = "f3b2771d49c222c6863881e8ae96c56d-d8df908e-13103e47";
+
     private final JavaMailSender mailSender;
     private final PdfGeneratorService pdfGeneratorService;
 
@@ -37,6 +39,19 @@ public class EmailService {
     public byte[] generatePrivatePolicyPdf(String fromName, String fromEmail, String fromMobile ) {
         return pdfGeneratorService.generateGdprPdf(fromName, fromEmail, fromMobile);
     }
+
+//    public void sendPrivacyPolicyEmail(byte[] pdf, String toEmail, String fromEmail) {
+//        HttpResponse<String> response = Unirest.post("https://api.mailgun.net/v3/" + DOMAIN + "/messages")
+//            .basicAuth("api", MAILGUN_API_KEY)
+//            .field("from", "LandlordPro <" + fromEmail + ">")
+//            .field("to", toEmail)
+//            .field("subject", "Personvernerklæring")
+//            .field("text", "Hei, her er din personvernerklæring som PDF-vedlegg.")
+//            .field("attachment", pdf, "Personvernerklæring.pdf")
+//            .asString();
+//
+//        System.out.println("Email sent! Response: " + response.getBody());
+//    }
 
     public void sendPrivacyPolicyEmail(byte[] pdf, String toEmail, String toName, String fromName) {
         try {
