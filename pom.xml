@@ -133,6 +133,12 @@
             <version>2.1.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.sendgrid</groupId>
+            <artifactId>sendgrid-java</artifactId>
+            <version>4.10.3</version>
+        </dependency>
+
         <!-- Activation Framework (for handling attachments like PDF) -->
         <dependency>
             <groupId>org.eclipse.angus</groupId>
