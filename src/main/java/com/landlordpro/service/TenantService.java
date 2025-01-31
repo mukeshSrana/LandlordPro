@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import com.landlordpro.domain.Apartment;
 import com.landlordpro.domain.Tenant;
 import com.landlordpro.domain.User;
+import com.landlordpro.dto.ApartmentDto;
 import com.landlordpro.dto.TenantDto;
 import com.landlordpro.dto.UserDto;
+import com.landlordpro.mapper.ApartmentMapper;
 import com.landlordpro.mapper.TenantMapper;
 import com.landlordpro.mapper.UserMapper;
 import com.landlordpro.repository.ApartmentRepository;
@@ -34,18 +36,20 @@ public class TenantService {
     private final TenantMapper tenantMapper;
     private final EmailService emailService;
     private final UserMapper userMapper;
+    private final ApartmentMapper apartmentMapper;
 
     public TenantService(
         TenantRepository tenantRepository, ApartmentRepository apartmentRepository,
         UserRepository userRepository,
         TenantMapper tenantMapper,
-        EmailService emailService, UserMapper userMapper) {
+        EmailService emailService, UserMapper userMapper, ApartmentMapper apartmentMapper) {
         this.tenantRepository = tenantRepository;
         this.apartmentRepository = apartmentRepository;
         this.userRepository = userRepository;
         this.tenantMapper = tenantMapper;
         this.emailService = emailService;
         this.userMapper = userMapper;
+        this.apartmentMapper = apartmentMapper;
     }
 
     public void add(TenantDto tenantDto) {
@@ -84,9 +88,10 @@ public class TenantService {
         }
     }
 
-    private Apartment getApartment(Tenant tenant) {
-        return apartmentRepository.findByIdAndUserId(tenant.getApartmentId(), tenant.getUserId())
+    private ApartmentDto getApartment(Tenant tenant) {
+        Apartment apartment = apartmentRepository.findByIdAndUserId(tenant.getApartmentId(), tenant.getUserId())
             .orElseThrow(() -> new RuntimeException("Apartment not found for user-id " + tenant.getUserId()));
+        return apartmentMapper.toDTO(apartment);
     }
 
     public  UserDto getUser(UUID userId) {
