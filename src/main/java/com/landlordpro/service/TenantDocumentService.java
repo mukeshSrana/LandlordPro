@@ -24,7 +24,7 @@ public class TenantDocumentService implements DocumentService {
     @Override
     public DocumentDto findById(UUID id) {
         TenantDto tenant = tenantService.findById(id);
-        return new DocumentDto(tenant.getPrivatePolicy(), "privatePolicy.pdf");
+        return new DocumentDto(tenant.getPrivatePolicy(), tenant.getFullName() + "-PrivatePolicy.pdf");
     }
 
     @Override
