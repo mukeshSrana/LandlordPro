@@ -15,11 +15,14 @@ import com.landlordpro.domain.Apartment;
 import com.landlordpro.domain.Tenant;
 import com.landlordpro.domain.User;
 import com.landlordpro.dto.TenantDto;
+import com.landlordpro.dto.UserDto;
 import com.landlordpro.mapper.TenantMapper;
+import com.landlordpro.mapper.UserMapper;
 import com.landlordpro.repository.ApartmentRepository;
 import com.landlordpro.repository.TenantRepository;
 import com.landlordpro.repository.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -30,28 +33,27 @@ public class TenantService {
     private final UserRepository userRepository;
     private final TenantMapper tenantMapper;
     private final EmailService emailService;
+    private final UserMapper userMapper;
 
     public TenantService(
         TenantRepository tenantRepository, ApartmentRepository apartmentRepository,
         UserRepository userRepository,
         TenantMapper tenantMapper,
-        EmailService emailService) {
+        EmailService emailService, UserMapper userMapper) {
         this.tenantRepository = tenantRepository;
         this.apartmentRepository = apartmentRepository;
         this.userRepository = userRepository;
         this.tenantMapper = tenantMapper;
         this.emailService = emailService;
+        this.userMapper = userMapper;
     }
 
     public void add(TenantDto tenantDto) {
         try {
             Tenant tenant = tenantMapper.toEntity(tenantDto);
             validate(tenant);
-            User user = getUser(tenant);
-            byte[] privatePolicy = emailService.generatePrivatePolicyPdf(user.getName(), user.getUsername(), user.getMobileNumber());
-            tenant.setPrivatePolicy(privatePolicy);
             save(tenant);
-            emailService.sendPrivacyPolicyEmail(privatePolicy, tenant.getEmail(), tenant.getFullName(), user.getName());
+            //emailService.sendPrivacyPolicyEmail(privatePolicy, tenant.getEmail(), tenant.getFullName(), user.getName());
         } catch (IllegalStateException e) {
             throw new RuntimeException("Validation failed: " + e.getMessage(), e);
         } catch (Exception e) {
@@ -87,9 +89,10 @@ public class TenantService {
             .orElseThrow(() -> new RuntimeException("Apartment not found for user-id " + tenant.getUserId()));
     }
 
-    private User getUser(Tenant tenant) {
-        return userRepository.findById(tenant.getUserId())
-            .orElseThrow(() -> new RuntimeException("User (landlord) not found for user-id " + tenant.getUserId()));
+    public  UserDto getUser(UUID userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User (landlord) not found for user-id " + userId));
+        return  userMapper.toDTO(user);
     }
 
     public Map<UUID, String> getTenantIdNameMap(UUID userId) {
@@ -142,6 +145,12 @@ public class TenantService {
             // Catch unexpected runtime exceptions
             throw new RuntimeException("Unexpected error occurred", ex);
         }
+    }
+
+    public TenantDto findById(UUID id) {
+        return tenantRepository.findById(id)
+            .map(tenantMapper::toDTO) // Convert entity to DTO if present
+            .orElseThrow(() -> new EntityNotFoundException("Tenant not found with ID: " + id));
     }
 
 }

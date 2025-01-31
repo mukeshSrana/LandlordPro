@@ -69,6 +69,7 @@
                 <th>Monthly Rent(Kr)</th>
                 <th>Security Deposit(Kr)</th>
                 <th>Security Institution</th>
+                <th>Gdpr</th>
                 <th>Contract</th>
                 <th>Action</th>
             </tr>
@@ -96,6 +97,9 @@
                     <td th:text="${tenant.monthlyRent}"></td>
                     <td th:text="${tenant.securityDeposit}"></td>
                     <td th:text="${tenant.securityDepositInstitutionName}"></td>
+                    <td>
+                        <a th:if="${tenant.privatePolicy != null}" th:href="@{/download/tenant/{id}(id=${tenant.id})}" target="_blank">Download</a>
+                    </td>
                     <td>
                         <a th:if="${tenant.receiptData != null}" th:href="@{/tenant/downloadReceipt/{id}(id=${tenant.id})}" target="_blank">Download</a>
                     </td>

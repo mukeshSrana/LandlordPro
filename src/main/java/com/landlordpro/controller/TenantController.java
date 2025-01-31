@@ -19,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.TenantDto;
+import com.landlordpro.dto.UserDto;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
+import com.landlordpro.service.EmailService;
 import com.landlordpro.service.TenantService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,10 +34,12 @@ public class TenantController {
 
     private final ApartmentService apartmentService;
     private final TenantService tenantService;
+    private final EmailService emailService;
 
-    public TenantController(ApartmentService apartmentService, TenantService tenantService) {
+    public TenantController(ApartmentService apartmentService, TenantService tenantService, EmailService emailService) {
         this.apartmentService = apartmentService;
         this.tenantService = tenantService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/add")
@@ -85,6 +89,8 @@ public class TenantController {
             tenantDto.setSecurityDepositInstitutionName(securityDepositInstitutionName);
             tenantDto.setUserId(userId);
 
+            tenantDto.setPrivatePolicy(privatePolicy(userId));
+
             // Call the service layer to save the tenant
             tenantService.add(tenantDto);
 
@@ -99,6 +105,11 @@ public class TenantController {
         // Redirect to the tenant registration page
         redirectAttributes.addFlashAttribute("page", "registerTenant");
         return "redirect:/tenant/register";
+    }
+
+    private byte[] privatePolicy(UUID userId) {
+        UserDto user = tenantService.getUser(userId);
+        return emailService.generatePrivatePolicyPdf(user.getName(), user.getUsername(), user.getMobileNumber());
     }
 
     @GetMapping("/register")
