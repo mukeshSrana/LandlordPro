@@ -51,6 +51,17 @@
     position: relative;
 }
 
+.filters {
+    display: flex; /* Align filter elements horizontally */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    margin-bottom: 1.5rem; /* Space between filters and the table */
+    padding: 1rem; /* Add padding inside the filters container */
+    background-color: #f9f9f9; /* Light background for contrast */
+    border: 1px solid #ddd; /* Subtle border for separation */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
 /* Adjust spacing between filter groups */
 .filter-group {
     display: flex; /* Align items horizontally */
