@@ -2,6 +2,7 @@ package com.landlordpro.service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.landlordpro.domain.Contact;
@@ -28,6 +29,7 @@ public class ContactService {
         contactRepository.save(contact);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<ContactDto> getAllContacts() {
         return contactMapper.toDTOList(contactRepository.findAll());
     }

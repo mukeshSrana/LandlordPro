@@ -2,6 +2,7 @@ package com.landlordpro.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import com.landlordpro.service.ReportService;
 
 @Controller
 @RequestMapping("/reports")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class ReportController {
 
     private final ReportService reportService;

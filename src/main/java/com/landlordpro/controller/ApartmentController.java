@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.ApartmentDto;
-import com.landlordpro.dto.enums.UserRole;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
 
@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/apartment")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class ApartmentController {
     private final ApartmentService apartmentService;
 
@@ -100,18 +101,19 @@ public class ApartmentController {
     public String register(Model model, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
 
-        // Check if user has ROLE_USER or ROLE_ADMIN
-        // Check if user has ROLE_USER or ROLE_ADMIN using the UserRole enum
-        boolean hasRoleUserOrAdmin = userDetails.getAuthorities().stream()
-            .anyMatch(authority ->
-                authority.getAuthority().equals(UserRole.ROLE_USER.toString()) ||
-                    authority.getAuthority().equals(UserRole.ROLE_ADMIN.toString())
-            );
-        // Only set ownerName if the user has either ROLE_USER or ROLE_ADMIN
-        if (hasRoleUserOrAdmin) {
-            model.addAttribute("ownerName", userDetails.getName());
-        }
+//        // Check if user has ROLE_USER or ROLE_ADMIN
+//        // Check if user has ROLE_USER or ROLE_ADMIN using the UserRole enum
+//        boolean hasRoleUserOrAdmin = userDetails.getAuthorities().stream()
+//            .anyMatch(authority ->
+//                authority.getAuthority().equals(UserRole.ROLE_USER.toString()) ||
+//                    authority.getAuthority().equals(UserRole.ROLE_ADMIN.toString())
+//            );
+//        // Only set ownerName if the user has either ROLE_USER or ROLE_ADMIN
+//        if (hasRoleUserOrAdmin) {
+//            model.addAttribute("ownerName", userDetails.getName());
+//        }
 
+        model.addAttribute("ownerName", userDetails.getName());
         model.addAttribute("page", "registerApartment");
         return "registerApartment";
     }
