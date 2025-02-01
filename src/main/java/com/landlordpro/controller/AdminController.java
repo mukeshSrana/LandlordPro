@@ -17,6 +17,7 @@ import com.landlordpro.service.UserService;
 
 @Controller
 @RequestMapping("/admin")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 
     private final UserService userService;
@@ -28,7 +29,6 @@ public class AdminController {
     }
 
     @PostMapping("/update/user")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String update(@ModelAttribute UserDto userDto) {
         Map<String, Object> response = new HashMap<>();
         try {
@@ -47,8 +47,6 @@ public class AdminController {
         return  "redirect:/admin/users";
     }
 
-    // Restricting access at the controller level
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/users")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
@@ -56,8 +54,6 @@ public class AdminController {
         return "userAdmin";
     }
 
-    // Restricting access at the controller level
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/contacts")
     public String getAllMessages(Model model) {
         model.addAttribute("contacts", contactService.getAllContacts());
