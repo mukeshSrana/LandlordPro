@@ -16,11 +16,17 @@ public class GlobalControllerAdvice {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean isAuthenticated = authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal());
         if (isAuthenticated) {
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            String username = userDetails.getName();
-            model.addAttribute("username", username);
+            CustomUserDetails userDetails = currentUser(authentication);
+            model.addAttribute("username", userDetails.getName());
         }
         model.addAttribute("isAuthenticated", isAuthenticated);
+    }
+
+    private CustomUserDetails currentUser(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {
+            return customUserDetails;
+        }
+        throw new IllegalStateException("Unexpected principal type");
     }
 }
 

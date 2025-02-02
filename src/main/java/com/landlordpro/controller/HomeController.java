@@ -10,11 +10,16 @@ public class HomeController {
 
     @GetMapping("/")
     public String homePage(Model model, Authentication authentication) {
-        return "home"; // Return the Thymeleaf view (home.html)
+        return "home";
     }
 
     @GetMapping("/about")
     public String about() {
         return "about";
+    }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login"; // Return login.html page
     }
 }
