@@ -1,11 +1,15 @@
 package com.landlordpro.config;
 
+import java.util.Collection;
+
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.landlordpro.dto.enums.UserRole;
 import com.landlordpro.security.CustomUserDetails;
 
 @ControllerAdvice
@@ -17,7 +21,14 @@ public class GlobalControllerAdvice {
         boolean isAuthenticated = authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal());
         if (isAuthenticated) {
             CustomUserDetails userDetails = currentUser(authentication);
-            model.addAttribute("username", userDetails.getName());
+            model.addAttribute("name", userDetails.getName());
+            model.addAttribute("username", userDetails.getUsername());
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            UserRole userRole = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .map(s -> UserRole.valueOf(s))
+                .findFirst().orElseThrow();
+            model.addAttribute("userRole", userRole.getDescription().toLowerCase());
         }
         model.addAttribute("isAuthenticated", isAuthenticated);
     }
