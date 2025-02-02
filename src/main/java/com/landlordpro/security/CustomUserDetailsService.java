@@ -1,6 +1,6 @@
 package com.landlordpro.security;
 
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,9 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             user.isAccountNonExpired(),
             user.isCredentialsNonExpired(),
             user.isAccountNonLocked(),
-            user.getRoles().stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList())
+            Collections.singletonList(new SimpleGrantedAuthority(user.getUserRole()))
         );
     }
 }

@@ -4,8 +4,8 @@
 <body>
 <aside th:fragment="sidebar">
     <ul>
-        <!-- Restrict all sections to ROLE_USER -->
-        <th:block sec:authorize="hasRole('ROLE_USER')">
+        <!-- Restrict all sections to ROLE_LANDLORD -->
+        <th:block sec:authorize="hasRole('ROLE_LANDLORD')">
             <!-- Apartment Menu -->
             <li>
                 <button class="dropdown-btn" onclick="toggleDropdown('apartment-options')">Apartment</button>
@@ -106,7 +106,7 @@
                     </li>
                 </ul>
             </li>
-        </th:block> <!-- End of ROLE_USER restriction -->
+        </th:block> <!-- End of ROLE_LANDLORD restriction -->
 
         <!-- Admin Menu -->
         <li sec:authorize="hasRole('ROLE_ADMIN')">

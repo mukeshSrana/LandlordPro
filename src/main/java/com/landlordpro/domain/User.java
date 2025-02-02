@@ -66,13 +66,7 @@ public class User {
     @Column(name = "account_non_locked", nullable = false)
     private boolean accountNonLocked;
 
-    @ElementCollection(fetch = FetchType.EAGER)  // Use EAGER fetch to load roles along with the user
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    private Set<String> roles = new HashSet<>();
-
-    public void addRole(UserRole role) {
-        this.roles.add(role.name());
-    }
+    @Column(name = "user_role", nullable = false) // Ensures a user must always have a role
+    private String userRole;
 }
 

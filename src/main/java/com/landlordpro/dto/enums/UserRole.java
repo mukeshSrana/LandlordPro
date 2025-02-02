@@ -1,12 +1,22 @@
 package com.landlordpro.dto.enums;
 
 public enum UserRole {
-    ROLE_USER,
-    ROLE_ADMIN,
-    ROLE_MANAGER;
+    ROLE_LANDLORD("Landlord"),
+    ROLE_ADMIN("Admin"),
+    ROLE_MANAGER("Manager");
+
+    private final String description;
+
+    UserRole(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 
     @Override
     public String toString() {
-        return name();
+        return description;
     }
 }

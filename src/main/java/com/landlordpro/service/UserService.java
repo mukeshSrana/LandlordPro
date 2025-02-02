@@ -76,7 +76,7 @@ public class UserService {
         user.setAccountNonExpired(true);
         user.setCredentialsNonExpired(true);
         user.setAccountNonLocked(true);
-        user.addRole(UserRole.ROLE_USER);
+        user.setUserRole(UserRole.ROLE_LANDLORD.name());
 
         userRepository.save(user);
     }

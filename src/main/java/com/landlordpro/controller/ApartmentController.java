@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/apartment")
-@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("hasRole('ROLE_LANDLORD')")
 public class ApartmentController {
     private final ApartmentService apartmentService;
 
@@ -101,14 +101,14 @@ public class ApartmentController {
     public String register(Model model, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
 
-//        // Check if user has ROLE_USER or ROLE_ADMIN
-//        // Check if user has ROLE_USER or ROLE_ADMIN using the UserRole enum
+//        // Check if user has ROLE_LANDLORD or ROLE_ADMIN
+//        // Check if user has ROLE_LANDLORD or ROLE_ADMIN using the UserRole enum
 //        boolean hasRoleUserOrAdmin = userDetails.getAuthorities().stream()
 //            .anyMatch(authority ->
-//                authority.getAuthority().equals(UserRole.ROLE_USER.toString()) ||
+//                authority.getAuthority().equals(UserRole.ROLE_LANDLORD.toString()) ||
 //                    authority.getAuthority().equals(UserRole.ROLE_ADMIN.toString())
 //            );
-//        // Only set ownerName if the user has either ROLE_USER or ROLE_ADMIN
+//        // Only set ownerName if the user has either ROLE_LANDLORD or ROLE_ADMIN
 //        if (hasRoleUserOrAdmin) {
 //            model.addAttribute("ownerName", userDetails.getName());
 //        }

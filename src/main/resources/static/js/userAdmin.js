@@ -15,7 +15,7 @@ function enableEditing(cell) {
 
     // Find the hidden input corresponding to this cell
     const row = cell.closest('tr');
-    const rolesHiddenInput = row.querySelector('input[name="roles"]');
+    const rolesHiddenInput = row.querySelector('input[name="userRole"]');
     const mobileNumberHiddenInput = row.querySelector('input[name="mobileNumber"]');
 
     // Update the hidden input values based on the edited cell content

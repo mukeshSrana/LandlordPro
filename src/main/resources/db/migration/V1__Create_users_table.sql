@@ -10,6 +10,7 @@ CREATE TABLE users
     name                    VARCHAR(255) NOT NULL,                 -- User's name
     username                VARCHAR(255) NOT NULL UNIQUE,          -- Username (replaces email)
     password                VARCHAR(255) NOT NULL,                 -- Encrypted password
+    user_role               VARCHAR(50)  NOT NULL,
     enabled                 BOOLEAN      NOT NULL DEFAULT TRUE,    -- Whether the account is enabled
     account_non_expired     BOOLEAN      NOT NULL DEFAULT TRUE,    -- Account expiry status
     credentials_non_expired BOOLEAN      NOT NULL DEFAULT TRUE,    -- Credentials expiry status
@@ -19,4 +20,8 @@ CREATE TABLE users
     accept_consent           BOOLEAN      DEFAULT FALSE,            -- Whether the user accepted consent
     accept_tenant_data_responsibility BOOLEAN DEFAULT FALSE           -- Whether the user accepted tenant data responsibility
 );
+ALTER TABLE users ADD CONSTRAINT uq_users_username UNIQUE (username);
+ALTER TABLE users ADD CONSTRAINT chk_users_role CHECK (user_role IN ('ROLE_ADMIN', 'ROLE_LANDLORD', 'ROLE_MANAGER'));
 
+CREATE UNIQUE INDEX idx_users_username ON users (username);
+CREATE INDEX idx_users_user_role ON users (user_role);

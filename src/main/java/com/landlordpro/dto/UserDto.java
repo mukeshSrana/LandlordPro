@@ -30,7 +30,7 @@ public class UserDto {
     )
     private String mobileNumber;
 
-    private String roles; // Comma-separated roles
+    private String userRole; // Comma-separated roles
 
     private boolean enabled;
 

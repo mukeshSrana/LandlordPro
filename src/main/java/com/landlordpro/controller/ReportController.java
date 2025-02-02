@@ -17,7 +17,7 @@ import com.landlordpro.service.ReportService;
 
 @Controller
 @RequestMapping("/reports")
-@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("hasRole('ROLE_LANDLORD')")
 public class ReportController {
 
     private final ReportService reportService;
