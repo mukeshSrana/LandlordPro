@@ -27,7 +27,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         } else if (exception instanceof BadCredentialsException) {
             errorMessage = "Incorrect username or password.";
         } else if (exception instanceof DisabledException) {
-            errorMessage = "Your account has been disabled. Contact support.";
+            errorMessage = "Your account has been disabled(deleted). Contact support.";
         } else if (exception instanceof LockedException) {
             errorMessage = "Your account has been locked due to multiple failed login attempts.";
         } else if (exception instanceof CredentialsExpiredException) {
