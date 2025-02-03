@@ -36,12 +36,13 @@
                 <td>
                     <select th:name="userRole">
                         <option th:each="role : ${allRoles}"
-                                th:value="${role}"
-                                th:text="${role}"
-                                th:selected="${user.userRole} == ${role}">
+                                th:value="${role.name()}"
+                        th:text="${role.getDescription()}"
+                        th:selected="${user.userRole} == ${role.name()}">
                         </option>
                     </select>
                 </td>
+
                 <td>
                     <select th:name="enabled" onchange="updateHiddenEnabledInput(this)">
                         <option value="true" th:selected="${user.enabled} == true">True</option>
