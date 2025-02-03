@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.landlordpro.dto.UserDto;
+import com.landlordpro.dto.enums.UserRole;
 import com.landlordpro.service.ContactService;
 import com.landlordpro.service.UserService;
 
@@ -49,6 +50,7 @@ public class AdminController {
 
     @GetMapping("/users")
     public String getAllUsers(Model model) {
+        model.addAttribute("allRoles", UserRole.values());
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("page", "userAdmin");
         return "userAdmin";

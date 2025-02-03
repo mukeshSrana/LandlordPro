@@ -22,8 +22,8 @@
             <tr>
                 <th>Name</th>
                 <th>Username</th>
-                <th>Roles</th>
                 <th>Mobile Number</th>
+                <th>Role</th>
                 <th>Enabled</th>
                 <th>Actions</th> <!-- Added Actions column -->
             </tr>
@@ -32,8 +32,16 @@
             <tr th:each="user : ${users}">
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.username}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${user.userRole}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${user.mobileNumber}"></td>
+                <td>
+                    <select th:name="userRole">
+                        <option th:each="role : ${allRoles}"
+                                th:value="${role}"
+                                th:text="${role}"
+                                th:selected="${user.userRole} == ${role}">
+                        </option>
+                    </select>
+                </td>
                 <td>
                     <select th:name="enabled" onchange="updateHiddenEnabledInput(this)">
                         <option value="true" th:selected="${user.enabled} == true">True</option>
