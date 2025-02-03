@@ -1,3 +1,4 @@
+/* General Form Container Styling */
 .form-container {
     width: 35%; /* Adjusted width */
     max-width: 400px; /* Limits maximum width */
@@ -9,6 +10,7 @@
     /*background-color: #f9f9f9; !* Light background for the form *!*/
 }
 
+/* Form Input & Label Styling */
 form div {
     margin-bottom: 1.5rem;
 }
@@ -55,35 +57,37 @@ button[type="submit"]:hover {
 }
 
 /* Error Message Styling */
-.login-page p {
-    text-align: center;
-    color: #d9534f;
+.thymeleaf-message {
+    text-align: left;
     font-size: 1rem;
     margin: 1rem 0;
 }
 
-/* Success or Logout Message Styling */
-.login-page p.thymeleaf-message {
-    text-align: center;
+/* Specific styling for error messages (red) */
+.thymeleaf-message.error {
+    color: #d9534f;
+}
+
+/* Specific styling for success or logout messages (blue) */
+.thymeleaf-message.success,
+.thymeleaf-message.logout {
     color: #5bc0de;
-    font-size: 1rem;
-    margin: 1rem 0;
 }
 
 /* Registration Link Styling */
-.login-page p a {
+.thymeleaf-message a {
     color: #007bff;
     text-decoration: none;
     font-weight: 500;
 }
 
-.login-page p a:hover {
+.thymeleaf-message a:hover {
     text-decoration: underline;
 }
 
 /* Responsive Layout for Small Screens */
 @media (max-width: 768px) {
-    .main-container {
+    .form-container {
         width: 90%;
         padding: 1.5rem;
     }

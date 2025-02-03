@@ -20,12 +20,13 @@
         </div>
     </form>
 
-    <p th:if="${param.error}" class="thymeleaf-message">
+    <p th:if="${param.error}" class="thymeleaf-message error">
         Incorrect username or password, or your account has not been enabled yet.
-        Please try again or contact support if the issue persists.
+        Please try again or <a href="/contact">contact support</a> if the issue persists.
     </p>
 
     <p th:if="${param.logout}" class="thymeleaf-message">You have been logged out</p>
 
     <p>If you don't have an account, <a href="/register">click here to register</a>.</p>
 </div>
+</html>
