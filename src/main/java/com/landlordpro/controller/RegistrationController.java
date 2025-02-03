@@ -21,11 +21,13 @@ public class RegistrationController {
     private UserService userService;
 
     @GetMapping("/register")
-    public String showRegistrationForm(@RequestParam(value = "success", required = false) String success, Model model) {
+    public String showRegistrationForm(@RequestParam(value = "success", required = false) String success,
+        @RequestParam(value = "userName", required = false) String userName, Model model) {
         model.addAttribute("user", new UserRegistrationDTO());
 
         if (success != null) {
-            model.addAttribute("successMessage", "You're successfully registered. Login <a href='/login'>here</a>.");
+            model.addAttribute("successMessage",
+                "Registration successful, " + userName +"! You will receive an email once your account is ready to use.");
         }
 
         return "register";
@@ -62,7 +64,7 @@ public class RegistrationController {
         try {
             userService.registerUser(userDTO);
 
-            return "redirect:/register?success";
+            return "redirect:/register?success&&userName=" + userDTO.getName();
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "register";

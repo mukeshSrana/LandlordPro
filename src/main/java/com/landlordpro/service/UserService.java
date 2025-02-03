@@ -72,7 +72,7 @@ public class UserService {
         user.setAcceptConsent(registrationDTO.isAcceptConsent());
         user.setAcceptTenantDataResponsibility(registrationDTO.isAcceptTenantDataResponsibility());
 
-        user.setEnabled(true);
+        user.setEnabled(false);
         user.setDeleted(false);
         user.setAccountNonExpired(true);
         user.setCredentialsNonExpired(true);
