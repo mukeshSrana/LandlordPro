@@ -1,8 +1,6 @@
 package com.landlordpro.security;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,9 +20,11 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-        String errorMessage = "Invalid username or password.";
+        String errorMessage;
 
-        if (exception instanceof UsernameNotFoundException) {
+        if (exception.getCause() instanceof UserDeletedException) {
+            errorMessage = exception.getMessage();
+        } else if (exception instanceof UsernameNotFoundException) {
             errorMessage = exception.getMessage();
         } else if (exception instanceof BadCredentialsException) {
             errorMessage = "Incorrect username or password.";
@@ -36,6 +36,8 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
             errorMessage = "Your password has expired. Please reset your password.";
         } else if (exception instanceof AccountExpiredException) {
             errorMessage = exception.getMessage();
+        } else {
+            errorMessage = "An unexpected authentication error occurred.";
         }
 
         // Store error in session (Flash Attribute)
