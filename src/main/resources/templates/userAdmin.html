@@ -34,7 +34,7 @@
                 <td th:text="${user.username}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${user.mobileNumber}"></td>
                 <td>
-                    <select th:name="userRole">
+                    <select th:name="userRole" onchange="updateHiddenUserRole(this)">
                         <option th:each="role : ${allRoles}"
                                 th:value="${role.name()}"
                         th:text="${role.getDescription()}"

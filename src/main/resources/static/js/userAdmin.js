@@ -19,9 +19,9 @@ function enableEditing(cell) {
     const mobileNumberHiddenInput = row.querySelector('input[name="mobileNumber"]');
 
     // Update the hidden input values based on the edited cell content
-    if (cell.cellIndex === 2 && rolesHiddenInput) {
+    if (cell.cellIndex === 3 && rolesHiddenInput) {
       rolesHiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 3 && mobileNumberHiddenInput) {
+    } else if (cell.cellIndex === 4 && mobileNumberHiddenInput) {
       mobileNumberHiddenInput.value = cell.textContent.trim();
     }
   });
@@ -33,6 +33,15 @@ function updateHiddenEnabledInput(selectElement) {
 
   if (hiddenEnabledInput) {
     hiddenEnabledInput.value = selectElement.value; // Update hidden input value
+  }
+}
+
+function updateHiddenUserRole(selectElement) {
+  const row = selectElement.closest('tr');
+  const hiddenUserRoleInput = row.querySelector('input[name="userRole"]');
+
+  if (hiddenUserRoleInput) {
+    hiddenUserRoleInput.value = selectElement.value; // Update the hidden input value
   }
 }
 
