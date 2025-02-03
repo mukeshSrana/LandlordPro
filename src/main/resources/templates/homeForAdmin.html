@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout.html}">
-<!-- Define the fragment where the content will go -->
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <!-- Load admin-specific CSS -->
+    <link rel="stylesheet" th:href="@{/css/adminHome.css}">
+</head>
+<body class="admin-home"> <!-- Add this class to scope CSS properly -->
 <div layout:fragment="content">
     <main>
         <h3>Welcome to Landlord Pro, <span th:text="${name}">[name]</span>! as <span th:text="${userRole}">[User Role]</span></h3>
@@ -21,4 +24,5 @@
         </ul>
     </main>
 </div>
+</body>
 </html>
