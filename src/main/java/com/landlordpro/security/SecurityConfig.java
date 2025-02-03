@@ -1,5 +1,6 @@
 package com.landlordpro.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,9 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 @Configuration
 @EnableMethodSecurity // Enables @PreAuthorize, @Secured, etc.
 public class SecurityConfig {
+
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -37,7 +41,8 @@ public class SecurityConfig {
                 .loginPage("/login")  // Specify the custom login page
                 .loginProcessingUrl("/login")  // Where the form is submitted
                 .defaultSuccessUrl("/", true)  // Redirect after successful login
-                .failureUrl("/login?error")
+                //.failureUrl("/login?error")
+                .failureHandler(customAuthenticationFailureHandler)
                 .permitAll()
             )
             .logout(logout -> logout
