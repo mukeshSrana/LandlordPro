@@ -52,7 +52,7 @@ public class User {
     private boolean acceptTenantDataResponsibility;
 
     @Column(name="is_deleted", nullable = false)
-    private boolean isDeleted;
+    private boolean deleted;
 
     @Column(nullable = false)
     private boolean enabled;

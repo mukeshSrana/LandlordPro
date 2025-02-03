@@ -27,7 +27,16 @@ function updateEnabledInput(selectElement) {
   const enabledInput = row.querySelector('input[name="enabled"]');
 
   if (enabledInput) {
-    enabledInput.value = selectElement.value; // Update hidden input value
+    enabledInput.value = selectElement.value;
+  }
+}
+
+function updateDeletedInput(selectElement) {
+  const row = selectElement.closest('tr');
+  const deletedInput = row.querySelector('input[name="deleted"]');
+
+  if (deletedInput) {
+    deletedInput.value = selectElement.value;
   }
 }
 
@@ -36,7 +45,7 @@ function updateUserRole(selectElement) {
   const userRoleInput = row.querySelector('input[name="userRole"]');
 
   if (userRoleInput) {
-    userRoleInput.value = selectElement.value; // Update the hidden input value
+    userRoleInput.value = selectElement.value;
   }
 }
 

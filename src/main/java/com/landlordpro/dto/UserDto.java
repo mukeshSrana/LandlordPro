@@ -34,6 +34,8 @@ public class UserDto {
 
     private boolean enabled;
 
+    private boolean deleted;
+
     private UUID id;
 }
 
