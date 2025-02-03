@@ -23,14 +23,18 @@ public class GlobalControllerAdvice {
             CustomUserDetails userDetails = currentUser(authentication);
             model.addAttribute("name", userDetails.getName());
             model.addAttribute("username", userDetails.getUsername());
-            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            UserRole userRole = authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .map(s -> UserRole.valueOf(s))
-                .findFirst().orElseThrow();
-            model.addAttribute("userRole", userRole.getDescription().toLowerCase());
+            model.addAttribute("userRole",  getUserRole(userDetails).getDescription());
         }
         model.addAttribute("isAuthenticated", isAuthenticated);
+    }
+
+    private static UserRole getUserRole(CustomUserDetails userDetails) {
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        UserRole userRole = authorities.stream()
+            .map(GrantedAuthority::getAuthority)
+            .map(s -> UserRole.valueOf(s))
+            .findFirst().orElseThrow();
+        return userRole;
     }
 
     private CustomUserDetails currentUser(Authentication authentication) {
