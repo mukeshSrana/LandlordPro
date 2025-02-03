@@ -18,12 +18,20 @@ public class GlobalControllerAdvice {
     @ModelAttribute
     public void addAuthStatus(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isAuthenticated = authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal());
+        boolean isAuthenticated = authentication != null
+            && authentication.isAuthenticated()
+            && !"anonymousUser".equals(authentication.getPrincipal());
         if (isAuthenticated) {
             CustomUserDetails userDetails = currentUser(authentication);
+            if (!userDetails.isDeleted()) {
             model.addAttribute("name", userDetails.getName());
             model.addAttribute("username", userDetails.getUsername());
             model.addAttribute("userRole",  getUserRole(userDetails).getDescription());
+            } else {
+                model.addAttribute("error", "Your account has been deleted.");
+                SecurityContextHolder.clearContext();
+                isAuthenticated = false;
+            }
         }
         model.addAttribute("isAuthenticated", isAuthenticated);
     }

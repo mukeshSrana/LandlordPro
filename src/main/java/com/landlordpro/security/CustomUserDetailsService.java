@@ -26,7 +26,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Fetch the user from the database
         User user = userRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            .filter(u -> !u.isDeleted()) // Ensure the user is not deleted
+            .orElseThrow(() -> new UsernameNotFoundException("User not found or has been deleted."));
 
         // Return a new UserDetails object with the necessary details
         return new CustomUserDetails(
@@ -34,6 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             user.getName(),
             user.getUsername(),
             user.getPassword(),
+            user.isDeleted(),
             user.isEnabled(),
             user.isAccountNonExpired(),
             user.isCredentialsNonExpired(),
