@@ -18,9 +18,9 @@ public class CustomUserDetails implements UserDetails {
     private final String username;
     private final String password;
     private final boolean isDeleted;
-    private final boolean isAccountNonExpired;
-    private final boolean isAccountNonLocked;
-    private final boolean isCredentialsNonExpired;
     private final boolean isEnabled;
+    private final boolean isAccountNonExpired;
+    private final boolean isCredentialsNonExpired;
+    private final boolean isAccountNonLocked;
     private final Collection<? extends GrantedAuthority> authorities;
 }
