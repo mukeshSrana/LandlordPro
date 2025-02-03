@@ -4,6 +4,12 @@
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/contact.css}">
+    <script>
+      function closeMessage(button) {
+        var messageBox = button.parentElement;
+        messageBox.style.display = 'none';
+      }
+    </script>
 </head>
 <!-- Define the fragment where the content will go -->
 <div layout:fragment="content">
@@ -11,22 +17,19 @@
     <main class="form-container">
         <p>If you have any questions or need assistance, feel free to contact us using the form below.</p>
 
-        <!-- Success Message -->
         <div th:if="${successMessage}" class="success-message">
+            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
             <p th:text="${successMessage}"></p>
         </div>
 
         <!-- Contact Form -->
         <form th:action="@{/contact}" method="post">
             <div class="form-row">
-                <div class="flex-large">
+                <div class="flex-half">
                     <label for="name">Your Name:</label>
                     <input type="text" id="name" name="name" required>
                 </div>
-            </div>
-
-            <div class="form-row">
-                <div class="flex-large">
+                <div class="flex-half">
                     <label for="email">Your Email:</label>
                     <input type="email" id="email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
                            title="Please enter a valid email address (e.g., user@example.com)">

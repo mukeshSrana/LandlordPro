@@ -24,6 +24,21 @@
     position: relative;
 }
 
+.form-container .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.form-container .close-btn:hover {
+    color: #aaa;
+}
+
 .form-container label {
     display: block;
     margin: 1rem 0 0.5rem;
@@ -88,13 +103,4 @@
 
 .form-container .form-row .flex-large {
     flex: 4;
-}
-
-.form-container .form-row .flex-small {
-    flex: 1;
-}
-
-.form-container .form-row .full-width {
-    flex: 1;
-    width: 100%;
 }
