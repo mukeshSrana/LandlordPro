@@ -22,9 +22,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         String errorMessage;
 
-        if (exception.getCause() instanceof UserDeletedException) {
-            errorMessage = exception.getMessage();
-        } else if (exception instanceof UsernameNotFoundException) {
+        if (exception instanceof UsernameNotFoundException) {
             errorMessage = exception.getMessage();
         } else if (exception instanceof BadCredentialsException) {
             errorMessage = "Incorrect username or password.";
