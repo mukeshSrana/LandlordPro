@@ -97,6 +97,16 @@
     box-sizing: border-box;
 }
 
+.form-container textarea {
+    width: 100%; /* Ensures it takes up the full width of its container */
+    height: 150px; /* Fixed height for the textarea */
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    resize: none; /* Prevent resizing of the textarea */
+}
+
 .form-container .form-row .flex-half {
     flex: 1;
 }
