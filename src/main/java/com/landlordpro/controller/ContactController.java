@@ -1,5 +1,7 @@
 package com.landlordpro.controller;
 
+import java.util.Random;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +24,11 @@ public class ContactController {
     }
 
     @GetMapping("/contact")
-    public String showContactForm() {
+    public String showContactForm(Model model) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(1000000);
+        String reference = "REF-" + String.format("%06d", randomNumber);
+        model.addAttribute("reference", reference);
         return "contact";
     }
 

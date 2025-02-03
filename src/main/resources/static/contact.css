@@ -104,3 +104,11 @@
 .form-container .form-row .flex-large {
     flex: 4;
 }
+
+.form-container .flex-small {
+    flex: 1; /* Amount takes less space */
+}
+
+.form-container #reference {
+    max-width: 200px;
+}

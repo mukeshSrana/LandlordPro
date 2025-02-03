@@ -25,6 +25,13 @@
         <!-- Contact Form -->
         <form th:action="@{/contact}" method="post">
             <div class="form-row">
+                <div class="flex-small">
+                    <label for="reference">Reference:</label>
+                    <input type="text" id="reference" name="reference" th:value="${reference}" readonly>
+                </div>
+            </div>
+
+            <div class="form-row">
                 <div class="flex-half">
                     <label for="name">Your Name:</label>
                     <input type="text" id="name" name="name" required>
