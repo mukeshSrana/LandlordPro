@@ -34,7 +34,7 @@
                 <td th:text="${user.username}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${user.mobileNumber}"></td>
                 <td>
-                    <select th:name="userRole" onchange="updateHiddenUserRole(this)">
+                    <select th:name="userRole" onchange="updateUserRole(this)">
                         <option th:each="role : ${allRoles}"
                                 th:value="${role.name()}"
                         th:text="${role.getDescription()}"
@@ -44,7 +44,7 @@
                 </td>
 
                 <td>
-                    <select th:name="enabled" onchange="updateHiddenEnabledInput(this)">
+                    <select th:name="enabled" onchange="updateEnabledInput(this)">
                         <option value="true" th:selected="${user.enabled} == true">True</option>
                         <option value="false" th:selected="${user.enabled} == false">False</option>
                     </select>

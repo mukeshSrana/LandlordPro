@@ -13,35 +13,30 @@ function enableEditing(cell) {
   cell.addEventListener('blur', () => {
     cell.contentEditable = false; // Disable editing
 
-    // Find the hidden input corresponding to this cell
     const row = cell.closest('tr');
-    const rolesHiddenInput = row.querySelector('input[name="userRole"]');
-    const mobileNumberHiddenInput = row.querySelector('input[name="mobileNumber"]');
+    const mobileNumberInput = row.querySelector('input[name="mobileNumber"]');
 
-    // Update the hidden input values based on the edited cell content
-    if (cell.cellIndex === 3 && rolesHiddenInput) {
-      rolesHiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 4 && mobileNumberHiddenInput) {
-      mobileNumberHiddenInput.value = cell.textContent.trim();
+    if (cell.cellIndex === 2 && mobileNumberInput) {
+      mobileNumberInput.value = cell.textContent.trim();
     }
   });
 }
 
-function updateHiddenEnabledInput(selectElement) {
+function updateEnabledInput(selectElement) {
   const row = selectElement.closest('tr');
-  const hiddenEnabledInput = row.querySelector('input[name="enabled"]');
+  const enabledInput = row.querySelector('input[name="enabled"]');
 
-  if (hiddenEnabledInput) {
-    hiddenEnabledInput.value = selectElement.value; // Update hidden input value
+  if (enabledInput) {
+    enabledInput.value = selectElement.value; // Update hidden input value
   }
 }
 
-function updateHiddenUserRole(selectElement) {
+function updateUserRole(selectElement) {
   const row = selectElement.closest('tr');
-  const hiddenUserRoleInput = row.querySelector('input[name="userRole"]');
+  const userRoleInput = row.querySelector('input[name="userRole"]');
 
-  if (hiddenUserRoleInput) {
-    hiddenUserRoleInput.value = selectElement.value; // Update the hidden input value
+  if (userRoleInput) {
+    userRoleInput.value = selectElement.value; // Update the hidden input value
   }
 }
 
