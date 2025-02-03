@@ -1,32 +1,47 @@
-main form {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-main form .form-group {
-    margin-bottom: 15px;
-}
-
-main form label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-main form input,
-main form textarea {
+.form-container {
     width: 100%;
-    padding: 10px;
+    max-width: 600px;
+    max-height: 600px;
+    margin: 2rem 2rem;
+    padding: 2rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Success message styling */
+.form-container .success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
+}
+
+.form-container label {
+    display: block;
+    margin: 1rem 0 0.5rem;
+    font-weight: bold;
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box;
+    font-size: 1rem;
 }
 
-main form button {
+.form-container button {
     background-color: #007BFF;
     color: white;
     padding: 10px 15px;
@@ -40,13 +55,46 @@ main form button {
     transition: background-color 0.3s ease;
 }
 
-main form button:hover {
+.form-container button:hover {
     background-color: #0056b3;
 }
 
-.success-message {
-    margin-top: 20px;
-    color: green;
-    font-weight: bold;
+.form-container input::placeholder,
+.form-container textarea::placeholder {
+    font-style: italic;
+    color: #aaa;
 }
 
+.form-container .form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Space between fields */
+}
+
+.form-container .form-row label {
+    margin-bottom: 0.5rem;
+}
+
+.form-container .form-row input,
+.form-container .form-row select,
+.form-container .form-row textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-container .form-row .flex-half {
+    flex: 1;
+}
+
+.form-container .form-row .flex-large {
+    flex: 4;
+}
+
+.form-container .form-row .flex-small {
+    flex: 1;
+}
+
+.form-container .form-row .full-width {
+    flex: 1;
+    width: 100%;
+}
