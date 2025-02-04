@@ -155,8 +155,8 @@
                 <version>10.10.0</version>  <!-- Or the version you're using -->
                 <configuration>
                     <url>jdbc:h2:tcp://localhost:9092/./data/testdb</url>  <!-- Replace with your actual database URL -->
-                    <user>sa</user>  <!-- Replace with your database username -->
-                    <password>password</password>  <!-- Replace with your database password -->
+                    <user></user>  <!-- Replace with your database username -->
+                    <password></password>  <!-- Replace with your database password -->
                 </configuration>
             </plugin>
 
