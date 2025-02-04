@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,8 +28,9 @@ public class TenantDto {
     @Size(max = 255, message = "Full name must be up to 255 characters")
     private String fullName;  // Full name of the tenant
 
-    @NotNull(message = "Date of birth is mandatory")
-    @Past(message = "Date of birth must be in the past")
+    @NotNull(message = "Date of birth is required")
+    @Pattern(regexp = "^(19|20)\\d{2}-\\d{2}-\\d{2}$", message = "Date format must be YYYY-MM-DD, and year must be between 1900-2100")
+    @PastOrPresent(message = "Date of birth cannot be in the future")
     private LocalDate dateOfBirth;  // Date of birth
 
     @NotBlank(message = "Phone number is mandatory")
