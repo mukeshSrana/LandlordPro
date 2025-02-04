@@ -36,6 +36,7 @@ public class UserController {
 
     @PostMapping("/changePassword")
     public String changePassword(@ModelAttribute PasswordChangeDto passwordChangeDto, Model model, BindingResult result) {
+        model.addAttribute("passwordChange", passwordChangeDto);
         if (result.hasErrors()) {
             return "changePassword";
         }
@@ -69,6 +70,8 @@ public class UserController {
         @RequestParam("acceptConsent") boolean acceptConsent,
         @RequestParam("acceptTenantDataResponsibility") boolean acceptTenantDataResponsibility,
         BindingResult result) {
+
+        model.addAttribute("registerUser", userDTO);
 
         if (result.hasErrors()) {
             return "registerUser"; // If validation errors, return to registration page
