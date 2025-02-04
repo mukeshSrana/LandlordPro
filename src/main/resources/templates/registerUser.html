@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
-    <link rel="stylesheet" th:href="@{/register.css}">
+    <link rel="stylesheet" th:href="@{/registerUser.css}">
     <script>
       function closeMessage(button) {
         var messageBox = button.parentElement;
@@ -37,7 +37,7 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <form th:action="@{/register}" method="post" th:object="${user}">
+    <form th:action="@{/users/register}" method="post" th:object="${user}">
         <div class="form-row">
             <div class="flex-half">
                 <label for="name">Name:</label>

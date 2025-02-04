@@ -1,11 +1,13 @@
 package com.landlordpro.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.landlordpro.domain.User;
 import com.landlordpro.dto.UserDto;
@@ -25,6 +27,21 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
+    }
+
+    @Transactional
+    public void changePassword(String userName, String oldPassword, String newPassword) {
+        User user = userRepository.findByUsername(userName)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // Validate old password
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
+
+        // Hash and update new password
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 
     // Restricting access to only users with ROLE_ADMIN

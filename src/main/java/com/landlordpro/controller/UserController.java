@@ -1,12 +1,16 @@
 package com.landlordpro.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.landlordpro.dto.UserRegistrationDTO;
@@ -15,10 +19,21 @@ import com.landlordpro.service.UserService;
 import jakarta.validation.Valid;
 
 @Controller
-public class RegistrationController {
+@RequestMapping("/users")
+public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @PutMapping("/changePassword")
+    public String changePassword(
+        @AuthenticationPrincipal UserDetails userDetails,
+        @RequestParam String oldPassword,
+        @RequestParam String newPassword) {
+
+        userService.changePassword(userDetails.getUsername(), oldPassword, newPassword);
+        return "Password changed successfully";
+    }
 
     @GetMapping("/register")
     public String showRegistrationForm(@RequestParam(value = "success", required = false) String success,
@@ -30,7 +45,7 @@ public class RegistrationController {
                 "Registration successful, " + userName +"! You will receive an email once your account is ready to use.");
         }
 
-        return "register";
+        return "registerUser";
     }
 
     @PostMapping("/register")
@@ -42,32 +57,32 @@ public class RegistrationController {
         BindingResult result) {
 
         if (result.hasErrors()) {
-            return "register"; // If validation errors, return to registration page
+            return "registerUser"; // If validation errors, return to registration page
         }
 
         if (!acceptConsent || !acceptTenantDataResponsibility) {
             model.addAttribute("errorMessage", "You must accept private-policy/GDPR-consent and acknowledge your responsibility for tenant data.");
-            return "register";
+            return "registerUser";
         }
 
         if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
             model.addAttribute("errorMessage", "Passwords do not match.");
-            return "register"; // Reload the form with an error message
+            return "registerUser"; // Reload the form with an error message
         }
 
         // Check if the user already exists
         if (userService.isUserExists(userDTO.getUsername())) {
             model.addAttribute("errorMessage", "An account with this email already exists.");
-            return "register";
+            return "registerUser";
         }
 
         try {
             userService.registerUser(userDTO);
 
-            return "redirect:/register?success&&userName=" + userDTO.getName();
+            return "redirect:/users/register?success&&userName=" + userDTO.getName();
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "register";
+            return "registerUser";
         }
     }
 }
