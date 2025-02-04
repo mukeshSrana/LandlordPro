@@ -3,6 +3,7 @@ package com.landlordpro.mapper;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 import com.landlordpro.domain.Contact;
 import com.landlordpro.dto.ContactDto;
@@ -16,5 +17,7 @@ public interface ContactMapper {
     // Mapping for lists
     List<ContactDto> toDTOList(List<Contact> contacts);
     List<Contact> toEntityList(List<ContactDto> contactDTOs);
+
+    void updateEntityFromDto(ContactDto contactDto, @MappingTarget Contact contact);
 }
 

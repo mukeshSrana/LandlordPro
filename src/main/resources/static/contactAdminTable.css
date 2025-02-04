@@ -1,18 +1,29 @@
 /* Adjust form container to ensure alignment */
+/*.form-container {*/
+/*    width: 80%; !* Adjusted for table layout *!*/
+/*    max-width: 1200px; !* Ensures the table does not grow too large *!*/
+/*    margin: 2rem 2rem; !* Center the form container *!*/
+/*    padding: 1rem 2rem 2rem;*/
+/*    border-radius: 8px;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
 .form-container {
-    width: 80%; /* Adjusted for table layout */
-    max-width: 1200px; /* Ensures the table does not grow too large */
-    margin: 2rem 2rem; /* Center the form container */
-    padding: 1rem 2rem 2rem;
+    width: 100%;
+    max-width: 1500px;
+    margin: 2rem 2rem;
+    /*padding: 1rem 2rem 2rem;*/
+    padding: 0.5rem 0.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 /* Table styling */
 .form-container table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1rem 0;
+    margin-top: 1rem;
 }
 
 .form-container table thead {
@@ -36,9 +47,8 @@
     cursor: pointer; /* Optional, makes rows feel interactive */
 }
 
-/* Edit button styling */
 .form-container .edit-btn {
-    background-color: #4CAF50;
+    background-color: #007BFF;
     color: white;
     padding: 0.5rem 1rem;
     border: none;
@@ -50,6 +60,40 @@
 }
 
 .form-container .edit-btn:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
     text-decoration: none;
+}
+
+/* Dropdown styling */
+.form-container select {
+    width: 100%; /* Adjusts to table cell width */
+    padding: 0.5rem; /* Matches padding of table cells */
+    border: 1px solid #ccc; /* Border to match input fields */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 1rem; /* Matches table font size */
+    background-color: #fff; /* White background for dropdown */
+    cursor: pointer; /* Indicate interactiveness */
+    transition: border-color 0.3s ease; /* Smooth border transition */
+}
+
+.form-container select:hover {
+    border-color: #0056b3; /* Highlight border on hover */
+}
+
+.form-container select:focus {
+    outline: none; /* Remove default outline */
+    border-color: #007BFF; /* Change border color when focused */
+    box-shadow: 0 0 5px rgba(69, 160, 73, 0.5); /* Add subtle shadow */
+}
+
+/* Dropdown option styling */
+.form-container select option {
+    font-size: 1rem; /* Consistent font size */
+    padding: 0.5rem; /* Padding inside options */
+}
+
+/* Adjust the cell for dropdown to ensure proper alignment */
+.form-container table td select {
+    margin: 0; /* Ensure no extra spacing in table cell */
+    padding: 0.3rem 0.5rem; /* Adjust padding for alignment */
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.landlordpro.dto.ContactDto;
 import com.landlordpro.dto.UserDto;
 import com.landlordpro.dto.enums.UserRole;
 import com.landlordpro.service.ContactService;
@@ -30,7 +31,7 @@ public class AdminController {
     }
 
     @PostMapping("/update/user")
-    public String update(@ModelAttribute UserDto userDto) {
+    public String updateUser(@ModelAttribute UserDto userDto) {
         Map<String, Object> response = new HashMap<>();
         try {
             boolean updated = userService.updateUser(userDto);
@@ -46,6 +47,25 @@ public class AdminController {
             response.put("message", "Error: " + e.getMessage());
         }
         return  "redirect:/admin/users";
+    }
+
+    @PostMapping("/update/contact")
+    public String updateContact(@ModelAttribute ContactDto contactDto) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            boolean updated = contactService.updateContact(contactDto);
+            if (updated) {
+                response.put("success", true);
+                response.put("contactUpdated", updated);
+            } else {
+                response.put("success", false);
+                response.put("message", "Update failed: contact not found or could not be updated.");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Error: " + e.getMessage());
+        }
+        return  "redirect:/admin/contacts";
     }
 
     @GetMapping("/users")
