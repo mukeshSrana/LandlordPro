@@ -11,18 +11,25 @@
         <table>
             <thead>
             <tr>
+                <th>Referanse</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Message</th>
+                <th>Resolved</th>
+                <th>Deleted</th>
                 <th>Date</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="contact : ${contacts}">
+                <td th:text="${contact.reference}"></td>
                 <td th:text="${contact.name}"></td>
                 <td th:text="${contact.email}"></td>
                 <td th:text="${contact.message}"></td>
-                <td th:text="${contact.createdDate}"></td>
+                <td th:text="${contact.resolved}"></td>
+                <td th:text="${contact.deleted}"></td>
+                <td th:text="${#temporals.format(contact.createdDate, 'dd.MM.yyyy')}"></td>
+<!--                <td th:text="${contact.createdDate}"></td>-->
             </tr>
             </tbody>
         </table>

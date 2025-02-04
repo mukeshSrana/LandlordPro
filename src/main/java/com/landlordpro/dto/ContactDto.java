@@ -1,40 +1,40 @@
 package com.landlordpro.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL) // Avoid serializing null values
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContactDto {
 
-    @JsonProperty("name")
+    private UUID id;
+
+    @NotBlank(message = "Reference is required")
+    private String reference;
+
     @NotBlank(message = "Name is required")
     private String name;
 
-    @JsonProperty("email")
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email address")
     private String email;
 
-    @JsonProperty("message")
     @NotBlank(message = "Message is required")
     private String message;
 
-    @JsonProperty("createdDate")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate createdDate = LocalDate.now(); // Date the apartment record was created
+    private boolean deleted;
+
+    private boolean resolved;
+
+    private LocalDateTime createdDate;
+
+    private LocalDateTime updatedDate;
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.landlordpro.domain.Contact;
 import com.landlordpro.dto.ContactDto;
 import com.landlordpro.mapper.ContactMapper;
 import com.landlordpro.repository.ContactRepository;
@@ -21,12 +20,7 @@ public class ContactService {
     }
 
     public void saveContact(ContactDto contactDto) {
-        Contact contact = new Contact();
-        contact.setName(contactDto.getName());
-        contact.setEmail(contactDto.getEmail());
-        contact.setMessage(contactDto.getMessage());
-
-        contactRepository.save(contact);
+        contactRepository.save(contactMapper.toEntity(contactDto));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
