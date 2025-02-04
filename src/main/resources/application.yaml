@@ -15,17 +15,6 @@ server:
       timeout: 30m  # Session timeout set to 30 minutes
 
 spring:
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username:
-    password:
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
   servlet:
     multipart:
       enabled: true
