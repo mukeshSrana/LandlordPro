@@ -1,26 +1,24 @@
-/* Login Page Container */
-.main-container {
-    width: 80%; /* Full width but ensures max-width is maintained */
-    max-width: 500px; /* Limit form width to a maximum of 500px */
+/* General Form Container Styling */
+.form-container {
+    width: 35%; /* Adjusted width */
+    max-width: 400px; /* Limits maximum width */
     max-height: 400px;
-    padding: 20px;
-    margin: 2rem 2rem;
-    background-color: #fff;
+    margin: 2rem 2rem; /* Centers the form */
+    padding: 2rem 2rem; /* Adds padding for a cleaner look */
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /*background-color: #f9f9f9; !* Light background for the form *!*/
 }
 
-/* Form Elements Styling */
+/* Form Input & Label Styling */
 form div {
     margin-bottom: 1.5rem;
 }
 
 form label {
     display: block;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    color: #333;
+    margin: 1rem 0 0.5rem;
+    font-weight: bold;
 }
 
 form input {
@@ -41,15 +39,16 @@ form input:focus {
 
 /* Submit Button Styling */
 button[type="submit"] {
-    /*width: 100%; !* Full width for the button *!*/
-    background-color: #007bff;
+    background-color: #007BFF;
     color: white;
-    /*padding: 0.8rem;*/
     padding: 10px 15px;
     border: none;
-    border-radius: 5px;
-    font-size: 1rem;
+    border-radius: 4px;
     cursor: pointer;
+    width: auto;
+    align-self: flex-start;
+    font-size: 1rem;
+    margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 
@@ -58,35 +57,37 @@ button[type="submit"]:hover {
 }
 
 /* Error Message Styling */
-.login-page p {
-    text-align: center;
-    color: #d9534f;
+.thymeleaf-message {
+    text-align: left;
     font-size: 1rem;
     margin: 1rem 0;
 }
 
-/* Success or Logout Message Styling */
-.login-page p.thymeleaf-message {
-    text-align: center;
+/* Specific styling for error messages (red) */
+.thymeleaf-message.error {
+    color: #d9534f;
+}
+
+/* Specific styling for success or logout messages (blue) */
+.thymeleaf-message.success,
+.thymeleaf-message.logout {
     color: #5bc0de;
-    font-size: 1rem;
-    margin: 1rem 0;
 }
 
 /* Registration Link Styling */
-.login-page p a {
+.thymeleaf-message a {
     color: #007bff;
     text-decoration: none;
     font-weight: 500;
 }
 
-.login-page p a:hover {
+.thymeleaf-message a:hover {
     text-decoration: underline;
 }
 
 /* Responsive Layout for Small Screens */
 @media (max-width: 768px) {
-    .main-container {
+    .form-container {
         width: 90%;
         padding: 1.5rem;
     }

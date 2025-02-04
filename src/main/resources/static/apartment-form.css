@@ -1,9 +1,19 @@
-/* Adjust form container to ensure no extra padding or margin */
+/*.form-container {*/
+/*    width: 35%; !* Adjusted to 30% for better alignment *!*/
+/*    max-width: 500px; !* Ensures the form does not grow too large on wide screens *!*/
+/*    max-height: 500px;*/
+/*    margin: 2rem 2rem; !* Aligns form to the left with spacing *!*/
+/*    padding: 2rem 2rem; !* Padding inside the form *!*/
+/*    border-radius: 8px;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
 .form-container {
-    width: 35%; /* Adjusted to 30% for better alignment */
-    max-width: 500px; /* Ensures the form does not grow too large on wide screens */
-    margin: 2rem 2rem; /* Aligns form to the left with spacing */
-    padding: 1rem 2rem 2rem; /* Padding inside the form */
+    width: 100%;
+    max-width: 600px;
+    max-height: 600px;
+    margin: 2rem 2rem;
+    padding: 2rem 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -50,32 +60,45 @@
 .form-container input,
 .form-container select {
     width: 100%;
-    max-width: 450px;
+    /*max-width: 450px;*/
     padding: 0.8rem;
     margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
+
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Styling for City and Country inputs in one row */
+.city-country-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.city-container,
+.country-container {
+    flex: 1;
 }
 
 .form-container button {
-    display: block;
-    width: 100%;
-    max-width: 150px;
-    margin: 1.5rem auto 0; /* Top margin added to push it down */
-    padding: 1rem;
-    background-color: #4CAF50;
+    background-color: #007BFF;
     color: white;
+    padding: 10px 15px;
     border: none;
     border-radius: 4px;
-    font-size: 1rem;
     cursor: pointer;
-    transition: background 0.3s ease;
-    text-align: center;
+    width: auto;
+    align-self: flex-start;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .form-container button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
 .form-container .close-btn {
@@ -101,3 +124,43 @@
     font-style: italic; /* Optional */
 }
 
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+.form-row > div {
+    display: flex;
+    flex-direction: column;
+}
+.form-row label {
+    margin-bottom: 5px;
+}
+.form-row input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+.form-row .flex-half {
+    flex: 1;
+}
+.form-row .flex-large {
+    flex: 3;
+}
+.form-row .flex-small {
+    flex: 1;
+}
+.form-row .full-width {
+    flex: 1;
+    width: 100%;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Specific adjustment for address line 1 to ensure it takes more space */
+#addressLine1 {
+    width: 100%;
+}

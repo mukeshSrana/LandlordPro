@@ -3,30 +3,41 @@ logging:
     org.springframework.security: info
 
 app:
-  apartment-names:
-    - hauketo
-    - grefsen
-    - lorenskog
-    - bjorndal
-  file-storage:
-    base-dir: ./data/expenses
-    apartment: ./data/apartments
-    tenant: ./data/tenants
+  pincode:
+    url: "http://api.geonames.org/postalCodeLookupJSON"
+    country: "NO"
+    user: "landlordpro"
+
 server:
   port: 8080
   servlet:
     session:
       timeout: 30m  # Session timeout set to 30 minutes
 
-
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB  # Adjust based on your needs
+      max-request-size: 10MB  # Adjust based on your needs
   web:
     resources:
       add-mappings: true
       chain:
         enabled: true
   datasource:
-#    url: jdbc:h2:file:./data/testdb
+#    url: jdbc:h2:file:./data/testdb #use this ehen to deploy at rendor
     url: jdbc:h2:tcp://localhost:9092/./data/testdb;IFEXISTS=FALSE
     driver-class-name: org.h2.Driver
     username: sa
@@ -46,5 +57,5 @@ spring:
     mode: HTML
     encoding: UTF-8
     cache: false
-    enable-spring-el-compiler: true
+    enable-spring-el-compiler: false
 

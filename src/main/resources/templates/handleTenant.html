@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/handleTenant.css}">
+    <script th:src="@{/js/filterTable.js}"></script>
+    <script>
+        function closeMessage(button) {
+            var messageBox = button.parentElement;
+            messageBox.style.display = 'none';
+        }
+    </script>
+</head>
+<!-- Define the fragment where the content will go -->
+<div class="form-container" layout:fragment="content">
+    <main>
+        <!-- Display success message -->
+        <div th:if="${successMessage}" class="success-message">
+            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <!-- Display error message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <form action="/tenant/handle" method="get">
+                    <label for="year">Year:</label>
+                    <select id="year" name="year" onchange="this.form.submit()">
+                        <option value="">Select Year</option>
+                        <option
+                            th:each="year : ${years}"
+                            th:value="${year}"
+                            th:text="${year}"
+                            th:selected="${year == selectedYear}">
+                        </option>
+                    </select>
+
+                    <label for="apartmentName">Apartment Name:</label>
+                    <select id="apartmentName" name="apartmentId" onchange="this.form.submit()">
+                        <option value="">Select Apartment</option>
+                        <option th:each="entry : ${apartments}"
+                                th:value="${entry.key}"
+                                th:text="${entry.value}"
+                                th:selected="${entry.value == selectedApartment}">
+                        </option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+<!--                <th>Year</th>-->
+<!--                <th>Apartment</th>-->
+                <th>Tenant</th>
+<!--                <th>Date of Birth</th>-->
+                <th>Contact</th>
+<!--                <th>Phone</th>-->
+<!--                <th>Email</th>-->
+                <th>Lease Start</th>
+                <th>Lease End</th>
+                <th>Monthly Rent(Kr)</th>
+                <th>Security Deposit(Kr)</th>
+                <th>Security Institution</th>
+                <th>Gdpr</th>
+                <th>Contract</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="tenant : ${tenants}">
+                <tr>
+<!--                    <td th:text="${tenant.leaseStartDate.year}"></td>-->
+<!--                    <td th:text="${apartments[tenant.apartmentId]}"></td>-->
+<!--                    <td th:text="${tenant.fullName}"></td>-->
+                    <td>
+                        <span th:text="${tenant.fullName}"></span><br>
+                        <span th:text="${#temporals.format(tenant.dateOfBirth, 'dd.MM.yyyy')}"></span>
+                    </td>
+<!--                    <td ondblclick="enableEditing(this)" th:text="${tenant.dateOfBirth}"></td>-->
+<!--                    <td th:text="${tenant.phoneNumber + tenant.email}"></td>-->
+                    <td>
+                        <span th:text="${tenant.phoneNumber}"></span><br>
+                        <span th:text="${tenant.email}"></span>
+                    </td>
+<!--                    <td ondblclick="enableEditing(this)" th:text="${tenant.phoneNumber}"></td>-->
+<!--                    <td ondblclick="enableEditing(this)" th:text="${tenant.email}"></td>-->
+                    <td th:text="${tenant.leaseStartDate}"></td>
+                    <td th:text="${tenant.leaseEndDate}"></td>
+                    <td th:text="${tenant.monthlyRent}"></td>
+                    <td th:text="${tenant.securityDeposit}"></td>
+                    <td th:text="${tenant.securityDepositInstitutionName}"></td>
+                    <td>
+                        <a th:if="${tenant.privatePolicy != null}"
+                           th:href="@{/download/tenant/{id}/privacy-policy(id=${tenant.id})}"
+                           target="_blank">
+                            Download
+                        </a>
+                    </td>
+                    <td>
+                        <a th:if="${tenant.receiptData != null}"
+                           th:href="@{/download/tenant/{id}/contract(id=${tenant.id})}"
+                           target="_blank">
+                            Download
+                        </a>
+                    </td>
+
+                    <td>
+                        <!-- Delete Form -->
+                        <form th:action="@{/tenant/delete}" method="post" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${tenant.id}">
+                            <input type="hidden" name="userId" th:value="${tenant.userId}">
+                            <input type="hidden" name="apartmentId" th:value="${tenant.apartmentId}">
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+
+                        <!-- Update Form -->
+                        <form th:action="@{/tenant/update}" method="post" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${tenant.id}">
+                            <input type="hidden" name="apartmentId" th:value="${tenant.apartmentId}">
+                            <input type="hidden" name="userId" th:value="${tenant.userId}">
+                            <input type="hidden" name="fullName" th:value="${tenant.fullName}">
+                            <input type="hidden" name="dateOfBirth" th:value="${tenant.dateOfBirth}">
+                            <input type="hidden" name="phoneNumber" th:value="${tenant.phoneNumber}">
+                            <input type="hidden" name="email" th:value="${tenant.email}">
+                            <input type="hidden" name="leaseStartDate" th:value="${tenant.leaseStartDate}">
+                            <input type="hidden" name="leaseEndDate" th:value="${tenant.leaseEndDate}">
+                            <input type="hidden" name="monthlyRent" th:value="${tenant.monthlyRent}">
+                            <input type="hidden" name="securityDeposit" th:value="${tenant.securityDeposit}">
+                            <input type="hidden" name="securityDepositInstitutionName" th:value="${tenant.securityDepositInstitutionName}">
+                            <input type="hidden" name="receiptData" th:value="${tenant.receiptData}">
+                            <button type="submit" class="update-btn">Update</button>
+                        </form>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </main>
+</div>
+</html>

@@ -2,8 +2,6 @@
     <script th:src="@{/auth-check.js}"></script>
 </head>
 <body>
-<script th:src="@{/auth-check.js}"></script>
-</body>
 <header>
     <nav>
         <h1>Landlord Pro</h1>
@@ -16,11 +14,10 @@
                     <button type="submit" id="logoutButton">Logout</button>
                 </form>
 
-                <a id="logoutLink" href="#" style="display:none;">Logout</a>
+                <a id="logoutLink" href="#" style="display:none;">Logout (<span th:text="${username}"></span>)</a>
                 <a id="loginLink" href="/login" style="display:none;">Login</a>
             </li>
         </ul>
     </nav>
 </header>
-
-
+</body>

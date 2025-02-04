@@ -1,41 +1,56 @@
 <!DOCTYPE html>
-<html
-    xmlns:th="http:www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout.html}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/contact.css}">
+    <script>
+      function closeMessage(button) {
+        var messageBox = button.parentElement;
+        messageBox.style.display = 'none';
+      }
+    </script>
 </head>
 <!-- Define the fragment where the content will go -->
 <div layout:fragment="content">
     <!-- Contact Page Content -->
-    <main>
+    <main class="form-container">
         <p>If you have any questions or need assistance, feel free to contact us using the form below.</p>
 
-        <!-- Success Message -->
         <div th:if="${successMessage}" class="success-message">
+            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
             <p th:text="${successMessage}"></p>
         </div>
 
         <!-- Contact Form -->
         <form th:action="@{/contact}" method="post">
-            <div class="form-group">
-                <label for="name">Your Name:</label>
-                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            <div class="form-row">
+                <div class="flex-small">
+                    <label for="reference">Reference:</label>
+                    <input type="text" id="reference" name="reference" th:value="${reference}" readonly>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="email">Your Email:</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
-                       title="Please enter a valid email address (e.g., user@example.com)">
+            <div class="form-row">
+                <div class="flex-half">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="flex-half">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+                           title="Please enter a valid email address (e.g., user@example.com)">
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="message">Your Message:</label>
-                <textarea id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
+            <div class="form-row">
+                <div class="flex-large">
+                    <label for="message">Your Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-row">
                 <button type="submit">Send Message</button>
             </div>
         </form>

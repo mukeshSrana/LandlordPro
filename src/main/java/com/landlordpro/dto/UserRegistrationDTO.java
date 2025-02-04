@@ -1,5 +1,6 @@
 package com.landlordpro.dto;
 
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -15,29 +16,43 @@ public class UserRegistrationDTO {
 
     @NotBlank(message = "Username is required")
     @Email(message = "Invalid email format")
+    @Pattern(
+        regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+        message = "Email must be a valid"
+    )
     private String username;
 
     @NotBlank(message = "Password is required")
-    @Size(min = 6, message = "Password must be at least 6 characters long")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Pattern(
+        regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+        message = "Password must be at least 8 characters long, include a letter, a number, and a special character"
+    )
     private String password;
 
-    @NotBlank(message = "Confirm Password is required")
+    @NotBlank(message = "Confirm Password is required, must match the password")
     private String confirmPassword;
 
     @NotBlank(message = "Name is required")
-    @Size(max = 50, message = "Name must not exceed 50 characters")
+    @Size(max = 255, message = "Name must not exceed 255 characters")
+    @Pattern(
+        regexp = "^[a-zA-Z]+(?:\\s[a-zA-Z]+)*$",
+        message = "Name must contain only letters and spaces"
+    )
     private String name;
 
     @NotBlank(message = "Mobile number is required")
     @Pattern(
-        regexp = "^\\d{10,15}$",
-        message = "Mobile number must be a valid number with 10-15 digits"
+        regexp = "^\\+?[0-9]{8,12}$",
+        message = "Mobile number must be a valid number with (8-12 digits, optional + at the beginning)"
     )
     private String mobileNumber;
 
-    private String roles; // Comma-separated roles
+    @AssertTrue(message = "Accept consent is required")
+    private boolean acceptConsent;
 
-    private Long id;
+    @AssertTrue(message = "Accept tenant data responsibility is required")
+    private boolean acceptTenantDataResponsibility;
 }
 
 

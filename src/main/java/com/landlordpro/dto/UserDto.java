@@ -1,5 +1,6 @@
 package com.landlordpro.dto;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.validation.constraints.Email;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
+    private UUID id;
 
     @NotBlank(message = "Username is required")
     @Email(message = "Invalid email format")
@@ -30,11 +32,15 @@ public class UserDto {
     )
     private String mobileNumber;
 
-    private String roles; // Comma-separated roles
+    private String userRole; // Comma-separated roles
 
     private boolean enabled;
 
-    private UUID id;
+    private boolean deleted;
+
+    private LocalDateTime createdDate;
+
+    private LocalDateTime updatedDate;
 }
 
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <!-- Load admin-specific CSS -->
+    <link rel="stylesheet" th:href="@{/css/adminHome.css}">
+</head>
+<body class="admin-home"> <!-- Add this class to scope CSS properly -->
+<div layout:fragment="content">
+    <main>
+        <h3>Welcome to Landlord Pro, <span th:text="${name}">[name]</span>! as <span th:text="${userRole}">[User Role]</span></h3>
+        <p>You have admin privileges. From here, you can manage users and messages.</p>
+
+        <h4>User Management</h4>
+        <ul>
+            <li>View Registered Users</li>
+            <li>Manage Existing Users</li>
+        </ul>
+
+        <h4>Message Management</h4>
+        <ul>
+            <li>View Landlord Messages</li>
+            <li>Manage Messages</li>
+        </ul>
+    </main>
+</div>
+</body>
+</html>

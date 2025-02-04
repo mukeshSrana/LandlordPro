@@ -34,7 +34,7 @@ footer {
     color: white; /* White text color for contrast */
     text-align: center; /* Center-align the text */
     padding: 1.5rem 0; /* Add vertical padding for spacing */
-    height: auto; /* Allow the footer to adjust height based on content */
+    height: 1px; /* Allow the footer to adjust height based on content */
     position: relative; /* Position relative for any future adjustments or elements */
     bottom: 0; /* Stick the footer at the bottom if needed */
     width: 100%; /* Full width of the container */
@@ -44,7 +44,7 @@ footer {
 footer p {
     font-family: 'Arial', sans-serif; /* Clean sans-serif font */
     font-size: 1rem; /* Standard font size */
-    line-height: 1.6; /* Improved line height for readability */
+    line-height: 1px; /* Improved line height for readability */
     margin: 0; /* Remove default margin */
 }
 
@@ -76,7 +76,7 @@ footer p span.copyright {
 
     footer p {
         font-size: 0.9rem; /* Smaller font size on mobile */
-        line-height: 1.4; /* Adjust line height for mobile */
+        line-height: 1px; /* Adjust line height for mobile */
     }
 
     .landlord {

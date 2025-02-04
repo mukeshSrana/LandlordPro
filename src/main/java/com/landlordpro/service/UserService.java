@@ -1,18 +1,19 @@
 package com.landlordpro.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.landlordpro.domain.User;
+import com.landlordpro.dto.PasswordChangeDto;
 import com.landlordpro.dto.UserDto;
 import com.landlordpro.dto.UserRegistrationDTO;
-import com.landlordpro.dto.UserRole;
+import com.landlordpro.dto.enums.UserRole;
 import com.landlordpro.mapper.UserMapper;
 import com.landlordpro.repository.UserRepository;
 
@@ -27,6 +28,25 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
+    }
+
+    @Transactional
+    public void changePassword(PasswordChangeDto passwordChangeDto) {
+        User user = userRepository.findByUsername(passwordChangeDto.getUsername())
+            .orElseThrow(() -> new IllegalArgumentException("Incorrect username or password"));
+
+        // Validate old password
+        if (!passwordEncoder.matches(passwordChangeDto.getOldPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Incorrect username or password");
+        }
+
+        if (!passwordChangeDto.getNewPassword().equals(passwordChangeDto.getConfirmPassword())) {
+            throw new IllegalArgumentException("New passwords do not match");
+        }
+
+        // Hash and update new password
+        user.setPassword(passwordEncoder.encode(passwordChangeDto.getNewPassword()));
+        userRepository.save(user);
     }
 
     // Restricting access to only users with ROLE_ADMIN
@@ -71,11 +91,15 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
         user.setName(registrationDTO.getName());
         user.setMobileNumber(registrationDTO.getMobileNumber());
-        user.setEnabled(true);
+        user.setAcceptConsent(registrationDTO.isAcceptConsent());
+        user.setAcceptTenantDataResponsibility(registrationDTO.isAcceptTenantDataResponsibility());
+
+        user.setEnabled(false);
+        user.setDeleted(false);
         user.setAccountNonExpired(true);
         user.setCredentialsNonExpired(true);
         user.setAccountNonLocked(true);
-        user.addRole(UserRole.ROLE_USER);
+        user.setUserRole(UserRole.ROLE_LANDLORD.name());
 
         userRepository.save(user);
     }

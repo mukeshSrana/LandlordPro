@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <link rel="stylesheet" th:href="@{/registerUser.css}">
+    <script>
+      function closeMessage(button) {
+        var messageBox = button.parentElement;
+        messageBox.style.display = 'none';
+      }
+    </script>
+    <script>
+      function validatePassword() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        var confirmPasswordInput = document.getElementById("confirmPassword");
+
+        if (password !== confirmPassword) {
+          confirmPasswordInput.setCustomValidity("Passwords do not match.");
+        } else {
+          confirmPasswordInput.setCustomValidity("");
+        }
+      }
+    </script>
+</head>
+<div class="form-container" layout:fragment="content">
+    <!-- Display success message -->
+    <div th:if="${successMessage}" class="success-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:utext="${successMessage}"></p>
+    </div>
+
+    <!-- Display error message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <form th:action="@{/users/register}" method="post" th:object="${user}">
+        <div class="form-row">
+            <div class="flex-half">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" th:field="*{name}" required
+                       pattern="^[a-zA-Z]+(?:\s[a-zA-Z]+)*$"
+                       title="Name must contain only letters and spaces">
+            </div>
+            <div class="flex-half">
+                <label for="username">Username(email):</label>
+                <input type="text" id="username" name="username" th:field="*{username}" required
+                       pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                       title="Enter a valid email address">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="flex-half">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" th:field="*{password}" required
+                       pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                       title="Password must be at least 8 characters long, include a letter, a number, and a special character"
+                       oninput="validatePassword()">
+            </div>
+            <div class="flex-half">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" required
+                       title="Must match the password"
+                       oninput="validatePassword()">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="half-width">
+                <label for="mobileNumber">Mobile Number:</label>
+                <input type="text" id="mobileNumber" name="mobileNumber" th:field="*{mobileNumber}" required
+                       pattern="^\+?[0-9]{8,12}$"
+                       title="Enter a valid mobile number (8-12 digits, optional + at the beginning)">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class= "checkbox-container">
+                <label>
+                    <input type="checkbox" id="acceptConsent" name="acceptConsent" th:field="*{acceptConsent}" required>
+                    <p> I agree to the processing of my personal data in accordance with the
+                    <a href="/privacyPolicy" target="_blank">Privacy Policy</a> and GDPR.</p>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="acceptTenantDataResponsibility" name="acceptTenantDataResponsibility" th:field="*{acceptTenantDataResponsibility}" required>
+                    <p> I understand that I am responsible for the personal data of my tenants and will comply with GDPR.</p>
+                </label>
+            </div>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</div>
+</html>

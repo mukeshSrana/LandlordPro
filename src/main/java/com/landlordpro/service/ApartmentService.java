@@ -1,143 +1,140 @@
 package com.landlordpro.service;
 
-import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collector;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.landlordpro.model.Apartment;
+import com.landlordpro.domain.Apartment;
+import com.landlordpro.dto.ApartmentDto;
+import com.landlordpro.mapper.ApartmentMapper;
+import com.landlordpro.repository.ApartmentRepository;
+import com.landlordpro.repository.ExpenseRepository;
+import com.landlordpro.repository.IncomeRepository;
+import com.landlordpro.repository.TenantRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class ApartmentService {
-    private final ObjectMapper objectMapper;
+    private final ApartmentRepository apartmentRepository;
 
-    @Value("${app.file-storage.apartment}")
-    private String fileStorageApartmentDir;
+    private final ApartmentMapper apartmentMapper;
+    private final IncomeRepository incomeRepository;
+    private final TenantRepository tenantRepository;
+    private final ExpenseRepository expenseRepository;
 
-    public ApartmentService(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public ApartmentService(
+        ApartmentMapper apartmentMapper,
+        ApartmentRepository apartmentRepository,
+        IncomeRepository incomeRepository,
+        TenantRepository tenantRepository,
+        ExpenseRepository expenseRepository) {
+        this.apartmentMapper = apartmentMapper;
+        this.apartmentRepository = apartmentRepository;
+        this.incomeRepository = incomeRepository;
+        this.tenantRepository = tenantRepository;
+        this.expenseRepository = expenseRepository;
     }
 
-    public List<String> apartmentNames() {
-        return processDirectory(
-            fileStorageApartmentDir,
-            file -> {
-                try {
-                    return objectMapper.readValue(file.toFile(), Apartment.class).getApartmentName();
-                } catch (IOException e) {
-                    log.error("Error reading file: {}", file, e);
-                    return null;
-                }
-            },
-            Collectors.toList(),
-            Collections.emptyList()
-        );
+    public boolean isUniueApartmentNameForUser(String apartmentName, UUID userId) {
+        return apartmentRepository.existsByApartmentShortNameIgnoreCaseAndUserId(apartmentName.toLowerCase(), userId);
     }
 
-    private <T, R> R processDirectory(
-        String directoryPathStr,
-        Function<Path, T> fileProcessor,
-        Collector<T, ?, R> collector,
-        R defaultValue
-    ) {
-        Path directoryPath = Paths.get(directoryPathStr);
+    public boolean isExistsForUser(UUID apartmentID, UUID userId) {
+        return apartmentRepository.existsByIdAndUserId(apartmentID, userId);
+    }
+
+    public List<String> getApartmentNamesForUser(UUID userId) {
+        return apartmentRepository.findApartmentNamesByUserId(userId);
+    }
+
+    public Map<UUID, String> getApartmentIdNameMap(UUID userId) {
+        List<Apartment> apartments = apartmentRepository.findByUserId(userId);
+        return apartments.stream()
+            .collect(Collectors.toMap(
+                Apartment::getId,      // Key: Apartment ID
+                Apartment::getApartmentShortName // Value: Apartment Name
+            ));
+    }
+
+    public Map<UUID, String> getApartmentIdNameMap(List<UUID> apartmentIds) {
+        List<Apartment> apartments = apartmentRepository.findByIdIn(apartmentIds);
+
+        // Transforming the result into a Map
+        Map<UUID, String> apartmentIdNameMap = new HashMap<>();
+        for (Apartment apartment : apartments) {
+            apartmentIdNameMap.put(apartment.getId(), apartment.getApartmentShortName());
+        }
+
+        return apartmentIdNameMap;
+    }
+
+    public List<ApartmentDto> getApartmentsForUser(UUID userId) {
+        return apartmentMapper.toDTOList(apartmentRepository.findByUserId(userId));
+    }
+
+    public ApartmentDto getApartment(UUID id) {
+        // Assuming you have a method to fetch the apartment by ID
+        Apartment apartment = apartmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Apartment not found"));
+        return apartmentMapper.toDTO(apartment);
+    }
+
+    public void update(ApartmentDto apartmentDto, UUID userId) {
+        if (!isExistsForUser(apartmentDto.getId(), userId)) {
+            String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " not exists for the logged-in user.";
+            throw new RuntimeException(errorMsg);
+        }
+        save(apartmentDto);
+    }
+
+    public void add(ApartmentDto apartmentDto) {
+        save(apartmentDto);
+    }
+
+    private void save(ApartmentDto apartmentDto) {
+        if (isUniueApartmentNameForUser(apartmentDto.getApartmentShortName(), apartmentDto.getUserId())) {
+            String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " already exists for the logged-in user.";
+            throw new RuntimeException(errorMsg);
+        }
+
+        Apartment apartment = apartmentMapper.toEntity(apartmentDto);
         try {
-            if (!Files.exists(directoryPath) || !Files.isDirectory(directoryPath)) {
-                log.warn("Directory does not exist or is not a directory(): {}", directoryPath);
-                return defaultValue;
-            }
-
-            return Files.list(directoryPath)
-                .filter(file -> file.toString().endsWith(".json"))
-                .map(fileProcessor)
-                .filter(Objects::nonNull)
-                .collect(collector);
-        } catch (IOException e) {
-            log.error("Error processing directory: {}", directoryPath, e);
-            return defaultValue;
+            apartmentRepository.save(apartment);
+        } catch (DataIntegrityViolationException ex) {
+            String errorMessage = "Constraint violation while saving apartment=" + apartmentDto.getId() + " User=" + apartmentDto.getUserId();
+            log.error(errorMessage, ex); // Assuming you have a logger in place
+            throw new RuntimeException(errorMessage, ex);
+        } catch (Exception ex) {
+            String errorMessage = "Unexpected error while saving apartment=" + apartmentDto.getId() + " User=" + apartmentDto.getUserId();
+            log.error(errorMessage, ex); // Assuming you have a logger in place
+            throw new RuntimeException(errorMessage, ex);
         }
     }
 
-    public Map<String, String> apartmentNamesWithId() {
-        return processDirectory(
-            fileStorageApartmentDir,
-            file -> {
-                try {
-                    Apartment apartment = objectMapper.readValue(file.toFile(), Apartment.class);
-                    return Map.entry(apartment.getId(), apartment.getApartmentName());
-                } catch (IOException e) {
-                    log.error("Error reading file: {}", file, e);
-                    return null;
-                }
-            },
-            Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue),
-            Collections.emptyMap()
-        );
-    }
+    @Transactional
+    public void delete(UUID id, UUID userId) {
+        // Check if the apartment exists and belongs to the user
+        apartmentRepository.findByIdAndUserId(id, userId)
+            .orElseThrow(() -> new IllegalArgumentException("Apartment not found or does not belong to the user"));
 
-    public List<Apartment> apartments() {
-        return processDirectory(
-            fileStorageApartmentDir,
-            file -> {
-                try {
-                    return objectMapper.readValue(file.toFile(), Apartment.class);
-                } catch (IOException e) {
-                    log.error("Error reading file: {}", file, e);
-                    return null;
-                }
-            },
-            Collectors.toList(),
-            Collections.emptyList()
-        );
-    }
+        // Validate dependencies
+        boolean hasIncome = incomeRepository.existsByApartmentId(id);
+        boolean hasTenant = tenantRepository.existsByApartmentId(id);
+        boolean hasExpense = expenseRepository.existsByApartmentId(id);
 
-    public boolean isExists(Apartment apartment) {
-        Path directoryPath = Paths.get(fileStorageApartmentDir);
-        Path filePath = directoryPath.resolve(apartment.getApartmentName() + ".json");
-        return Files.exists(filePath); // Simplified: Returns true if file exists
-    }
-
-    public void save(Apartment apartment) throws IOException {
-        log.info("Saving apartment: {}, year: {}", apartment.getApartmentName());
-
-        Path directoryPath = Paths.get(fileStorageApartmentDir);
-        Path filePath = directoryPath.resolve(apartment.getApartmentName() + ".json");
-
-        try {
-            if (isExists(apartment)) {
-                throw new FileAlreadyExistsException("File already exists: " + filePath);
-            }
-
-            // Ensure the directory exists
-            Files.createDirectories(directoryPath);
-
-            // Serialize the apartment to JSON
-            String apartmentJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(apartment);
-
-            // Write the apartment JSON to the file
-            Files.writeString(filePath, apartmentJson, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-
-            log.info("Apartment: {} successfully saved in file: {}", apartment.getApartmentName(), filePath);
-
-        } catch (IOException e) {
-            log.error("Error saving apartment: {}", apartment.getApartmentName(), e);
-            throw e; // Re-throw to be handled by controller
+        if (hasIncome || hasTenant || hasExpense) {
+            throw new IllegalStateException("Cannot delete apartment with existing income, tenants, or expenses.");
         }
+
+        // Perform the delete operation
+        apartmentRepository.deleteByIdAndUserId(id, userId);
     }
+
 }

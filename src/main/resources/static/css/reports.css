@@ -1,0 +1,62 @@
+/* Styling for the form container and overall layout */
+.form-container {
+    width: 100%;
+    max-width: 1500px;
+    margin: 2rem 2rem;
+    padding: 0.5rem 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+thead {
+    background-color: #f2f2f2;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Ensure forms inside table cells are displayed inline */
+td > form {
+    display: inline-block; /* Keep forms inline */
+    margin: 0;
+    vertical-align: middle; /* Align forms in the middle vertically */
+}
+
+td > form + form {
+    margin-left: 0.5rem; /* Add spacing between adjacent forms */
+}
+
+/* Prevent wrapping in small screens */
+td {
+    white-space: nowrap; /* Prevent content wrapping inside the cell */
+}
+
+/* Responsive layout for smaller screens if needed */
+@media (max-width: 768px) {
+    td > form {
+        display: inline-block; /* Ensure inline-block is respected */
+    }
+
+    td {
+        white-space: normal; /* Allow wrapping if desired for other cells */
+    }
+}
+
+

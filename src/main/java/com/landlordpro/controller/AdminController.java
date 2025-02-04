@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.landlordpro.dto.ContactDto;
 import com.landlordpro.dto.UserDto;
+import com.landlordpro.dto.enums.UserRole;
 import com.landlordpro.service.ContactService;
 import com.landlordpro.service.UserService;
 
 @Controller
 @RequestMapping("/admin")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 
     private final UserService userService;
@@ -28,8 +31,7 @@ public class AdminController {
     }
 
     @PostMapping("/update/user")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String update(@ModelAttribute UserDto userDto) {
+    public String updateUser(@ModelAttribute UserDto userDto) {
         Map<String, Object> response = new HashMap<>();
         try {
             boolean updated = userService.updateUser(userDto);
@@ -47,17 +49,33 @@ public class AdminController {
         return  "redirect:/admin/users";
     }
 
-    // Restricting access at the controller level
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/update/contact")
+    public String updateContact(@ModelAttribute ContactDto contactDto) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            boolean updated = contactService.updateContact(contactDto);
+            if (updated) {
+                response.put("success", true);
+                response.put("contactUpdated", updated);
+            } else {
+                response.put("success", false);
+                response.put("message", "Update failed: contact not found or could not be updated.");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Error: " + e.getMessage());
+        }
+        return  "redirect:/admin/contacts";
+    }
+
     @GetMapping("/users")
     public String getAllUsers(Model model) {
+        model.addAttribute("allRoles", UserRole.values());
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("page", "userAdmin");
         return "userAdmin";
     }
 
-    // Restricting access at the controller level
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/contacts")
     public String getAllMessages(Model model) {
         model.addAttribute("contacts", contactService.getAllContacts());

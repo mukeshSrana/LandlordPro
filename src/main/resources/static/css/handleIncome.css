@@ -1,0 +1,202 @@
+/* Styling for the form container and overall layout */
+/*.form-container {*/
+/*    width: 80%;*/
+/*    max-width: 1200px;*/
+/*    margin: 2rem 2rem;*/
+/*    padding: 1rem 2rem 2rem;*/
+/*    border-radius: 8px;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+.form-container {
+    width: 100%;
+    max-width: 1500px;
+    margin: 2rem 2rem;
+    /*padding: 1rem 2rem 2rem;*/
+    padding: 0.5rem 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.success-message, .error-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important;
+    text-align: center;
+    position: relative;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.close-btn:hover {
+    color: #aaa;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+thead {
+    background-color: #f2f2f2;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Button styling for Delete and Update buttons */
+.delete-btn, .update-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover, .update-btn:hover {
+    background-color: #0056b3;
+}
+
+.status-column {
+    width: 150px; /* Set width as needed */
+    height: 50px; /* Set height as needed */
+    vertical-align: middle; /* Align content vertically in the middle */
+    text-align: center; /* Align content horizontally in the center (optional) */
+}
+
+.status-column select {
+    height: 40px; /* Match the height of the dropdown */
+    line-height: 40px; /* Align text vertically in the dropdown */
+    padding: 5px; /* Add some padding for better spacing */
+    font-size: 14px; /* Adjust font size if needed */
+}
+
+/*.delete-btn {*/
+/*    background-color: #dc3545;*/
+/*}*/
+
+/*.delete-btn:hover {*/
+/*    background-color: #c82333;*/
+/*}*/
+
+/* Styling the filters container */
+.filters {
+    display: flex; /* Align filter elements horizontally */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    margin-bottom: 1.5rem; /* Space between filters and the table */
+    padding: 1rem; /* Add padding inside the filters container */
+    background-color: #f9f9f9; /* Light background for contrast */
+    border: 1px solid #ddd; /* Subtle border for separation */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+/* Adjust spacing between filter groups */
+.filter-group {
+    display: flex; /* Align items horizontally */
+    align-items: center; /* Vertically align items */
+    gap: 1rem; /* Space between items in the same group */
+    flex-grow: 1; /* Allow equal spacing between groups */
+}
+
+/* Add extra margin to the right of the first filter group */
+.filter-group select#year {
+    margin-right: 2rem; /* Push the second group to the right */
+}
+
+/* Label styling */
+.filter-group label {
+    font-size: 1rem; /* Standard font size */
+    font-weight: 600; /* Slightly bold for emphasis */
+    margin-right: 0.5rem; /* Space between label and select */
+    color: #333; /* Dark text color for readability */
+}
+
+/* Select dropdown styling */
+.filter-group select {
+    padding: 0.5rem; /* Comfortable padding for better usability */
+    font-size: 1rem; /* Match the label font size */
+    border: 1px solid #ddd; /* Subtle border for the dropdown */
+    border-radius: 4px; /* Rounded edges */
+    background-color: #fff; /* Neutral background */
+    color: #333; /* Dark text for visibility */
+    transition: border-color 0.2s ease; /* Smooth border hover effect */
+}
+
+/* Hover and focus effect for select dropdown */
+.filter-group select:focus,
+.filter-group select:hover {
+    border-color: #007BFF; /* Highlight border color */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Add a subtle shadow */
+}
+
+/* Ensure forms inside table cells are displayed inline */
+td > form {
+    display: inline-block; /* Keep forms inline */
+    margin: 0;
+    vertical-align: middle; /* Align forms in the middle vertically */
+}
+
+td > form + form {
+    margin-left: 0.5rem; /* Add spacing between adjacent forms */
+}
+
+/* Force buttons to stay inline */
+.delete-btn, .update-btn {
+    display: inline-block;
+    margin: 0;
+}
+
+/* Prevent wrapping in small screens */
+td {
+    white-space: nowrap; /* Prevent content wrapping inside the cell */
+}
+
+/* Responsive layout for smaller screens if needed */
+@media (max-width: 768px) {
+    td > form {
+        display: inline-block; /* Ensure inline-block is respected */
+    }
+
+    td {
+        white-space: normal; /* Allow wrapping if desired for other cells */
+    }
+}
+
+

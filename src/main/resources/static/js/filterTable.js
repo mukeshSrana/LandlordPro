@@ -15,57 +15,31 @@ function enableEditing(cell) {
 
     // Find the hidden input corresponding to this cell
     const row = cell.closest('tr');
-    const nameHiddenInput = row.querySelector('input[name="name"]');
+    const dateHiddenInput = row.querySelector('input[name="date"]');
     const amountHiddenInput = row.querySelector('input[name="amount"]');
+    const commentsHiddenInput = row.querySelector('input[name="comments"]');2
 
     // Update the hidden input values based on the edited cell content
-    if (cell.cellIndex === 2 && nameHiddenInput) {
-      nameHiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 3 && amountHiddenInput) {
+    if (cell.cellIndex === 3 && dateHiddenInput) {
+      dateHiddenInput.value = cell.textContent.trim();
+    } else if (cell.cellIndex === 4 && amountHiddenInput) {
       amountHiddenInput.value = cell.textContent.trim();
+    } else if (cell.cellIndex === 6 && commentsHiddenInput) {
+      commentsHiddenInput.value = cell.textContent.trim();
     }
   });
 }
 
-function submitUpdate(button) {
-  // Find the row containing the button
-  const row = button.closest('tr');
-  const expenseId = row.querySelector('input[name="id"]').value;
-  const year = row.querySelector('input[name="year"]').value;
-  const apartmentName = row.querySelector('input[name="apartmentName"]').value;
-  const expenseName = row.querySelector('td:nth-child(3)').innerText;
-  const amount = row.querySelector('td:nth-child(4)').innerText;
-
-  // Collect the updated data to send in the form
-  const formData = new FormData();
-  formData.append('id', expenseId);
-  formData.append('year', year);
-  formData.append('apartmentName', apartmentName);
-  formData.append('name', expenseName);
-  formData.append('amount', amount);
-
-  // Perform the AJAX request
-  fetch('/update', {
-    method: 'POST',
-    body: formData
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        // Update the row with the new data
-        const updatedExpense = data.updatedExpense;
-        row.querySelector('td:nth-child(1)').innerText = updatedExpense.year;
-        row.querySelector('td:nth-child(2)').innerText = updatedExpense.apartmentName;
-        row.querySelector('td:nth-child(3)').innerText = updatedExpense.name;
-        row.querySelector('td:nth-child(4)').innerText = updatedExpense.amount;
-
-        alert('Expense updated successfully.');
-      } else {
-        alert('Error updating the expense: ' + (data.message || 'Unknown error.'));
+// Add a change event listener for the dropdown
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdowns = document.querySelectorAll('select[name="status"]');
+  dropdowns.forEach((dropdown) => {
+    dropdown.addEventListener('change', (event) => {
+      const row = event.target.closest('tr');
+      const statusHiddenInput = row.querySelector('input[name="status"]');
+      if (statusHiddenInput) {
+        statusHiddenInput.value = event.target.value;
       }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('An unexpected error occurred.');
     });
-}
+  });
+});

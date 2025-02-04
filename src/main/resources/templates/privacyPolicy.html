@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <link rel="stylesheet" th:href="@{/privacy-policy.css}">
+</head>
+<!-- Define the fragment where the content will go -->
+<div layout:fragment="content">    <!-- About Page Content -->
+    <main>
+        <h4>Privacy Policy for LandlordPro</h4>
+
+        <h4>1. About LandlordPro</h4>
+        <p>LandlordPro provides users(landlords) with tools to manage rental agreements.
+            The user(landlord) themselves registers and processes personal data,
+            and LandlordPro only functions as a technical platform.</p>
+
+        <h4>2. Who is responsible for the data?</h4>
+        <ul class="ul-privacy ">
+            <li>
+                <strong>The user(landlord)</strong> is the data controller for the personal data they register.
+            </li>
+            <li>
+                <strong>LandlordPro is a data processor</strong> and stores information on behalf of the user(landlord).
+            </li>
+        </ul>
+
+        <h4>3. What data is processed?</h4>
+        <p>
+            The user(landlord) can register the following information about themselves and tenants:
+        </p>
+        <ul class="ul-privacy ">
+            <li>
+                Name, date of birth, address, phone number, and email of both the user(landlord) and tenants
+            </li>
+            <li>
+                Rental agreements and payment history
+            </li>
+            <li>
+                Any expenses related to the rental agreement
+            </li>
+            <li>
+                Uploaded contracts and documents
+            </li>
+        </ul>
+        <p>
+            The landlord is responsible for sending the generated GDPR document to the tenant upon registration.
+        </p>
+
+
+        <h4>4. How is this data used?</h4>
+        <p>
+            Personal data is registered and used only for managing the rental agreement.
+        </p>
+
+        <h4>5. Deletion and storage of data</h4>
+        <ul class="ul-privacy">
+            <li>
+                The user(landlord) can delete tenant data at any time.
+            </li>
+            <li>
+                The data is stored as long as necessary for management purposes.
+            </li>
+        </ul>
+
+        <h4>6. Tenant rights</h4>
+        <p>
+            Tenants have the right to:
+        </p>
+        <p>
+            ✔️ Request access to the information the landlord has stored
+        </p>
+        <p>
+            ✔️ Demand correction or deletion of their personal data
+        </p>
+        <p>
+            Tenants must contact their <strong>landlord</strong> to exercise these rights.
+        </p>
+
+        <h4>7. Security and storage of data</h4>
+        <p>
+            🔒 All personal data is protected with access controls.
+        </p>
+        <p>
+            🔒 Uploaded rental contracts are stored encrypted and are only accessible to the landlord.
+        </p>
+        <p>
+            If you have any questions about privacy in LandlordPro, <a href="/contact">contact us</a>.
+        </p>
+
+    </main>
+</div>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http:www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
@@ -9,9 +9,39 @@
         var messageBox = button.parentElement;
         messageBox.style.display = 'none';
       }
+      async function fetchCity() {
+        const pincodeInput = document.getElementById('pincode');
+        const cityInput = document.getElementById('city');
+        const submitButton = document.getElementById('submit-button');
+        const pincode = pincodeInput.value;
+
+        if (pincode.length >= 4) {
+          try {
+            const response = await fetch(`/api/pincode/${pincode}`);
+            if (response.ok) {
+              const city = await response.text();
+              cityInput.value = city;
+            } else {
+              cityInput.value = "City not found";
+            }
+          } catch (error) {
+            console.error("Error fetching city:", error);
+            cityInput.value = "Error fetching city";
+          }
+        } else {
+          cityInput.value = ""; // Clear city if pincode is too short
+        }
+      }
+
+      function validateForm(event) {
+        const cityInput = document.getElementById('city');
+        if (cityInput.value === "City not found" || cityInput.value === "Error fetching city" || cityInput.value === "") {
+          event.preventDefault(); // Prevent form submission
+          alert("Please provide a valid pincode to get a city.");
+        }
+      }
     </script>
 </head>
-<!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
     <!-- Display success message -->
     <div th:if="${successMessage}" class="success-message">
@@ -25,35 +55,54 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <form th:action="@{/saveApartment}" method="post">
-        <label for="apartmentName">Apartment Name:</label>
-        <input type="text" id="apartmentName" name="apartmentName" required pattern="^[a-zA-Z0-9]+$"
-               title="Apartment name must contain only letters and numbers without spaces or special characters">
+    <form th:action="@{/apartment/add}" method="post" onsubmit="validateForm(event)">
+        <div class="form-row">
+            <div class="flex-half">
+                <label for="apartmentShortName">Apartment Name (Short):</label>
+                <input type="text" id="apartmentShortName" name="apartmentShortName" required
+                       pattern="^[a-zA-Z0-9]+$"
+                       title="Apartment short name must contain only letters and numbers without spaces or special characters">
+            </div>
+            <div class="flex-half">
+                <label for="ownerName">Owner:</label>
+                <!-- Disabled input for display -->
+                <input type="text" id="ownerName" name="ownerName" required th:value="${ownerName}" th:disabled="${ownerName != null}">
 
-        <label for="addressLine1">Address Line 1:</label>
-        <input type="text" id="addressLine1" name="addressLine1" required>
+                <!-- Hidden field to pass the value when the input is disabled -->
+                <input type="hidden" name="ownerName" th:value="${ownerName}">
+            </div>
+        </div>
 
-        <label for="addressLine2">Address Line 2:</label>
-        <input type="text" id="addressLine2" name="addressLine2">
+        <div class="form-row">
+            <div class="full-width">
+                <label for="addressLine1">Address Line 1:</label>
+                <input type="text" id="addressLine1" name="addressLine1" required>
+            </div>
+        </div>
 
-        <label for="pincode">Pin Code:</label>
-        <input type="text" id="pincode" name="pincode" required pattern="[0-9]{4,10}">
+        <div class="form-row">
+            <div class="flex-large">
+                <label for="addressLine2">Address Line 2:</label>
+                <input type="text" id="addressLine2" name="addressLine2">
+            </div>
+            <div class="flex-small">
+                <label for="pincode">Pin Code:</label>
+                <input type="text" id="pincode" name="pincode" required pattern="[0-9]{4,10}" maxlength="5" onchange="fetchCity()">
+            </div>
+        </div>
 
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" required>
+        <div class="form-row">
+            <div class="flex-large">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required readonly>
+            </div>
+            <div class="flex-small">
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" value="Norway" required readonly>
+            </div>
+        </div>
 
-        <label for="country">Country:</label>
-        <select id="country" name="country" required>
-            <option value="">-- Select Country --</option>
-            <option value="Norway">Norway</option>
-            <option value="Sweden">Sweden</option>
-            <option value="Denmark">Denmark</option>
-            <option value="Finland">Finland</option>
-            <option value="Other">Other</option>
-        </select>
-
-        <button type="submit">Register</button>
+        <button type="submit" id="submit-button">Register</button>
     </form>
-    <p class="required-fields-info">All fields marked as required must be filled in.</p>
 </div>
 </html>

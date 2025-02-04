@@ -1,108 +1,133 @@
-/* Scoped styles for the tenant registration form */
-/*.tenant-form .form-container {*/
-/*    max-width: 800px;*/
-/*    margin: 2rem 2rem;*/
-/*    padding: 1rem 2rem 2rem;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 8px;*/
-/*    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
-/*}*/
-
-.tenant-form .form-container {
-    max-width: 800px;
-    margin: 20px auto;
+.form-container {
+    width: 100%;
+    max-width: 700px;
+    max-height: 600px;
     margin: 2rem 2rem;
-    padding: 20px;
-    border: 1px solid #ccc;
+    padding: 2rem 2rem;
     border-radius: 8px;
-    background-color: #ffffff;
-    /*background-color: #ffffff;*/
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Fieldset styling */
-.tenant-form fieldset {
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
+
+.form-container .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important; /* Ensure there's no margin at the top */
+    padding-top: 0 !important; /* Ensure there's no extra padding */
+    padding-bottom: 0 !important;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
 }
 
-.tenant-form legend {
-    font-weight: bold;
-    padding: 0 10px;
+/* Success message styling */
+.form-container .success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important; /* Ensure there's no margin at the top */
+    padding-top: 0 !important; /* Ensure there's no extra padding */
+    padding-bottom: 0 !important;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
+}
+
+.form-container .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
     color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
 }
 
-/* Form groups with horizontal alignment */
-.tenant-form .form-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-bottom: 15px;
+.form-container .close-btn:hover {
+    color: #aaa;
 }
 
-.tenant-form .form-group label {
-    flex: 1 1 30%;
+.form-container label {
+    display: block;
+    margin: 1rem 0 0.5rem;
     font-weight: bold;
-    color: #555;
-    margin-bottom: 5px;
 }
 
-.tenant-form .form-group select {
-    flex: 2 1 60%;  /* Ensures select input takes up 60% width */
-    padding: 8px;
+.form-container input,
+.form-container select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 14px;
-    background-color: white; /* Adds background color */
+    font-size: 1rem;
 }
 
-/* Style for the placeholder option */
-.tenant-form .form-group select option[disabled] {
-    color: #aaa; /* Make the disabled option text gray */
-    font-style: italic;
-}
-
-.tenant-form .form-group input {
-    flex: 2 1 60%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
-    .tenant-form .form-group {
-        flex-direction: column;
-    }
-
-    .tenant-form .form-group label,
-    .tenant-form .form-group input {
-        flex: 1 1 100%;
-    }
-}
-
-/* Button styling */
-.tenant-form button {
-    background-color: #4CAF50;
-    color: white;
+.form-container button {
+    background-color: #007BFF;
+    color: #fff;
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
-    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
-.tenant-form button:hover {
-    background-color: #45a049;
+.form-container button:hover {
+    background-color: #0056b3;
 }
 
-/* Additional utility styles */
-.tenant-form input:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+.form-container .form-row input,
+.form-container .form-row select {
+    width: 100%;
+    box-sizing: border-box;
 }
+
+.form-container .form-row .full-width {
+    flex: 1;
+    width: 100%;
+}
+
+.form-container .form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Space between fields */
+}
+
+.form-container .form-row .flex-40 {
+    flex: 2; /* 40% width */
+}
+
+.form-container .form-row .flex-60 {
+    flex: 3; /* 60% width */
+}
+
+.form-container .form-row .flex-half {
+    flex: 1;
+}
+
+.form-container .form-row .flex-custom-30 {
+    flex: 3; /* Custom 30% width */
+}
+
+.form-container .form-row .flex-custom-20 {
+    flex: 2; /* Custom 40% width */
+}
+
+.form-container .form-row .flex-custom-40 {
+    flex: 4; /* Custom 40% width */
+}
+
+.form-container .form-row label {
+    margin-bottom: 0.5rem; /* Space between label and input */
+}
+

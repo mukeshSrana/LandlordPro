@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/reports.css}">
+</head>
+<!-- Define the fragment where the content will go -->
+<div class="form-container" layout:fragment="content">
+    <main>
+        <table>
+            <thead>
+            <tr>
+                <th>Apartment</th>
+                <th>Year</th>
+                <th>Total Rental Income</th>
+                <th>Total Expenses</th>
+                <th>Net Income</th>
+                <th>Net Yield (%)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="data : ${reportData}">
+                <td th:text="${data.apartmentName}"></td>
+                <td th:text="${data.year}"></td>
+                <td th:text="${#numbers.formatCurrency(data.totalIncome)}"></td>
+                <td th:text="${#numbers.formatCurrency(data.totalExpenses)}"></td>
+                <td th:text="${#numbers.formatCurrency(data.netIncome)}"></td>
+                <td th:text="${#numbers.formatCurrency(data.netYield)}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+</html>

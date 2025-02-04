@@ -1,0 +1,33 @@
+/* Styles specific to the admin's home.html */
+
+/* Target only elements inside the admin content */
+.admin-home main {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+}
+
+/* Ensure <ul> has bullets, but ONLY inside the main content */
+.admin-home main ul {
+    list-style-type: disc; /* Default bullet style */
+    margin-left: 20px; /* Indent list for better readability */
+    padding-left: 20px;
+}
+
+/* Style for <li> elements inside main */
+.admin-home main li {
+    margin-bottom: 5px; /* Adds spacing between list items */
+}
+
+/* Styling for headings in main content */
+.admin-home main h3 {
+    color: #333;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.admin-home main h4 {
+    color: #444;
+    font-size: 18px;
+    margin-top: 15px;
+}
