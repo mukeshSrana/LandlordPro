@@ -17,8 +17,10 @@ CREATE TABLE users
     account_non_locked      BOOLEAN      NOT NULL DEFAULT TRUE,    -- Account locked status
     mobile_nr               VARCHAR(15)  NOT NULL,                -- Mobile number
     is_deleted              BOOLEAN      DEFAULT FALSE,            -- Whether the account is deleted (soft delete)
-    accept_consent           BOOLEAN      DEFAULT FALSE,            -- Whether the user accepted consent
-    accept_tenant_data_responsibility BOOLEAN DEFAULT FALSE           -- Whether the user accepted tenant data responsibility
+    accept_consent          BOOLEAN      DEFAULT FALSE,            -- Whether the user accepted consent
+    accept_tenant_data_responsibility BOOLEAN DEFAULT FALSE,           -- Whether the user accepted tenant data responsibility
+    created_date            TIMESTAMP    NOT NULL,
+    updated_date            TIMESTAMP
 );
 ALTER TABLE users ADD CONSTRAINT uq_users_username UNIQUE (username);
 ALTER TABLE users ADD CONSTRAINT chk_users_role CHECK (user_role IN ('ROLE_ADMIN', 'ROLE_LANDLORD', 'ROLE_MANAGER'));

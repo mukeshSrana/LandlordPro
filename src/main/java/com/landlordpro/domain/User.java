@@ -1,5 +1,6 @@
 package com.landlordpro.domain;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -15,6 +16,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.AssertTrue;
 import lombok.Data;
@@ -68,5 +71,23 @@ public class User {
 
     @Column(name = "user_role", nullable = false) // Ensures a user must always have a role
     private String userRole;
+
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate;
+
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.createdDate == null) {
+            this.createdDate = LocalDateTime.now();  // Set createdDate only when it's first persisted
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedDate = LocalDateTime.now(); // Update the updatedDate when entity is updated
+    }
 }
 
