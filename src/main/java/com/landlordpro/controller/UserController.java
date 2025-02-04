@@ -1,18 +1,16 @@
 package com.landlordpro.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.landlordpro.dto.PasswordChangeDto;
 import com.landlordpro.dto.UserRegistrationDTO;
 import com.landlordpro.service.UserService;
 
@@ -25,14 +23,30 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PutMapping("/changePassword")
-    public String changePassword(
-        @AuthenticationPrincipal UserDetails userDetails,
-        @RequestParam String oldPassword,
-        @RequestParam String newPassword) {
+    @GetMapping("/changePassword")
+    public String showChangePasswordForm(@RequestParam(value = "success", required = false) String success,
+        @RequestParam(value = "userName", required = false) String userName, Model model) {
+        model.addAttribute("passwordChange", new PasswordChangeDto());
+        if (success != null) {
+            model.addAttribute("successMessage",
+                "Password changed, " + userName + "! You can <a href='/login'>click here</a> to log in.");
+        }
+        return "changePassword";
+    }
 
-        userService.changePassword(userDetails.getUsername(), oldPassword, newPassword);
-        return "Password changed successfully";
+    @PostMapping("/changePassword")
+    public String changePassword(@ModelAttribute PasswordChangeDto passwordChangeDto, Model model, BindingResult result) {
+        if (result.hasErrors()) {
+            return "changePassword";
+        }
+
+        try {
+            userService.changePassword(passwordChangeDto);
+            return "redirect:/users/changePassword?success&&userName=" + passwordChangeDto.getUsername();
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "changePassword";
+        }
     }
 
     @GetMapping("/register")

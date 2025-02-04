@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.landlordpro.domain.User;
+import com.landlordpro.dto.PasswordChangeDto;
 import com.landlordpro.dto.UserDto;
 import com.landlordpro.dto.UserRegistrationDTO;
 import com.landlordpro.dto.enums.UserRole;
@@ -30,17 +31,21 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(String userName, String oldPassword, String newPassword) {
-        User user = userRepository.findByUsername(userName)
-            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public void changePassword(PasswordChangeDto passwordChangeDto) {
+        User user = userRepository.findByUsername(passwordChangeDto.getUsername())
+            .orElseThrow(() -> new IllegalArgumentException("Incorrect username or password"));
 
         // Validate old password
-        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new IllegalArgumentException("Old password is incorrect");
+        if (!passwordEncoder.matches(passwordChangeDto.getOldPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Incorrect username or password");
+        }
+
+        if (!passwordChangeDto.getNewPassword().equals(passwordChangeDto.getConfirmPassword())) {
+            throw new IllegalArgumentException("New passwords do not match");
         }
 
         // Hash and update new password
-        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setPassword(passwordEncoder.encode(passwordChangeDto.getNewPassword()));
         userRepository.save(user);
     }
 
