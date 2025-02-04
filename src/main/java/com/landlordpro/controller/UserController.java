@@ -1,5 +1,8 @@
 package com.landlordpro.controller;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +46,8 @@ public class UserController {
 
         try {
             userService.changePassword(passwordChangeDto);
-            return "redirect:/users/changePassword?success&&userName=" + passwordChangeDto.getUsername();
+            //return "redirect:/users/changePassword?success&&userName=" + passwordChangeDto.getUsername();
+            return "redirect:/users/changePassword?success=true&userName=" + URLEncoder.encode(passwordChangeDto.getUsername(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "changePassword";
@@ -96,7 +100,8 @@ public class UserController {
         try {
             userService.registerUser(userDTO);
 
-            return "redirect:/users/register?success&&userName=" + userDTO.getName();
+            return "redirect:/users/register?success=true&userName=" + URLEncoder.encode(userDTO.getUsername(), StandardCharsets.UTF_8);
+            //return "redirect:/users/register?success&&userName=" + userDTO.getName();
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "registerUser";
