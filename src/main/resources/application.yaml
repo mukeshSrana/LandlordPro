@@ -50,6 +50,8 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+    placeholders:
+      adminPassword: "$2a$10$UZjkzdLtglaLZ9.432nCmu1eoMZXkEovcHm7DESBDlFBZTHrFk2rS" #runs once in db-script
 
   thymeleaf:
     prefix: classpath:/templates/
