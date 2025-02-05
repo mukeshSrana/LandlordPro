@@ -39,7 +39,7 @@
     position: relative;
 }
 
-.error {
+.form-container .field-error {
     color: red;
     font-size: 0.9rem;
     display: block;

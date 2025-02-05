@@ -32,7 +32,7 @@
             <div class="flex-small">
                 <label for="reference">Reference:</label>
                 <input type="text" id="reference" name="reference" th:field="*{reference}" required readonly>
-                <span th:if="${#fields.hasErrors('reference')}" th:errors="*{reference}" class="error"></span>
+                <span th:if="${#fields.hasErrors('reference')}" th:errors="*{reference}" class="field-error"></span>
             </div>
         </div>
 
@@ -41,18 +41,18 @@
                 <label for="name">Your Name:</label>
                 <input type="text" id="name" name="name" th:field="*{name}" required
                        title="Name is required" size="50" maxlength="100" minlength="2">
-                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-error"></span>
             </div>
             <div class="flex-half">
                 <label for="email">Your Email:</label>
                 <input type="email" id="email" name="email" th:field="*{email}" required
                        title="Please enter a valid email address (e.g., user@example.com)">
-                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field-error"></span>
             </div>
         </div>
 
         <div class="form-row">
-            <div class="flex-large">
+            <div class="flex-half">
                 <label for="message">Your Message:</label>
                 <textarea id="message" name="message" rows="5" th:field="*{message}" required title="Message is required" minlength="10"></textarea>
                 <span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="error"></span>
