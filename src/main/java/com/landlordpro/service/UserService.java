@@ -3,6 +3,7 @@ package com.landlordpro.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,7 +50,11 @@ public class UserService {
 
         // Hash and update new password
         user.setPassword(passwordEncoder.encode(passwordChangeDto.getNewPassword()));
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Database error occurred while changing password", e);
+        }
     }
 
     // Restricting access to only users with ROLE_ADMIN
