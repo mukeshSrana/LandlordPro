@@ -67,7 +67,7 @@ public class AdminController {
         } catch (Exception e) {
             response.put("success", false);
             response.put("message", "Error: " + e.getMessage());
-            log.error(e.getMessage(), e.getCause());
+            log.error(e.getMessage(), e);
         }
         return  "redirect:/admin/contacts";
     }

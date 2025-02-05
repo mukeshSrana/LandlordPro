@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.ContactDto;
 import com.landlordpro.service.ContactService;
@@ -37,7 +38,7 @@ public class ContactController {
     }
 
     @PostMapping("/contact")
-    public String submitContact(@Valid @ModelAttribute("contact") ContactDto contactDto, BindingResult bindingResult, Model model) {
+    public String submitContact(@Valid @ModelAttribute("contact") ContactDto contactDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             // Return to the form with error messages
             model.addAttribute("contact", contactDto);
@@ -46,15 +47,11 @@ public class ContactController {
 
         try {
             contactService.saveContact(contactDto);
+            redirectAttributes.addFlashAttribute("successMessage", "Thank you for contacting us, " + contactDto.getName() + "! We will get back to you soon.");
         } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            log.error(e.getMessage(), e.getCause());
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
-
-        // Pass a success message to the next view
-        model.addAttribute("successMessage", "Thank you for contacting us, " + contactDto.getName() + "! We will get back to you soon.");
-
-        // Redirect or load a success page
         return "redirect:/contact";
     }
 }

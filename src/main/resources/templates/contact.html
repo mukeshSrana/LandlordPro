@@ -16,20 +16,16 @@
 </head>
 <!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
-    <!-- Contact Page Content -->
-    <p>If you have any questions or need assistance, feel free to contact us using the form below.</p>
-
     <div th:if="${successMessage}" class="success-message">
         <span class="close-btn" onclick="closeMessage(this)">&times;</span>
         <p th:text="${successMessage}"></p>
     </div>
 
-    <!-- Display error message -->
     <div th:if="${errorMessage}" class="error-message">
         <span class="close-btn" onclick="closeMessage(this)">&times;</span>
         <p th:text="${errorMessage}"></p>
     </div>
-
+    <p>If you have any questions or need assistance, feel free to contact us using the form below.</p>
     <!-- Contact Form -->
     <form th:action="@{/contact}" th:object="${contact}" method="post">
         <div class="form-row">
