@@ -21,7 +21,15 @@ public class ContactService {
     }
 
     public void saveContact(ContactDto contactDto) {
-        contactRepository.save(contactMapper.toEntity(contactDto));
+        if (contactDto.getReference() == null) {
+            throw new IllegalArgumentException("SaveContact: Contact ID and Reference must not be null.");
+        }
+
+        try {
+            contactRepository.save(contactMapper.toEntity(contactDto));
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to save contact", e);
+        }
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -31,13 +39,18 @@ public class ContactService {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public boolean updateContact(ContactDto contactDto) {
+        if (contactDto.getId() == null || contactDto.getReference() == null) {
+            throw new IllegalArgumentException("UpdateContact: Contact ID and Reference must not be null.");
+        }
+
         Contact existingContact = contactRepository.findById(contactDto.getId())
-            .orElseThrow(() -> new RuntimeException("Contact not found with ID: " + contactDto.getId()));
+            .orElseThrow(() -> new RuntimeException("Contact not found with ID: " + contactDto.getId() + " and Reference: " + contactDto.getReference()));
+
         contactMapper.updateEntityFromDto(contactDto, existingContact);
         try {
             contactRepository.save(existingContact);
-        } catch (Exception ex) {
-            throw new RuntimeException("Unexpected error while updating contact", ex);
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while updating contact", e);
         }
         return true;
     }

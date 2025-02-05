@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS contacts;
 CREATE TABLE contacts
 (
     id           CHAR(36) PRIMARY KEY, -- Primary key for the user
-    reference    VARCHAR(10)  NOT NULL,
+    reference    VARCHAR(10)  NOT NULL UNIQUE,
     name         VARCHAR(255) NOT NULL,             -- Name of the user, required
     email        VARCHAR(255) NOT NULL,             -- Email of the user, required
     message      TEXT         NOT NULL,             -- Message content, required

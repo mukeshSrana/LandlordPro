@@ -11,11 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "contacts")
+@Table(name = "contacts", uniqueConstraints = @UniqueConstraint(columnNames = "reference"))
 @Data
 @NoArgsConstructor
 public class Contact {
@@ -25,7 +26,7 @@ public class Contact {
     @Column(columnDefinition = "CHAR(36)")  // Ensure it matches the DB column type
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String reference;
 
     @Column(nullable = false)

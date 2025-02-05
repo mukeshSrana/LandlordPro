@@ -13,7 +13,9 @@ import com.landlordpro.dto.ContactDto;
 import com.landlordpro.service.ContactService;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class ContactController {
 
@@ -42,7 +44,12 @@ public class ContactController {
             return "contact";
         }
 
-        contactService.saveContact(contactDto);
+        try {
+            contactService.saveContact(contactDto);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e.getCause());
+        }
 
         // Pass a success message to the next view
         model.addAttribute("successMessage", "Thank you for contacting us, " + contactDto.getName() + "! We will get back to you soon.");

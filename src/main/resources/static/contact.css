@@ -24,6 +24,21 @@
     position: relative;
 }
 
+.form-container .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    margin-top: 0 !important; /* Ensure there's no margin at the top */
+    padding-top: 0 !important; /* Ensure there's no extra padding */
+    padding-bottom: 0 !important;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
+}
+
 .error {
     color: red;
     font-size: 0.9rem;

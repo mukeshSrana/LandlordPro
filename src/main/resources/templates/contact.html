@@ -25,6 +25,12 @@
             <p th:text="${successMessage}"></p>
         </div>
 
+        <!-- Display error message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+            <p th:text="${errorMessage}"></p>
+        </div>
+
         <!-- Contact Form -->
         <form th:action="@{/contact}" th:object="${contact}" method="post">
             <div class="form-row">

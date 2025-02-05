@@ -17,6 +17,9 @@ import com.landlordpro.dto.enums.UserRole;
 import com.landlordpro.service.ContactService;
 import com.landlordpro.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -64,6 +67,7 @@ public class AdminController {
         } catch (Exception e) {
             response.put("success", false);
             response.put("message", "Error: " + e.getMessage());
+            log.error(e.getMessage(), e.getCause());
         }
         return  "redirect:/admin/contacts";
     }
