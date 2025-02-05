@@ -1,8 +1,5 @@
 package com.landlordpro.controller;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.PasswordChangeDto;
@@ -30,31 +26,31 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/changePassword")
-    public String showChangePasswordForm(@RequestParam(value = "success", required = false) String success,
-        @RequestParam(value = "userName", required = false) String userName, Model model) {
-        model.addAttribute("passwordChange", new PasswordChangeDto());
-        if (success != null) {
-            model.addAttribute("successMessage",
-                "Password changed, " + userName + "! You can <a href='/login'>click here</a> to log in.");
-        }
+    public String showChangePasswordForm(Model model) {
+        model.addAttribute("user", new UserRegistrationDTO());
         return "changePassword";
     }
 
     @PostMapping("/changePassword")
-    public String changePassword(@ModelAttribute PasswordChangeDto passwordChangeDto, Model model, BindingResult result) {
-        model.addAttribute("passwordChange", passwordChangeDto);
-        if (result.hasErrors()) {
+    public String changePassword(
+        @Valid @ModelAttribute("passwordChange") PasswordChangeDto passwordChangeDto,
+        BindingResult bindingResult,
+        Model model,
+        RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("passwordChange", passwordChangeDto);
             return "changePassword";
         }
 
         try {
             userService.changePassword(passwordChangeDto);
-            //return "redirect:/users/changePassword?success&&userName=" + passwordChangeDto.getUsername();
-            return "redirect:/users/changePassword?success=true&userName=" + URLEncoder.encode(passwordChangeDto.getUsername(), StandardCharsets.UTF_8);
+            redirectAttributes.addFlashAttribute("successMessage",
+                "Password changed, " + passwordChangeDto.getUsername() + "! You can <a href='/login'>click here</a> to log in.");
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "changePassword";
+            log.error(e.getMessage(), e);
         }
+        return "redirect:/users/changePassword";
     }
 
     @GetMapping("/register")
