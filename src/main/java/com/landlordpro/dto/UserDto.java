@@ -24,12 +24,16 @@ public class UserDto {
 
     @NotBlank(message = "Name is required")
     @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
+    @Pattern(
+        regexp = "^[a-zA-Z]+(?:\\s[a-zA-Z]+)*$",
+        message = "Name must contain only letters and spaces"
+    )
     private String name;
 
     @NotBlank(message = "Mobile number is required")
     @Pattern(
-        regexp = "^\\d{10,15}$",
-        message = "Mobile number must be a valid number with 10-15 digits"
+        regexp = "^\\+?[0-9]{8,12}$",
+        message = "Mobile number must be a valid number with (8-12 digits, optional + at the beginning)"
     )
     private String mobileNumber;
 

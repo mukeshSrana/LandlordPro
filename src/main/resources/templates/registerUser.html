@@ -43,13 +43,15 @@
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" th:field="*{name}" required
                        pattern="^[a-zA-Z]+(?:\s[a-zA-Z]+)*$"
-                       title="Name must contain only letters and spaces">
+                       title="Name must contain only letters and spaces" size="100" minlength="2" maxlength="100">
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-error"></span>
             </div>
             <div class="flex-half">
                 <label for="username">Username(email):</label>
                 <input type="text" id="username" name="username" th:field="*{username}" required
                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-                       title="Enter a valid email address">
+                       title="Please enter a valid email address (e.g., user@example.com)">
+                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="field-error"></span>
             </div>
         </div>
 
@@ -58,14 +60,16 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" th:field="*{password}" required
                        pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                       title="Password must be at least 8 characters long, include a letter, a number, and a special character"
+                       title="Password must be at least 8 characters long, include a letter, a number, and a special character" minlength="8" maxlength="15" size="15"
                        oninput="validatePassword()">
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field-error"></span>
             </div>
             <div class="flex-half">
                 <label for="confirmPassword">Confirm Password:</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" required
-                       title="Must match the password"
+                       title="Confirm Password is required, must match the password"
                        oninput="validatePassword()">
+                <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="field-error"></span>
             </div>
         </div>
 
@@ -74,7 +78,8 @@
                 <label for="mobileNumber">Mobile Number:</label>
                 <input type="text" id="mobileNumber" name="mobileNumber" th:field="*{mobileNumber}" required
                        pattern="^\+?[0-9]{8,12}$"
-                       title="Enter a valid mobile number (8-12 digits, optional + at the beginning)">
+                       title="Enter a valid mobile number (8-12 digits, optional + at the beginning)" minlength="8" maxlength="12" size="12">
+                <span th:if="${#fields.hasErrors('mobileNumber')}" th:errors="*{mobileNumber}" class="field-error"></span>
             </div>
         </div>
 
@@ -84,6 +89,7 @@
                     <input type="checkbox" id="acceptConsent" name="acceptConsent" th:field="*{acceptConsent}" required>
                     <p> I agree to the processing of my personal data in accordance with the
                     <a href="/privacyPolicy" target="_blank">Privacy Policy</a> and GDPR.</p>
+                    <span th:if="${#fields.hasErrors('acceptConsent')}" th:errors="*{acceptConsent}" class="field-error"></span>
                 </label>
             </div>
         </div>
@@ -93,6 +99,7 @@
                 <label>
                     <input type="checkbox" id="acceptTenantDataResponsibility" name="acceptTenantDataResponsibility" th:field="*{acceptTenantDataResponsibility}" required>
                     <p> I understand that I am responsible for the personal data of my tenants and will comply with GDPR.</p>
+                    <span th:if="${#fields.hasErrors('acceptTenantDataResponsibility')}" th:errors="*{acceptTenantDataResponsibility}" class="field-error"></span>
                 </label>
             </div>
         </div>

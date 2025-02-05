@@ -12,13 +12,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.PasswordChangeDto;
 import com.landlordpro.dto.UserRegistrationDTO;
 import com.landlordpro.service.UserService;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -55,33 +58,24 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public String showRegistrationForm(@RequestParam(value = "success", required = false) String success,
-        @RequestParam(value = "userName", required = false) String userName, Model model) {
+    public String showRegistrationForm(Model model) {
         model.addAttribute("user", new UserRegistrationDTO());
-
-        if (success != null) {
-            model.addAttribute("successMessage",
-                "Registration successful, " + userName +"! You will receive an email once your account is ready to use.");
-        }
-
         return "registerUser";
     }
 
     @PostMapping("/register")
     public String registerUser(
+        @Valid @ModelAttribute("user") UserRegistrationDTO userDTO,
+        BindingResult bindingResult,
         Model model,
-        @ModelAttribute("user") @Valid UserRegistrationDTO userDTO,
-        @RequestParam("acceptConsent") boolean acceptConsent,
-        @RequestParam("acceptTenantDataResponsibility") boolean acceptTenantDataResponsibility,
-        BindingResult result) {
-
-        model.addAttribute("registerUser", userDTO);
-
-        if (result.hasErrors()) {
-            return "registerUser"; // If validation errors, return to registration page
+        RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            // Return to the form with error messages
+            model.addAttribute("user", userDTO);
+            return "registerUser";
         }
 
-        if (!acceptConsent || !acceptTenantDataResponsibility) {
+        if (!userDTO.isAcceptConsent() || !userDTO.isAcceptTenantDataResponsibility()) {
             model.addAttribute("errorMessage", "You must accept private-policy/GDPR-consent and acknowledge your responsibility for tenant data.");
             return "registerUser";
         }
@@ -99,13 +93,13 @@ public class UserController {
 
         try {
             userService.registerUser(userDTO);
-
-            return "redirect:/users/register?success=true&userName=" + URLEncoder.encode(userDTO.getUsername(), StandardCharsets.UTF_8);
-            //return "redirect:/users/register?success&&userName=" + userDTO.getName();
+            redirectAttributes.addFlashAttribute("successMessage", "Registration successful, " + URLEncoder.encode(userDTO.getUsername(), StandardCharsets.UTF_8) + "! You will receive an email once your account is ready to use.");
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
             return "registerUser";
         }
+        return "redirect:/registerUser";
     }
 }
 

@@ -40,7 +40,7 @@
             <div class="flex-half">
                 <label for="name">Your Name:</label>
                 <input type="text" id="name" name="name" th:field="*{name}" required
-                       title="Name is required" size="50" maxlength="100" minlength="2">
+                       title="Name is required" size="100" maxlength="100" minlength="2">
                 <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-error"></span>
             </div>
             <div class="flex-half">

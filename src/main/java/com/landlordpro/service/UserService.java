@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import com.landlordpro.dto.UserRegistrationDTO;
 import com.landlordpro.dto.enums.UserRole;
 import com.landlordpro.mapper.UserMapper;
 import com.landlordpro.repository.UserRepository;
+
+import jakarta.validation.ConstraintViolationException;
 
 @Service
 public class UserService {
@@ -80,22 +83,32 @@ public class UserService {
             throw new IllegalArgumentException("Passwords do not match");
         }
 
-        User user = new User();
-        user.setUsername(registrationDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
-        user.setName(registrationDTO.getName());
-        user.setMobileNumber(registrationDTO.getMobileNumber());
-        user.setAcceptConsent(registrationDTO.isAcceptConsent());
-        user.setAcceptTenantDataResponsibility(registrationDTO.isAcceptTenantDataResponsibility());
+        try {
+            User user = new User();
+            user.setUsername(registrationDTO.getUsername());
+            user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
+            user.setName(registrationDTO.getName());
+            user.setMobileNumber(registrationDTO.getMobileNumber());
+            user.setAcceptConsent(registrationDTO.isAcceptConsent());
+            user.setAcceptTenantDataResponsibility(registrationDTO.isAcceptTenantDataResponsibility());
 
-        user.setEnabled(false);
-        user.setDeleted(false);
-        user.setAccountNonExpired(true);
-        user.setCredentialsNonExpired(true);
-        user.setAccountNonLocked(true);
-        user.setUserRole(UserRole.ROLE_LANDLORD.name());
+            user.setEnabled(false);
+            user.setDeleted(false);
+            user.setAccountNonExpired(true);
+            user.setCredentialsNonExpired(true);
+            user.setAccountNonLocked(true);
+            user.setUserRole(UserRole.ROLE_LANDLORD.name());
 
-        userRepository.save(user);
+            userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("Username already exists.");
+        } catch (ConstraintViolationException e) {
+            throw new IllegalArgumentException("Invalid user data: " + e.getMessage());
+        } catch (JpaSystemException e) {
+            throw new RuntimeException("Database error occurred while registering user.");
+        } catch (Exception e) {
+            throw new RuntimeException("An unexpected error occurred. Please try again later.");
+        }
     }
 }
 
