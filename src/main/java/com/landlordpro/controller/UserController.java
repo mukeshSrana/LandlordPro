@@ -93,13 +93,13 @@ public class UserController {
 
         try {
             userService.registerUser(userDTO);
-            redirectAttributes.addFlashAttribute("successMessage", "Registration successful, " + URLEncoder.encode(userDTO.getUsername(), StandardCharsets.UTF_8) + "! You will receive an email once your account is ready to use.");
+            redirectAttributes.addFlashAttribute("successMessage",
+                "Registration successful, " + userDTO.getUsername() + "! You will receive an email once your account is ready to use.");
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
             log.error(e.getMessage(), e);
-            return "registerUser";
         }
-        return "redirect:/registerUser";
+        return "redirect:/users/register";
     }
 }
 
