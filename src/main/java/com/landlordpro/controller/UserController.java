@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("/changePassword")
     public String showChangePasswordForm(Model model) {
-        model.addAttribute("user", new UserRegistrationDTO());
+        model.addAttribute("passwordChange", new UserRegistrationDTO());
         return "changePassword";
     }
 
