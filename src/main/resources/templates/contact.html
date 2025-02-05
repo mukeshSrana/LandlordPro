@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Language" content="en">
     <link rel="stylesheet" th:href="@{/contact.css}">
     <script>
       function closeMessage(button) {
@@ -23,30 +26,34 @@
         </div>
 
         <!-- Contact Form -->
-        <form th:action="@{/contact}" method="post">
+        <form th:action="@{/contact}" th:object="${contact}" method="post">
             <div class="form-row">
                 <div class="flex-small">
                     <label for="reference">Reference:</label>
-                    <input type="text" id="reference" name="reference" th:value="${reference}" readonly>
+                    <input type="text" id="reference" name="reference" th:field="*{reference}" required readonly>
+                    <span th:if="${#fields.hasErrors('reference')}" th:errors="*{reference}" class="error"></span>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="flex-half">
                     <label for="name">Your Name:</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" th:field="*{name}" required>
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
                 </div>
                 <div class="flex-half">
                     <label for="email">Your Email:</label>
-                    <input type="email" id="email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+                    <input type="email" id="email" name="email" th:field="*{email}" required
                            title="Please enter a valid email address (e.g., user@example.com)">
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="flex-large">
                     <label for="message">Your Message:</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
+                    <textarea id="message" name="message" rows="5" th:field="*{message}" required></textarea>
+                    <span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="error"></span>
                 </div>
             </div>
 

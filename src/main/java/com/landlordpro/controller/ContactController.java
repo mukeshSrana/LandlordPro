@@ -28,12 +28,14 @@ public class ContactController {
         Random random = new Random();
         int randomNumber = random.nextInt(1000000);
         String reference = "REF-" + String.format("%06d", randomNumber);
-        model.addAttribute("reference", reference);
+        ContactDto contactDto = new ContactDto();
+        contactDto.setReference(reference);
+        model.addAttribute("contact", contactDto);
         return "contact";
     }
 
     @PostMapping("/contact")
-    public String submitContact(@Valid @ModelAttribute ContactDto contactDto, BindingResult bindingResult, Model model) {
+    public String submitContact(@Valid @ModelAttribute("contact") ContactDto contactDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             // Return to the form with error messages
             model.addAttribute("contact", contactDto);
@@ -46,7 +48,7 @@ public class ContactController {
         model.addAttribute("successMessage", "Thank you for contacting us, " + contactDto.getName() + "! We will get back to you soon.");
 
         // Redirect or load a success page
-        return "contact"; // Renders contactDto.html with success message
+        return "redirect:/contact";
     }
 }
 
