@@ -67,6 +67,7 @@ public class UserService {
         // Save the updated entity
         try {
             userRepository.save(existingUser);
+            return true;
         } catch (DataIntegrityViolationException ex) {
             // Handle constraint violation, e.g., duplicate username
             throw new RuntimeException("Constraint violation while updating user", ex);
@@ -74,7 +75,6 @@ public class UserService {
             // General exception handling
             throw new RuntimeException("Unexpected error while updating user", ex);
         }
-        return true;
     }
 
     public boolean isUserExists(String email) {

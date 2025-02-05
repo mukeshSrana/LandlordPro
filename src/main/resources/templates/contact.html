@@ -15,59 +15,57 @@
     </script>
 </head>
 <!-- Define the fragment where the content will go -->
-<div layout:fragment="content">
+<div class="form-container" layout:fragment="content">
     <!-- Contact Page Content -->
-    <main class="form-container">
-        <p>If you have any questions or need assistance, feel free to contact us using the form below.</p>
+    <p>If you have any questions or need assistance, feel free to contact us using the form below.</p>
 
-        <div th:if="${successMessage}" class="success-message">
-            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
-            <p th:text="${successMessage}"></p>
+    <div th:if="${successMessage}" class="success-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Display error message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- Contact Form -->
+    <form th:action="@{/contact}" th:object="${contact}" method="post">
+        <div class="form-row">
+            <div class="flex-small">
+                <label for="reference">Reference:</label>
+                <input type="text" id="reference" name="reference" th:field="*{reference}" required readonly>
+                <span th:if="${#fields.hasErrors('reference')}" th:errors="*{reference}" class="error"></span>
+            </div>
         </div>
 
-        <!-- Display error message -->
-        <div th:if="${errorMessage}" class="error-message">
-            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
-            <p th:text="${errorMessage}"></p>
+        <div class="form-row">
+            <div class="flex-half">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" th:field="*{name}" required
+                       title="Name is required" size="50" maxlength="100" minlength="2">
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
+            </div>
+            <div class="flex-half">
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" name="email" th:field="*{email}" required
+                       title="Please enter a valid email address (e.g., user@example.com)">
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+            </div>
         </div>
 
-        <!-- Contact Form -->
-        <form th:action="@{/contact}" th:object="${contact}" method="post">
-            <div class="form-row">
-                <div class="flex-small">
-                    <label for="reference">Reference:</label>
-                    <input type="text" id="reference" name="reference" th:field="*{reference}" required readonly>
-                    <span th:if="${#fields.hasErrors('reference')}" th:errors="*{reference}" class="error"></span>
-                </div>
+        <div class="form-row">
+            <div class="flex-large">
+                <label for="message">Your Message:</label>
+                <textarea id="message" name="message" rows="5" th:field="*{message}" required title="Message is required" minlength="10"></textarea>
+                <span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="error"></span>
             </div>
+        </div>
 
-            <div class="form-row">
-                <div class="flex-half">
-                    <label for="name">Your Name:</label>
-                    <input type="text" id="name" name="name" th:field="*{name}" required
-                    title="Name is required" size="50" maxlength="100" minlength="2">
-                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
-                </div>
-                <div class="flex-half">
-                    <label for="email">Your Email:</label>
-                    <input type="email" id="email" name="email" th:field="*{email}" required
-                           title="Please enter a valid email address (e.g., user@example.com)">
-                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="flex-large">
-                    <label for="message">Your Message:</label>
-                    <textarea id="message" name="message" rows="5" th:field="*{message}" required title="Message is required" minlength="10"></textarea>
-                    <span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="error"></span>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <button type="submit">Send Message</button>
-            </div>
-        </form>
-    </main>
+        <div class="form-row">
+            <button type="submit">Send Message</button>
+        </div>
+    </form>
 </div>
 </html>

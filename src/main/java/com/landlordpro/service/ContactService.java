@@ -49,10 +49,10 @@ public class ContactService {
         contactMapper.updateEntityFromDto(contactDto, existingContact);
         try {
             contactRepository.save(existingContact);
+            return true;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while updating contact", e);
         }
-        return true;
     }
 }
 
