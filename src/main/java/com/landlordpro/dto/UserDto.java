@@ -18,11 +18,12 @@ public class UserDto {
     private UUID id;
 
     @NotBlank(message = "Username is required")
-    @Email(message = "Invalid email format")
+    @Email(message = "Please enter a valid email address")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Please enter a valid email address (e.g., user@example.com)")
     private String username;
 
     @NotBlank(message = "Name is required")
-    @Size(max = 50, message = "Name must not exceed 50 characters")
+    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
     private String name;
 
     @NotBlank(message = "Mobile number is required")
@@ -32,7 +33,7 @@ public class UserDto {
     )
     private String mobileNumber;
 
-    private String userRole; // Comma-separated roles
+    private String userRole;
 
     private boolean enabled;
 
