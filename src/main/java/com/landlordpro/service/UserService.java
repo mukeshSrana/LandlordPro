@@ -56,23 +56,17 @@ public class UserService {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public boolean updateUser(UserDto userDto) {
-        // Retrieve the existing user entity by ID
+    public void updateUser(UserDto userDto) {
         User existingUser = userRepository.findById(userDto.getId())
             .orElseThrow(() -> new RuntimeException("User not found with ID: " + userDto.getId()));
 
-        // Map the fields from the DTO to the existing entity
         userMapper.updateEntityFromDto(userDto, existingUser);
 
-        // Save the updated entity
         try {
             userRepository.save(existingUser);
-            return true;
         } catch (DataIntegrityViolationException ex) {
-            // Handle constraint violation, e.g., duplicate username
             throw new RuntimeException("Constraint violation while updating user", ex);
         } catch (Exception ex) {
-            // General exception handling
             throw new RuntimeException("Unexpected error while updating user", ex);
         }
     }

@@ -5,59 +5,72 @@
 <head>
     <link rel="stylesheet" th:href="@{/contactAdminTable.css}">
     <script th:src="@{/js/contactAdmin.js}"></script>
+    <script>
+      function closeMessage(button) {
+        var messageBox = button.parentElement;
+        messageBox.style.display = 'none';
+      }
+    </script>
 </head>
 <!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
-    <main>
-        <table>
-            <thead>
-            <tr>
-                <th>Referanse</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Message</th>
-                <th>Resolved</th>
-                <th>Deleted</th>
-                <th>Date</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="contact : ${contacts}">
-                <td th:text="${contact.reference}"></td>
-                <td th:text="${contact.name}"></td>
-                <td th:text="${contact.email}"></td>
-                <td th:text="${contact.message}"></td>
-                <td>
-                    <select th:name="resolved" onchange="updateResolvedInput(this)">
-                        <option value="true" th:selected="${contact.resolved} == true">True</option>
-                        <option value="false" th:selected="${contact.resolved} == false">False</option>
-                    </select>
-                </td>
-                <td>
-                    <select th:name="deleted" onchange="updateDeletedInput(this)">
-                        <option value="true" th:selected="${contact.deleted} == true">True</option>
-                        <option value="false" th:selected="${contact.deleted} == false">False</option>
-                    </select>
-                </td>
-                <td th:text="${#temporals.format(contact.createdDate, 'dd.MM.yyyy')}"></td>
-                <td>
-                    <form th:action="@{/admin/update/contact}" method="post">
-                        <input type="hidden" th:name="id" th:value="${contact.id}" />
-                        <input type="hidden" th:name="reference" th:value="${contact.reference}" />
-                        <input type="hidden" th:name="name" th:value="${contact.name}" />
-                        <input type="hidden" th:name="email" th:value="${contact.email}" />
-                        <input type="hidden" th:name="message" th:value="${contact.message}" />
-                        <input type="hidden" th:name="resolved" th:value="${contact.resolved}" />
-                        <input type="hidden" th:name="deleted" th:value="${contact.deleted}" />
-                        <input type="hidden" th:name="createdDate" th:value="${contact.createdDate}" />
-                        <input type="hidden" th:name="updatedDate" th:value="${contact.updatedDate}" />
-                        <button type="submit" class="edit-btn">Update</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </main>
+    <div th:if="${successMessage}" class="success-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <div th:if="${errorMessage}" class="error-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Referanse</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Resolved</th>
+            <th>Deleted</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contact : ${contacts}">
+            <td th:text="${contact.reference}"></td>
+            <td th:text="${contact.name}"></td>
+            <td th:text="${contact.email}"></td>
+            <td th:text="${contact.message}"></td>
+            <td>
+                <select th:name="resolved" onchange="updateResolvedInput(this)">
+                    <option value="true" th:selected="${contact.resolved} == true">True</option>
+                    <option value="false" th:selected="${contact.resolved} == false">False</option>
+                </select>
+            </td>
+            <td>
+                <select th:name="deleted" onchange="updateDeletedInput(this)">
+                    <option value="true" th:selected="${contact.deleted} == true">True</option>
+                    <option value="false" th:selected="${contact.deleted} == false">False</option>
+                </select>
+            </td>
+            <td th:text="${#temporals.format(contact.createdDate, 'dd.MM.yyyy')}"></td>
+            <td>
+                <form th:action="@{/admin/update/contact}" method="post">
+                    <input type="hidden" th:name="id" th:value="${contact.id}"/>
+                    <input type="hidden" th:name="reference" th:value="${contact.reference}"/>
+                    <input type="hidden" th:name="name" th:value="${contact.name}"/>
+                    <input type="hidden" th:name="email" th:value="${contact.email}"/>
+                    <input type="hidden" th:name="message" th:value="${contact.message}"/>
+                    <input type="hidden" th:name="resolved" th:value="${contact.resolved}"/>
+                    <input type="hidden" th:name="deleted" th:value="${contact.deleted}"/>
+                    <input type="hidden" th:name="createdDate" th:value="${contact.createdDate}"/>
+                    <input type="hidden" th:name="updatedDate" th:value="${contact.updatedDate}"/>
+                    <button type="submit" class="edit-btn">Update</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </html>

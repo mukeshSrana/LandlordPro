@@ -1,8 +1,5 @@
 package com.landlordpro.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.ContactDto;
 import com.landlordpro.dto.UserDto;
@@ -34,42 +32,26 @@ public class AdminController {
     }
 
     @PostMapping("/update/user")
-    public String updateUser(@ModelAttribute UserDto userDto) {
-        Map<String, Object> response = new HashMap<>();
+    public String updateUser(@ModelAttribute UserDto userDto, RedirectAttributes redirectAttributes) {
         try {
-            boolean updated = userService.updateUser(userDto);
-            if (updated) {
-                response.put("success", true);
-                response.put("userUpdated", updated);
-            } else {
-                response.put("success", false);
-                response.put("message", "Update failed: user not found or could not be updated.");
-            }
+            userService.updateUser(userDto);
         } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", "Error: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
         return  "redirect:/admin/users";
     }
 
     @PostMapping("/update/contact")
-    public String updateContact(@ModelAttribute ContactDto contactDto) {
-        Map<String, Object> response = new HashMap<>();
+    public String updateContact(@ModelAttribute ContactDto contactDto, RedirectAttributes redirectAttributes) {
         try {
-            boolean updated = contactService.updateContact(contactDto);
-            if (updated) {
-                response.put("success", true);
-                response.put("contactUpdated", updated);
-            } else {
-                response.put("success", false);
-                response.put("message", "Update failed: contact not found or could not be updated.");
-            }
+            contactService.updateContact(contactDto);
         } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", "Error: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             log.error(e.getMessage(), e);
         }
-        return  "redirect:/admin/contacts";
+
+        return "redirect:/admin/contacts";
     }
 
     @GetMapping("/users")

@@ -38,7 +38,7 @@ public class ContactService {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public boolean updateContact(ContactDto contactDto) {
+    public void updateContact(ContactDto contactDto) {
         if (contactDto.getId() == null || contactDto.getReference() == null) {
             throw new IllegalArgumentException("UpdateContact: Contact ID and Reference must not be null.");
         }
@@ -49,7 +49,6 @@ public class ContactService {
         contactMapper.updateEntityFromDto(contactDto, existingContact);
         try {
             contactRepository.save(existingContact);
-            return true;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while updating contact", e);
         }

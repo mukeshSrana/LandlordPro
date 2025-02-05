@@ -1,80 +1,85 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html layout:decorate="~{layout.html}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout.html}">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" th:href="@{/userAdminTable.css}">
     <script th:src="@{/js/userAdmin.js}"></script>
+    <script>
+      function closeMessage(button) {
+        var messageBox = button.parentElement;
+        messageBox.style.display = 'none';
+      }
+    </script>
 </head>
 <!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
-    <main>
-        <div th:if="${response != null}">
-            <div th:if="${response.success}" class="alert alert-success">
-                <p th:text="${response.message}"></p>
-            </div>
-            <div th:if="${!response.success}" class="alert alert-danger">
-                <p th:text="${response.message}"></p>
-            </div>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Username</th>
-                <th>Mobile</th>
-                <th>Role</th>
-                <th>Enabled</th>
-                <th>Deleted</th>
-                <th>Date</th>
-                <th>Actions</th> <!-- Added Actions column -->
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.username}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${user.mobileNumber}"></td>
-                <td>
-                    <select th:name="userRole" onchange="updateUserRole(this)">
-                        <option th:each="role : ${allRoles}"
-                                th:value="${role.name()}"
-                        th:text="${role.getDescription()}"
-                        th:selected="${user.userRole} == ${role.name()}">
-                        </option>
-                    </select>
-                </td>
+    <div th:if="${successMessage}" class="success-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${successMessage}"></p>
+    </div>
 
-                <td>
-                    <select th:name="enabled" onchange="updateEnabledInput(this)">
-                        <option value="true" th:selected="${user.enabled} == true">True</option>
-                        <option value="false" th:selected="${user.enabled} == false">False</option>
-                    </select>
-                </td>
-                <td>
-                    <select th:name="deleted" onchange="updateDeletedInput(this)">
-                        <option value="true" th:selected="${user.deleted} == true">True</option>
-                        <option value="false" th:selected="${user.deleted} == false">False</option>
-                    </select>
-                </td>
-                <td th:text="${#temporals.format(user.createdDate, 'dd.MM.yyyy')}"></td>
-                <td>
-                    <form th:action="@{/admin/update/user}" method="post">
-                        <input type="hidden" th:name="id" th:value="${user.id}" />
-                        <input type="hidden" th:name="name" th:value="${user.name}" />
-                        <input type="hidden" th:name="username" th:value="${user.username}" />
-                        <input type="hidden" th:name="userRole" th:value="${user.userRole}" />
-                        <input type="hidden" th:name="mobileNumber" th:value="${user.mobileNumber}" />
-                        <input type="hidden" th:name="enabled" th:value="${user.enabled}" />
-                        <input type="hidden" th:name="deleted" th:value="${user.deleted}" />
-                        <input type="hidden" th:name="createdDate" th:value="${user.createdDate}" />
-                        <input type="hidden" th:name="updatedDate" th:value="${user.updatedDate}" />
-                        <button type="submit" class="edit-btn">Update</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </main>
+    <div th:if="${errorMessage}" class="error-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Mobile</th>
+            <th>Role</th>
+            <th>Enabled</th>
+            <th>Deleted</th>
+            <th>Date</th>
+            <th>Actions</th> <!-- Added Actions column -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.username}"></td>
+            <td ondblclick="enableEditing(this)" th:text="${user.mobileNumber}"></td>
+            <td>
+                <select onchange="updateUserRole(this)" th:name="userRole">
+                    <option th:each="role : ${allRoles}"
+                            th:selected="${user.userRole} == ${role.name()}"
+                            th:text="${role.getDescription()}"
+                            th:value="${role.name()}">
+                    </option>
+                </select>
+            </td>
+
+            <td>
+                <select onchange="updateEnabledInput(this)" th:name="enabled">
+                    <option th:selected="${user.enabled} == true" value="true">True</option>
+                    <option th:selected="${user.enabled} == false" value="false">False</option>
+                </select>
+            </td>
+            <td>
+                <select onchange="updateDeletedInput(this)" th:name="deleted">
+                    <option th:selected="${user.deleted} == true" value="true">True</option>
+                    <option th:selected="${user.deleted} == false" value="false">False</option>
+                </select>
+            </td>
+            <td th:text="${#temporals.format(user.createdDate, 'dd.MM.yyyy')}"></td>
+            <td>
+                <form method="post" th:action="@{/admin/update/user}">
+                    <input th:name="id" th:value="${user.id}" type="hidden"/>
+                    <input th:name="name" th:value="${user.name}" type="hidden"/>
+                    <input th:name="username" th:value="${user.username}" type="hidden"/>
+                    <input th:name="userRole" th:value="${user.userRole}" type="hidden"/>
+                    <input th:name="mobileNumber" th:value="${user.mobileNumber}" type="hidden"/>
+                    <input th:name="enabled" th:value="${user.enabled}" type="hidden"/>
+                    <input th:name="deleted" th:value="${user.deleted}" type="hidden"/>
+                    <input th:name="createdDate" th:value="${user.createdDate}" type="hidden"/>
+                    <input th:name="updatedDate" th:value="${user.updatedDate}" type="hidden"/>
+                    <button class="edit-btn" type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </html>
