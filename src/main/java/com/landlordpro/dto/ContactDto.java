@@ -32,7 +32,7 @@ public class ContactDto {
     private String email;
 
     @NotBlank(message = "Message is required")
-    @Size(min = 10, message = "Message should be at least 10 characters long")
+    @Size(min = 10, max = 500, message = "Message should be at least 10 characters long")
     private String message;
 
     private boolean deleted;

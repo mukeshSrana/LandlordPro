@@ -52,9 +52,9 @@
         </div>
 
         <div class="form-row">
-            <div class="flex-half">
+            <div class="flex-small">
                 <label for="message">Your Message:</label>
-                <textarea id="message" name="message" rows="5" th:field="*{message}" required title="Message is required" minlength="10"></textarea>
+                <textarea id="message" name="message" rows="4" th:field="*{message}" required title="Message is required" minlength="10" maxlength="500"></textarea>
                 <span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="error"></span>
             </div>
         </div>

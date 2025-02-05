@@ -120,7 +120,7 @@
 }
 
 .form-container textarea {
-    width: 100%; /* Ensures it takes up the full width of its container */
+    /*width: 100%; !* Ensures it takes up the full width of its container *!*/
     height: 150px; /* Fixed height for the textarea */
     padding: 0.8rem;
     border: 1px solid #ccc;
@@ -133,12 +133,12 @@
     flex: 1;
 }
 
-.form-container .form-row .flex-large {
-    flex: 4;
+.form-container .form-row .flex-small {
+    flex: 1;
 }
 
-.form-container .flex-small {
-    flex: 1; /* Amount takes less space */
+.form-container #message {
+    max-width: 325px;
 }
 
 .form-container #reference {
