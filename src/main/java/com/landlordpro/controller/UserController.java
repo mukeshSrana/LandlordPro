@@ -47,7 +47,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("successMessage",
                 "Password changed, " + passwordChangeDto.getUsername() + "! You can <a href='/login'>click here</a> to log in.");
         } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             log.error(e.getMessage(), e);
         }
         return "redirect:/users/changePassword";
@@ -92,7 +92,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("successMessage",
                 "Registration successful, " + userDTO.getUsername() + "! You will receive an email once your account is ready to use.");
         } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             log.error(e.getMessage(), e);
         }
         return "redirect:/users/register";
