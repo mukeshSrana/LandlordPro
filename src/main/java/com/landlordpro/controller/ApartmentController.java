@@ -2,9 +2,11 @@ package com.landlordpro.controller;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -125,6 +127,7 @@ public class ApartmentController {
         UUID userId = userDetails.getId();
         List<ApartmentDto> apartmentsForUser = apartmentService.getApartmentsForUser(userId);
         List<Integer> availableYears = getAvailableYears(apartmentsForUser);
+        String ownerName = getOwnerName(apartmentsForUser);
 
         Integer latestYear = availableYears.isEmpty() ? 0 : availableYears.get(availableYears.size() - 1);
 
@@ -134,6 +137,7 @@ public class ApartmentController {
         List<ApartmentDto> apartments = getApartmentsFiltered(apartmentsForUser, year);
 
         model.addAttribute("apartments", apartments);
+        model.addAttribute("ownerName", ownerName);
         model.addAttribute("years", availableYears);
         model.addAttribute("selectedYear", year);
         model.addAttribute("page", "handleApartment");
@@ -154,6 +158,22 @@ public class ApartmentController {
             .distinct() // Get unique years
             .sorted() // Sort the years in ascending order
             .collect(Collectors.toList()); // Collect into a list
+    }
+
+    private String getOwnerName(List<ApartmentDto> apartmentsForUser) {
+        Set<String> uniqueOwners = apartmentsForUser.stream()
+            .map(ApartmentDto::getOwnerName)
+            .collect(Collectors.toSet());
+
+        if (uniqueOwners.size() > 1) {
+            throw new IllegalStateException("Owner name inconsistent, can't me more than 1");
+        }
+
+        if (!uniqueOwners.isEmpty()) {
+            return uniqueOwners.iterator().next();
+        }
+
+        return Strings.EMPTY;
     }
 
     private CustomUserDetails currentUser(Authentication authentication) {

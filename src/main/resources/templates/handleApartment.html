@@ -40,6 +40,8 @@
                             th:selected="${year == selectedYear}">
                         </option>
                     </select>
+                    <label for="ownerName">Owner Name:</label>
+                    <input type="text" id="ownerName" name="ownerName" th:value="${ownerName}" readonly>
                 </form>
             </div>
         </div>
@@ -48,7 +50,6 @@
             <thead>
             <tr>
                 <th>Name(Short)</th>
-                <th>Owner</th>
                 <th>Address Line 1</th>
                 <th>Address Line 2</th>
                 <th>Pin Code</th>
@@ -60,7 +61,6 @@
             <tbody>
             <tr th:each="apartment : ${apartments}">
                 <td ondblclick="enableEditing(this)" th:text="${apartment.apartmentShortName}"></td>
-                <td th:text="${apartment.ownerName}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${apartment.addressLine1}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${apartment.addressLine2}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${apartment.pincode}"></td>
