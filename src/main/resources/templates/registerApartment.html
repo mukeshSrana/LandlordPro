@@ -46,7 +46,7 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <form th:action="@{/apartment/add}" method="post" th:object="${apartment}">
+    <form th:action="@{/apartment/add}" th:object="${apartment}"  method="post" >
         <div class="form-row">
             <div class="flex-half">
                 <label for="apartmentShortName">Apartment Name (Short):</label>
