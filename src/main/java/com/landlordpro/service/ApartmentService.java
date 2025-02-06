@@ -103,10 +103,8 @@ public class ApartmentService {
             String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " already exists for the logged-in user.";
             throw new RuntimeException(errorMsg);
         }
-
-        Apartment apartment = apartmentMapper.toEntity(apartmentDto);
         try {
-            apartmentRepository.save(apartment);
+            apartmentRepository.save(apartmentMapper.toEntity(apartmentDto));
         } catch (DataIntegrityViolationException ex) {
             String errorMessage = "Constraint violation while saving apartment=" + apartmentDto.getId() + " User=" + apartmentDto.getUserId();
             log.error(errorMessage, ex); // Assuming you have a logger in place

@@ -2,6 +2,7 @@ package com.landlordpro.controller;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,19 +67,27 @@ public class ApartmentController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, RedirectAttributes redirectAttributes) {
+    public String update(
+        @Valid ApartmentDto apartmentDto,
+        BindingResult bindingResult,
+        Authentication authentication,
+        RedirectAttributes redirectAttributes) {
         try {
+            if (bindingResult.hasErrors()) {
+                Optional<ObjectError> firstError = bindingResult.getAllErrors().stream().findFirst();
+                if (firstError.isPresent()) {
+                    throw new RuntimeException(firstError.get().getDefaultMessage());
+                }
+            }
+
             CustomUserDetails userDetails = currentUser(authentication);
-            // Retrieve the logged-in user's ID
             UUID userId = userDetails.getId();
 
             apartmentService.update(apartmentDto, userId);
-            redirectAttributes.addFlashAttribute("successMessage", "Apartment updated successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while updating apartment: ", e);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
-        // Add query parameters for year and apartmentId
         Integer year = apartmentDto.getCreatedDate().getYear();
         redirectAttributes.addFlashAttribute("page", "handleApartment");
         return "redirect:/apartment/handle?year=" + year;
@@ -99,8 +109,8 @@ public class ApartmentController {
             }
             redirectAttributes.addFlashAttribute("successMessage", "Apartment deleted successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while deleting apartment: ", e);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
         redirectAttributes.addFlashAttribute("page", "handleApartment");
         return "redirect:/apartment/handle?year=" + year;

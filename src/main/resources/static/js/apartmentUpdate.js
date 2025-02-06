@@ -31,11 +31,11 @@ function enableEditing(cell) {
         alert("Invalid input for apartment short name. Only alphanumeric characters are allowed.");
         cell.textContent = apartmentShortNameHiddenInput.value; // Revert to the original value
       }
-    } else if (cell.cellIndex === 2 && addressLine1HiddenInput) {
+    } else if (cell.cellIndex === 1 && addressLine1HiddenInput) {
       addressLine1HiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 3 && addressLine2HiddenInput) {
+    } else if (cell.cellIndex === 2 && addressLine2HiddenInput) {
       addressLine2HiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 4 && pincodeHiddenInput) {
+    } else if (cell.cellIndex === 3 && pincodeHiddenInput) {
       pincodeHiddenInput.value = cell.textContent.trim();
     }
   });
