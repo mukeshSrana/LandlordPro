@@ -60,6 +60,8 @@ public class ReportController {
             e.printStackTrace();
         }
 
+        model.addAttribute("expenses", expenses);
+        model.addAttribute("months", months);
         model.addAttribute("page", "chartReport1");
         return "chartReport1"; // Thymeleaf template
     }
