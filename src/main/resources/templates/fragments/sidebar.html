@@ -104,6 +104,12 @@
                             Occupancy status
                         </a>
                     </li>
+                    <li>
+                        <a th:href="@{/reports/chart}" th:classappend="${page == 'chartReport' ? 'active' : ''}"
+                           onclick="handleSelection(event, 'report-options')">
+                            Expenses chart
+                        </a>
+                    </li>
                 </ul>
             </li>
         </th:block> <!-- End of ROLE_LANDLORD restriction -->

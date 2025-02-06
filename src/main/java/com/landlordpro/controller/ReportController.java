@@ -1,5 +1,6 @@
 package com.landlordpro.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +25,18 @@ public class ReportController {
 
     public ReportController(ReportService reportService) {
         this.reportService = reportService;
+    }
+
+    @GetMapping("/chart")
+    public String getReport(Model model) {
+        // Example data for chart
+        List<Integer> expenses = Arrays.asList(200, 400, 600, 500);
+        List<String> months = Arrays.asList("Jan", "Feb", "Mar", "Apr");
+
+        model.addAttribute("expenses", expenses);
+        model.addAttribute("months", months);
+
+        return "chartReport";
     }
 
     @GetMapping("/apartmentOccupancy")

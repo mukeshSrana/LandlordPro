@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Expense Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js CDN -->
+    <link rel="stylesheet" th:href="@{/css/reports.css}"> <!-- Your CSS -->
+</head>
+<body>
+<div class="form-container" layout:fragment="content">
+    <canvas id="expensesChart" width="400" height="200"></canvas>
+    <script>
+      // Correctly parse Thymeleaf arrays into JavaScript arrays
+      var expenses = /*[[${expenses}]]*/ [200, 400, 600, 500];  // Example: expenses array
+      var months = /*[[${months}]]*/ ["Jan", "Feb", "Mar", "Apr"];  // Example: months array
+
+      // Log data to ensure correct format
+      console.log("Expenses:", expenses);
+      console.log("Months:", months);
+
+      // Create the chart
+      var ctx = document.getElementById('expensesChart').getContext('2d');
+      var chart = new Chart(ctx, {
+        type: 'bar', // Bar chart type
+        data: {
+          labels: months, // Month labels
+          datasets: [{
+            label: 'Monthly Expenses', // Dataset label
+            data: expenses, // Expense data
+            backgroundColor: 'rgba(54, 162, 235, 0.2)', // Bar color
+            borderColor: 'rgba(54, 162, 235, 1)', // Bar border color
+            borderWidth: 1 // Border width
+          }]
+        },
+        options: {
+          responsive: true, // Make the chart responsive
+          scales: {
+            y: {
+              beginAtZero: true // Start Y-axis at zero
+            }
+          }
+        }
+      });
+    </script>
+</div>
+</body>
+</html>
