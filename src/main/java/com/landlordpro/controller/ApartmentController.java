@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.landlordpro.dto.ApartmentDto;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -34,22 +36,27 @@ public class ApartmentController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute ApartmentDto apartmentDto, Authentication authentication, RedirectAttributes redirectAttributes){
+    public String add(
+        @Valid @ModelAttribute("apartment") ApartmentDto apartmentDto,
+        BindingResult bindingResult,
+        Model model,
+        Authentication authentication,
+        RedirectAttributes redirectAttributes){
         try {
+            if (bindingResult.hasErrors()) {
+                // Return to the form with error messages
+                model.addAttribute("apartment", apartmentDto);
+                return "registerApartment";
+            }
+
             CustomUserDetails userDetails = currentUser(authentication);
-            // Retrieve the logged-in user's ID
             UUID userId = userDetails.getId();
-
             apartmentDto.setUserId(userId);
-
             apartmentService.add(apartmentDto);
-
             redirectAttributes.addFlashAttribute("successMessage", "Apartment created successfully!");
-            //return "registerApartment"; // Redirect or forward to success page
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while saving apartment: ", e);
-            //return "registerApartment"; // Return to the form with error message
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
         redirectAttributes.addFlashAttribute("page", "registerApartment");
         return "redirect:/apartment/register";
@@ -98,9 +105,12 @@ public class ApartmentController {
     }
 
     @GetMapping("/register")
-    public String register(Model model, Authentication authentication) {
+    public String showRegisterApartment(Model model, Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
-        model.addAttribute("ownerName", userDetails.getName());
+        ApartmentDto apartmentDto = new ApartmentDto();
+        apartmentDto.setOwnerName(userDetails.getName());
+        apartmentDto.setCountry("Norway");
+        model.addAttribute("apartment", apartmentDto);
         model.addAttribute("page", "registerApartment");
         return "registerApartment";
     }

@@ -15,8 +15,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ApartmentDto {
 
-    public static final String NAME_PATTERN_LETTER_AND_SPACES = "^[a-zA-ZÆØÅæøå\s]+$";
-    public static final String ADDRESS_PATTERN_LETTER_AND_SPACES = "^[a-zA-ZÆØÅæøå0-9\s.,#-]+$";
+    public static final String NAME_PATTERN_LETTER_AND_SPACES = "^[a-zA-ZÆØÅæøåé\\s]+$";
+    public static final String CITY_PATTERN_LETTER_AND_SPACES = "^(?!City not found$)(?!Error fetching city$)[a-zA-ZÆØÅæøåé\\s]+$";
+    public static final String ADDRESS1_PATTERN_LETTER_AND_SPACES = "^[a-zA-ZÆØÅæøåé0-9\\s.,#-]+$";
+    public static final String ADDRESS2_PATTERN_LETTER_AND_SPACES = "^[a-zA-ZÆØÅæøåé0-9\\s.,#-]*$";
     public static final String PINCODE_PATTERN_FOUR_DIGITS = "^[0-9]{4}$";
     public static final String APARTMENT_NAME_PATTERN_LETTER_WITHOUT_SPACES = "^[a-zA-Z0-9]+$";
 
@@ -41,14 +43,14 @@ public class ApartmentDto {
     @NotBlank(message = "AddressLine1 is mandatory")
     @Size(min = 2, max = 100, message = "AddressLine1 must be between 2 and 100 characters")
     @Pattern(
-        regexp = ADDRESS_PATTERN_LETTER_AND_SPACES,
+        regexp = ADDRESS1_PATTERN_LETTER_AND_SPACES,
         message = "AddressLine1 must contain only letters, spaces or special characters"
     )
     private String addressLine1;
 
-    @Size( max = 100, message = "AddressLine2 must be between 0 and 100 characters")
+    @Size(max = 100, message = "AddressLine2 must be between 0 and 100 characters")
     @Pattern(
-        regexp = ADDRESS_PATTERN_LETTER_AND_SPACES,
+        regexp = ADDRESS2_PATTERN_LETTER_AND_SPACES,
         message = "AddressLine2 must contain only letters, spaces or special characters"
     )
     private String addressLine2;
@@ -73,7 +75,7 @@ public class ApartmentDto {
     @Size(max = 100, message = "Country should be up to 100 characters")
     @Pattern(
         regexp = NAME_PATTERN_LETTER_AND_SPACES,
-        message = "Country must contain only letters and spaces"
+        message = "Country must be valid and contain only letters and spaces"
     )
     private String country;
 
