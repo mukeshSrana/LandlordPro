@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.el.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,4 +29,6 @@ public interface ApartmentRepository extends JpaRepository<Apartment, UUID> {
     List<Apartment> findByIdIn(List<UUID> apartmentIds);
 
     Optional<Apartment> findByIdAndUserId(UUID id, UUID userId);
+
+    Optional<Apartment> findByApartmentShortNameIgnoreCaseAndUserId(String apartmentShortName, UUID userId);
 }

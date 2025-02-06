@@ -43,10 +43,6 @@ public class ApartmentService {
         this.expenseRepository = expenseRepository;
     }
 
-    public boolean isUniueApartmentNameForUser(String apartmentName, UUID userId) {
-        return apartmentRepository.existsByApartmentShortNameIgnoreCaseAndUserId(apartmentName.toLowerCase(), userId);
-    }
-
     public boolean isExistsForUser(UUID apartmentID, UUID userId) {
         return apartmentRepository.existsByIdAndUserId(apartmentID, userId);
     }
@@ -91,15 +87,16 @@ public class ApartmentService {
             String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " not exists for the logged-in user.";
             throw new RuntimeException(errorMsg);
         }
-        save(apartmentDto);
+        save(apartmentDto, apartmentDto.getId());
     }
 
     public void add(ApartmentDto apartmentDto) {
-        save(apartmentDto);
+        save(apartmentDto, null);
     }
 
-    private void save(ApartmentDto apartmentDto) {
-        if (isUniueApartmentNameForUser(apartmentDto.getApartmentShortName(), apartmentDto.getUserId())) {
+    private void save(ApartmentDto apartmentDto, UUID existingApartmentId) {
+        // Modify the uniqueness check to ignore the current apartment being updated
+        if (isUniueApartmentNameForUser(apartmentDto.getApartmentShortName(), apartmentDto.getUserId(), existingApartmentId)) {
             String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " already exists for the logged-in user.";
             throw new RuntimeException(errorMsg);
         }
@@ -114,6 +111,13 @@ public class ApartmentService {
             log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         }
+    }
+
+    private boolean isUniueApartmentNameForUser(String apartmentShortName, UUID userId, UUID existingApartmentId) {
+        // Check if there's another apartment with the same name for the user, but not the same apartment ID (when updating)
+        return apartmentRepository.findByApartmentShortNameIgnoreCaseAndUserId(apartmentShortName.toLowerCase(), userId)
+            .filter(apartment -> !apartment.getId().equals(existingApartmentId))
+            .isPresent();
     }
 
     @Transactional
