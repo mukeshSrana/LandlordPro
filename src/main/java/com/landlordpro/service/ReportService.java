@@ -48,17 +48,24 @@ public class ReportService {
             dataset.addValue(expenses.get(i), "Expenses", months.get(i));
         }
 
-        JFreeChart chart = ChartFactory.createBarChart(
+        JFreeChart chart = ChartFactory.createLineChart(
             "Monthly Expenses",
             "Month",
             "Amount",
             dataset
         );
 
+//        JFreeChart chart = ChartFactory.createBarChart(
+//            "Monthly Expenses",
+//            "Month",
+//            "Amount",
+//            dataset
+//        );
+
         chart.setBackgroundPaint(Color.white);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ChartUtils.writeChartAsPNG(baos, chart, 800, 400);
+        ChartUtils.writeChartAsPNG(baos, chart, 1000, 500);
         return baos.toByteArray();
     }
 
