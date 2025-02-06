@@ -110,6 +110,12 @@
                             Expenses chart
                         </a>
                     </li>
+                    <li>
+                        <a th:href="@{/reports/chart1}" th:classappend="${page == 'chartReport1' ? 'active' : ''}"
+                           onclick="handleSelection(event, 'report-options')">
+                            Expenses chart1
+                        </a>
+                    </li>
                 </ul>
             </li>
         </th:block> <!-- End of ROLE_LANDLORD restriction -->

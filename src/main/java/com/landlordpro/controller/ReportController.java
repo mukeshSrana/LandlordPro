@@ -1,8 +1,16 @@
 package com.landlordpro.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -26,6 +34,36 @@ public class ReportController {
     public ReportController(ReportService reportService) {
         this.reportService = reportService;
     }
+
+    @GetMapping("/chart1")
+    public String getReport1(Model model) {
+        List<Integer> expenses = List.of(200, 400, 600, 500);
+        List<String> months = List.of("Jan", "Feb", "Mar", "Apr");
+
+        // Create the chart
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (int i = 0; i < months.size(); i++) {
+            dataset.addValue(expenses.get(i), "Expenses", months.get(i));
+        }
+
+        JFreeChart barChart = ChartFactory.createBarChart(
+            "Monthly Expenses", "Month", "Amount", dataset);
+
+        // Convert the chart to a Base64 image string
+        try {
+            BufferedImage chartImage = barChart.createBufferedImage(600, 400);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(chartImage, "png", baos);
+            String base64Image = Base64.getEncoder().encodeToString(baos.toByteArray());
+            model.addAttribute("chartImage", base64Image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        model.addAttribute("page", "chartReport1");
+        return "chartReport1"; // Thymeleaf template
+    }
+
 
     @GetMapping("/chart")
     public String getReport(Model model) {
