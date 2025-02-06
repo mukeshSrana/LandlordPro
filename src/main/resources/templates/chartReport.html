@@ -11,35 +11,45 @@
 </head>
 <body>
 <div class="form-container" layout:fragment="content">
-    <canvas id="expensesChart"></canvas>
-    <script>
-      // Correctly parse Thymeleaf arrays into JavaScript arrays
-      var expenses = /*[[${expenses}]]*/ [200, 400, 600, 500];  // Example: expenses array
-      var months = /*[[${months}]]*/ ["Jan", "Feb", "Mar", "Apr"];  // Example: months array
+    <div id="chartData"
+         th:attr="data-expenses=${expenses}, data-months=${months}">
+    </div>
 
-      // Log data to ensure correct format
+    <canvas id="expensesChart" width="400" height="200"></canvas>
+
+    <script>
+      // Retrieve data from the hidden div's attributes
+      var chartElement = document.getElementById('chartData');
+
+      // Convert string representation into valid JavaScript arrays
+      var expenses = chartElement.getAttribute("data-expenses")
+        .replace("[", "").replace("]", "").split(",").map(Number);
+
+      var months = chartElement.getAttribute("data-months")
+        .replace("[", "").replace("]", "").replace(/ /g, "").split(",");
+
       console.log("Expenses:", expenses);
       console.log("Months:", months);
 
       // Create the chart
       var ctx = document.getElementById('expensesChart').getContext('2d');
       var chart = new Chart(ctx, {
-        type: 'bar', // Bar chart type
+        type: 'bar',
         data: {
-          labels: months, // Month labels
+          labels: months,
           datasets: [{
-            label: 'Monthly Expenses', // Dataset label
-            data: expenses, // Expense data
-            backgroundColor: 'rgba(54, 162, 235, 0.2)', // Bar color
-            borderColor: 'rgba(54, 162, 235, 1)', // Bar border color
-            borderWidth: 1 // Border width
+            label: 'Monthly Expenses',
+            data: expenses,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
           }]
         },
         options: {
-          responsive: true, // Make the chart responsive
+          responsive: true,
           scales: {
             y: {
-              beginAtZero: true // Start Y-axis at zero
+              beginAtZero: true
             }
           }
         }
