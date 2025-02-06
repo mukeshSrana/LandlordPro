@@ -50,6 +50,28 @@
     position: relative;
 }
 
+.form-container .field-error {
+    color: red;
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 5px;
+}
+
+.form-container .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.form-container .close-btn:hover {
+    color: #aaa;
+}
+
 /* General form input styling */
 .form-container label {
     display: block;
@@ -99,21 +121,6 @@
 
 .form-container button:hover {
     background-color: #0056b3;
-}
-
-.form-container .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    color: #333;
-    cursor: pointer;
-    background: none;
-    border: none;
-}
-
-.form-container .close-btn:hover {
-    color: #aaa;
 }
 
 .form-container .required-fields-info {

@@ -12,7 +12,6 @@
       async function fetchCity() {
         const pincodeInput = document.getElementById('pincode');
         const cityInput = document.getElementById('city');
-        const submitButton = document.getElementById('submit-button');
         const pincode = pincodeInput.value;
 
         if (pincode.length >= 4) {
@@ -29,15 +28,7 @@
             cityInput.value = "Error fetching city";
           }
         } else {
-          cityInput.value = ""; // Clear city if pincode is too short
-        }
-      }
-
-      function validateForm(event) {
-        const cityInput = document.getElementById('city');
-        if (cityInput.value === "City not found" || cityInput.value === "Error fetching city" || cityInput.value === "") {
-          event.preventDefault(); // Prevent form submission
-          alert("Please provide a valid pincode to get a city.");
+          cityInput.value = "";
         }
       }
     </script>
@@ -55,39 +46,50 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <form th:action="@{/apartment/add}" method="post" onsubmit="validateForm(event)">
+    <form th:action="@{/apartment/add}" method="post" th:object="${apartment}">
         <div class="form-row">
             <div class="flex-half">
                 <label for="apartmentShortName">Apartment Name (Short):</label>
-                <input type="text" id="apartmentShortName" name="apartmentShortName" required
+                <input type="text" id="apartmentShortName" name="apartmentShortName"  th:field="*{apartmentShortName}" required
                        pattern="^[a-zA-Z0-9]+$"
-                       title="Apartment short name must contain only letters and numbers without spaces or special characters">
+                       minlength="2" maxlength="40" size="40"
+                       title="Name must contain only letters without spaces or special characters">
+                <span th:if="${#fields.hasErrors('apartmentShortName')}" th:errors="*{apartmentShortName}" class="field-error"></span>
             </div>
             <div class="flex-half">
                 <label for="ownerName">Owner:</label>
-                <!-- Disabled input for display -->
-                <input type="text" id="ownerName" name="ownerName" required th:value="${ownerName}" th:disabled="${ownerName != null}">
-
-                <!-- Hidden field to pass the value when the input is disabled -->
-                <input type="hidden" name="ownerName" th:value="${ownerName}">
+                <input type="text" id="ownerName" name="ownerName" th:field="*{ownerName}" required readonly>
+                <span th:if="${#fields.hasErrors('ownerName')}" th:errors="*{ownerName}" class="field-error"></span>
             </div>
         </div>
 
         <div class="form-row">
             <div class="full-width">
                 <label for="addressLine1">Address Line 1:</label>
-                <input type="text" id="addressLine1" name="addressLine1" required>
+                <input type="text" id="addressLine1" name="addressLine1" required
+                       pattern="^[a-zA-ZÆØÅæøå0-9s.,#-]+$"
+                       minlength="2" maxlength="100" size="100"
+                       title="AddressLine1 must contain only letters, spaces or special characters">
+                <span th:if="${#fields.hasErrors('addressLine1')}" th:errors="*{addressLine1}" class="field-error"></span>
             </div>
         </div>
 
         <div class="form-row">
             <div class="flex-large">
                 <label for="addressLine2">Address Line 2:</label>
-                <input type="text" id="addressLine2" name="addressLine2">
+                <input type="text" id="addressLine2" name="addressLine2"
+                       pattern="^[a-zA-ZÆØÅæøå0-9s.,#-]+$"
+                       minlength="0" maxlength="100" size="100"
+                       title="AddressLine2 must contain only letters, spaces or special characters">
+                <span th:if="${#fields.hasErrors('addressLine2')}" th:errors="*{addressLine2}" class="field-error"></span>
             </div>
             <div class="flex-small">
                 <label for="pincode">Pin Code:</label>
-                <input type="text" id="pincode" name="pincode" required pattern="[0-9]{4,10}" maxlength="5" onchange="fetchCity()">
+                <input type="text" id="pincode" name="pincode" required
+                       pattern="^[0-9]{4}$" minlength="4" maxlength="4" size="4"
+                       title="Pincode must contain only 4 digits"
+                       onchange="fetchCity()">
+                <span th:if="${#fields.hasErrors('pincode')}" th:errors="*{pincode}" class="field-error"></span>
             </div>
         </div>
 
@@ -95,10 +97,12 @@
             <div class="flex-large">
                 <label for="city">City:</label>
                 <input type="text" id="city" name="city" required readonly>
+                <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="field-error"></span>
             </div>
             <div class="flex-small">
                 <label for="country">Country:</label>
                 <input type="text" id="country" name="country" value="Norway" required readonly>
+                <span th:if="${#fields.hasErrors('country')}" th:errors="*{country}" class="field-error"></span>
             </div>
         </div>
 
