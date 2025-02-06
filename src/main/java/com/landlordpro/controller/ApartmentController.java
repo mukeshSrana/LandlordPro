@@ -107,7 +107,6 @@ public class ApartmentController {
             } else {
                 throw new RuntimeException("Logged in userId is not same as the deleted apartment userId");
             }
-            redirectAttributes.addFlashAttribute("successMessage", "Apartment deleted successfully!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             log.error(e.getMessage(), e);

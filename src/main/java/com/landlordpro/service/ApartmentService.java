@@ -76,12 +76,6 @@ public class ApartmentService {
         return apartmentMapper.toDTOList(apartmentRepository.findByUserId(userId));
     }
 
-    public ApartmentDto getApartment(UUID id) {
-        // Assuming you have a method to fetch the apartment by ID
-        Apartment apartment = apartmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Apartment not found"));
-        return apartmentMapper.toDTO(apartment);
-    }
-
     public void update(ApartmentDto apartmentDto, UUID userId) {
         if (!isExistsForUser(apartmentDto.getId(), userId)) {
             String errorMsg = "Apartment= " + apartmentDto.getApartmentShortName() + " not exists for the logged-in user.";
