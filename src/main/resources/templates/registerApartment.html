@@ -59,7 +59,6 @@
             <div class="flex-half">
                 <label for="apartmentShortName">Apartment Name (Short):</label>
                 <input type="text" id="apartmentShortName" name="apartmentShortName"  th:field="*{apartmentShortName}" required
-                       pattern="^[a-zA-Z0-9]+$"
                        minlength="2" maxlength="40" size="40"
                        title="Name must contain only letters without spaces or special characters">
                 <span th:if="${#fields.hasErrors('apartmentShortName')}" th:errors="*{apartmentShortName}" class="field-error"></span>
@@ -75,7 +74,6 @@
             <div class="full-width">
                 <label for="addressLine1">Address Line 1:</label>
                 <input type="text" id="addressLine1" name="addressLine1" th:field="*{addressLine1}" required
-                       pattern="^[a-zA-ZÆØÅæøåé0-9s.,#-]+$"
                        minlength="2" maxlength="100" size="100"
                        title="AddressLine1 must contain only letters, spaces or special characters">
                 <span th:if="${#fields.hasErrors('addressLine1')}" th:errors="*{addressLine1}" class="field-error"></span>
@@ -86,7 +84,6 @@
             <div class="flex-large">
                 <label for="addressLine2">Address Line 2:</label>
                 <input type="text" id="addressLine2" name="addressLine2" th:field="*{addressLine2}"
-                       pattern="^[a-zA-ZÆØÅæøåé0-9\s.,#-]*$"
                        minlength="0" maxlength="100" size="100"
                        title="AddressLine2 must contain only letters, spaces or special characters">
                 <span th:if="${#fields.hasErrors('addressLine2')}" th:errors="*{addressLine2}" class="field-error"></span>
@@ -94,7 +91,7 @@
             <div class="flex-small">
                 <label for="pincode">Pin Code:</label>
                 <input type="text" id="pincode" name="pincode" th:field="*{pincode}" required
-                       pattern="^[0-9]{4}$" minlength="4" maxlength="4" size="4"
+                       minlength="4" maxlength="4" size="4"
                        title="Pincode must contain only 4 digits"
                        onchange="fetchCity()">
                 <span th:if="${#fields.hasErrors('pincode')}" th:errors="*{pincode}" class="field-error"></span>

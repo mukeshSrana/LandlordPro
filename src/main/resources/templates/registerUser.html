@@ -42,14 +42,12 @@
             <div class="flex-half">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" th:field="*{name}" required
-                       pattern="^[a-zA-Z]+(?:\s[a-zA-Z]+)*$"
                        title="Name must contain only letters and spaces" size="100" minlength="2" maxlength="100">
                 <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-error"></span>
             </div>
             <div class="flex-half">
                 <label for="username">Username(email):</label>
                 <input type="text" id="username" name="username" th:field="*{username}" required
-                       pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                        title="Please enter a valid email address (e.g., user@example.com)">
                 <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="field-error"></span>
             </div>
@@ -59,7 +57,6 @@
             <div class="flex-half">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" th:field="*{password}" required
-                       pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                        title="Password must be at least 8 characters long, include a letter, a number, and a special character" minlength="8" maxlength="15" size="15"
                        oninput="validatePassword()">
                 <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field-error"></span>
@@ -77,7 +74,6 @@
             <div class="half-width">
                 <label for="mobileNumber">Mobile Number:</label>
                 <input type="text" id="mobileNumber" name="mobileNumber" th:field="*{mobileNumber}" required
-                       pattern="^\+?[0-9]{8,12}$"
                        title="Enter a valid mobile number (8-12 digits, optional + at the beginning)" minlength="8" maxlength="12" size="12">
                 <span th:if="${#fields.hasErrors('mobileNumber')}" th:errors="*{mobileNumber}" class="field-error"></span>
             </div>
