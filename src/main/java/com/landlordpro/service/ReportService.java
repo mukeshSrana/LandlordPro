@@ -1,5 +1,8 @@
 package com.landlordpro.service;
 
+import java.awt.Color;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Comparator;
@@ -11,6 +14,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtils;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.stereotype.Service;
 
 import com.landlordpro.report.ApartmentOccupancySummary;
@@ -33,6 +40,26 @@ public class ReportService {
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
         this.tenantRepository = tenantRepository;
+    }
+
+    public byte[] generateExpenseChart(List<Integer> expenses, List<String> months) throws IOException {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (int i = 0; i < months.size(); i++) {
+            dataset.addValue(expenses.get(i), "Expenses", months.get(i));
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart(
+            "Monthly Expenses",
+            "Month",
+            "Amount",
+            dataset
+        );
+
+        chart.setBackgroundPaint(Color.white);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ChartUtils.writeChartAsPNG(baos, chart, 800, 400);
+        return baos.toByteArray();
     }
 
     public List<MonthlyIncomeSummary> getMonthlyIncomeReport(UUID userId) {
