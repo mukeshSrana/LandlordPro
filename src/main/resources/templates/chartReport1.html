@@ -26,7 +26,16 @@
 <!--    </table>-->
 
     <!-- Chart Image -->
-    <img th:src="${chartImage}" alt="Monthly Expenses Chart"/>
+<!--    <img th:src="${chartImage}" alt="Monthly Expenses Chart"/>-->
+
+    <!-- Buttons to change chart type -->
+    <a th:href="@{/chart1(chartType='line')}">Line Chart</a> |
+    <a th:href="@{/chart1(chartType='bar')}">Bar Chart</a> |
+    <a th:href="@{/chart1(chartType='pie')}">Pie Chart</a>
+
+    <!-- Display Chart Image -->
+    <h3 th:text="${chartType} + ' Chart'"></h3>
+    <img th:src="${chartImage}" alt="Monthly Expense Chart"/>
 </div>
 </body>
 </html>

@@ -1,33 +1,24 @@
 package com.landlordpro.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.landlordpro.report.ApartmentOccupancySummary;
 import com.landlordpro.report.MonthlyIncomeSummary;
 import com.landlordpro.report.NetYieldSummary;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ReportService;
-
-import jakarta.servlet.http.HttpServletResponse;
+import com.landlordpro.service.chart.ChartService;
 
 @Controller
 @RequestMapping("/reports")
@@ -35,12 +26,38 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ReportController {
 
     private final ReportService reportService;
+    private final ChartService chartService;
 
-    public ReportController(ReportService reportService) {
+    public ReportController(ReportService reportService, ChartService chartService) {
         this.reportService = reportService;
+        this.chartService = chartService;
     }
 
     @GetMapping("/chart1")
+    public String showChartReport(@RequestParam(defaultValue = "line") String chartType, Model model) throws IOException {
+        // Example data (replace with actual database data)
+        List<Integer> expenses = Arrays.asList(200, 400, 600, 500);
+        List<String> months = Arrays.asList("Jan", "Feb", "Mar", "Apr");
+
+        // Generate chart image as byte array
+        byte[] chartImage = chartService.generateChartImage(chartType, expenses, months);
+
+        // Convert image to Base64
+        String base64Image = Base64.getEncoder().encodeToString(chartImage);
+        String imageSrc = "data:image/png;base64," + base64Image;
+
+        // Add to Thymeleaf model
+        model.addAttribute("chartImage", imageSrc);
+        model.addAttribute("chartType", chartType);
+
+        model.addAttribute("expenses", expenses);
+        model.addAttribute("months", months);
+        model.addAttribute("page", "chartReport1");
+
+        return "chartReport1"; // Thymeleaf template: report.html
+    }
+
+//    @GetMapping("/chart1")
     public String getReport1(Model model) throws IOException {
         List<Integer> expenses = List.of(200, 400, 600, 500);
         List<String> months = List.of("Jan", "Feb", "Mar", "Apr");
