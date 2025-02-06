@@ -10,6 +10,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +35,8 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
             errorMessage = "Your password has expired. Please reset your password.";
         } else if (exception instanceof AccountExpiredException) {
             errorMessage = exception.getMessage();
+        } else if (exception instanceof SessionAuthenticationException) {
+            errorMessage = "Session limit exceeded. Please log out from other devices ";
         } else {
             errorMessage = "An unexpected authentication error occurred.";
         }
