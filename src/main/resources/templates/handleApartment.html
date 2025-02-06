@@ -74,7 +74,7 @@
                         <input type="hidden" name="year" th:value="${apartment.getCreatedDate().year}">
                         <button type="submit" class="delete-btn">Delete</button>
                     </form>
-                    <form th:action="@{/apartment/update}" method="post" style="display:inline;">
+                    <form th:action="@{/apartment/update}" method="post" onsubmit="validateForm(event)" style="display:inline;">
                         <input type="hidden" th:name="apartmentShortName" th:value="${apartment.apartmentShortName}"/>
                         <input type="hidden" th:name="ownerName" th:value="${apartment.ownerName}"/>
                         <input type="hidden" th:name="addressLine1" th:value="${apartment.addressLine1}" />
