@@ -35,7 +35,7 @@ public class ReportController {
 
         model.addAttribute("expenses", expenses);
         model.addAttribute("months", months);
-
+        model.addAttribute("page", "chartReport");
         return "chartReport";
     }
 
