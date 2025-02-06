@@ -6,25 +6,24 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Expense Report</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js CDN -->
     <link rel="stylesheet" th:href="@{/css/reports.css}"> <!-- Your CSS -->
 </head>
 <body>
 <div class="form-container" layout:fragment="content">
-    <table>
-        <thead>
-        <tr>
-            <th>Month</th>
-            <th>Expense</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="month, iterStat : ${months}">
-            <td th:text="${month}"></td>
-            <td th:text="${expenses[__${iterStat.index}__]}"></td>
-        </tr>
-        </tbody>
-    </table>
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Month</th>-->
+<!--            <th>Expense</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="month, iterStat : ${months}">-->
+<!--            <td th:text="${month}"></td>-->
+<!--            <td th:text="${expenses[__${iterStat.index}__]}"></td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
 
     <!-- Chart Image -->
     <h3>Expense Chart</h3>
