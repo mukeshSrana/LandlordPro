@@ -66,7 +66,7 @@ public class ApartmentDto {
     @NotBlank(message = "City is mandatory")
     @Size(max = 100, message = "City should be up to 100 characters")
     @Pattern(
-        regexp = NAME_PATTERN_LETTER_AND_SPACES,
+        regexp = CITY_PATTERN_LETTER_AND_SPACES,
         message = "City must contain only letters and spaces"
     )
     private String city;
