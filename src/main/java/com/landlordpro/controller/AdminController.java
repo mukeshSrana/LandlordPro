@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.ContactDto;
 import com.landlordpro.dto.UserDto;
-import com.landlordpro.dto.enums.UserRole;
+import com.landlordpro.dto.constants.UserRole;
 import com.landlordpro.service.ContactService;
 import com.landlordpro.service.UserService;
 

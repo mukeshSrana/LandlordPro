@@ -1,4 +1,4 @@
-package com.landlordpro.dto.enums;
+package com.landlordpro.dto.constants;
 
 public enum DeductibleExpense {
 

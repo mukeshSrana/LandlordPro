@@ -1,13 +1,13 @@
-package com.landlordpro.dto.enums;
+package com.landlordpro.dto.constants;
 
-public enum UserRole {
-    ROLE_LANDLORD("Landlord"),
-    ROLE_ADMIN("Admin"),
-    ROLE_MANAGER("Manager");
+public enum IncomeStatus {
+    COMPLETED("Completed"),
+    PENDING("Pending"),
+    OVERDUE("Overdue");
 
     private final String description;
 
-    UserRole(String description) {
+    IncomeStatus(String description) {
         this.description = description;
     }
 

@@ -1,7 +1,6 @@
 package com.landlordpro.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,7 +14,7 @@ import com.landlordpro.domain.User;
 import com.landlordpro.dto.PasswordChangeDto;
 import com.landlordpro.dto.UserDto;
 import com.landlordpro.dto.UserRegistrationDTO;
-import com.landlordpro.dto.enums.UserRole;
+import com.landlordpro.dto.constants.UserRole;
 import com.landlordpro.mapper.UserMapper;
 import com.landlordpro.repository.UserRepository;
 

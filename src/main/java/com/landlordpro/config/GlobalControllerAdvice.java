@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.landlordpro.dto.enums.UserRole;
+import com.landlordpro.dto.constants.UserRole;
 import com.landlordpro.security.CustomUserDetails;
 
 @ControllerAdvice
