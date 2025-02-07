@@ -1,7 +1,5 @@
 package com.landlordpro.controller;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +23,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.config.AppConfig;
-import com.landlordpro.dto.ApartmentDto;
 import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.dto.constants.DeductibleExpense;
 import com.landlordpro.security.CustomUserDetails;
@@ -45,12 +41,10 @@ import lombok.extern.slf4j.Slf4j;
 @PreAuthorize("hasRole('ROLE_LANDLORD')")
 public class ExpenseController {
 
-    private final AppConfig appConfig;
     private final ExpenseService expenseService;
     private final ApartmentService apartmentService;
 
     public ExpenseController(AppConfig appConfig, ExpenseService expenseService, ApartmentService apartmentService) {
-        this.appConfig = appConfig;
         this.expenseService = expenseService;
         this.apartmentService = apartmentService;
     }
@@ -99,8 +93,12 @@ public class ExpenseController {
         RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
-                model.addAttribute("expense", expenseDto);
-                return "registerExpense";
+//                model.addAttribute("expense", expenseDto);
+//                redirectAttributes.addFlashAttribute("page", "registerExpense");
+                redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
+                redirectAttributes.addFlashAttribute("expense", expenseDto);
+                return "redirect:/expense/register";
+                //return "registerExpense";
             }
 
             CustomUserDetails userDetails = currentUser(authentication);
@@ -165,12 +163,24 @@ public class ExpenseController {
 //    }
 
     @GetMapping("/register")
-    public String register(Model model, Authentication authentication) {
+    public String register(
+        @ModelAttribute("expense") ExpenseDto expenseDto,
+        @ModelAttribute("bindingResult") BindingResult bindingResult,
+        Model model,
+        Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
         Map<UUID, String> apartmentIdNameMap = apartmentService.getApartmentIdNameMap(userDetails.getId());
         model.addAttribute("apartmentIdNameMap", apartmentIdNameMap);
         model.addAttribute("categories", DeductibleExpense.values());
-        model.addAttribute("expense", new ExpenseDto());
+
+        if (expenseDto == null) {
+            expenseDto = new ExpenseDto();
+        }
+        model.addAttribute("expense", expenseDto);
+        if (bindingResult.getObjectName() != null && bindingResult != null && bindingResult.hasErrors()) {
+            model.addAttribute("org.springframework.validation.BindingResult.expense", bindingResult);
+            model.addAttribute("org.springframework.validation.BindingResult.bindingResult", bindingResult);
+        }
         model.addAttribute("page", "registerExpense");
         return "registerExpense";
     }

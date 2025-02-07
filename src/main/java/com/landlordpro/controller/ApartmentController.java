@@ -48,8 +48,8 @@ public class ApartmentController {
         RedirectAttributes redirectAttributes){
         try {
             if (bindingResult.hasErrors()) {
-                // Return to the form with error messages
                 model.addAttribute("apartment", apartmentDto);
+                model.addAttribute("page", "registerApartment");
                 return "registerApartment";
             }
 

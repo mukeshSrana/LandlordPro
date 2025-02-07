@@ -50,6 +50,7 @@
                 <input type="text" id="name" name="name" required
                        maxlength="100" minlength="2"
                        title="Expense name must contain only letters and spaces">
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-error"></span>
 
             </div>
             <div class="flex-small">
