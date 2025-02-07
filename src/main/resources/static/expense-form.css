@@ -162,6 +162,14 @@
     flex: 3; /* 60% width */
 }
 
+.form-container .form-row .flex-70 {
+    flex: 7; /* 70% width */
+}
+
+.form-container .form-row .flex-30 {
+    flex: 3; /* 30% width */
+}
+
 /* Styling for the dropdown to make it consistent */
 .form-container select {
     cursor: pointer;

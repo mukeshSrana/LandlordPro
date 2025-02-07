@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-row">
-            <div class="flex-large">
+            <div class="flex-70">
                 <label for="name">Expense Name:</label>
                 <input type="text" id="name" name="name" th:field="*{name}" required
                        maxlength="100" minlength="2"
@@ -57,7 +57,7 @@
                 <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-error"></span>
 
             </div>
-            <div class="flex-small">
+            <div class="flex-30">
                 <label for="amount">Amount (NOK):</label>
                 <input type="number" id="amount" name="amount" th:field="*{amount}" step="0.01" min="0.01" required
                        title="Amount must be greater than zero, and up to 6 digits before the decimal with 2 decimal places.">
@@ -65,14 +65,14 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="flex-large">
+            <div class="flex-70">
                 <label for="expenseLocation">Expense Location:</label>
                 <input type="text" id="expenseLocation" name="expenseLocation" th:field="*{expenseLocation}" required
                        maxlength="100" minlength="2"
                        title="Expense location must contain only letters and spaces">
                 <span th:if="${#fields.hasErrors('expenseLocation')}" th:errors="*{expenseLocation}" class="field-error"></span>
             </div>
-            <div class="flex-small">
+            <div class="flex-30">
                 <label for="date">Expense date:</label>
                 <input type="date" id="date" name="date" th:field="*{date}" required
                        pattern="\d{4}-\d{2}-\d{2}"
