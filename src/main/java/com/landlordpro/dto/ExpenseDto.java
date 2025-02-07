@@ -17,35 +17,35 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ExpenseDto {
 
-    private UUID id;  // UUID for expense
+    private UUID id;
 
-    @NotNull(message = "Apartment ID is mandatory")  // Ensure it's not null
-    private UUID apartmentId;  // Apartment ID
+    @NotNull(message = "Apartment ID is mandatory")
+    private UUID apartmentId;
 
-    @NotNull(message = "User ID is mandatory")  // Ensure it's not null
-    private UUID userId;  // User ID (UUID)
+    @NotNull(message = "User ID is mandatory")
+    private UUID userId;
 
-    @NotBlank(message = "Category is mandatory")  // Ensure it's not blank
-    @Size(max = 255, message = "Category should be up to 255 characters")  // Maximum length of 255
-    private String category;  // Expense category
+    @NotBlank(message = "Category is mandatory")
+    @Size(max = 255, message = "Category should be up to 255 characters")
+    private String category;
 
-    @NotBlank(message = "Expense name is mandatory")  // Ensure it's not blank
-    @Size(max = 255, message = "Expense name should be up to 255 characters")  // Maximum length of 255
-    private String name;  // Name of the expense
+    @NotBlank(message = "Expense name is mandatory")
+    @Size(max = 255, message = "Expense name should be up to 255 characters")
+    private String name;
 
-    @NotNull(message = "Amount is mandatory")  // Ensure it's not null
-    private BigDecimal amount;  // Amount of the expense
+    @NotNull(message = "Amount is mandatory")
+    private BigDecimal amount;
 
-    @NotBlank(message = "Expense location is mandatory")  // Ensure it's not blank
-    @Size(max = 255, message = "Expense location should be up to 255 characters")  // Maximum length of 255
-    private String expenseLocation;  // Location of the expense
+    @NotBlank(message = "Expense location is mandatory")
+    @Size(max = 255, message = "Expense location should be up to 255 characters")
+    private String expenseLocation;
 
-    @NotNull(message = "Date is mandatory")  // Ensure it's not null
-    private LocalDate date;  // Date of the expense
+    @NotNull(message = "Date is mandatory")
+    private LocalDate date;
 
-    private byte[] receiptData;  // Binary data for the receipt
+    private byte[] receiptData;
 
-    private LocalDateTime createdDate;  // Date when the expense was created
+    private LocalDateTime createdDate;
 
-    private LocalDateTime updatedDate;  // Last updated date
+    private LocalDateTime updatedDate;
 }
