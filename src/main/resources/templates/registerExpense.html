@@ -75,6 +75,8 @@
             <div class="flex-small">
                 <label for="date">Expense date:</label>
                 <input type="date" id="date" name="date" th:field="*{date}" required
+                       pattern="\d{4}-\d{2}-\d{2}"
+                       min="1900-01-01" max="2100-12-31"
                        title="Date must be in the format YYYY-MM-DD and cannot be in the future">
                 <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class="field-error"></span>
             </div>
