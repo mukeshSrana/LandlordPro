@@ -168,3 +168,9 @@
     margin: 0;
 }
 
+.form-container .note-label {
+    font-style: italic;
+    color: #555; /* Optional: Makes the text slightly gray for a softer look */
+    font-size: 14px; /* Optional: Adjusts the font size */
+}
+
