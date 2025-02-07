@@ -8,6 +8,8 @@ import javax.money.CurrencyUnit;
 import javax.money.Monetary;
 import javax.money.MonetaryAmount;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.landlordpro.dto.validator.ValidMonetaryAmount;
 
 import static com.landlordpro.dto.constants.Patterns.NAME_PATTERN_LETTER_AND_SPACES;
@@ -59,6 +61,7 @@ public class ExpenseDto {
 
     @NotNull(message = "Date is mandatory")
     @PastOrPresent(message = "Date cannot be in the future")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     private byte[] receiptData;
