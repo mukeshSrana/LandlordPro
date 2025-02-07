@@ -33,7 +33,7 @@ public class ReportController {
         this.chartService = chartService;
     }
 
-    @GetMapping("/chart1")
+    @GetMapping("/monthlyExpense")
     public String showChartReport(@RequestParam(defaultValue = "line") String chartType, Model model) throws IOException {
         List<Integer> expenses = Arrays.asList(200, 400, 600, 500);
         List<String> months = Arrays.asList("Jan", "Feb", "Mar", "Apr");
@@ -47,9 +47,9 @@ public class ReportController {
         model.addAttribute("chartType", chartType);
         model.addAttribute("expenses", expenses);
         model.addAttribute("months", months);
-        model.addAttribute("page", "chartReport1");
+        model.addAttribute("page", "monthlyExpenseReport");
 
-        return "chartReport1";
+        return "monthlyExpenseReport";
     }
 
     @GetMapping("/apartmentOccupancy")

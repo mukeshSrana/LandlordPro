@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleDropdown('income-options');
   }
   if (currentPage === 'monthlyIncomeReport' || currentPage === 'netYieldReport'
-    || currentPage === 'apartmentOccupancyReport' || currentPage === 'chartReport1') {
+    || currentPage === 'apartmentOccupancyReport' || currentPage === 'monthlyExpenseReport') {
     toggleDropdown('report-options');
   }
   if (currentPage === 'userAdmin' || currentPage === 'contactAdmin') {

@@ -101,13 +101,13 @@
                     <li>
                         <a th:href="@{/reports/apartmentOccupancy}" th:classappend="${page == 'apartmentOccupancyReport' ? 'active' : ''}"
                            onclick="handleSelection(event, 'report-options')">
-                            Occupancy status
+                            OccupancyStatus
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/reports/chart1}" th:classappend="${page == 'chartReport1' ? 'active' : ''}"
+                        <a th:href="@{/reports/monthlyExpense}" th:classappend="${page == 'monthlyExpenseReport' ? 'active' : ''}"
                            onclick="handleSelection(event, 'report-options')">
-                            Expenses chart1
+                            MonthlyExpenses
                         </a>
                     </li>
                 </ul>

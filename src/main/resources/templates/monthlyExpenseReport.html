@@ -11,10 +11,10 @@
 <body>
 <div class="form-container" layout:fragment="content">
 
-    <a th:href="@{/reports/chart1(chartType='line')}">Line Chart</a> |
-    <a th:href="@{/reports/chart1(chartType='bar')}">Bar Chart</a> |
-    <a th:href="@{/reports/chart1(chartType='pie')}">Pie Chart</a> |
-    <a th:href="@{/reports/chart1(chartType='table')}">Table</a>
+    <a th:href="@{/reports/monthlyExpense(chartType='line')}">Line Chart</a> |
+    <a th:href="@{/reports/monthlyExpense(chartType='bar')}">Bar Chart</a> |
+    <a th:href="@{/reports/monthlyExpense(chartType='pie')}">Pie Chart</a> |
+    <a th:href="@{/reports/monthlyExpense(chartType='table')}">Table</a>
 
     <div th:if="${chartType != 'table'}">
         <img th:src="${chartImage}" alt="Monthly Expense Chart">
