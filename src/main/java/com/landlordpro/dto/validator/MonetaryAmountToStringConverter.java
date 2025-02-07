@@ -1,23 +1,19 @@
 package com.landlordpro.dto.validator;
 
-import java.text.ParseException;
-import java.util.Locale;
+import javax.money.MonetaryAmount;
 
-import org.springframework.format.Formatter;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MonetaryAmountToStringConverter implements Formatter<String> {
+public class MonetaryAmountToStringConverter implements Converter<MonetaryAmount, String> {
 
     @Override
-    public String print(String object, Locale locale) {
-        return object != null ? object : "";
-    }
-
-    @Override
-    public String parse(String text, Locale locale) throws ParseException {
-        return text;
+    public String convert(MonetaryAmount source) {
+        if (source == null) {
+            return ""; // Return an empty string if the source is null
+        }
+        return source.getNumber().toString(); // Convert the MonetaryAmount to string (BigDecimal)
     }
 }
-
 
