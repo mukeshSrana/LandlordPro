@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,12 +29,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.config.AppConfig;
-import com.landlordpro.dto.constants.DeductibleExpense;
+import com.landlordpro.dto.ApartmentDto;
 import com.landlordpro.dto.ExpenseDto;
+import com.landlordpro.dto.constants.DeductibleExpense;
 import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
 import com.landlordpro.service.ExpenseService;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -89,51 +92,83 @@ public class ExpenseController {
 
     @PostMapping("/add")
     public String add(
-        @RequestParam("apartmentId") UUID apartmentId,
-        @RequestParam("category") String category,
-        @RequestParam("name") String name,
-        @RequestParam("amount") BigDecimal amount,
-        @RequestParam("expenseLocation") String expenseLocation,
-        @RequestParam("date") String date,
+        @Valid @ModelAttribute("expense") ExpenseDto expenseDto,
         @RequestParam("receiptData") MultipartFile receiptData,
+        BindingResult bindingResult,
+        Model model,
         Authentication authentication,
-        RedirectAttributes redirectAttributes){
+        RedirectAttributes redirectAttributes) {
         try {
-            // Convert the MultipartFile to a byte[] and set it in the DTO
-            byte[] receiptBytes = null;
-            if (!receiptData.isEmpty()) {
-                receiptBytes = receiptData.getBytes();  // Convert to byte array
+            if (bindingResult.hasErrors()) {
+                model.addAttribute("expense", expenseDto);
+                return "registerExpense";
             }
 
-            // Create an ExpenseDto manually since the @ModelAttribute doesn't handle MultipartFile well
-            ExpenseDto expenseDto = new ExpenseDto();
-            expenseDto.setApartmentId(apartmentId);
-            expenseDto.setCategory(category);
-            expenseDto.setName(name);
-            expenseDto.setAmount(amount);
-            expenseDto.setExpenseLocation(expenseLocation);
-            expenseDto.setDate(LocalDate.parse(date));
-            expenseDto.setReceiptData(receiptBytes);
+            if (!receiptData.isEmpty()) {
+                byte[] receiptBytes = receiptData.getBytes();
+                expenseDto.setReceiptData(receiptBytes); // Set it to the DTO
+            }
 
             CustomUserDetails userDetails = currentUser(authentication);
-            // Retrieve the logged-in user's ID
             UUID userId = userDetails.getId();
-
             expenseDto.setUserId(userId);
-            expenseDto.setApartmentId(expenseDto.getApartmentId());
-
             expenseService.add(expenseDto);
-
             redirectAttributes.addFlashAttribute("successMessage", "Expense created successfully!");
-            //return "registerApartment"; // Redirect or forward to success page
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while saving expense: ", e);
-            //return "registerApartment"; // Return to the form with error message
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
         redirectAttributes.addFlashAttribute("page", "registerExpense");
         return "redirect:/expense/register";
     }
+
+//    @PostMapping("/add")
+//    public String add(
+//        @RequestParam("apartmentId") UUID apartmentId,
+//        @RequestParam("category") String category,
+//        @RequestParam("name") String name,
+//        @RequestParam("amount") BigDecimal amount,
+//        @RequestParam("expenseLocation") String expenseLocation,
+//        @RequestParam("date") String date,
+//        @RequestParam("receiptData") MultipartFile receiptData,
+//        Authentication authentication,
+//        RedirectAttributes redirectAttributes){
+//        try {
+//            // Convert the MultipartFile to a byte[] and set it in the DTO
+//            byte[] receiptBytes = null;
+//            if (!receiptData.isEmpty()) {
+//                receiptBytes = receiptData.getBytes();  // Convert to byte array
+//            }
+//
+//            // Create an ExpenseDto manually since the @ModelAttribute doesn't handle MultipartFile well
+//            ExpenseDto expenseDto = new ExpenseDto();
+//            expenseDto.setApartmentId(apartmentId);
+//            expenseDto.setCategory(category);
+//            expenseDto.setName(name);
+//            expenseDto.setAmount(amount);
+//            expenseDto.setExpenseLocation(expenseLocation);
+//            expenseDto.setDate(LocalDate.parse(date));
+//            expenseDto.setReceiptData(receiptBytes);
+//
+//            CustomUserDetails userDetails = currentUser(authentication);
+//            // Retrieve the logged-in user's ID
+//            UUID userId = userDetails.getId();
+//
+//            expenseDto.setUserId(userId);
+//            expenseDto.setApartmentId(expenseDto.getApartmentId());
+//
+//            expenseService.add(expenseDto);
+//
+//            redirectAttributes.addFlashAttribute("successMessage", "Expense created successfully!");
+//            //return "registerApartment"; // Redirect or forward to success page
+//        } catch (Exception e) {
+//            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+//            log.error("Unexpected error while saving expense: ", e);
+//            //return "registerApartment"; // Return to the form with error message
+//        }
+//        redirectAttributes.addFlashAttribute("page", "registerExpense");
+//        return "redirect:/expense/register";
+//    }
 
     @GetMapping("/register")
     public String register(Model model, Authentication authentication) {
@@ -141,6 +176,7 @@ public class ExpenseController {
         Map<UUID, String> apartmentIdNameMap = apartmentService.getApartmentIdNameMap(userDetails.getId());
         model.addAttribute("apartmentIdNameMap", apartmentIdNameMap);
         model.addAttribute("categories", DeductibleExpense.values());
+        model.addAttribute("expense", new ExpenseDto());
         model.addAttribute("page", "registerExpense");
         return "registerExpense";
     }

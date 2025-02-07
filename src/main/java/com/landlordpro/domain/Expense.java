@@ -5,7 +5,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.money.Monetary;
+import javax.money.MonetaryAmount;
+
+import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -49,7 +54,9 @@ public class Expense {
     private String name;
 
     @Column(nullable = false)
-    private BigDecimal amount;
+    @Convert(converter = MonetaryAmountConverter.class) // Convert BigDecimal to MonetaryAmount and vice versa
+    private MonetaryAmount amount;
+
 
     @Column(name = "expense_location", nullable = false, length = 255)
     private String expenseLocation;
@@ -76,5 +83,20 @@ public class Expense {
     @PreUpdate
     public void preUpdate() {
         this.updatedDate = LocalDateTime.now();
+    }
+
+    public static class MonetaryAmountConverter implements AttributeConverter<MonetaryAmount, BigDecimal> {
+        @Override
+        public BigDecimal convertToDatabaseColumn(MonetaryAmount attribute) {
+            return attribute != null ? attribute.getNumber().numberValue(BigDecimal.class) : null;
+        }
+
+        @Override
+        public MonetaryAmount convertToEntityAttribute(BigDecimal dbData) {
+            return dbData != null ? Monetary.getDefaultAmountFactory()
+                .setCurrency("NOK")
+                .setNumber(dbData)
+                .create() : null;
+        }
     }
 }

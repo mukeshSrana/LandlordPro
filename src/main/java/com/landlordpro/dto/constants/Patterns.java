@@ -9,5 +9,6 @@ public class Patterns {
     public static final String APARTMENT_NAME_PATTERN_LETTER_WITHOUT_SPACES = "^[a-zA-Z0-9]+$";
     public static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     public static final String MOBILE_NR_PATTERN = "^\\+?[0-9]{8,12}$";
-    public static final String LOCALDATE_PATTERN = "^\\d{2}-\\d{2}-\\d{4}$";
+    public static final String LOCALDATE_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
+
 }

@@ -10,9 +10,7 @@ import javax.money.MonetaryAmount;
 
 import com.landlordpro.dto.validator.ValidMonetaryAmount;
 
-import static com.landlordpro.dto.constants.Patterns.LOCALDATE_PATTERN;
 import static com.landlordpro.dto.constants.Patterns.NAME_PATTERN_LETTER_AND_SPACES;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -61,7 +59,6 @@ public class ExpenseDto {
 
     @NotNull(message = "Date is mandatory")
     @PastOrPresent(message = "Date cannot be in the future")
-    @Pattern(regexp = LOCALDATE_PATTERN, message = "Date must be in the format DD-MM-YYYY")
     private LocalDate date;
 
     private byte[] receiptData;

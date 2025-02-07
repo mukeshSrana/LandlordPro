@@ -13,20 +13,16 @@
 </head>
 <body>
 <div class="form-container" layout:fragment="content">
-    <!-- Display success message -->
     <div th:if="${successMessage}" class="success-message">
         <span class="close-btn" onclick="closeMessage(this)">&times;</span>
         <p th:text="${successMessage}"></p>
     </div>
 
-    <!-- Display error message -->
     <div th:if="${errorMessage}" class="error-message">
         <span class="close-btn" onclick="closeMessage(this)">&times;</span>
         <p th:text="${errorMessage}"></p>
     </div>
-    <form th:action="@{/expense/add}" method="post" enctype="multipart/form-data">
-
-        <!-- Apartment Name and Expense Category in one row -->
+    <form th:action="@{/expense/add}" th:object="${expense}" method="post" enctype="multipart/form-data">
         <div class="form-row">
             <div class="flex-40">
                 <label for="apartmentName">Apartment Name:</label>
@@ -44,42 +40,46 @@
                     <option value="" disabled selected>Select Category</option>
                     <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
                 </select>
+                <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="field-error"></span>
             </div>
         </div>
 
-        <!-- Expense Name and Amount in one row -->
         <div class="form-row">
             <div class="flex-large">
                 <label for="name">Expense Name:</label>
                 <input type="text" id="name" name="name" required>
             </div>
             <div class="flex-small">
-                <label for="amount">Amount:</label>
-                <input type="number" id="amount" name="amount" required pattern="[0-9]{1,5}" maxlength="5">
+                <label for="amount">Amount (NOK):</label>
+                <input type="number" id="amount" name="amount" step="0.01" min="0.01" required
+                       title="Amount must be greater than zero, and up to 6 digits before the decimal with 2 decimal places.">
+                <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="field-error"></span>
             </div>
         </div>
-
-        <!-- Expense Location and Date in one row -->
         <div class="form-row">
             <div class="flex-large">
                 <label for="expenseLocation">Expense Location:</label>
-                <input type="text" id="expenseLocation" name="expenseLocation" required>
+                <input type="text" id="expenseLocation" name="expenseLocation" required
+                       maxlength="100" minlength="2"
+                       title="Expense location must contain only letters and spaces">
+                <span th:if="${#fields.hasErrors('expenseLocation')}" th:errors="*{expenseLocation}" class="field-error"></span>
             </div>
             <div class="flex-small">
                 <label for="date">Expense date:</label>
-                <input type="date" id="date" name="date" required>
+                <input type="date" id="date" name="date" required
+                       title="Date must be in the format YYYY-MM-DD and cannot be in the future">
+                <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class="field-error"></span>
             </div>
         </div>
 
-        <!-- Receipt Upload -->
         <div class="form-row">
             <div class="flex-large">
                 <label for="receiptData">Upload Receipt:</label>
                 <input type="file" id="receiptData" name="receiptData" accept="image/*,.pdf">
+                <span th:if="${#fields.hasErrors('receiptData')}" th:errors="*{receiptData}" class="field-error"></span>
             </div>
         </div>
 
-        <!-- Submit Button -->
         <button type="submit">Register</button>
     </form>
 </div>
