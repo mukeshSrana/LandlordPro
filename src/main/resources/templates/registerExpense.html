@@ -30,7 +30,8 @@
                     <option value="" disabled selected>Select Apartment</option>
                     <option th:each="apartment : ${apartmentIdNameMap}"
                             th:value="${apartment.key}"
-                            th:text="${apartment.value}">
+                            th:text="${apartment.value}"
+                            th:selected="${apartment.value == selectedApartment}">
                     </option>
                 </select>
             </div>
@@ -38,16 +39,19 @@
                 <label for="category">Expense Category:</label>
                 <select id="category" name="category" required>
                     <option value="" disabled selected>Select Category</option>
-                    <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
+                    <option th:each="category : ${categories}"
+                            th:value="${category}"
+                            th:text="${category.description}"
+                            th:selected="${category.description == selectedCategory}">
+                    </option>
                 </select>
-                <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="field-error"></span>
             </div>
         </div>
 
         <div class="form-row">
             <div class="flex-large">
                 <label for="name">Expense Name:</label>
-                <input type="text" id="name" name="name" required
+                <input type="text" id="name" name="name" th:field="*{name}" required
                        maxlength="100" minlength="2"
                        title="Expense name must contain only letters and spaces">
                 <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-error"></span>
@@ -55,7 +59,7 @@
             </div>
             <div class="flex-small">
                 <label for="amount">Amount (NOK):</label>
-                <input type="number" id="amount" name="amount" step="0.01" min="0.01" required
+                <input type="number" id="amount" name="amount" th:field="*{amount}" step="0.01" min="0.01" required
                        title="Amount must be greater than zero, and up to 6 digits before the decimal with 2 decimal places.">
                 <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="field-error"></span>
             </div>
@@ -63,14 +67,14 @@
         <div class="form-row">
             <div class="flex-large">
                 <label for="expenseLocation">Expense Location:</label>
-                <input type="text" id="expenseLocation" name="expenseLocation" required
+                <input type="text" id="expenseLocation" name="expenseLocation" th:field="*{expenseLocation}" required
                        maxlength="100" minlength="2"
                        title="Expense location must contain only letters and spaces">
                 <span th:if="${#fields.hasErrors('expenseLocation')}" th:errors="*{expenseLocation}" class="field-error"></span>
             </div>
             <div class="flex-small">
                 <label for="date">Expense date:</label>
-                <input type="date" id="date" name="date" required
+                <input type="date" id="date" name="date" th:field="*{date}" required
                        title="Date must be in the format YYYY-MM-DD and cannot be in the future">
                 <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class="field-error"></span>
             </div>
@@ -79,7 +83,7 @@
         <div class="form-row">
             <div class="flex-large">
                 <label for="receiptData">Upload Receipt:</label>
-                <input type="file" id="receiptData" name="receiptData" accept="image/*,.pdf">
+                <input type="file" id="receiptData" name="receiptData" th:field="*{receiptData}" accept="image/*,.pdf">
                 <span th:if="${#fields.hasErrors('receiptData')}" th:errors="*{receiptData}" class="field-error"></span>
             </div>
         </div>

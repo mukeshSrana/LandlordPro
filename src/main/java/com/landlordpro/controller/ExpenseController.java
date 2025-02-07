@@ -166,12 +166,16 @@ public class ExpenseController {
     public String register(
         @ModelAttribute("expense") ExpenseDto expenseDto,
         @ModelAttribute("bindingResult") BindingResult bindingResult,
+//        @RequestParam(required = false) String category,
+//        @RequestParam(required = false) UUID apartmentId,
         Model model,
         Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
         Map<UUID, String> apartmentIdNameMap = apartmentService.getApartmentIdNameMap(userDetails.getId());
         model.addAttribute("apartmentIdNameMap", apartmentIdNameMap);
         model.addAttribute("categories", DeductibleExpense.values());
+        model.addAttribute("selectedCategory", expenseDto.getCategory());
+        model.addAttribute("selectedApartment", apartmentIdNameMap.get(expenseDto.getApartmentId()));
 
         if (expenseDto == null) {
             expenseDto = new ExpenseDto();

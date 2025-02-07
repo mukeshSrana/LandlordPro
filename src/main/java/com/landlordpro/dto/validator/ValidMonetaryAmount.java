@@ -13,7 +13,7 @@ import jakarta.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = MonetaryAmountValidator.class)
 public @interface ValidMonetaryAmount {
-    String message();
+    String message() default "Invalid monetary amount";
 
     Class<?>[] groups() default {};
 
