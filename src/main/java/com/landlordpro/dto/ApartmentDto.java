@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApartmentDto {
-    private UUID id;  // UUID for apartment
+    private UUID id;
 
     @NotBlank(message = "Apartment short name is mandatory")
     @Size(min = 2, max = 40, message = "Apartment short name must be between 2 and 40 characters")
