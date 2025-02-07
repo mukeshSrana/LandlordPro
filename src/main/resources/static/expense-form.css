@@ -41,6 +41,13 @@
     position: relative;
 }
 
+.form-container .field-error {
+    color: red;
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 5px;
+}
+
 .form-container .close-btn {
     position: absolute;
     top: 10px;

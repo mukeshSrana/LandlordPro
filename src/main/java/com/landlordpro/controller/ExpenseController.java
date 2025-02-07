@@ -93,7 +93,6 @@ public class ExpenseController {
     @PostMapping("/add")
     public String add(
         @Valid @ModelAttribute("expense") ExpenseDto expenseDto,
-        @RequestParam("receiptData") MultipartFile receiptData,
         BindingResult bindingResult,
         Model model,
         Authentication authentication,
@@ -102,11 +101,6 @@ public class ExpenseController {
             if (bindingResult.hasErrors()) {
                 model.addAttribute("expense", expenseDto);
                 return "registerExpense";
-            }
-
-            if (!receiptData.isEmpty()) {
-                byte[] receiptBytes = receiptData.getBytes();
-                expenseDto.setReceiptData(receiptBytes); // Set it to the DTO
             }
 
             CustomUserDetails userDetails = currentUser(authentication);

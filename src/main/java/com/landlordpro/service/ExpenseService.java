@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.landlordpro.domain.Expense;
 import com.landlordpro.dto.ExpenseDto;
 import com.landlordpro.mapper.ExpenseMapper;
 import com.landlordpro.repository.ExpenseRepository;
@@ -52,7 +53,7 @@ public class ExpenseService {
             }
 
             // Fetch expenses
-            List<com.landlordpro.domain.Expense> expenses = expenseRepository.findByUserId(userId);
+            List<Expense> expenses = expenseRepository.findByUserId(userId);
             return expenseMapper.toDTOList(expenses);
         } catch (EmptyResultDataAccessException ex) {
             // Handle specific database "no data found" case
@@ -74,7 +75,7 @@ public class ExpenseService {
     }
 
     private void save(ExpenseDto expenseDto) throws RuntimeException {
-        com.landlordpro.domain.Expense expense = expenseMapper.toEntity(expenseDto);
+        Expense expense = expenseMapper.toEntity(expenseDto);
         try {
             expenseRepository.save(expense);
         } catch (DataIntegrityViolationException ex) {
@@ -89,7 +90,7 @@ public class ExpenseService {
     }
 
     public ExpenseDto findById(UUID id) {
-        com.landlordpro.domain.Expense expense = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Apartment not found"));
+        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Apartment not found"));
         return expenseMapper.toDTO(expense);
     }
 
