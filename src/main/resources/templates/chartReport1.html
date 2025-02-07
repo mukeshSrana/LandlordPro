@@ -10,32 +10,33 @@
 </head>
 <body>
 <div class="form-container" layout:fragment="content">
-<!--    <table>-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>Month</th>-->
-<!--            <th>Expense</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr th:each="month, iterStat : ${months}">-->
-<!--            <td th:text="${month}"></td>-->
-<!--            <td th:text="${expenses[__${iterStat.index}__]}"></td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
 
-    <!-- Chart Image -->
-<!--    <img th:src="${chartImage}" alt="Monthly Expenses Chart"/>-->
+    <a th:href="@{/reports/chart1(chartType='line')}">Line Chart</a> |
+    <a th:href="@{/reports/chart1(chartType='bar')}">Bar Chart</a> |
+    <a th:href="@{/reports/chart1(chartType='pie')}">Pie Chart</a> |
+    <a th:href="@{/reports/chart1(chartType='table')}">Table</a>
 
-    <!-- Buttons to change chart type -->
-    <a th:href="@{/chart1(chartType='line')}">Line Chart</a> |
-    <a th:href="@{/chart1(chartType='bar')}">Bar Chart</a> |
-    <a th:href="@{/chart1(chartType='pie')}">Pie Chart</a>
+    <div th:if="${chartType != 'table'}">
+        <img th:src="${chartImage}" alt="Monthly Expense Chart">
+    </div>
 
-    <!-- Display Chart Image -->
-    <h3 th:text="${chartType} + ' Chart'"></h3>
-    <img th:src="${chartImage}" alt="Monthly Expense Chart"/>
+    <div th:if="${chartType == 'table'}">
+        <h3>Expense Data</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Month</th>
+                <th>Expense</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="month, iterStat : ${months}">
+                <td th:text="${month}"></td>
+                <td th:text="${expenses[__${iterStat.index}__]}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

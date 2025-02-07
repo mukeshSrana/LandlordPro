@@ -35,74 +35,21 @@ public class ReportController {
 
     @GetMapping("/chart1")
     public String showChartReport(@RequestParam(defaultValue = "line") String chartType, Model model) throws IOException {
-        // Example data (replace with actual database data)
         List<Integer> expenses = Arrays.asList(200, 400, 600, 500);
         List<String> months = Arrays.asList("Jan", "Feb", "Mar", "Apr");
 
-        // Generate chart image as byte array
-        byte[] chartImage = chartService.generateChartImage(chartType, expenses, months);
+        if (!"table".equals(chartType)) {
+            byte[] chartImage = chartService.generateChartImage(chartType, expenses, months);
+            String base64Image = Base64.getEncoder().encodeToString(chartImage);
+            model.addAttribute("chartImage", "data:image/png;base64," + base64Image);
+        }
 
-        // Convert image to Base64
-        String base64Image = Base64.getEncoder().encodeToString(chartImage);
-        String imageSrc = "data:image/png;base64," + base64Image;
-
-        // Add to Thymeleaf model
-        model.addAttribute("chartImage", imageSrc);
         model.addAttribute("chartType", chartType);
-
         model.addAttribute("expenses", expenses);
         model.addAttribute("months", months);
         model.addAttribute("page", "chartReport1");
 
-        return "chartReport1"; // Thymeleaf template: report.html
-    }
-
-//    @GetMapping("/chart1")
-    public String getReport1(Model model) throws IOException {
-        List<Integer> expenses = List.of(200, 400, 600, 500);
-        List<String> months = List.of("Jan", "Feb", "Mar", "Apr");
-
-        byte[] chartImage = reportService.generateExpenseChart(expenses, months);
-        String base64Image = "data:image/png;base64," + Base64.getEncoder().encodeToString(chartImage);
-        model.addAttribute("chartImage", base64Image);
-
-        // Create the chart
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//        for (int i = 0; i < months.size(); i++) {
-//            dataset.addValue(expenses.get(i), "Expenses", months.get(i));
-//        }
-//
-//        JFreeChart barChart = ChartFactory.createBarChart(
-//            "Monthly Expenses", "Month", "Amount", dataset);
-//
-//        // Convert the chart to a Base64 image string
-//        try {
-//            BufferedImage chartImage = barChart.createBufferedImage(600, 400);
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            ImageIO.write(chartImage, "png", baos);
-//            String base64Image = Base64.getEncoder().encodeToString(baos.toByteArray());
-//            model.addAttribute("chartImage", base64Image);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-        model.addAttribute("expenses", expenses);
-        model.addAttribute("months", months);
-        model.addAttribute("page", "chartReport1");
-        return "chartReport1"; // Thymeleaf template
-    }
-
-
-    @GetMapping("/chart")
-    public String getReport(Model model) {
-        // Example data for chart
-        List<Integer> expenses = Arrays.asList(200, 400, 600, 500);
-        List<String> months = Arrays.asList("Jan", "Feb", "Mar", "Apr");
-
-        model.addAttribute("expenses", expenses);
-        model.addAttribute("months", months);
-        model.addAttribute("page", "chartReport");
-        return "chartReport";
+        return "chartReport1";
     }
 
     @GetMapping("/apartmentOccupancy")

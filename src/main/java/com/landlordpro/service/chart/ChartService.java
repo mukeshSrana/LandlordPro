@@ -20,7 +20,7 @@ public class ChartService {
     // Generate Chart Image as byte array
     public byte[] generateChartImage(String chartType, List<Integer> values, List<String> labels) throws IOException {
         JFreeChart chart = createChart(chartType, values, labels);
-        BufferedImage bufferedImage = chart.createBufferedImage(1000, 500);
+        BufferedImage bufferedImage = chart.createBufferedImage(800, 400);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ImageIO.write(bufferedImage, "png", outputStream);
         return outputStream.toByteArray();
