@@ -96,7 +96,6 @@ public class ExpenseController {
                 redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
                 redirectAttributes.addFlashAttribute("expense", expenseDto);
                 return "redirect:/expense/register";
-                //return "registerExpense";
             }
 
             CustomUserDetails userDetails = currentUser(authentication);
