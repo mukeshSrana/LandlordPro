@@ -84,6 +84,8 @@ public class ApartmentController {
             UUID userId = userDetails.getId();
 
             apartmentService.update(apartmentDto, userId);
+            redirectAttributes.addFlashAttribute("errorMessage", null);
+
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             log.error(e.getMessage(), e);

@@ -220,6 +220,7 @@ public class ExpenseController {
                 expenseDto.setReceiptData(null);
             }
             expenseService.update(expenseDto, userId);
+            redirectAttributes.addFlashAttribute("errorMessage", null);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             log.error(e.getMessage(), e);
