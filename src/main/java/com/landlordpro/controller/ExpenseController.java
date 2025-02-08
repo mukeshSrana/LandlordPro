@@ -168,8 +168,8 @@ public class ExpenseController {
             model.addAttribute("selectedYear", year);
             model.addAttribute("selectedApartment", availableApartments.get(apartmentId));
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while handling expense: ", e);
+            model.addAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
         model.addAttribute("page", "handleExpense");
         return "handleExpense";
