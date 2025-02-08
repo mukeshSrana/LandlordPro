@@ -1,16 +1,16 @@
 package com.landlordpro.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.money.CurrencyUnit;
 import javax.money.Monetary;
-import javax.money.MonetaryAmount;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.landlordpro.dto.validator.ValidMonetaryAmount;
+import com.landlordpro.dto.validator.ValidAmount;
 
 import static com.landlordpro.dto.constants.Patterns.NAME_PATTERN_LETTER_AND_SPACES;
 import jakarta.validation.constraints.NotBlank;
@@ -46,12 +46,12 @@ public class ExpenseDto {
     private String name;
 
 //    @NotNull(message = "Amount is mandatory")
-//    @ValidMonetaryAmount
+//    @ValidAmount
 //    private MonetaryAmount amount;
 
     @NotNull(message = "Amount is mandatory")
-    @Pattern(regexp = "^\\d{1,6}(\\.\\d{1,2})?$", message = "Invalid amount format (max 6 digits before decimal, 2 after).")
-    private String amount; 
+    @ValidAmount
+    private BigDecimal amount;
 
     private CurrencyUnit currency = Monetary.getCurrency("NOK");
 

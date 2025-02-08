@@ -14,12 +14,14 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring", uses = MonetaryAmountMapper.class)
 public interface ExpenseMapper {
     @Mappings({
-        @Mapping(source = "amount", target = "amount", qualifiedByName = "monetaryAmountToString")
+//        @Mapping(source = "amount", target = "amount", qualifiedByName = "monetaryAmountToString"),
+        @Mapping(source = "amount", target = "amount", qualifiedByName = "monetaryAmountToBigDecimal")
     })
     ExpenseDto toDTO(Expense expense);
 
     @Mappings({
-        @Mapping(source = "amount", target = "amount", qualifiedByName = "stringToMonetaryAmount")
+//        @Mapping(source = "amount", target = "amount", qualifiedByName = "stringToMonetaryAmount"),
+        @Mapping(source = "amount", target = "amount", qualifiedByName = "bigDecimalToMonetaryAmount")
     })
     Expense toEntity(ExpenseDto expenseDto);
 

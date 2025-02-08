@@ -33,5 +33,21 @@ public interface MonetaryAmountMapper {
     default String monetaryAmountToString(MonetaryAmount amount) {
         return (amount != null) ? amount.getNumber().toString() : null;
     }
+
+    @Named("bigDecimalToMonetaryAmount")
+    default MonetaryAmount bigDecimalToMonetaryAmount(BigDecimal amount) {
+        if (amount == null) {
+            return null;
+        }
+        return Monetary.getDefaultAmountFactory()
+            .setCurrency(validCurrency.getCurrencyCode())
+            .setNumber(amount)
+            .create();
+    }
+
+    @Named("monetaryAmountToBigDecimal")
+    default BigDecimal monetaryAmountToBigDecimal(MonetaryAmount amount) {
+        return (amount != null) ? amount.getNumber().numberValue(BigDecimal.class) : null;
+    }
 }
 

@@ -11,8 +11,8 @@ import jakarta.validation.Payload;
 // This annotation will be used to validate the MonetaryAmount
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = MonetaryAmountValidator.class)
-public @interface ValidMonetaryAmount {
+@Constraint(validatedBy = BigDecimalValidator.class)
+public @interface ValidAmount {
     String message() default "Invalid monetary amount";
 
     Class<?>[] groups() default {};
