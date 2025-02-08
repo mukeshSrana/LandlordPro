@@ -207,13 +207,10 @@ public class ExpenseController {
             if (expenseDto.getReceiptData() != null && expenseDto.getReceiptData().length == 0) {
                 expenseDto.setReceiptData(null);
             }
-
             expenseService.update(expenseDto, userId);
-
-            redirectAttributes.addFlashAttribute("successMessage", "Expense updated successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while updating expense: ", e);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
 
         // Add query parameters for year and apartmentId
