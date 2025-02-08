@@ -3,6 +3,7 @@ package com.landlordpro.controller;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -198,11 +200,21 @@ public class ExpenseController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute ExpenseDto expenseDto, Authentication authentication, RedirectAttributes redirectAttributes) {
+    public String update(
+        @Valid ExpenseDto expenseDto,
+        BindingResult bindingResult,
+        Authentication authentication,
+        RedirectAttributes redirectAttributes) {
         try {
+            if (bindingResult.hasErrors()) {
+                Optional<ObjectError> firstError = bindingResult.getAllErrors().stream().findFirst();
+                if (firstError.isPresent()) {
+                    throw new RuntimeException(firstError.get().getDefaultMessage());
+                }
+            }
+
             CustomUserDetails userDetails = currentUser(authentication);
-            // Retrieve the logged-in user's ID
-            UUID userId = userDetails.getId();// Handle empty receiptData (convert to null if empty)
+            UUID userId = userDetails.getId();
 
             if (expenseDto.getReceiptData() != null && expenseDto.getReceiptData().length == 0) {
                 expenseDto.setReceiptData(null);
@@ -213,9 +225,8 @@ public class ExpenseController {
             log.error(e.getMessage(), e);
         }
 
-        // Add query parameters for year and apartmentId
-        Integer year = expenseDto.getDate().getYear(); // Assuming ExpenseDto has a `getYear` method
-        UUID apartmentId = expenseDto.getApartmentId(); // Assuming ExpenseDto has a `getApartmentId` method
+        Integer year = expenseDto.getDate().getYear();
+        UUID apartmentId = expenseDto.getApartmentId();
 
         redirectAttributes.addFlashAttribute("page", "handleExpense");
         return "redirect:/expense/handle?year=" + year + "&apartmentId=" + apartmentId;
