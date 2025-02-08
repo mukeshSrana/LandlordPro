@@ -63,11 +63,11 @@ public class Expense {
     private String expenseLocation;
 
     @Column(nullable = false)
-    private LocalDate date; // Date of the expense
+    private LocalDate date;
 
     @Lob
     @Column(name = "receipt_data")
-    private byte[] receiptData; // Store the uploaded receipt as binary data (BLOB)
+    private byte[] receiptData;
 
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
@@ -75,7 +75,6 @@ public class Expense {
     @Column(name = "updated_date", nullable = false)
     private LocalDateTime updatedDate;
 
-    // Lifecycle methods to auto-populate timestamps
     @PrePersist
     public void prePersist() {
         this.createdDate = LocalDateTime.now();

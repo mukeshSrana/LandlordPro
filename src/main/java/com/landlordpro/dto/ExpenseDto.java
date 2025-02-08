@@ -45,10 +45,6 @@ public class ExpenseDto {
     )
     private String name;
 
-//    @NotNull(message = "Amount is mandatory")
-//    @ValidAmount
-//    private MonetaryAmount amount;
-
     @NotNull(message = "Amount is mandatory")
     @ValidAmount
     private BigDecimal amount;
