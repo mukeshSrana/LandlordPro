@@ -184,16 +184,14 @@ public class ExpenseController {
         RedirectAttributes redirectAttributes) {
         try {
             CustomUserDetails userDetails = currentUser(authentication);
-            // Retrieve the logged-in user's ID
             if (userDetails.getId().equals(userId)) {
                 expenseService.deleteExpense(id, userId, apartmentId);
             } else {
                 throw new RuntimeException("Logged in userId is not same as the deleted expense userId");
             }
-            redirectAttributes.addFlashAttribute("successMessage", "Expense deleted successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while deleting expense: ", e);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
         redirectAttributes.addFlashAttribute("page", "handleExpense");
         return "redirect:/expense/handle?year=" + year + "&apartmentId=" + apartmentId;
