@@ -88,7 +88,6 @@ public class ExpenseController {
     public String add(
         @Valid @ModelAttribute("expense") ExpenseDto expenseDto,
         BindingResult bindingResult,
-        Model model,
         Authentication authentication,
         RedirectAttributes redirectAttributes) {
         try {
