@@ -8,6 +8,8 @@ import java.util.UUID;
 import javax.money.Monetary;
 import javax.money.MonetaryAmount;
 
+import com.landlordpro.mapper.MonetaryAmountMapper;
+
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -54,9 +56,8 @@ public class Expense {
     private String name;
 
     @Column(nullable = false)
-    @Convert(converter = MonetaryAmountConverter.class) // Convert BigDecimal to MonetaryAmount and vice versa
+    @Convert(converter = MonetaryAmountConverter.class)
     private MonetaryAmount amount;
-
 
     @Column(name = "expense_location", nullable = false, length = 255)
     private String expenseLocation;
@@ -94,7 +95,7 @@ public class Expense {
         @Override
         public MonetaryAmount convertToEntityAttribute(BigDecimal dbData) {
             return dbData != null ? Monetary.getDefaultAmountFactory()
-                .setCurrency("NOK")
+                .setCurrency(MonetaryAmountMapper.validCurrency)
                 .setNumber(dbData)
                 .create() : null;
         }

@@ -45,9 +45,13 @@ public class ExpenseDto {
     )
     private String name;
 
+//    @NotNull(message = "Amount is mandatory")
+//    @ValidMonetaryAmount
+//    private MonetaryAmount amount;
+
     @NotNull(message = "Amount is mandatory")
-    @ValidMonetaryAmount
-    private MonetaryAmount amount;
+    @Pattern(regexp = "^\\d{1,6}(\\.\\d{1,2})?$", message = "Invalid amount format (max 6 digits before decimal, 2 after).")
+    private String amount; 
 
     private CurrencyUnit currency = Monetary.getCurrency("NOK");
 

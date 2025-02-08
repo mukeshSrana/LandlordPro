@@ -6,19 +6,26 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface ExpenseMapper {
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.Named;
 
-    // Mapping a single Expense entity to ExpenseDto
+@Mapper(componentModel = "spring", uses = MonetaryAmountMapper.class)
+public interface ExpenseMapper {
+    @Mappings({
+        @Mapping(source = "amount", target = "amount", qualifiedByName = "monetaryAmountToString")
+    })
     ExpenseDto toDTO(Expense expense);
 
-    // Mapping a single ExpenseDto to Expense entity
+    @Mappings({
+        @Mapping(source = "amount", target = "amount", qualifiedByName = "stringToMonetaryAmount")
+    })
     Expense toEntity(ExpenseDto expenseDto);
 
-    // Mapping a list of Expense entities to a list of ExpenseDto
     List<ExpenseDto> toDTOList(List<Expense> expenses);
 
-    // Mapping a list of ExpenseDto to a list of Expense entities
     List<Expense> toEntityList(List<ExpenseDto> expenseDTOs);
 }
+
 
