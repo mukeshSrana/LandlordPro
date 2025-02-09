@@ -134,6 +134,7 @@ tr:hover {
 }
 
 /* Select dropdown styling */
+.form-container select,
 .filter-group select {
     padding: 0.5rem; /* Comfortable padding for better usability */
     font-size: 1rem; /* Match the label font size */
@@ -145,11 +146,19 @@ tr:hover {
 }
 
 /* Hover and focus effect for select dropdown */
+.form-container select:focus,
+.form-container select:hover,
 .filter-group select:focus,
 .filter-group select:hover {
     border-color: #007BFF; /* Highlight border color */
     outline: none; /* Remove default outline */
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Add a subtle shadow */
+}
+
+.form-container .note-label {
+    font-style: italic;
+    color: #555; /* Optional: Makes the text slightly gray for a softer look */
+    font-size: 14px; /* Optional: Adjusts the font size */
 }
 
 /* Ensure forms inside table cells are displayed inline */

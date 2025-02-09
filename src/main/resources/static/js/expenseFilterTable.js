@@ -29,3 +29,11 @@ function enableEditing(cell) {
     }
   });
 }
+function updateCategory(selectElement) {
+  const row = selectElement.closest('tr');
+  const categoryInput = row.querySelector('input[name="category"]');
+
+  if (categoryInput) {
+    categoryInput.value = selectElement.value;
+  }
+}

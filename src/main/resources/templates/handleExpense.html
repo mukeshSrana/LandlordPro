@@ -53,7 +53,7 @@
         <table>
             <thead>
             <tr>
-                <th>ExpenseCategory</th>
+                <th th:text="'Category' + '*'"></th>
                 <th th:text="'ExpenseName' + '*'"></th>
                 <th th:text="'Amount' + '*'"></th>
                 <th th:text="'ExpenseLocation' + '*'"></th>
@@ -64,7 +64,15 @@
             </thead>
             <tbody>
             <tr th:each="expense : ${expenses}">
-                <td th:text="${expense.category}"></td>
+                <td>
+                    <select onchange="updateCategory(this)" th:name="category">
+                        <option th:each="cat : ${categories}"
+                                th:selected="${expense.category} == ${cat.name()}"
+                                th:text="${cat.getDescription()}"
+                                th:value="${cat.name()}">
+                        </option>
+                    </select>
+                </td>
                 <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${expense.amount != null ? #numbers.formatDecimal(expense.amount, 1, 2, 'POINT') : '0.00'}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${expense.expenseLocation}"></td>

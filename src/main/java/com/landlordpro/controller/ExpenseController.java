@@ -165,6 +165,7 @@ public class ExpenseController {
             List<ExpenseDto> expenses = getExpensesFiltered(expensesForUser, year, apartmentId);
 
             model.addAttribute("expenses", expenses);
+            model.addAttribute("categories", DeductibleExpense.values());
             model.addAttribute("years", availableYears);
             model.addAttribute("apartments", availableApartments);
             model.addAttribute("selectedYear", year);
