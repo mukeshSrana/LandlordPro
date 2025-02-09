@@ -29,10 +29,3 @@ function enableEditing(cell) {
     }
   });
 }
-function validateForm(event) {
-  const cityInput = document.querySelector('input[name="city"]');
-  if (cityInput.value === "City not found" || cityInput.value === "Error fetching city" || cityInput.value === "") {
-    event.preventDefault(); // Prevent form submission
-    alert("Please provide a valid pincode to get a city.");
-  }
-}
