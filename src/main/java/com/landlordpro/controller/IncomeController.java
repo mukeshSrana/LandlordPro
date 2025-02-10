@@ -1,7 +1,5 @@
 package com.landlordpro.controller;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.landlordpro.dto.IncomeDto;
@@ -37,6 +34,7 @@ import com.landlordpro.service.ApartmentService;
 import com.landlordpro.service.IncomeService;
 import com.landlordpro.service.TenantService;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -57,44 +55,25 @@ public class IncomeController {
 
     @PostMapping("/add")
     public String add(
-        @RequestParam("apartmentId") UUID apartmentId,
-        @RequestParam("tenantId") UUID tenantId,
-        @RequestParam("status") String status,
-        @RequestParam("amount") BigDecimal amount,
-        @RequestParam("comments") String comments,
-        @RequestParam("date") String date,
-        @RequestParam("receiptData") MultipartFile receiptData,
+        @Valid @ModelAttribute("income") IncomeDto incomeDto,
+        BindingResult bindingResult,
         Authentication authentication,
-        RedirectAttributes redirectAttributes){
+        RedirectAttributes redirectAttributes) {
         try {
-            // Convert the MultipartFile to a byte[] and set it in the DTO
-            byte[] receiptBytes = null;
-            if (!receiptData.isEmpty()) {
-                receiptBytes = receiptData.getBytes();  // Convert to byte array
+            if (bindingResult.hasErrors()) {
+                redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
+                redirectAttributes.addFlashAttribute("income", incomeDto);
+                return "redirect:/income/register";
             }
 
-            IncomeDto incomeDto = new IncomeDto();
-            incomeDto.setApartmentId(apartmentId);
-            incomeDto.setStatus(status);
-            incomeDto.setComments(comments);
-            incomeDto.setAmount(amount);
-            incomeDto.setTenantId(tenantId);
-            incomeDto.setDate(LocalDate.parse(date));
-            incomeDto.setReceiptData(receiptBytes);
-
             CustomUserDetails userDetails = currentUser(authentication);
-            // Retrieve the logged-in user's ID
             UUID userId = userDetails.getId();
-
             incomeDto.setUserId(userId);
-            incomeDto.setApartmentId(incomeDto.getApartmentId());
-
             incomeService.add(incomeDto);
-
             redirectAttributes.addFlashAttribute("successMessage", "Income created successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while saving income: ", e);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
         redirectAttributes.addFlashAttribute("page", "registerIncome");
         return "redirect:/income/register";
@@ -158,6 +137,7 @@ public class IncomeController {
         model.addAttribute("status", IncomeStatus.values());
         model.addAttribute("selectedStatus", incomeDto.getStatus());
         model.addAttribute("selectedApartment", apartmentIdNameMap.get(incomeDto.getApartmentId()));
+        model.addAttribute("selectedTenant", tenantService.findById(incomeDto.getTenantId()));
 
         if (incomeDto == null) {
             incomeDto = new IncomeDto();
