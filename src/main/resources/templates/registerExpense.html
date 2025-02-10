@@ -58,7 +58,7 @@
 
             </div>
             <div class="flex-30">
-                <label for="amount">Amount (NOK):</label>
+                <label for="amount">Amount (Kr.):</label>
                 <input type="number" id="amount" name="amount" th:field="*{amount}" step="0.01" min="0.01" required
                        title="Amount must be greater than zero, and up to 6 digits before the decimal with 2 decimal places.">
                 <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="field-error"></span>
