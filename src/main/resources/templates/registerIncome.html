@@ -41,9 +41,7 @@
         <span class="close-btn" onclick="closeMessage(this)">&times;</span>
         <p th:text="${errorMessage}"></p>
     </div>
-    <form th:action="@{/income/add}" method="post" enctype="multipart/form-data">
-
-        <!-- Property and Tenant in one row -->
+    <form th:action="@{/income/add}"  th:object="${income}" method="post" enctype="multipart/form-data">
         <div class="form-row">
             <div class="flex-40">
                 <label for="apartmentName">Apartment Name:</label>
@@ -51,7 +49,9 @@
                     <option value="" disabled selected>Select Apartment</option>
                     <option th:each="apartment : ${apartmentIdNameMap}"
                             th:value="${apartment.key}"
-                            th:text="${apartment.value}"></option>
+                            th:text="${apartment.value}"
+                            th:selected="${apartment.value == selectedApartment}">
+                    </option>
                 </select>
             </div>
             <div class="flex-60">
@@ -62,37 +62,49 @@
             </div>
         </div>
 
-        <!-- Date and Amount in one row -->
         <div class="form-row">
             <div class="flex-40">
-                <label for="date">Payment Date:</label>
-                <input type="date" id="date" name="date" required>
+                <label for="date">Payment date:</label>
+                <input type="date" id="date" name="date" th:field="*{date}" required
+                       pattern="\d{4}-\d{2}-\d{2}"
+                       min="1900-01-01" max="2100-12-31"
+                       title="Date must be in the format YYYY-MM-DD">
+                <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class="field-error"></span>
             </div>
             <div class="flex-30">
-                <label for="amount">Amount:</label>
-                <input type="number" id="amount" name="amount" required min="0" step="0.01">
+                <label for="amount">Amount (NOK):</label>
+                <input type="number" id="amount" name="amount" th:field="*{amount}" step="0.01" min="0.01" required
+                       title="Amount must be greater than zero, and up to 6 digits before the decimal with 2 decimal places.">
+                <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="field-error"></span>
             </div>
             <div class="flex-30">
                 <label for="status">Payment Status:</label>
                 <select id="status" name="status" required>
                     <option value="" disabled selected>Select Status</option>
-                    <option th:each="status : ${status}" th:value="${status}" th:text="${status}"></option>
+                    <option th:each="sta : ${status}"
+                            th:value="${sta.name()}"
+                            th:text="${sta.description}"
+                            th:selected="${sta.description == selectedStatus}">
+                    </option>
                 </select>
             </div>
         </div>
-
         <div class="form-row">
             <div class="flex-comment">
-                <label for="comments">Comments:</label>
-                <textarea id="comments" name="comments" rows="3" placeholder="Enter additional notes or details..."></textarea>
+                <label for="comments">Comments (Optional):</label>
+                <textarea id="comments" name="comments" th:field="*{comments}" rows="3"
+                          title="Comments can be up to 200 character"
+                          maxlength="200"
+                          placeholder="Enter additional notes or details..."></textarea>
             </div>
+            <span th:if="${#fields.hasErrors('comments')}" th:errors="*{comments}" class="field-error"></span>
         </div>
 
-        <!-- Receipt Upload -->
         <div class="form-row">
             <div class="flex-large">
                 <label for="receiptData">Upload Receipt (Optional):</label>
-                <input type="file" id="receiptData" name="receiptData" accept="image/*,.pdf">
+                <input type="file" id="receiptData" name="receiptData" th:field="*{receiptData}" accept="image/*,.pdf">
+                <span th:if="${#fields.hasErrors('receiptData')}" th:errors="*{receiptData}" class="field-error"></span>
             </div>
         </div>
 

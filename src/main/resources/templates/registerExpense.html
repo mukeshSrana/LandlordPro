@@ -41,8 +41,8 @@
                     <option value="" disabled selected>Select Category</option>
                     <option th:each="category : ${categories}"
                             th:value="${category.name()}"
-                            th:text="${category.description}">
-<!--                            th:selected="${category.description == selectedCategory}">-->
+                            th:text="${category.description}"
+                            th:selected="${category.description == selectedCategory}">
                     </option>
                 </select>
             </div>
@@ -84,7 +84,7 @@
 
         <div class="form-row">
             <div class="flex-large">
-                <label for="receiptData">Upload Receipt:</label>
+                <label for="receiptData">Upload Receipt (Optional):</label>
                 <input type="file" id="receiptData" name="receiptData" th:field="*{receiptData}" accept="image/*,.pdf">
                 <span th:if="${#fields.hasErrors('receiptData')}" th:errors="*{receiptData}" class="field-error"></span>
             </div>

@@ -19,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -145,11 +146,27 @@ public class IncomeController {
     }
 
     @GetMapping("/register")
-    public String register(Model model, Authentication authentication) {
+    public String register(
+        @ModelAttribute("income") IncomeDto incomeDto,
+        @ModelAttribute("bindingResult") BindingResult bindingResult,
+        Model model,
+        Authentication authentication) {
+
         CustomUserDetails userDetails = currentUser(authentication);
         Map<UUID, String> apartmentIdNameMap = apartmentService.getApartmentIdNameMap(userDetails.getId());
         model.addAttribute("apartmentIdNameMap", apartmentIdNameMap);
         model.addAttribute("status", IncomeStatus.values());
+        model.addAttribute("selectedStatus", incomeDto.getStatus());
+        model.addAttribute("selectedApartment", apartmentIdNameMap.get(incomeDto.getApartmentId()));
+
+        if (incomeDto == null) {
+            incomeDto = new IncomeDto();
+        }
+        model.addAttribute("income", incomeDto);
+        if (bindingResult.getObjectName() != null && bindingResult != null && bindingResult.hasErrors()) {
+            model.addAttribute("org.springframework.validation.BindingResult.income", bindingResult);
+            model.addAttribute("org.springframework.validation.BindingResult.bindingResult", bindingResult);
+        }
         model.addAttribute("page", "registerIncome");
         return "registerIncome";
     }

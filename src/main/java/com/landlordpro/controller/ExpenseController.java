@@ -80,7 +80,7 @@ public class ExpenseController {
         Map<UUID, String> apartmentIdNameMap = apartmentService.getApartmentIdNameMap(userDetails.getId());
         model.addAttribute("apartmentIdNameMap", apartmentIdNameMap);
         model.addAttribute("categories", DeductibleExpense.values());
-        //model.addAttribute("selectedCategory", expenseDto.getCategory());
+        model.addAttribute("selectedCategory", expenseDto.getCategory());
         model.addAttribute("selectedApartment", apartmentIdNameMap.get(expenseDto.getApartmentId()));
 
         if (expenseDto == null) {

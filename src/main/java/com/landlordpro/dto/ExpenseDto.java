@@ -5,9 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import javax.money.CurrencyUnit;
-import javax.money.Monetary;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.landlordpro.dto.validator.ValidAmount;
@@ -29,9 +26,10 @@ public class ExpenseDto {
 
     private UUID id;
 
-    private UUID apartmentId;
-
     private UUID userId;
+
+    @NotNull(message = "Apartment ID is mandatory")
+    private UUID apartmentId;
 
     @NotBlank(message = "Category is mandatory")
     @Size(max = 100, message = "Category should be up to 100 characters")
@@ -48,8 +46,6 @@ public class ExpenseDto {
     @NotNull(message = "Amount is mandatory")
     @ValidAmount
     private BigDecimal amount;
-
-    private CurrencyUnit currency = Monetary.getCurrency("NOK");
 
     @NotBlank(message = "Expense location is mandatory")
     @Size(min = 2, max = 100, message = "Expense location must be between 2 and 100 characters")
