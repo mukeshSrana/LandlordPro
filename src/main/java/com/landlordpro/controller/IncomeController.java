@@ -77,11 +77,11 @@ public class IncomeController {
     public String delete(@RequestParam("id") UUID id,
         @RequestParam("userId") UUID userId,
         @RequestParam("apartmentId") UUID apartmentId,
+        @RequestParam("year") Integer year,
         Authentication authentication,
         RedirectAttributes redirectAttributes) {
         try {
             CustomUserDetails userDetails = currentUser(authentication);
-            // Retrieve the logged-in user's ID
             if (userDetails.getId().equals(userId)) {
                 incomeService.deleteIncome(id, userId, apartmentId);
             } else {
@@ -92,7 +92,7 @@ public class IncomeController {
             log.error(e.getMessage(), e);
         }
         redirectAttributes.addFlashAttribute("page", "handleIncome");
-        return "redirect:/income/handle";
+        return "redirect:/income/handle?year=" + year + "&apartmentId=" + apartmentId;
     }
 
     @PostMapping("/update")
@@ -122,8 +122,10 @@ public class IncomeController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             log.error(e.getMessage(), e);
         }
+        Integer year = incomeDto.getDate().getYear();
+        UUID apartmentId = incomeDto.getApartmentId();
         redirectAttributes.addFlashAttribute("page", "handleIncome");
-        return "redirect:/income/handle";
+        return "redirect:/income/handle?year=" + year + "&apartmentId=" + apartmentId;
     }
 
     @GetMapping("/register")
@@ -171,7 +173,15 @@ public class IncomeController {
             List<IncomeDto> incomesForUser = incomeService.getIncomeForUser(userId);
 
             List<Integer> availableYears = getAvailableYears(incomesForUser);
+            Integer latestYear = availableYears.isEmpty() ? 0 : availableYears.get(availableYears.size() - 1);
+
+            if (year == null) {
+                year = latestYear;
+            }
             Map<UUID, String> availableApartments = getAvailableApartments(incomesForUser);
+            if (apartmentId == null || !availableApartments.containsKey(apartmentId)) {
+                apartmentId = availableApartments.keySet().stream().findFirst().orElse(null);
+            }
             Map<UUID, String> availableTenants = getAvailableTenants(incomesForUser);
 
             List<IncomeDto> incomes = getIncomeFiltered(incomesForUser, year, apartmentId);
