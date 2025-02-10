@@ -2,13 +2,13 @@ package com.landlordpro.dto.constants;
 
 public enum DeductibleExpense {
 
-    MEGLER_ANNONSERING_VISNINGER("Kostnader ved bruk av megler, annonsering, visninger"),
+    MEGLER_ANNONSERING_VISNINGER("Kostnader(megler/annonsering/visninger)"),
     DEPOSITUMSKONTO("Depositumskonto"),
     FORSIKRING("Forsikring"),
     KOMMUNALE_AVGIFTER("Kommunale avgifter"),
     EIENDOMSSKATT("Eiendomsskatt"),
     FESTEAVGIFT("Festeavgift"),
-    FELLESKOSTNADER("Felleskostnader i sameier og borettslag"),
+    FELLESKOSTNADER("Felleskostnader(sameier"),
     STROM_OG_OPPVARMING("Strøm og oppvarming"),
     REISEUTGIFTER("Reiseutgifter"),
     VEDLIKEHOLDSKOSTNADER("Vedlikeholdskostnader"),

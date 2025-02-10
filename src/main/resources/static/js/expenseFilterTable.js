@@ -37,3 +37,11 @@ function updateCategory(selectElement) {
     categoryInput.value = selectElement.value;
   }
 }
+function syncDateBeforeSubmit(form) {
+  const row = form.closest("tr");
+  const visibleDateInput = row.querySelector('input[type="date"]');
+  const hiddenDateInput = form.querySelector('input[name="date"]');
+  if (visibleDateInput && hiddenDateInput) {
+    hiddenDateInput.value = visibleDateInput.value;
+  }
+}

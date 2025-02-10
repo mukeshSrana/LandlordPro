@@ -57,7 +57,7 @@
                 <th th:text="'ExpenseName' + '*'"></th>
                 <th th:text="'Amount' + '*'"></th>
                 <th th:text="'ExpenseLocation' + '*'"></th>
-                <th>Date</th>
+                <th th:text="'Date' + '*'"></th>
                 <th>Receipt</th>
                 <th>Action</th>
             </tr>
@@ -76,7 +76,15 @@
                 <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${expense.amount != null ? #numbers.formatDecimal(expense.amount, 1, 2, 'POINT') : '0.00'}"></td>
                 <td ondblclick="enableEditing(this)" th:text="${expense.expenseLocation}"></td>
-                <td th:text="${expense.date}"></td>
+                <td>
+                    <input type="date"
+                           name="date"
+                           th:value="${#temporals.format(expense.date, 'yyyy-MM-dd')}"
+                           min="1900-01-01" max="2100-12-31"
+                           pattern="\d{4}-\d{2}-\d{2}"
+                           title="Date must be in the format YYYY-MM-DD"
+                           required>
+                </td>
                 <td>
                     <a th:if="${expense.receiptData != null}"
                        th:href="@{/download/expense/{id}/receipt(id=${expense.id})}"
@@ -96,7 +104,7 @@
                     </form>
 
                     <!-- Update Form -->
-                    <form th:action="@{/expense/update}" method="post" style="display:inline;">
+                    <form th:action="@{/expense/update}" method="post" onsubmit="syncDateBeforeSubmit(this)" style="display:inline;">
                         <input type="hidden" name="id" th:value="${expense.id}">
                         <input type="hidden" name="apartmentId" th:value="${expense.apartmentId}">
                         <input type="hidden" name="userId" th:value="${expense.userId}">
