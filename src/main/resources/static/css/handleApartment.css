@@ -92,31 +92,28 @@
 
 
 /* Table styling */
-.form-container table {
+table {
     width: 100%;
     border-collapse: collapse;
     margin: 1rem 0;
 }
 
-.form-container table thead {
+thead {
     background-color: #f2f2f2;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
     text-align: left;
 }
 
-.form-container table th,
-.form-container table td {
-    padding: 1rem;
-    border: 1px solid #ddd;
-    font-size: 1rem;
+tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
-.form-container table tbody tr:nth-child(even) {
-    background-color: #f2f2f2; /* Add alternating row colors */
-}
-
-.form-container table tbody tr:hover {
-    background-color: #f1f1f1; /* Highlight row on hover */
-    cursor: pointer; /* Optional, makes rows feel interactive */
+tr:hover {
+    background-color: #f1f1f1;
 }
 
 .form-container .close-btn {
