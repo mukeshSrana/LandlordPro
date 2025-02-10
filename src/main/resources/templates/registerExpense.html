@@ -40,9 +40,9 @@
                 <select id="category" name="category" required>
                     <option value="" disabled selected>Select Category</option>
                     <option th:each="category : ${categories}"
-                            th:value="${category}"
-                            th:text="${category.description}"
-                            th:selected="${category.description == selectedCategory}">
+                            th:value="${category.name()}"
+                            th:text="${category.description}">
+<!--                            th:selected="${category.description == selectedCategory}">-->
                     </option>
                 </select>
             </div>
