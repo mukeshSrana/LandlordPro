@@ -6,122 +6,117 @@
     <link rel="stylesheet" th:href="@{/css/handleIncome.css}">
     <script th:src="@{/js/filterTable.js}"></script>
     <script>
-        function closeMessage(button) {
-            var messageBox = button.parentElement;
-            messageBox.style.display = 'none';
-        }
+      function closeMessage(button) {
+        var messageBox = button.parentElement;
+        messageBox.style.display = 'none';
+      }
     </script>
 </head>
-<!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
-    <main>
-        <!-- Display success message -->
-        <div th:if="${successMessage}" class="success-message">
-            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
-            <p th:text="${successMessage}"></p>
-        </div>
+    <!-- Display success message -->
+    <div th:if="${successMessage}" class="success-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${successMessage}"></p>
+    </div>
 
-        <!-- Display error message -->
-        <div th:if="${errorMessage}" class="error-message">
-            <span class="close-btn" onclick="closeMessage(this)">&times;</span>
-            <p th:text="${errorMessage}"></p>
-        </div>
-
+    <!-- Display error message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <span class="close-btn" onclick="closeMessage(this)">&times;</span>
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <form action="/income/handle" method="get">
         <div class="filters">
             <div class="filter-group">
-                <form action="/income/handle" method="get">
-                    <label for="year">Year:</label>
-                    <select id="year" name="year" onchange="this.form.submit()">
-                        <option value="">Select Year</option>
-                        <option
-                            th:each="year : ${years}"
-                            th:value="${year}"
-                            th:text="${year}"
-                            th:selected="${year == selectedYear}">
-                        </option>
-                    </select>
 
-                    <label for="apartmentName">Apartment Name:</label>
-                    <select id="apartmentName" name="apartmentId" onchange="this.form.submit()">
-                        <option value="">Select Apartment</option>
-                        <option th:each="entry : ${apartments}"
-                                th:value="${entry.key}"
-                                th:text="${entry.value}"
-                                th:selected="${entry.value == selectedApartment}">
-                        </option>
-                    </select>
-                </form>
+                <label for="year">Year:</label>
+                <select id="year" name="year" onchange="this.form.submit()">
+                    <option value="">Select Year</option>
+                    <option
+                        th:each="year : ${years}"
+                        th:value="${year}"
+                        th:text="${year}"
+                        th:selected="${year == selectedYear}">
+                    </option>
+                </select>
+
+                <label for="apartmentName">Apartment Name:</label>
+                <select id="apartmentName" name="apartmentId" onchange="this.form.submit()">
+                    <option value="">Select Apartment</option>
+                    <option th:each="entry : ${apartments}"
+                            th:value="${entry.key}"
+                            th:text="${entry.value}"
+                            th:selected="${entry.value == selectedApartment}">
+                    </option>
+                </select>
+
             </div>
         </div>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>Year</th>
+            <th>Apartment</th>
+            <th>Tenant</th>
+            <th th:text="'Date' + '*'"></th>
+            <th th:text="'Amount' + '*'"></th>
+            <th th:text="'Status' + '*'"></th>
+            <th th:text="'Comments' + '*'"></th>
+            <th>Receipt</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="income : ${incomes}">
+            <td th:text="${income.date.year}"></td>
+            <td th:text="${apartments[income.apartmentId]}"></td>
+            <td th:text="${tenants[income.tenantId]}"></td>
+            <td ondblclick="enableEditing(this)" th:text="${income.date}"></td>
+            <td ondblclick="enableEditing(this)" th:text="${income.amount}"></td>
+            <td class="status-column">
+                <select id="status" name="status">
+                    <option th:each="sta : ${status}"
+                            th:value="${sta.name()}"
+                            th:text="${sta.description}"
+                            th:selected="${sta.name() == income.status}">
+                    </option>
+                </select>
+            </td>
+            <td ondblclick="enableEditing(this)" th:text="${income.comments}"></td>
+            <td>
+                <a th:if="${income.receiptData != null}"
+                   th:href="@{/download/income/{id}/contract(id=${income.id})}"
+                   target="_blank">
+                    Download
+                </a>
+            </td>
+            <td>
+                <!-- Delete Form -->
+                <form th:action="@{/income/delete}" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${income.id}">
+                    <input type="hidden" name="userId" th:value="${income.userId}">
+                    <input type="hidden" name="apartmentId" th:value="${income.apartmentId}">
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
 
-        <table>
-            <thead>
-            <tr>
-                <th>Year</th>
-                <th>Apartment</th>
-                <th>Tenant</th>
-                <th th:text="'Date' + '*'"></th>
-                <th th:text="'Amount' + '*'"></th>
-                <th th:text="'Status' + '*'"></th>
-                <th th:text="'Comments' + '*'"></th>
-                <th>Receipt</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="income : ${incomes}">
-                <tr>
-                    <td th:text="${income.date.year}"></td>
-                    <td th:text="${apartments[income.apartmentId]}"></td>
-                    <td th:text="${tenants[income.tenantId]}"></td>
-                    <td ondblclick="enableEditing(this)" th:text="${income.date}"></td>
-                    <td ondblclick="enableEditing(this)" th:text="${income.amount}"></td>
-                    <td class="status-column">
-                        <select id="status" name="status">
-                            <option th:each="sta : ${status}"
-                                    th:value="${sta.name()}"
-                                    th:text="${sta.description}"
-                                    th:selected="${sta.name() == income.status}">
-                            </option>
-                        </select>
-                    </td>
-                    <td ondblclick="enableEditing(this)" th:text="${income.comments}"></td>
-                    <td>
-                        <a th:if="${income.receiptData != null}"
-                           th:href="@{/download/income/{id}/contract(id=${income.id})}"
-                           target="_blank">
-                            Download
-                        </a>
-                    </td>
-                    <td>
-                        <!-- Delete Form -->
-                        <form th:action="@{/income/delete}" method="post" style="display:inline;">
-                            <input type="hidden" name="id" th:value="${income.id}">
-                            <input type="hidden" name="userId" th:value="${income.userId}">
-                            <input type="hidden" name="apartmentId" th:value="${income.apartmentId}">
-                            <button type="submit" class="delete-btn">Delete</button>
-                        </form>
-
-                        <!-- Update Form -->
-                        <form th:action="@{/income/update}" method="post" style="display:inline;">
-                            <input type="hidden" name="id" th:value="${income.id}">
-                            <input type="hidden" name="apartmentId" th:value="${income.apartmentId}">
-                            <input type="hidden" name="userId" th:value="${income.userId}">
-                            <input type="hidden" name="tenantId" th:value="${income.tenantId}">
-                            <input type="hidden" name="date" th:value="${income.date}">
-                            <input type="hidden" name="amount" th:value="${income.amount}">
-                            <input type="hidden" name="status" th:value="${income.status}">
-                            <input type="hidden" name="comments" th:value="${income.comments}">
-                            <input type="hidden" name="receiptData" th:value="${income.receiptData}">
-                            <input type="hidden" name="createdDate" th:value="${income.createdDate}">
-                            <input type="hidden" name="updatedDate" th:value="${income.updatedDate}">
-                            <button type="submit" class="update-btn">Update</button>
-                        </form>
-                    </td>
-                </tr>
-            </th:block>
-            </tbody>
-        </table>
-    </main>
+                <!-- Update Form -->
+                <form th:action="@{/income/update}" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${income.id}">
+                    <input type="hidden" name="apartmentId" th:value="${income.apartmentId}">
+                    <input type="hidden" name="userId" th:value="${income.userId}">
+                    <input type="hidden" name="tenantId" th:value="${income.tenantId}">
+                    <input type="hidden" name="date" th:value="${income.date}">
+                    <input type="hidden" name="amount" th:value="${income.amount}">
+                    <input type="hidden" name="status" th:value="${income.status}">
+                    <input type="hidden" name="comments" th:value="${income.comments}">
+                    <input type="hidden" name="receiptData" th:value="${income.receiptData}">
+                    <input type="hidden" name="createdDate" th:value="${income.createdDate}">
+                    <input type="hidden" name="updatedDate" th:value="${income.updatedDate}">
+                    <button type="submit" class="update-btn">Update</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </html>

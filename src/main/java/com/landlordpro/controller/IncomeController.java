@@ -87,10 +87,9 @@ public class IncomeController {
             } else {
                 throw new RuntimeException("Logged in userId is not same as the deleted income userId");
             }
-            redirectAttributes.addFlashAttribute("successMessage", "Income deleted successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while deleting income: ", e);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
         redirectAttributes.addFlashAttribute("page", "handleIncome");
         return "redirect:/income/handle";
@@ -185,8 +184,8 @@ public class IncomeController {
             model.addAttribute("selectedApartment", availableApartments.get(apartmentId));
             model.addAttribute("status", IncomeStatus.values());
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while handling income: ", e);
+            model.addAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
         model.addAttribute("page", "handleIncome");
         return "handleIncome";
