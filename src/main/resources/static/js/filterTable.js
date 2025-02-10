@@ -17,14 +17,14 @@ function enableEditing(cell) {
     const row = cell.closest('tr');
     const dateHiddenInput = row.querySelector('input[name="date"]');
     const amountHiddenInput = row.querySelector('input[name="amount"]');
-    const commentsHiddenInput = row.querySelector('input[name="comments"]');2
+    const commentsHiddenInput = row.querySelector('input[name="comments"]');
 
     // Update the hidden input values based on the edited cell content
-    if (cell.cellIndex === 3 && dateHiddenInput) {
+    if (cell.cellIndex === 1 && dateHiddenInput) {
       dateHiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 4 && amountHiddenInput) {
+    } else if (cell.cellIndex === 2 && amountHiddenInput) {
       amountHiddenInput.value = cell.textContent.trim();
-    } else if (cell.cellIndex === 6 && commentsHiddenInput) {
+    } else if (cell.cellIndex === 4 && commentsHiddenInput) {
       commentsHiddenInput.value = cell.textContent.trim();
     }
   });
@@ -46,16 +46,3 @@ function updateStatus(selectElement) {
   }
 }
 
-// Add a change event listener for the dropdown
-// document.addEventListener('DOMContentLoaded', () => {
-//   const dropdowns = document.querySelectorAll('select[name="status"]');
-//   dropdowns.forEach((dropdown) => {
-//     dropdown.addEventListener('change', (event) => {
-//       const row = event.target.closest('tr');
-//       const statusHiddenInput = row.querySelector('input[name="status"]');
-//       if (statusHiddenInput) {
-//         statusHiddenInput.value = event.target.value;
-//       }
-//     });
-//   });
-// });
