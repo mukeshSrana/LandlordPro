@@ -136,7 +136,8 @@ tr:hover {
 }
 
 /* Select dropdown styling */
-.filter-group select {
+.form-container select,
+.filter-group select, input {
     padding: 0.5rem; /* Comfortable padding for better usability */
     font-size: 1rem; /* Match the label font size */
     border: 1px solid #ddd; /* Subtle border for the dropdown */
@@ -147,6 +148,8 @@ tr:hover {
 }
 
 /* Hover and focus effect for select dropdown */
+.form-container select:focus,
+.form-container select:hover,
 .filter-group select:focus,
 .filter-group select:hover {
     border-color: #007BFF; /* Highlight border color */
