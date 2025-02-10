@@ -42,7 +42,7 @@
                     <option th:each="category : ${categories}"
                             th:value="${category.name()}"
                             th:text="${category.description}"
-                            th:selected="${category.description == selectedCategory}">
+                            th:selected="${category.name() == selectedCategory}">
                     </option>
                 </select>
             </div>
