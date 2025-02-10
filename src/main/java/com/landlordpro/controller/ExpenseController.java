@@ -51,40 +51,40 @@ public class ExpenseController {
         this.apartmentService = apartmentService;
     }
 
-    @GetMapping("/downloadReceipt/{id}")
-    public ResponseEntity<byte[]> downloadReceipt(@PathVariable UUID id, Model model) {
-        try {
-            // Fetch the Expense object using the provided ID
-            ExpenseDto expenseDto = expenseService.findById(id);
-
-            // Check if receiptData is null
-            if (expenseDto.getReceiptData() == null) {
-                // Return a 404 Not Found or 204 No Content if the receipt is missing
-                return ResponseEntity.notFound().build(); // or ResponseEntity.noContent().build();
-            }
-
-            // Retrieve the receipt data (byte array)
-            byte[] receiptData = expenseDto.getReceiptData();
-
-            // Use Apache Tika to detect the file's MIME type
-            Tika tika = new Tika();
-            String mimeType = tika.detect(receiptData);
-
-            // Set the appropriate Content-Type for the file based on its MIME type
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.parseMediaType(mimeType));
-
-            // Set the file's disposition as inline (display it in the browser)
-            headers.setContentDisposition(ContentDisposition.inline().filename("receipt").build());
-
-            // Return the file as a ResponseEntity
-            return new ResponseEntity<>(receiptData, headers, HttpStatus.OK);
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while downloading expense receipt: ", e);
-            return ResponseEntity.internalServerError().build();
-        }
-    }
+//    @GetMapping("/downloadReceipt/{id}")
+//    public ResponseEntity<byte[]> downloadReceipt(@PathVariable UUID id, Model model) {
+//        try {
+//            // Fetch the Expense object using the provided ID
+//            ExpenseDto expenseDto = expenseService.findById(id);
+//
+//            // Check if receiptData is null
+//            if (expenseDto.getReceiptData() == null) {
+//                // Return a 404 Not Found or 204 No Content if the receipt is missing
+//                return ResponseEntity.notFound().build(); // or ResponseEntity.noContent().build();
+//            }
+//
+//            // Retrieve the receipt data (byte array)
+//            byte[] receiptData = expenseDto.getReceiptData();
+//
+//            // Use Apache Tika to detect the file's MIME type
+//            Tika tika = new Tika();
+//            String mimeType = tika.detect(receiptData);
+//
+//            // Set the appropriate Content-Type for the file based on its MIME type
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.parseMediaType(mimeType));
+//
+//            // Set the file's disposition as inline (display it in the browser)
+//            headers.setContentDisposition(ContentDisposition.inline().filename("receipt").build());
+//
+//            // Return the file as a ResponseEntity
+//            return new ResponseEntity<>(receiptData, headers, HttpStatus.OK);
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
+//            log.error("Unexpected error while downloading expense receipt: ", e);
+//            return ResponseEntity.internalServerError().build();
+//        }
+//    }
 
     @PostMapping("/add")
     public String add(
