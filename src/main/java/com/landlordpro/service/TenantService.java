@@ -9,6 +9,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -136,6 +138,10 @@ public class TenantService {
 
 
     public TenantDto findById(UUID id) {
+        if (Objects.isNull(id)) {
+            return null;
+        }
+
         return tenantRepository.findById(id)
             .map(tenantMapper::toDTO) // Convert entity to DTO if present
             .orElseThrow(() -> new EntityNotFoundException("Tenant not found with ID: " + id));

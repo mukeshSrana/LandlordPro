@@ -9,23 +9,34 @@
             var messageBox = button.parentElement;
             messageBox.style.display = 'none';
         }
-        function fetchTenants(apartmentId) {
+        function fetchTenants(apartmentId, selectedTenantId = null) {
           if (apartmentId) {
             fetch(`/income/tenants?apartmentId=` + apartmentId)
               .then(response => response.json())
               .then(data => {
                 const tenantDropdown = document.getElementById('tenantName');
-                tenantDropdown.innerHTML = '<option value="" disabled selected>Select Tenant</option>';
+                tenantDropdown.innerHTML = '<option value="" disabled>Select Tenant</option>';
                 data.forEach(tenant => {
                   const option = document.createElement('option');
                   option.value = tenant.id;
                   option.textContent = tenant.name;
+                  if (selectedTenantId && tenant.id == selectedTenantId) {
+                    option.selected = true;
+                  }
                   tenantDropdown.appendChild(option);
                 });
               })
               .catch(error => console.error('Error fetching tenants:', error));
           }
         }
+        // Call fetchTenants on page load if an apartment is already selected
+        document.addEventListener("DOMContentLoaded", function () {
+          let selectedApartmentId = document.getElementById("apartmentName").value;
+          let selectedTenantId = document.getElementById("selectedTenantId").value;
+          if (selectedApartmentId) {
+            fetchTenants(selectedApartmentId, selectedTenantId);
+          }
+        });
     </script>
 </head>
 <body>
@@ -42,6 +53,7 @@
         <p th:text="${errorMessage}"></p>
     </div>
     <form th:action="@{/income/add}"  th:object="${income}" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="selectedTenantId" th:value="${income.tenantId}" />
         <div class="form-row">
             <div class="flex-40">
                 <label for="apartmentName">Apartment Name:</label>
@@ -50,7 +62,7 @@
                     <option th:each="apartment : ${apartmentIdNameMap}"
                             th:value="${apartment.key}"
                             th:text="${apartment.value}"
-                            th:selected="${apartment.value == selectedApartment}">
+                            th:selected="${apartment.key == income.apartmentId}">
                     </option>
                 </select>
             </div>
@@ -84,7 +96,7 @@
                     <option th:each="sta : ${status}"
                             th:value="${sta.name()}"
                             th:text="${sta.description}"
-                            th:selected="${sta.description == selectedStatus}">
+                            th:selected="${sta.name() == selectedStatus}">
                     </option>
                 </select>
             </div>

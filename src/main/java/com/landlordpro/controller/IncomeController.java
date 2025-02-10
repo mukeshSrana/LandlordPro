@@ -136,8 +136,7 @@ public class IncomeController {
         model.addAttribute("apartmentIdNameMap", apartmentIdNameMap);
         model.addAttribute("status", IncomeStatus.values());
         model.addAttribute("selectedStatus", incomeDto.getStatus());
-        model.addAttribute("selectedApartment", apartmentIdNameMap.get(incomeDto.getApartmentId()));
-        model.addAttribute("selectedTenant", tenantService.findById(incomeDto.getTenantId()));
+        model.addAttribute("tenants", getActiveTenants(incomeDto.getTenantId(), authentication));
 
         if (incomeDto == null) {
             incomeDto = new IncomeDto();
