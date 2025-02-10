@@ -50,78 +50,79 @@
                 <label class="note-label">Note: Columns marked with * can be updated.</label>
             </div>
         </div>
-        <table>
-            <thead>
-            <tr>
-                <th th:text="'Category' + '*'"></th>
-                <th th:text="'ExpenseName' + '*'"></th>
-                <th th:text="'Amount' + '*'"></th>
-                <th th:text="'ExpenseLocation' + '*'"></th>
-                <th th:text="'Date' + '*'"></th>
-                <th>Receipt</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="expense : ${expenses}">
-                <td>
-                    <select onchange="updateCategory(this)" th:name="category">
-                        <option th:each="cat : ${categories}"
-                                th:selected="${expense.category} == ${cat.name()}"
-                                th:text="${cat.getDescription()}"
-                                th:value="${cat.name()}">
-                        </option>
-                    </select>
-                </td>
-                <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${expense.amount != null ? #numbers.formatDecimal(expense.amount, 1, 2, 'POINT') : '0.00'}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${expense.expenseLocation}"></td>
-                <td>
-                    <input type="date"
-                           name="date"
-                           th:value="${#temporals.format(expense.date, 'yyyy-MM-dd')}"
-                           min="1900-01-01" max="2100-12-31"
-                           pattern="\d{4}-\d{2}-\d{2}"
-                           title="Date must be in the format YYYY-MM-DD"
-                           required>
-                </td>
-                <td>
-                    <a th:if="${expense.receiptData != null}"
-                       th:href="@{/download/expense/{id}/receipt(id=${expense.id})}"
-                       target="_blank">
-                        Download
-                    </a>
-                </td>
-
-                <td>
-                    <!-- Delete Form -->
-                    <form th:action="@{/expense/delete}" method="post" style="display:inline;">
-                        <input type="hidden" name="id" th:value="${expense.id}">
-                        <input type="hidden" name="userId" th:value="${expense.userId}">
-                        <input type="hidden" name="apartmentId" th:value="${expense.apartmentId}">
-                        <input type="hidden" name="year" th:value="${expense.getDate().year}">
-                        <button type="submit" class="delete-btn">Delete</button>
-                    </form>
-
-                    <!-- Update Form -->
-                    <form th:action="@{/expense/update}" method="post" onsubmit="syncDateBeforeSubmit(this)" style="display:inline;">
-                        <input type="hidden" name="id" th:value="${expense.id}">
-                        <input type="hidden" name="apartmentId" th:value="${expense.apartmentId}">
-                        <input type="hidden" name="userId" th:value="${expense.userId}">
-                        <input type="hidden" name="category" th:value="${expense.category}">
-                        <input type="hidden" name="name" th:value="${expense.name}">
-                        <input type="hidden" name="amount" th:value="${expense.amount}">
-                        <input type="hidden" name="date" th:value="${expense.date}">
-                        <input type="hidden" name="expenseLocation" th:value="${expense.expenseLocation}">
-                        <input type="hidden" name="receiptData" th:value="${expense.receiptData}">
-                        <input type="hidden" name="createdDate" th:value="${expense.createdDate}">
-                        <input type="hidden" name="updatedDate" th:value="${expense.updatedDate}">
-                        <button type="submit" class="update-btn">Update</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </form>
+    <table>
+        <thead>
+        <tr>
+            <th th:text="'Category' + '*'"></th>
+            <th th:text="'ExpenseName' + '*'"></th>
+            <th th:text="'Amount' + '*'"></th>
+            <th th:text="'ExpenseLocation' + '*'"></th>
+            <th th:text="'Date' + '*'"></th>
+            <th>Receipt</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="expense : ${expenses}">
+            <td>
+                <select onchange="updateCategory(this)" th:name="category">
+                    <option th:each="cat : ${categories}"
+                            th:selected="${expense.category} == ${cat.name()}"
+                            th:text="${cat.getDescription()}"
+                            th:value="${cat.name()}">
+                    </option>
+                </select>
+            </td>
+            <td ondblclick="enableEditing(this)" th:text="${expense.name}"></td>
+            <td ondblclick="enableEditing(this)"
+                th:text="${expense.amount != null ? #numbers.formatDecimal(expense.amount, 1, 2, 'POINT') : '0.00'}"></td>
+            <td ondblclick="enableEditing(this)" th:text="${expense.expenseLocation}"></td>
+            <td>
+                <input type="date"
+                       name="date"
+                       th:value="${#temporals.format(expense.date, 'yyyy-MM-dd')}"
+                       min="1900-01-01" max="2100-12-31"
+                       pattern="\d{4}-\d{2}-\d{2}"
+                       title="Date must be in the format YYYY-MM-DD"
+                       required>
+            </td>
+            <td>
+                <a th:if="${expense.receiptData != null}"
+                   th:href="@{/download/expense/{id}/receipt(id=${expense.id})}"
+                   target="_blank">
+                    Download
+                </a>
+            </td>
+
+            <td>
+                <!-- Delete Form -->
+                <form th:action="@{/expense/delete}" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${expense.id}">
+                    <input type="hidden" name="userId" th:value="${expense.userId}">
+                    <input type="hidden" name="apartmentId" th:value="${expense.apartmentId}">
+                    <input type="hidden" name="year" th:value="${expense.getDate().year}">
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
+
+                <!-- Update Form -->
+                <form th:action="@{/expense/update}" method="post" onsubmit="syncDateBeforeSubmit(this)" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${expense.id}">
+                    <input type="hidden" name="apartmentId" th:value="${expense.apartmentId}">
+                    <input type="hidden" name="userId" th:value="${expense.userId}">
+                    <input type="hidden" name="category" th:value="${expense.category}">
+                    <input type="hidden" name="name" th:value="${expense.name}">
+                    <input type="hidden" name="amount" th:value="${expense.amount}">
+                    <input type="hidden" name="date" th:value="${expense.date}">
+                    <input type="hidden" name="expenseLocation" th:value="${expense.expenseLocation}">
+                    <input type="hidden" name="receiptData" th:value="${expense.receiptData}">
+                    <input type="hidden" name="createdDate" th:value="${expense.createdDate}">
+                    <input type="hidden" name="updatedDate" th:value="${expense.updatedDate}">
+                    <button type="submit" class="update-btn">Update</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </html>

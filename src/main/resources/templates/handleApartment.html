@@ -44,52 +44,52 @@
                 <label class="note-label">Note: Columns marked with * can be updated.</label>
             </div>
         </div>
-        <table>
-            <thead>
-            <tr>
-                <th th:text="'Name' + '*'"></th>
-                <th th:text="'AddressLine1' + '*'"></th>
-                <th th:text="'AddressLine2' + '*'"></th>
-                <th th:text="'PinCode' + '*'"></th>
-                <th>City</th>
-                <th>Country</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="apartment : ${apartments}">
-                <td ondblclick="enableEditing(this)" th:text="${apartment.apartmentShortName}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${apartment.addressLine1}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${apartment.addressLine2}"></td>
-                <td ondblclick="enableEditing(this)" th:text="${apartment.pincode}"></td>
-                <td th:text="${apartment.city}"></td>
-                <td th:text="${apartment.country}"></td>
-                <td>
-                    <!-- Delete Form -->
-                    <form th:action="@{/apartment/delete}" method="post" style="display:inline;">
-                        <input type="hidden" name="id" th:value="${apartment.id}">
-                        <input type="hidden" name="userId" th:value="${apartment.userId}">
-                        <input type="hidden" name="year" th:value="${apartment.getCreatedDate().year}">
-                        <button type="submit" class="delete-btn">Delete</button>
-                    </form>
-                    <form th:action="@{/apartment/update}" method="post" onsubmit="validateForm(event)" style="display:inline;">
-                        <input type="hidden" th:name="apartmentShortName" th:value="${apartment.apartmentShortName}"/>
-                        <input type="hidden" th:name="ownerName" th:value="${apartment.ownerName}"/>
-                        <input type="hidden" th:name="addressLine1" th:value="${apartment.addressLine1}"/>
-                        <input type="hidden" th:name="addressLine2" th:value="${apartment.addressLine2}"/>
-                        <input type="hidden" th:name="pincode" th:value="${apartment.pincode}"/>
-                        <input type="hidden" th:name="city" th:value="${apartment.city}"/>
-                        <input type="hidden" th:name="country" th:value="${apartment.country}"/>
-                        <input type="hidden" th:name="userId" th:value="${apartment.userId}"/>
-                        <input type="hidden" th:name="id" th:value="${apartment.id}"/>
-                        <input type="hidden" th:name="createdDate" th:value="${apartment.createdDate}"/>
-                        <input type="hidden" th:name="updatedDate" th:value="${apartment.updatedDate}"/>
-                        <button type="submit" class="update-btn">Update</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </form>
+    <table>
+        <thead>
+        <tr>
+            <th th:text="'Name' + '*'"></th>
+            <th th:text="'AddressLine1' + '*'"></th>
+            <th th:text="'AddressLine2' + '*'"></th>
+            <th th:text="'PinCode' + '*'"></th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="apartment : ${apartments}">
+            <td ondblclick="enableEditing(this)" th:text="${apartment.apartmentShortName}"></td>
+            <td ondblclick="enableEditing(this)" th:text="${apartment.addressLine1}"></td>
+            <td ondblclick="enableEditing(this)" th:text="${apartment.addressLine2}"></td>
+            <td ondblclick="enableEditing(this)" th:text="${apartment.pincode}"></td>
+            <td th:text="${apartment.city}"></td>
+            <td th:text="${apartment.country}"></td>
+            <td>
+                <!-- Delete Form -->
+                <form th:action="@{/apartment/delete}" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${apartment.id}">
+                    <input type="hidden" name="userId" th:value="${apartment.userId}">
+                    <input type="hidden" name="year" th:value="${apartment.getCreatedDate().year}">
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
+                <form th:action="@{/apartment/update}" method="post" onsubmit="validateForm(event)" style="display:inline;">
+                    <input type="hidden" th:name="apartmentShortName" th:value="${apartment.apartmentShortName}"/>
+                    <input type="hidden" th:name="ownerName" th:value="${apartment.ownerName}"/>
+                    <input type="hidden" th:name="addressLine1" th:value="${apartment.addressLine1}"/>
+                    <input type="hidden" th:name="addressLine2" th:value="${apartment.addressLine2}"/>
+                    <input type="hidden" th:name="pincode" th:value="${apartment.pincode}"/>
+                    <input type="hidden" th:name="city" th:value="${apartment.city}"/>
+                    <input type="hidden" th:name="country" th:value="${apartment.country}"/>
+                    <input type="hidden" th:name="userId" th:value="${apartment.userId}"/>
+                    <input type="hidden" th:name="id" th:value="${apartment.id}"/>
+                    <input type="hidden" th:name="createdDate" th:value="${apartment.createdDate}"/>
+                    <input type="hidden" th:name="updatedDate" th:value="${apartment.updatedDate}"/>
+                    <button type="submit" class="update-btn">Update</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </html>
