@@ -71,10 +71,28 @@
             <td th:text="${income.date.year}"></td>
             <td th:text="${apartments[income.apartmentId]}"></td>
             <td th:text="${tenants[income.tenantId]}"></td>
-            <td ondblclick="enableEditing(this)" th:text="${income.date}"></td>
-            <td ondblclick="enableEditing(this)" th:text="${income.amount}"></td>
-            <td class="status-column">
-                <select id="status" name="status">
+            <td>
+                <input type="date"
+                       name="date"
+                       th:value="${#temporals.format(income.date, 'yyyy-MM-dd')}"
+                       min="1900-01-01" max="2100-12-31"
+                       pattern="\d{4}-\d{2}-\d{2}"
+                       title="Date must be in the format YYYY-MM-DD"
+                       required>
+            </td>
+            <td ondblclick="enableEditing(this)"
+                th:text="${income.amount != null ? #numbers.formatDecimal(income.amount, 1, 2, 'POINT') : '0.00'}"></td>
+<!--            <td class="status-column">-->
+<!--                <select id="status" name="status">-->
+<!--                    <option th:each="sta : ${status}"-->
+<!--                            th:value="${sta.name()}"-->
+<!--                            th:text="${sta.description}"-->
+<!--                            th:selected="${sta.name() == income.status}">-->
+<!--                    </option>-->
+<!--                </select>-->
+<!--            </td>-->
+            <td>
+                <select onchange="updateStatus(this)" th:name="status">
                     <option th:each="sta : ${status}"
                             th:value="${sta.name()}"
                             th:text="${sta.description}"
@@ -100,7 +118,7 @@
                 </form>
 
                 <!-- Update Form -->
-                <form th:action="@{/income/update}" method="post" style="display:inline;">
+                <form th:action="@{/income/update}" method="post" onsubmit="syncDateBeforeSubmit(this)" style="display:inline;">
                     <input type="hidden" name="id" th:value="${income.id}">
                     <input type="hidden" name="apartmentId" th:value="${income.apartmentId}">
                     <input type="hidden" name="userId" th:value="${income.userId}">

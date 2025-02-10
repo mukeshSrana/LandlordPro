@@ -29,17 +29,33 @@ function enableEditing(cell) {
     }
   });
 }
+function syncDateBeforeSubmit(form) {
+  const row = form.closest("tr");
+  const visibleDateInput = row.querySelector('input[type="date"]');
+  const hiddenDateInput = form.querySelector('input[name="date"]');
+  if (visibleDateInput && hiddenDateInput) {
+    hiddenDateInput.value = visibleDateInput.value;
+  }
+}
+function updateStatus(selectElement) {
+  const row = selectElement.closest('tr');
+  const statusInput = row.querySelector('input[name="status"]');
+
+  if (statusInput) {
+    statusInput.value = selectElement.value;
+  }
+}
 
 // Add a change event listener for the dropdown
-document.addEventListener('DOMContentLoaded', () => {
-  const dropdowns = document.querySelectorAll('select[name="status"]');
-  dropdowns.forEach((dropdown) => {
-    dropdown.addEventListener('change', (event) => {
-      const row = event.target.closest('tr');
-      const statusHiddenInput = row.querySelector('input[name="status"]');
-      if (statusHiddenInput) {
-        statusHiddenInput.value = event.target.value;
-      }
-    });
-  });
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//   const dropdowns = document.querySelectorAll('select[name="status"]');
+//   dropdowns.forEach((dropdown) => {
+//     dropdown.addEventListener('change', (event) => {
+//       const row = event.target.closest('tr');
+//       const statusHiddenInput = row.querySelector('input[name="status"]');
+//       if (statusHiddenInput) {
+//         statusHiddenInput.value = event.target.value;
+//       }
+//     });
+//   });
+// });
