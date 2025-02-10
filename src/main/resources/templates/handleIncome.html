@@ -78,11 +78,10 @@
                     <td ondblclick="enableEditing(this)" th:text="${income.amount}"></td>
                     <td class="status-column">
                         <select id="status" name="status">
-                            <option
-                                th:each="status : ${statusList}"
-                                th:value="${status}"
-                                th:text="${status}"
-                                th:selected="${status == income.status}">
+                            <option th:each="sta : ${status}"
+                                    th:value="${sta.name()}"
+                                    th:text="${sta.description}"
+                                    th:selected="${sta.name() == income.status}">
                             </option>
                         </select>
                     </td>

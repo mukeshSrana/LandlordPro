@@ -3,9 +3,9 @@ package com.landlordpro.controller;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.tika.Tika;
 import org.springframework.http.ContentDisposition;
@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -103,10 +104,20 @@ public class IncomeController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute IncomeDto incomeDto, Authentication authentication, RedirectAttributes redirectAttributes) {
+    public String update(
+        @Valid @ModelAttribute IncomeDto incomeDto,
+        BindingResult bindingResult,
+        Authentication authentication,
+        RedirectAttributes redirectAttributes) {
         try {
+            if (bindingResult.hasErrors()) {
+                Optional<ObjectError> firstError = bindingResult.getAllErrors().stream().findFirst();
+                if (firstError.isPresent()) {
+                    throw new RuntimeException(firstError.get().getDefaultMessage());
+                }
+            }
+
             CustomUserDetails userDetails = currentUser(authentication);
-            // Retrieve the logged-in user's ID
             UUID userId = userDetails.getId();
 
             if (incomeDto.getReceiptData() != null && incomeDto.getReceiptData().length == 0) {
@@ -114,11 +125,10 @@ public class IncomeController {
             }
 
             incomeService.update(incomeDto, userId);
-
-            redirectAttributes.addFlashAttribute("successMessage", "Income updated successfully!");
+            redirectAttributes.addFlashAttribute("errorMessage", null);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
-            log.error("Unexpected error while updating Income: ", e);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
         redirectAttributes.addFlashAttribute("page", "handleIncome");
         return "redirect:/income/handle";
@@ -180,10 +190,7 @@ public class IncomeController {
             model.addAttribute("tenants", availableTenants);
             model.addAttribute("selectedYear", year);
             model.addAttribute("selectedApartment", availableApartments.get(apartmentId));
-            List<String> statusList = Stream.of(IncomeStatus.values())
-                .map(Enum::toString)
-                .toList();
-            model.addAttribute("statusList", statusList);
+            model.addAttribute("status", IncomeStatus.values());
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Unexpected error occurred: " + e.getMessage());
             log.error("Unexpected error while handling income: ", e);
