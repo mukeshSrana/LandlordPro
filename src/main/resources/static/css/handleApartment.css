@@ -1,15 +1,3 @@
-/* Adjust form container to ensure alignment */
-/*.form-container {*/
-/*    width: 80%; !* Adjusted for table layout *!*/
-/*    max-width: 1200px; !* Ensures the table does not grow too large *!*/
-/*    margin: 2rem 2rem; !* Center the form container *!*/
-/*    !*padding: 1rem 2rem 2rem;*!*/
-/*    padding: 0.5rem 0.5rem;*/
-/*    border-radius: 8px;*/
-/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
-/*    !*background-color: #f9f9f9; !* Light background for contrast *!*!*/
-/*}*/
-
 .form-container {
     width: 100%;
     max-width: 1500px;

@@ -1,13 +1,3 @@
-/* Styling for the form container and overall layout */
-/*.form-container {*/
-/*    width: 80%;*/
-/*    max-width: 1200px;*/
-/*    margin: 2rem 2rem;*/
-/*    padding: 1rem 2rem 2rem;*/
-/*    border-radius: 8px;*/
-/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
-/*}*/
-
 .form-container {
     width: 100%;
     max-width: 1500px;
@@ -91,14 +81,6 @@ tr:hover {
 .delete-btn:hover, .update-btn:hover {
     background-color: #0056b3;
 }
-
-/*.delete-btn {*/
-/*    background-color: #dc3545;*/
-/*}*/
-
-/*.delete-btn:hover {*/
-/*    background-color: #c82333;*/
-/*}*/
 
 /* Styling the filters container */
 .filters {
