@@ -27,7 +27,6 @@
     <form action="/income/handle" method="get">
         <div class="filters">
             <div class="filter-group">
-
                 <label for="year">Year:</label>
                 <select id="year" name="year" onchange="this.form.submit()">
                     <option value="">Select Year</option>
@@ -48,7 +47,7 @@
                             th:selected="${entry.value == selectedApartment}">
                     </option>
                 </select>
-
+                <label class="note-label">Note: Columns marked with * can be updated.</label>
             </div>
         </div>
     </form>
@@ -82,15 +81,6 @@
             </td>
             <td ondblclick="enableEditing(this)"
                 th:text="${income.amount != null ? #numbers.formatDecimal(income.amount, 1, 2, 'POINT') : '0.00'}"></td>
-<!--            <td class="status-column">-->
-<!--                <select id="status" name="status">-->
-<!--                    <option th:each="sta : ${status}"-->
-<!--                            th:value="${sta.name()}"-->
-<!--                            th:text="${sta.description}"-->
-<!--                            th:selected="${sta.name() == income.status}">-->
-<!--                    </option>-->
-<!--                </select>-->
-<!--            </td>-->
             <td>
                 <select onchange="updateStatus(this)" th:name="status">
                     <option th:each="sta : ${status}"
