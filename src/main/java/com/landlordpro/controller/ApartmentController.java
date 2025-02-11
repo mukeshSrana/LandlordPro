@@ -61,6 +61,7 @@ public class ApartmentController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             log.error(e.getMessage(), e);
+            redirectAttributes.addFlashAttribute("apartment", apartmentDto);
         }
         redirectAttributes.addFlashAttribute("page", "registerApartment");
         return "redirect:/apartment/register";
@@ -118,12 +119,22 @@ public class ApartmentController {
     }
 
     @GetMapping("/register")
-    public String showRegisterApartment(Model model, Authentication authentication) {
+    public String register(
+        @ModelAttribute("apartment") ApartmentDto apartmentDto,
+        @ModelAttribute("bindingResult") BindingResult bindingResult,
+        Model model,
+        Authentication authentication) {
         CustomUserDetails userDetails = currentUser(authentication);
-        ApartmentDto apartmentDto = new ApartmentDto();
+        if (apartmentDto == null) {
+            apartmentDto = new ApartmentDto();
+        }
         apartmentDto.setOwnerName(userDetails.getName());
         apartmentDto.setCountry("Norway");
         model.addAttribute("apartment", apartmentDto);
+        if (bindingResult.getObjectName() != null && bindingResult != null && bindingResult.hasErrors()) {
+            model.addAttribute("org.springframework.validation.BindingResult.apartment", bindingResult);
+            model.addAttribute("org.springframework.validation.BindingResult.bindingResult", bindingResult);
+        }
         model.addAttribute("page", "registerApartment");
         return "registerApartment";
     }
