@@ -102,8 +102,11 @@ public class Tenant {
         }
         Tenant tenant = (Tenant) o;
 
-        // Use equalsIgnoreCase for fullName
-        return (fullName == null ? tenant.fullName == null : fullName.equalsIgnoreCase(tenant.fullName))
+        // Trim and compare fullName (case-insensitive)
+        String thisFullName = (fullName != null) ? fullName.trim() : null;
+        String otherFullName = (tenant.fullName != null) ? tenant.fullName.trim() : null;
+
+        return (thisFullName == null ? otherFullName == null : thisFullName.equalsIgnoreCase(otherFullName))
             && Objects.equals(dateOfBirth, tenant.dateOfBirth)
             && Objects.equals(mobileNumber, tenant.mobileNumber)
             && Objects.equals(apartmentId, tenant.apartmentId);
@@ -112,7 +115,7 @@ public class Tenant {
     @Override
     public int hashCode() {
         return Objects.hash(
-            fullName != null ? fullName.toLowerCase() : null,
+            (fullName != null) ? fullName.trim().toLowerCase() : null,
             dateOfBirth,
             mobileNumber,
             apartmentId
