@@ -13,9 +13,7 @@ import com.landlordpro.mapper.IncomeMapper;
 import com.landlordpro.repository.IncomeRepository;
 
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class IncomeService {
 
@@ -37,11 +35,9 @@ public class IncomeService {
             incomeRepository.save(income);
         } catch (DataIntegrityViolationException ex) {
             String errorMessage = "Constraint violation while saving income=" + incomeDto.getId() + " User=" + incomeDto.getUserId();
-            log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         } catch (Exception ex) {
             String errorMessage = "Unexpected error while saving income=" + incomeDto.getId() + " User=" + incomeDto.getUserId();
-            log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         }
     }

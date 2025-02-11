@@ -18,9 +18,7 @@ import com.landlordpro.repository.IncomeRepository;
 import com.landlordpro.repository.TenantRepository;
 
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class ApartmentService {
     private final ApartmentRepository apartmentRepository;
@@ -98,11 +96,9 @@ public class ApartmentService {
             apartmentRepository.save(apartmentMapper.toEntity(apartmentDto));
         } catch (DataIntegrityViolationException ex) {
             String errorMessage = "Constraint violation while saving apartment=" + apartmentDto.getId() + " User=" + apartmentDto.getUserId();
-            log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         } catch (Exception ex) {
             String errorMessage = "Unexpected error while saving apartment=" + apartmentDto.getId() + " User=" + apartmentDto.getUserId();
-            log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         }
     }

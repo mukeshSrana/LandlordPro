@@ -28,9 +28,7 @@ import com.landlordpro.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class TenantService {
     private final TenantRepository tenantRepository;
@@ -108,11 +106,9 @@ public class TenantService {
             tenantRepository.save(tenant);
         } catch (DataIntegrityViolationException ex) {
             String errorMessage = "Constraint violation while saving tenant=" + tenant.getFullName() + " User=" + tenant.getUserId();
-            log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         } catch (Exception ex) {
             String errorMessage = "Unexpected error while saving tenant=" + tenant.getFullName() + " User=" + tenant.getUserId();
-            log.error(errorMessage, ex); // Assuming you have a logger in place
             throw new RuntimeException(errorMessage, ex);
         }
     }
