@@ -87,7 +87,7 @@
 <!--                    <td ondblclick="enableEditing(this)" th:text="${tenant.dateOfBirth}"></td>-->
 <!--                    <td th:text="${tenant.phoneNumber + tenant.email}"></td>-->
                     <td>
-                        <span th:text="${tenant.phoneNumber}"></span><br>
+                        <span th:text="${tenant.getMobileNumber}"></span><br>
                         <span th:text="${tenant.email}"></span>
                     </td>
 <!--                    <td ondblclick="enableEditing(this)" th:text="${tenant.phoneNumber}"></td>-->
@@ -128,7 +128,7 @@
                             <input type="hidden" name="userId" th:value="${tenant.userId}">
                             <input type="hidden" name="fullName" th:value="${tenant.fullName}">
                             <input type="hidden" name="dateOfBirth" th:value="${tenant.dateOfBirth}">
-                            <input type="hidden" name="phoneNumber" th:value="${tenant.phoneNumber}">
+                            <input type="hidden" name="phoneNumber" th:value="${tenant.getMobileNumber}">
                             <input type="hidden" name="email" th:value="${tenant.email}">
                             <input type="hidden" name="leaseStartDate" th:value="${tenant.leaseStartDate}">
                             <input type="hidden" name="leaseEndDate" th:value="${tenant.leaseEndDate}">

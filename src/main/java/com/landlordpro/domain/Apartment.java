@@ -31,13 +31,13 @@ public class Apartment {
     @Column(name = "user_name", nullable = false, length = 100)
     private String ownerName;
 
-    @Column(name = "address_line1", nullable = false, length = 255)
+    @Column(name = "address_line1", nullable = false, length = 100)
     private String addressLine1;
 
-    @Column(name = "address_line2", length = 255)
+    @Column(name = "address_line2", length = 100)
     private String addressLine2;
 
-    @Column(name = "pincode", nullable = false, length = 10)  // Pincode should be non-null
+    @Column(name = "pincode", nullable = false, length = 10)
     private String pincode;
 
     @Column(nullable = false, length = 100)
@@ -50,20 +50,20 @@ public class Apartment {
     private LocalDateTime createdDate;
 
     @Column(name = "updated_date")
-    private LocalDateTime updatedDate; // Date the apartment record was last updated
+    private LocalDateTime updatedDate;
 
-    @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)") // Foreign key column
+    @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)")
     private UUID userId;
 
     @PrePersist
     public void prePersist() {
         if (this.createdDate == null) {
-            this.createdDate = LocalDateTime.now();  // Set createdDate only when it's first persisted
+            this.createdDate = LocalDateTime.now();
         }
     }
 
     @PreUpdate
     public void preUpdate() {
-        this.updatedDate = LocalDateTime.now(); // Update the updatedDate when entity is updated
+        this.updatedDate = LocalDateTime.now();
     }
 }

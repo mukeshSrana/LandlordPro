@@ -28,19 +28,19 @@ public class Tenant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "CHAR(36)") // UUID column definition to ensure it matches DB column type
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
 
-    @Column(name = "full_name", nullable = false, length = 255)
+    @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
 
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
     @Column(name = "phone_number", nullable = false, length = 15)
-    private String phoneNumber;
+    private String mobileNumber;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String email;
 
     @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)")
@@ -59,18 +59,18 @@ public class Tenant {
     @Column(name = "lease_end_date")
     private LocalDate leaseEndDate;
 
-    @Column(name = "monthly_rent", nullable = false, precision = 10, scale = 2)
+    @Column(name = "monthly_rent", nullable = false, precision = 6, scale = 2)
     private BigDecimal monthlyRent;
 
-    @Column(name = "security_deposit", precision = 10, scale = 2)
+    @Column(name = "security_deposit", precision = 6, scale = 2)
     private BigDecimal securityDeposit;
 
-    @Column(name = "security_deposit_institution_name", length = 255)
+    @Column(name = "security_deposit_institution_name", length = 100)
     private String securityDepositInstitutionName;
 
     @Lob
     @Column(name = "receipt_data")
-    private byte[] receiptData; // Store the uploaded receipt as binary data (BLOB)
+    private byte[] receiptData;
 
     @Lob
     @Column(name = "private_policy", nullable = false)
@@ -82,7 +82,6 @@ public class Tenant {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    // Lifecycle methods to auto-populate timestamps
     @PrePersist
     public void prePersist() {
         this.createdDate = LocalDateTime.now();
@@ -106,7 +105,7 @@ public class Tenant {
         // Use equalsIgnoreCase for fullName
         return (fullName == null ? tenant.fullName == null : fullName.equalsIgnoreCase(tenant.fullName))
             && Objects.equals(dateOfBirth, tenant.dateOfBirth)
-            && Objects.equals(phoneNumber, tenant.phoneNumber)
+            && Objects.equals(mobileNumber, tenant.mobileNumber)
             && Objects.equals(apartmentId, tenant.apartmentId);
     }
 
@@ -115,7 +114,7 @@ public class Tenant {
         return Objects.hash(
             fullName != null ? fullName.toLowerCase() : null, // Case-insensitive hashCode
             dateOfBirth,
-            phoneNumber,
+            mobileNumber,
             apartmentId
         );
     }

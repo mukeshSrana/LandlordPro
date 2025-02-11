@@ -25,29 +25,40 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <form th:action="@{/tenant/add}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/tenant/add}" th:object="${tenant}" method="post" enctype="multipart/form-data">
         <div class="form-row">
             <div class="flex-60">
                 <label for="fullName">Full Name:</label>
-                <input type="text" id="fullName" name="fullName" placeholder="Enter full name" required>
+                <input type="text" id="fullName" name="fullName" th:field="*{fullName}" required
+                       title="Full Name must contain only letters and spaces" size="100" minlength="2" maxlength="100">
+                <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="field-error"></span>
             </div>
             <div class="flex-40">
                 <label for="dateOfBirth">Date of Birth:</label>
-                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" th:field="*{dateOfBirth}" required
+                       pattern="\d{4}-\d{2}-\d{2}"
+                       min="1900-01-01" max="2100-12-31"
+                       title="Date of birth must be in the format YYYY-MM-DD and cannot be in the future">
+                <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="field-error"></span>
             </div>
         </div>
         <div class="form-row">
             <div class="flex-custom-20">
-                <label for="phoneNumber">Phone Number:</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter phone" required>
+                <label for="mobileNumber">Mobile Number:</label>
+                <input type="text" id="mobileNumber" name="mobileNumber" th:field="*{mobileNumber}" required
+                       title="Enter a valid mobile number (8-12 digits, optional + at the beginning)" minlength="8" maxlength="12" size="12">
+                <span th:if="${#fields.hasErrors('mobileNumber')}" th:errors="*{mobileNumber}" class="field-error"></span>
             </div>
             <div class="flex-custom-40">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Enter email" required>
+                <input type="email" id="email" name="email" th:field="*{email}" required
+                       title="Please enter a valid email address (e.g., user@example.com)">
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field-error"></span>
             </div>
             <div class="flex-custom-40">
-                <label for="receiptData">Contract:</label>
-                <input type="file" id="receiptData" name="receiptData" accept="image/*,.pdf">
+                <label for="receiptData">Contract (Optional):</label>
+                <input type="file" id="receiptData" name="receiptData" th:field="*{receiptData}" accept="image/*,.pdf">
+                <span th:if="${#fields.hasErrors('receiptData')}" th:errors="*{receiptData}" class="field-error"></span>
             </div>
         </div>
 
@@ -56,34 +67,50 @@
                 <label for="apartmentName">Apartment Name:</label>
                 <select id="apartmentName" name="apartmentId" required>
                     <option value="" disabled selected>Select Apartment</option>
-                    <option th:each="apartment : ${apartmentIdNameMap}" th:value="${apartment.key}" th:text="${apartment.value}"></option>
+                    <option th:each="apartment : ${apartmentIdNameMap}"
+                            th:value="${apartment.key}"
+                            th:text="${apartment.value}"
+                            th:selected="${apartment.value == selectedApartment}">
+                    </option>
                 </select>
             </div>
             <div class="flex-custom-30">
                 <label for="leaseStartDate">Lease Start Date:</label>
-                <input type="date" id="leaseStartDate" name="leaseStartDate" required>
+                <input type="date" id="leaseStartDate" name="leaseStartDate" th:field="*{leaseStartDate}" required
+                       pattern="\d{4}-\d{2}-\d{2}"
+                       min="1900-01-01" max="2100-12-31"
+                       title="Lease start date must be in the format YYYY-MM-DD">
+                <span th:if="${#fields.hasErrors('leaseStartDate')}" th:errors="*{leaseStartDate}" class="field-error"></span>
             </div>
             <div class="flex-custom-30">
                 <label for="leaseEndDate">Lease End Date:</label>
-                <input type="date" id="leaseEndDate" name="leaseEndDate">
+                <input type="date" id="leaseEndDate" name="leaseEndDate" th:field="*{leaseEndDate}"
+                       pattern="\d{4}-\d{2}-\d{2}"
+                       min="1900-01-01" max="2100-12-31"
+                       title="Lease end date must be in the format YYYY-MM-DD">
+                <span th:if="${#fields.hasErrors('leaseEndDate')}" th:errors="*{leaseEndDate}" class="field-error"></span>
             </div>
         </div>
-
         <div class="form-row">
             <div class="flex-custom-30">
-                <label for="monthlyRent">Monthly Rent:</label>
-                <input type="number" id="monthlyRent" name="monthlyRent" placeholder="Enter monthly rent" required>
+                <label for="monthlyRent">Monthly Rent (Kr.):</label>
+                <input type="number" id="monthlyRent" name="monthlyRent" th:field="*{monthlyRent}" step="0.01" min="0.01" required
+                       title="Monthly rent must be greater than zero, and up to 6 digits before the decimal with 2 decimal places.">
+                <span th:if="${#fields.hasErrors('monthlyRent')}" th:errors="*{monthlyRent}" class="field-error"></span>
             </div>
             <div class="flex-custom-30">
-                <label for="securityDeposit">Security Deposit:</label>
-                <input type="number" id="securityDeposit" name="securityDeposit" placeholder="Enter security deposit" required>
+                <label for="securityDeposit">Security Deposit (Kr.):</label>
+                <input type="number" id="securityDeposit" name="securityDeposit" th:field="*{securityDeposit}" step="0.01" min="0.01" required
+                title="Security deposit must be greater than zero, and up to 6 digits before the decimal with 2 decimal places.">
+                <span th:if="${#fields.hasErrors('securityDeposit')}" th:errors="*{securityDeposit}" class="field-error"></span>
             </div>
             <div class="flex-custom-40">
-                <label for="securityInstitution">Security Deposit Institution:</label>
-                <input type="text" id="securityInstitution" name="securityInstitution" placeholder="Enter institution name" required>
+                <label for="securityDepositInstitutionName">Security Deposit Institution:</label>
+                <input type="text" id="securityDepositInstitutionName" name="securityDepositInstitutionName" th:field="*{securityDepositInstitutionName}" required
+                       title="Security institution name must contain only letters and spaces" size="100" minlength="2" maxlength="100">
+                <span th:if="${#fields.hasErrors('securityDepositInstitutionName')}" th:errors="*{securityDepositInstitutionName}" class="field-error"></span>
             </div>
         </div>
-
         <button type="submit">Register</button>
     </form>
 </div>

@@ -44,22 +44,22 @@ public class Expense {
     private Apartment apartment;
 
     @Column(name = "apartment_id", nullable = false, columnDefinition = "CHAR(36)", updatable = false)
-    private UUID apartmentId;  // Assuming apartmentId is Integer as per your table definition
+    private UUID apartmentId;
 
-    @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)", updatable = false) // UUID column for user
+    @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)", updatable = false)
     private UUID userId;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 100)
     private String category;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 100)
     private String name;
 
     @Column(nullable = false)
     @Convert(converter = MonetaryAmountConverter.class)
     private MonetaryAmount amount;
 
-    @Column(name = "expense_location", nullable = false, length = 255)
+    @Column(name = "expense_location", nullable = false, length = 100)
     private String expenseLocation;
 
     @Column(nullable = false)

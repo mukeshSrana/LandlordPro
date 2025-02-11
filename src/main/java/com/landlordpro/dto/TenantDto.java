@@ -5,11 +5,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.landlordpro.dto.validator.ValidAmount;
+
+import static com.landlordpro.dto.constants.Patterns.EMAIL_PATTERN;
+import static com.landlordpro.dto.constants.Patterns.MOBILE_NR_PATTERN;
+import static com.landlordpro.dto.constants.Patterns.NAME_PATTERN_LETTER_AND_SPACES;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -22,52 +28,65 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TenantDto {
 
-    private UUID id;  // UUID for tenant
-
-    @NotBlank(message = "Full name is mandatory")
-    @Size(max = 255, message = "Full name must be up to 255 characters")
-    private String fullName;  // Full name of the tenant
-
-    @NotNull(message = "Date of birth is required")
-    @Pattern(regexp = "^(19|20)\\d{2}-\\d{2}-\\d{2}$", message = "Date format must be YYYY-MM-DD, and year must be between 1900-2100")
-    @PastOrPresent(message = "Date of birth cannot be in the future")
-    private LocalDate dateOfBirth;  // Date of birth
-
-    @NotBlank(message = "Phone number is mandatory")
-    @Size(max = 15, message = "Phone number must be up to 15 characters")
-    private String phoneNumber;  // Phone number
-
-    @NotBlank(message = "Email is mandatory")
-    @Email(message = "Invalid email format")
-    @Size(max = 255, message = "Email must be up to 255 characters")
-    private String email;  // Email address
-
-    @NotNull(message = "User ID is mandatory")
-    private UUID userId;  // User ID
+    private UUID id;
+    private UUID userId;
 
     @NotNull(message = "Apartment ID is mandatory")
-    private UUID apartmentId;  // Apartment ID
+    private UUID apartmentId;
 
-    @NotNull(message = "Lease start date is mandatory")
-    private LocalDate leaseStartDate;  // Lease start date
+    @NotBlank(message = "Full name is mandatory")
+    @Size(min = 2, max = 100, message = "Full name must be between 2 and 100 characters")
+    @Pattern(
+        regexp = NAME_PATTERN_LETTER_AND_SPACES,
+        message = "Full name must contain only letters and spaces"
+    )
+    private String fullName;
 
-    private LocalDate leaseEndDate;  // Lease end date
+    @NotNull(message = "Date of birth is mandatory")
+    @PastOrPresent(message = "Date of birth cannot be in the future")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfBirth;
+
+    @NotBlank(message = "Mobile number is required")
+    @Pattern(
+        regexp = MOBILE_NR_PATTERN,
+        message = "Mobile number must be a valid number with (8-12 digits, optional + at the beginning)"
+    )
+    private String mobileNumber;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Please enter a valid email address")
+    @Pattern(regexp = EMAIL_PATTERN, message = "Please enter a valid email address (e.g., user@example.com)")
+    private String email;
+
+    @NotNull(message = "Lease start date  is mandatory")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate leaseStartDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate leaseEndDate;
 
     @NotNull(message = "Monthly rent is mandatory")
-    @Digits(integer = 10, fraction = 2, message = "Monthly rent must be a valid monetary value")
-    private BigDecimal monthlyRent;  // Monthly rent
+    @ValidAmount
+    private BigDecimal monthlyRent;
 
-    @Digits(integer = 10, fraction = 2, message = "Security deposit must be a valid monetary value")
-    private BigDecimal securityDeposit;  // Security deposit amount
+    @NotNull(message = "Security deposit is mandatory")
+    @ValidAmount
+    private BigDecimal securityDeposit;
 
-    @Size(max = 255, message = "Security deposit institution name must be up to 255 characters")
-    private String securityDepositInstitutionName;  // Institution name for the deposit
+    @NotBlank(message = "Security deposit institution is mandatory")
+    @Size(min = 2, max = 100, message = "Security deposit institution must be between 2 and 100 characters")
+    @Pattern(
+        regexp = NAME_PATTERN_LETTER_AND_SPACES,
+        message = "Security deposit institution must contain only letters and spaces"
+    )
+    private String securityDepositInstitutionName;
 
-    private byte[] receiptData;  // Binary data for the receipt
+    private byte[] receiptData;
 
     private byte[] privatePolicy;
 
-    private LocalDateTime createdDate;  // Date when the tenant record was created
+    private LocalDateTime createdDate;
 
-    private LocalDateTime updatedDate;  // Last updated date
+    private LocalDateTime updatedDate;
 }

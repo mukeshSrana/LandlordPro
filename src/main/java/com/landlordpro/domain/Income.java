@@ -41,7 +41,7 @@ public class Income {
     @Column(name = "apartment_id", nullable = false, columnDefinition = "CHAR(36)")
     private UUID apartmentId;
 
-    @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)") // UUID column for user
+    @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(36)")
     private UUID userId;
 
     @Column(name = "tenant_id", nullable = false, columnDefinition = "CHAR(36)")
@@ -50,18 +50,18 @@ public class Income {
     @Column(nullable = false)
     private LocalDate date;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 6, scale = 2)
     private BigDecimal amount;
 
     @Column(nullable = false, length = 20)
-    private String status; // e.g., completed, pending, overdue
+    private String status;
 
     @Column(length = 500)
     private String comments;
 
     @Lob
     @Column(name = "receipt_data")
-    private byte[] receiptData; // Store the uploaded receipt as binary data (BLOB)
+    private byte[] receiptData;
 
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
@@ -69,7 +69,6 @@ public class Income {
     @Column(name = "updated_date", nullable = false)
     private LocalDateTime updatedDate;
 
-    // Lifecycle methods to auto-populate timestamps
     @PrePersist
     public void prePersist() {
         this.createdDate = LocalDateTime.now();
