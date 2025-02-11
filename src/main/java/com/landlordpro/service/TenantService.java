@@ -9,8 +9,6 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +22,12 @@ import com.landlordpro.mapper.ApartmentMapper;
 import com.landlordpro.mapper.TenantMapper;
 import com.landlordpro.mapper.UserMapper;
 import com.landlordpro.repository.ApartmentRepository;
+import com.landlordpro.repository.IncomeRepository;
 import com.landlordpro.repository.TenantRepository;
 import com.landlordpro.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,18 +36,20 @@ public class TenantService {
     private final TenantRepository tenantRepository;
     private final ApartmentRepository apartmentRepository;
     private final UserRepository userRepository;
+    private final IncomeRepository incomeRepository;
     private final TenantMapper tenantMapper;
     private final UserMapper userMapper;
     private final ApartmentMapper apartmentMapper;
 
     public TenantService(
         TenantRepository tenantRepository, ApartmentRepository apartmentRepository,
-        UserRepository userRepository,
+        UserRepository userRepository, IncomeRepository incomeRepository,
         TenantMapper tenantMapper,
         UserMapper userMapper, ApartmentMapper apartmentMapper) {
         this.tenantRepository = tenantRepository;
         this.apartmentRepository = apartmentRepository;
         this.userRepository = userRepository;
+        this.incomeRepository = incomeRepository;
         this.tenantMapper = tenantMapper;
         this.userMapper = userMapper;
         this.apartmentMapper = apartmentMapper;
@@ -85,13 +87,44 @@ public class TenantService {
 
         if (activeTenants.contains(tenant)) {
             throw new IllegalStateException(
-                "Tenant " + tenant.getFullName() + " is already active for apartment " + getApartment(tenant).getApartmentShortName());
+                "Tenant " + tenant.getFullName()
+                    + " is already active for apartment "
+                    + getApartment(tenant.getApartmentId(), tenant.getUserId()).getApartmentShortName());
         }
     }
 
-    private ApartmentDto getApartment(Tenant tenant) {
-        Apartment apartment = apartmentRepository.findByIdAndUserId(tenant.getApartmentId(), tenant.getUserId())
-            .orElseThrow(() -> new RuntimeException("Apartment not found for user-id " + tenant.getUserId()));
+    @Transactional
+    public void deleteTenant(UUID tenantId, UUID userId, UUID apartmentId) {
+        // Check if the tenant exists
+        Tenant tenant = tenantRepository.findById(tenantId)
+            .orElseThrow(() -> new IllegalArgumentException("Tenant not found."));
+
+        // Check if the tenant belongs to the specified user and apartment
+        if (!tenant.getUserId().equals(userId) || !tenant.getApartmentId().equals(apartmentId)) {
+            throw new IllegalStateException("Tenant does not belong to the given user or apartment.");
+        }
+
+        // Check if the tenant has an active lease
+        if (tenant.getLeaseEndDate() == null || tenant.getLeaseEndDate().isAfter(LocalDate.now())) {
+            throw new IllegalStateException(
+                "Cannot delete tenant " + tenant.getFullName() + " as they have an active lease for apartment " +
+                    getApartment(apartmentId, userId).getApartmentShortName());
+        }
+
+        // Check if there are income records associated with the tenant
+        if (incomeRepository.countByTenantId(tenantId) > 0) {
+            throw new IllegalStateException(
+                "Cannot delete tenant " + tenant.getFullName() + " as income records exist for apartment " +
+                    getApartment(apartmentId, userId).getApartmentShortName());
+        }
+
+        // Proceed with deletion
+        tenantRepository.deleteById(tenantId);
+    }
+
+    private ApartmentDto getApartment(UUID apartmentId, UUID userId) {
+        Apartment apartment = apartmentRepository.findByIdAndUserId(apartmentId, userId)
+            .orElseThrow(() -> new RuntimeException("Apartment not found for user-id " + userId));
         return apartmentMapper.toDTO(apartment);
     }
 
@@ -146,6 +179,5 @@ public class TenantService {
             .map(tenantMapper::toDTO) // Convert entity to DTO if present
             .orElseThrow(() -> new EntityNotFoundException("Tenant not found with ID: " + id));
     }
-
 }
 

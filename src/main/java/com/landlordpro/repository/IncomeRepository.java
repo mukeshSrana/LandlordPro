@@ -39,5 +39,9 @@ public interface IncomeRepository extends JpaRepository<Income, UUID> {
     List<IncomeSummary> findIncomeSummary(@Param("userId") UUID userId);
 
     boolean existsByApartmentId(UUID id);
+
+    List<Income> findByUserIdAndApartmentId(UUID userId, UUID apartmentId);
+
+    long countByTenantId(UUID tenantId);
 }
 

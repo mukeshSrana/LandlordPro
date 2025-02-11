@@ -83,6 +83,28 @@ public class TenantController {
         return tenantGdprGeneratorService.generateGdprPdf(tenantName, user.getName(), user.getUsername(), user.getMobileNumber());
     }
 
+    @PostMapping("/delete")
+    public String delete(@RequestParam("id") UUID id,
+        @RequestParam("userId") UUID userId,
+        @RequestParam("apartmentId") UUID apartmentId,
+        @RequestParam("year") Integer year,
+        Authentication authentication,
+        RedirectAttributes redirectAttributes) {
+        try {
+            CustomUserDetails userDetails = currentUser(authentication);
+            if (userDetails.getId().equals(userId)) {
+                tenantService.deleteTenant(id, userId, apartmentId);
+            } else {
+                throw new RuntimeException("Logged in userId is not same as the deleted expense userId");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
+        }
+        redirectAttributes.addFlashAttribute("page", "handleExpense");
+        return "redirect:/tenant/handle?year=" + year + "&apartmentId=" + apartmentId;
+    }
+
     @GetMapping("/register")
     public String register(
         @ModelAttribute("tenant") TenantDto tenantDto,
