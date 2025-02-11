@@ -8,12 +8,11 @@ import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.landlordpro.dto.validator.ValidAmount;
-import com.landlordpro.dto.validator.ValidLeaseEndDate;
 
 import static com.landlordpro.dto.constants.Patterns.EMAIL_PATTERN;
 import static com.landlordpro.dto.constants.Patterns.MOBILE_NR_PATTERN;
 import static com.landlordpro.dto.constants.Patterns.NAME_PATTERN_LETTER_AND_SPACES;
-import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -64,9 +63,16 @@ public class TenantDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate leaseStartDate;
 
-    @ValidLeaseEndDate()
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate leaseEndDate;
+
+    @AssertTrue(message = "Lease end date must be after lease start date")
+    public boolean isLeaseEndDateValid() {
+        if (leaseEndDate == null) {
+            return true;
+        }
+        return leaseStartDate != null && leaseEndDate.isAfter(leaseStartDate);
+    }
 
     @NotNull(message = "Monthly rent is mandatory")
     @ValidAmount
