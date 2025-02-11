@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.landlordpro.dto.validator.ValidAmount;
+import com.landlordpro.dto.validator.ValidLeaseEndDate;
 
 import static com.landlordpro.dto.constants.Patterns.EMAIL_PATTERN;
 import static com.landlordpro.dto.constants.Patterns.MOBILE_NR_PATTERN;
@@ -63,6 +64,7 @@ public class TenantDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate leaseStartDate;
 
+    @ValidLeaseEndDate()
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate leaseEndDate;
 
