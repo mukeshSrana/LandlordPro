@@ -31,13 +31,13 @@ function enableEditing(cell) {
 }
 function syncDateBeforeSubmit(form) {
   const row = form.closest("tr");
-  const visibleLeaseStartDateInput = row.querySelector('input[type="visibleLeaseStartDate"]');
+  const visibleLeaseStartDateInput = row.querySelector('input[name="visibleLeaseStartDate"]');
   const hiddenLeaseStartDateInput = form.querySelector('input[name="leaseStartDate"]');
   if (visibleLeaseStartDateInput && hiddenLeaseStartDateInput) {
     hiddenLeaseStartDateInput.value = visibleLeaseStartDateInput.value;
   }
 
-  const visibleLeaseEndDateInput = row.querySelector('input[type="visibleLeaseEndDate"]');
+  const visibleLeaseEndDateInput = row.querySelector('input[name="visibleLeaseEndDate"]');
   const hiddenLeaseEndDateInput = form.querySelector('input[name="leaseEndDate"]');
   if (visibleLeaseEndDateInput && hiddenLeaseEndDateInput) {
     hiddenLeaseEndDateInput.value = visibleLeaseEndDateInput.value;

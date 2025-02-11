@@ -95,10 +95,10 @@
                        required>
             </td>
             <td ondblclick="enableEditing(this)"
-                th:text="${tenant.monthlyRent != null ? #numbers.formatDecimal(tenant.monthlyRent, 1, 2, 'POINT') : '0.00'}">
+                th:text="${tenant.monthlyRent != null ? #numbers.formatDecimal(tenant.monthlyRent, 0, 0) : '0'}">
             </td>
             <td ondblclick="enableEditing(this)"
-                th:text="${tenant.securityDeposit != null ? #numbers.formatDecimal(tenant.securityDeposit, 1, 2, 'POINT') : '0.00'}">
+                th:text="${tenant.securityDeposit != null ? #numbers.formatDecimal(tenant.securityDeposit, 0, 0) : '0'}">
             </td>
             <td ondblclick="enableEditing(this)" th:text="${tenant.securityDepositInstitutionName}"></td>
             <td>
