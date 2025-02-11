@@ -4,7 +4,7 @@
       layout:decorate="~{layout.html}">
 <head>
     <link rel="stylesheet" th:href="@{/css/handleTenant.css}">
-<!--    <script th:src="@{/js/incomeFilterTable.js}"></script>-->
+    <script th:src="@{/js/tenantFilterTable.js}"></script>
     <script>
       function closeMessage(button) {
         var messageBox = button.parentElement;
@@ -56,11 +56,11 @@
         <tr>
             <th>Tenant</th>
             <th>Contact</th>
-            <th>Lease Start</th>
-            <th>Lease End</th>
-            <th>Monthly Rent(Kr)</th>
-            <th>Security Deposit(Kr)</th>
-            <th>Security Institution</th>
+            <th th:text="'LeaseStartDate' + '*'"></th>
+            <th th:text="'LeaseEndDate' + '*'"></th>
+            <th th:text="'Rent(Kr)' + '*'"></th>
+            <th th:text="'Deposit(Kr)' + '*'"></th>
+            <th th:text="'SecurityInst.' + '*'"></th>
             <th>Gdpr</th>
             <th>Contract</th>
             <th>Action</th>
@@ -76,11 +76,31 @@
                 <span th:text="${tenant.getMobileNumber}"></span><br>
                 <span th:text="${tenant.email}"></span>
             </td>
-            <td th:text="${tenant.leaseStartDate}"></td>
-            <td th:text="${tenant.leaseEndDate}"></td>
-            <td th:text="${tenant.monthlyRent}"></td>
-            <td th:text="${tenant.securityDeposit}"></td>
-            <td th:text="${tenant.securityDepositInstitutionName}"></td>
+            <td>
+                <input type="date"
+                       name="visibleLeaseStartDate"
+                       th:value="${#temporals.format(tenant.leaseStartDate, 'yyyy-MM-dd')}"
+                       min="1900-01-01" max="2100-12-31"
+                       pattern="\d{4}-\d{2}-\d{2}"
+                       title="LeaseStartDate must be in the format YYYY-MM-DD"
+                       required>
+            </td>
+            <td>
+                <input type="date"
+                       name="visibleLeaseEndDate"
+                       th:value="${#temporals.format(tenant.leaseEndDate, 'yyyy-MM-dd')}"
+                       min="1900-01-01" max="2100-12-31"
+                       pattern="\d{4}-\d{2}-\d{2}"
+                       title="LeaseEndDate must be in the format YYYY-MM-DD"
+                       required>
+            </td>
+            <td ondblclick="enableEditing(this)"
+                th:text="${tenant.monthlyRent != null ? #numbers.formatDecimal(tenant.monthlyRent, 1, 2, 'POINT') : '0.00'}">
+            </td>
+            <td ondblclick="enableEditing(this)"
+                th:text="${tenant.securityDeposit != null ? #numbers.formatDecimal(tenant.securityDeposit, 1, 2, 'POINT') : '0.00'}">
+            </td>
+            <td ondblclick="enableEditing(this)" th:text="${tenant.securityDepositInstitutionName}"></td>
             <td>
                 <a th:if="${tenant.privatePolicy != null}"
                    th:href="@{/download/tenant/{id}/privacy-policy(id=${tenant.id})}"
@@ -106,7 +126,7 @@
                 </form>
 
                 <!-- Update Form -->
-                <form th:action="@{/tenant/update}" method="post" style="display:inline;">
+                <form th:action="@{/tenant/update}" method="post" onsubmit="syncDateBeforeSubmit(this)" style="display:inline;">
                     <input type="hidden" name="id" th:value="${tenant.id}">
                     <input type="hidden" name="apartmentId" th:value="${tenant.apartmentId}">
                     <input type="hidden" name="userId" th:value="${tenant.userId}">
