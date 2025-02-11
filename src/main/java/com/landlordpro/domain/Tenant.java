@@ -112,7 +112,7 @@ public class Tenant {
     @Override
     public int hashCode() {
         return Objects.hash(
-            fullName != null ? fullName.toLowerCase() : null, // Case-insensitive hashCode
+            fullName != null ? fullName.toLowerCase() : null,
             dateOfBirth,
             mobileNumber,
             apartmentId
