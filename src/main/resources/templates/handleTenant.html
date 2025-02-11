@@ -112,7 +112,7 @@
                     <input type="hidden" name="userId" th:value="${tenant.userId}">
                     <input type="hidden" name="fullName" th:value="${tenant.fullName}">
                     <input type="hidden" name="dateOfBirth" th:value="${tenant.dateOfBirth}">
-                    <input type="hidden" name="phoneNumber" th:value="${tenant.getMobileNumber}">
+                    <input type="hidden" name="mobileNumber" th:value="${tenant.getMobileNumber}">
                     <input type="hidden" name="email" th:value="${tenant.email}">
                     <input type="hidden" name="leaseStartDate" th:value="${tenant.leaseStartDate}">
                     <input type="hidden" name="leaseEndDate" th:value="${tenant.leaseEndDate}">
@@ -120,6 +120,7 @@
                     <input type="hidden" name="securityDeposit" th:value="${tenant.securityDeposit}">
                     <input type="hidden" name="securityDepositInstitutionName" th:value="${tenant.securityDepositInstitutionName}">
                     <input type="hidden" name="receiptData" th:value="${tenant.receiptData}">
+                    <input type="hidden" name="privatePolicy" th:value="${tenant.privatePolicy}">
                     <input type="hidden" name="createdDate" th:value="${tenant.createdDate}">
                     <input type="hidden" name="updatedDate" th:value="${tenant.updatedDate}">
                     <button type="submit" class="update-btn">Update</button>
