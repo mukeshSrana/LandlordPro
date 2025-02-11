@@ -3,6 +3,7 @@ package com.landlordpro.controller;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -95,13 +97,47 @@ public class TenantController {
             if (userDetails.getId().equals(userId)) {
                 tenantService.deleteTenant(id, userId, apartmentId);
             } else {
-                throw new RuntimeException("Logged in userId is not same as the deleted expense userId");
+                throw new RuntimeException("Logged in userId is not same as the deleted tenant userId");
             }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             log.error(e.getMessage(), e);
         }
-        redirectAttributes.addFlashAttribute("page", "handleExpense");
+        redirectAttributes.addFlashAttribute("page", "handleTenant");
+        return "redirect:/tenant/handle?year=" + year + "&apartmentId=" + apartmentId;
+    }
+
+    @PostMapping("/update")
+    public String update(
+        @Valid TenantDto tenantDto,
+        BindingResult bindingResult,
+        Authentication authentication,
+        RedirectAttributes redirectAttributes) {
+        try {
+            if (bindingResult.hasErrors()) {
+                Optional<ObjectError> firstError = bindingResult.getAllErrors().stream().findFirst();
+                if (firstError.isPresent()) {
+                    throw new RuntimeException(firstError.get().getDefaultMessage());
+                }
+            }
+
+            CustomUserDetails userDetails = currentUser(authentication);
+            UUID userId = userDetails.getId();
+
+            if (tenantDto.getReceiptData() != null && tenantDto.getReceiptData().length == 0) {
+                tenantDto.setReceiptData(null);
+            }
+            tenantService.update(tenantDto, userId);
+            redirectAttributes.addFlashAttribute("errorMessage", null);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
+        }
+
+        Integer year = tenantDto.getLeaseStartDate().getYear();
+        UUID apartmentId = tenantDto.getApartmentId();
+
+        redirectAttributes.addFlashAttribute("page", "handleTenant");
         return "redirect:/tenant/handle?year=" + year + "&apartmentId=" + apartmentId;
     }
 

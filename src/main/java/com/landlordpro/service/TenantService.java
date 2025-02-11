@@ -93,6 +93,34 @@ public class TenantService {
         }
     }
 
+    public void update(TenantDto tenantDto, UUID userId) throws RuntimeException {
+        if (!isExistsForUser(tenantDto.getId(), userId, tenantDto.getApartmentId())) {
+            String errorMsg = "Tenant= " + tenantDto.getFullName() + " not exists for the logged-in user.";
+            throw new RuntimeException(errorMsg);
+        }
+
+        save(tenantDto);
+    }
+
+    private void save(TenantDto tenantDto) throws RuntimeException {
+        Tenant tenant = tenantMapper.toEntity(tenantDto);
+        try {
+            tenantRepository.save(tenant);
+        } catch (DataIntegrityViolationException ex) {
+            String errorMessage = "Constraint violation while saving tenant=" + tenant.getFullName() + " User=" + tenant.getUserId();
+            log.error(errorMessage, ex); // Assuming you have a logger in place
+            throw new RuntimeException(errorMessage, ex);
+        } catch (Exception ex) {
+            String errorMessage = "Unexpected error while saving tenant=" + tenant.getFullName() + " User=" + tenant.getUserId();
+            log.error(errorMessage, ex); // Assuming you have a logger in place
+            throw new RuntimeException(errorMessage, ex);
+        }
+    }
+
+    public boolean isExistsForUser(UUID id, UUID userId, UUID apartmentId) {
+        return tenantRepository.existsByIdAndUserIdAndApartmentId(id, userId, apartmentId);
+    }
+
     @Transactional
     public void deleteTenant(UUID tenantId, UUID userId, UUID apartmentId) {
         // Check if the tenant exists

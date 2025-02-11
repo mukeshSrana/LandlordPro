@@ -18,12 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class ExpenseService {
-//    private final Path basePath = Paths.get("./data/expenses");
-//    private final ObjectMapper objectMapper;
-//
-//    @Value("${app.file-storage.base-dir}")
-//    private String fileStorageBaseDir;
-
     private final ExpenseRepository expenseRepository;
     private final ExpenseMapper expenseMapper;
 

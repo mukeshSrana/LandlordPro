@@ -36,4 +36,6 @@ public interface TenantRepository extends JpaRepository<Tenant, UUID> {
     List<ApartmentOccupancySummary> findApartmentOccupancyReport(@Param("userId") UUID userId);
 
     boolean existsByApartmentId(UUID id);
+
+    boolean existsByIdAndUserIdAndApartmentId(UUID id, UUID userId, UUID apartmentId);
 }
