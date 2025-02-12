@@ -186,9 +186,7 @@ public class ExpenseController {
                 session.removeAttribute("temporaryReceipt_" + expenseDto.getId());
             }
 
-            if (expenseDto.getReceiptData() != null && expenseDto.getReceiptData().length == 0) {
-                expenseDto.setReceiptData(null);
-            }
+            expenseDto.normalizeReceiptData();
             expenseService.update(expenseDto, userId);
             redirectAttributes.addFlashAttribute("errorMessage", null);
         } catch (Exception e) {
