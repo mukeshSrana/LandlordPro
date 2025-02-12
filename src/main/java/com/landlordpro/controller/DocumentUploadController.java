@@ -31,13 +31,8 @@ public class DocumentUploadController {
         try {
             // Save the uploaded file data to the session (temporary storage)
             byte[] fileData = receiptFile.getBytes();
-            String fileName = receiptFile.getOriginalFilename();
-
             // Store the file data in the session under a key that includes the expenseId
             session.setAttribute("temporaryReceipt_" + expenseId, fileData);
-
-            // Optionally, store the file name (if needed for later use)
-            session.setAttribute("temporaryReceiptName_" + expenseId, fileName);
 
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());

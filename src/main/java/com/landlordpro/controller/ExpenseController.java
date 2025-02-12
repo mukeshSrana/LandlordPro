@@ -180,18 +180,10 @@ public class ExpenseController {
             // Check for a temporarily uploaded receipt file in the session
             byte[] tempReceiptData = (byte[]) session.getAttribute("temporaryReceipt_" + expenseDto.getId());
             if (tempReceiptData != null) {
-                // If the file data is present in the session, save it to permanent storage
-                String fileName = (String) session.getAttribute("temporaryReceiptName_" + expenseDto.getId());
-
-                // Save the file permanently (example: in a directory or database)
-                //String permanentFilePath = saveFileToPermanentStorage(tempReceiptData, fileName);
-
                 // Set the receipt data (file path or filename) to the expenseDto
                 expenseDto.setReceiptData(tempReceiptData);
-
                 // Clear the temporary session attributes after processing
                 session.removeAttribute("temporaryReceipt_" + expenseDto.getId());
-                session.removeAttribute("temporaryReceiptName_" + expenseDto.getId());
             }
 
             if (expenseDto.getReceiptData() != null && expenseDto.getReceiptData().length == 0) {
