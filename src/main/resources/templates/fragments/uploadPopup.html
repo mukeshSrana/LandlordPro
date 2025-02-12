@@ -1,0 +1,13 @@
+<div th:fragment="uploadPopup">
+    <div id="uploadPopup" style="display: none;">
+        <div class="upload-popup-content">
+            <span class="close-btn" onclick="closeUploadPopup()">&times;</span>
+            <h3>Upload Receipt</h3>
+            <form th:action="@{/uploadTempReceipt}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="expenseId" id="expenseId">
+                <input type="file" name="receiptFile" accept="application/pdf,image/*" required>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
+</div>

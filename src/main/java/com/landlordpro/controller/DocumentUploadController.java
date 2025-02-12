@@ -5,8 +5,6 @@ import java.util.UUID;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,12 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/document")
+@RequestMapping("/uploadTempReceipt")
 @PreAuthorize("hasRole('ROLE_LANDLORD')")
 public class DocumentUploadController {
 
     // This method handles the form submission for uploading files
-    @PostMapping("/uploadTempReceipt")
+    @PostMapping
     public String uploadTempReceipt(
         @RequestParam("receiptFile") MultipartFile receiptFile,
         @RequestParam("expenseId") UUID expenseId,
@@ -41,27 +39,11 @@ public class DocumentUploadController {
             // Optionally, store the file name (if needed for later use)
             session.setAttribute("temporaryReceiptName_" + expenseId, fileName);
 
-            redirectAttributes.addFlashAttribute("successMessage", "Receipt uploaded temporarily.");
         } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "File upload failed.");
-            log.error("Error uploading file", e);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            log.error(e.getMessage(), e);
         }
 
         return "redirect:/expense/handle";
-    }
-
-
-    // This method displays the result after file upload
-    @GetMapping("/uploadResult")
-    public String uploadResult(Model model) {
-        // This will be shown in the view (uploadResult.html)
-        return "uploadResult";  // Return a Thymeleaf view
-    }
-
-    // This method serves the file upload form
-    @GetMapping("/uploadForm")
-    public String uploadForm() {
-        // The form will be displayed (uploadForm.html)
-        return "uploadForm";  // Return a Thymeleaf view
     }
 }
