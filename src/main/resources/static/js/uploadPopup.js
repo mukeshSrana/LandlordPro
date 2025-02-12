@@ -7,3 +7,12 @@ function showUploadPopup(element) {
 function closeUploadPopup() {
   document.getElementById('uploadPopup').style.display = 'none';
 }
+
+document.addEventListener("click", function(event) {
+  const popup = document.getElementById("uploadPopup");
+  const popupContent = document.querySelector(".upload-popup-content");
+
+  if (event.target === popup) {
+    closeUploadPopup();
+  }
+});
