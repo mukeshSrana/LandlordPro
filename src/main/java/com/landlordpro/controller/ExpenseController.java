@@ -27,6 +27,7 @@ import com.landlordpro.security.CustomUserDetails;
 import com.landlordpro.service.ApartmentService;
 import com.landlordpro.service.ExpenseService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -163,7 +164,8 @@ public class ExpenseController {
         @Valid ExpenseDto expenseDto,
         BindingResult bindingResult,
         Authentication authentication,
-        RedirectAttributes redirectAttributes) {
+        RedirectAttributes redirectAttributes,
+        HttpSession session) {
         try {
             if (bindingResult.hasErrors()) {
                 Optional<ObjectError> firstError = bindingResult.getAllErrors().stream().findFirst();
@@ -174,6 +176,23 @@ public class ExpenseController {
 
             CustomUserDetails userDetails = currentUser(authentication);
             UUID userId = userDetails.getId();
+
+            // Check for a temporarily uploaded receipt file in the session
+            byte[] tempReceiptData = (byte[]) session.getAttribute("temporaryReceipt_" + expenseDto.getId());
+            if (tempReceiptData != null) {
+                // If the file data is present in the session, save it to permanent storage
+                String fileName = (String) session.getAttribute("temporaryReceiptName_" + expenseDto.getId());
+
+                // Save the file permanently (example: in a directory or database)
+                //String permanentFilePath = saveFileToPermanentStorage(tempReceiptData, fileName);
+
+                // Set the receipt data (file path or filename) to the expenseDto
+                expenseDto.setReceiptData(tempReceiptData);
+
+                // Clear the temporary session attributes after processing
+                session.removeAttribute("temporaryReceipt_" + expenseDto.getId());
+                session.removeAttribute("temporaryReceiptName_" + expenseDto.getId());
+            }
 
             if (expenseDto.getReceiptData() != null && expenseDto.getReceiptData().length == 0) {
                 expenseDto.setReceiptData(null);

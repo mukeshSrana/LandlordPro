@@ -1,0 +1,25 @@
+<!-- uploadResult.html: Display the result of the upload -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Result</title>
+</head>
+<body>
+<h2>Upload Result</h2>
+
+<div th:if="${message}" style="color: green;">
+    <p th:text="${message}"></p>
+</div>
+
+<div th:if="${tempFileName}">
+    <p>Temporary file name: <span th:text="${tempFileName}"></span></p>
+</div>
+
+<div th:if="${message != null and !message.contains('success')}">
+    <p style="color: red;" th:text="${message}"></p>
+</div>
+
+<a href="/document/uploadForm" style="display: inline-block; margin-top: 10px;">Back to Upload Form</a>
+</body>
+</html>

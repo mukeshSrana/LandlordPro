@@ -10,10 +10,33 @@
         var messageBox = button.parentElement;
         messageBox.style.display = 'none';
       }
+
+      function showUploadPopup(element) {
+        const expenseId = element.getAttribute("data-id");
+        document.getElementById('expenseId').value = expenseId
+        document.getElementById('uploadPopup').style.display = 'block';
+      }
+
+      function closeUploadPopup() {
+        document.getElementById('uploadPopup').style.display = 'none';
+      }
     </script>
 </head>
 <!-- Define the fragment where the content will go -->
 <div class="form-container" layout:fragment="content">
+    <!-- Modal for Uploading File -->
+    <div id="uploadPopup" style="display: none;">
+        <div class="upload-popup-content">
+            <span class="close-btn" onclick="closeUploadPopup()">&times;</span>
+            <h3>Upload Receipt</h3>
+            <form th:action="@{/document/uploadTempReceipt}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="expenseId" id="expenseId">
+                <input type="file" name="receiptFile" accept="application/pdf,image/*" required>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Display success message -->
     <div th:if="${successMessage}" class="success-message">
         <span class="close-btn" onclick="closeMessage(this)">&times;</span>
@@ -93,6 +116,7 @@
                    target="_blank">
                     Download
                 </a>
+                <a href="javascript:void(0);" th:data-id="${expense.id}" onclick="showUploadPopup(this)">Upload</a>
             </td>
 
             <td>
