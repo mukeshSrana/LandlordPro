@@ -25,6 +25,8 @@ public class DocumentUploadController {
     public String uploadTempReceipt(
         @RequestParam("receiptFile") MultipartFile receiptFile,
         @RequestParam("expenseId") UUID expenseId,
+        @RequestParam("apartmentId") UUID apartmentId,
+        @RequestParam("year") Integer year,
         HttpSession session,
         RedirectAttributes redirectAttributes) {
 
@@ -39,6 +41,7 @@ public class DocumentUploadController {
             log.error(e.getMessage(), e);
         }
 
-        return "redirect:/expense/handle";
+        redirectAttributes.addFlashAttribute("page", "handleExpense");
+        return "redirect:/expense/handle?year=" + year + "&apartmentId=" + apartmentId;
     }
 }

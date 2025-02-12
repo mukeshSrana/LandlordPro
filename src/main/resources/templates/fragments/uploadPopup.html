@@ -5,6 +5,8 @@
             <h3>Upload Receipt</h3>
             <form th:action="@{/uploadTempReceipt}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="expenseId" id="expenseId">
+                <input type="hidden" name="apartmentId" id="apartmentId">
+                <input type="hidden" name="year" id="year">
                 <input type="file" name="receiptFile" accept="application/pdf,image/*" required>
                 <button type="submit">Upload</button>
             </form>

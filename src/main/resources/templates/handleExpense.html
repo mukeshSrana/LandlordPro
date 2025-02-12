@@ -97,7 +97,11 @@
                    target="_blank">
                     Download
                 </a>
-                <a href="javascript:void(0);" th:data-id="${expense.id}" onclick="showUploadPopup(this)">Upload</a>
+                <a href="javascript:void(0);"
+                   th:expenseId="${expense.id}"
+                   th:apartmentId="${expense.apartmentId}"
+                   th:year="${selectedYear}"
+                   onclick="showUploadPopup(this)">Upload</a>
             </td>
 
             <td>

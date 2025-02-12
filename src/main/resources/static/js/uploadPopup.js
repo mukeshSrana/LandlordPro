@@ -1,6 +1,10 @@
 function showUploadPopup(element) {
-  const expenseId = element.getAttribute("data-id");
+  const expenseId = element.getAttribute("expenseId");
+  const apartmentId = element.getAttribute("apartmentId");
+  const year = element.getAttribute("year");
   document.getElementById('expenseId').value = expenseId;
+  document.getElementById('apartmentId').value = apartmentId;
+  document.getElementById('year').value = year;
   document.getElementById('uploadPopup').style.display = 'flex';
 }
 
