@@ -24,8 +24,11 @@ public class ExpenseDocumentService implements DocumentService {
 
     @Override
     public DocumentDto findById(UUID id, String documentType) {
-        ExpenseDto expense = expenseService.findById(id);
-        return new DocumentDto(expense.getReceiptData(), expense.getName() + ".pdf");
+        if (documentType.equalsIgnoreCase("receipt")) {
+            ExpenseDto expense = expenseService.findById(id);
+            return new DocumentDto(expense.getReceiptData(), expense.getName() + ".pdf");
+        }
+        throw new IllegalArgumentException("Unsupported document type: " + documentType);
     }
 
     @Override

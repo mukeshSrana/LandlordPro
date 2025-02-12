@@ -24,8 +24,11 @@ public class IncomeDocumentService implements DocumentService {
 
     @Override
     public DocumentDto findById(UUID id, String documentType) {
-        IncomeDto income = incomeService.findById(id);
-        return new DocumentDto(income.getReceiptData(), "RentalReceipt.pdf");
+        if (documentType.equalsIgnoreCase("receipt")) {
+            IncomeDto income = incomeService.findById(id);
+            return new DocumentDto(income.getReceiptData(), "RentalReceipt.pdf");
+        }
+        throw new IllegalArgumentException("Unsupported document type: " + documentType);
     }
 
     @Override
