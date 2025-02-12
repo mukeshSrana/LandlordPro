@@ -125,9 +125,7 @@ public class TenantController {
             CustomUserDetails userDetails = currentUser(authentication);
             UUID userId = userDetails.getId();
 
-            if (tenantDto.getReceiptData() != null && tenantDto.getReceiptData().length == 0) {
-                tenantDto.setReceiptData(null);
-            }
+            tenantDto.normalizeReceiptData();
             tenantService.update(tenantDto, userId);
             redirectAttributes.addFlashAttribute("errorMessage", null);
         } catch (Exception e) {

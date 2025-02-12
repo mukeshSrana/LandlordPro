@@ -112,10 +112,7 @@ public class IncomeController {
             CustomUserDetails userDetails = currentUser(authentication);
             UUID userId = userDetails.getId();
 
-            if (incomeDto.getReceiptData() != null && incomeDto.getReceiptData().length == 0) {
-                incomeDto.setReceiptData(null);
-            }
-
+            incomeDto.normalizeReceiptData();
             incomeService.update(incomeDto, userId);
             redirectAttributes.addFlashAttribute("errorMessage", null);
         } catch (Exception e) {

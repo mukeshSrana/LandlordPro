@@ -90,4 +90,10 @@ public class TenantDto {
     private LocalDateTime createdDate;
 
     private LocalDateTime updatedDate;
+
+    public void normalizeReceiptData() {
+        if (receiptData != null && receiptData.length == 0) {
+            receiptData = null;
+        }
+    }
 }
